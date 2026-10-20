@@ -46,4 +46,22 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
         // $this->session = service('session');
     }
+
+    /**
+     * Action non encore portee : redirige vers la meme URI sur
+     * l'application CI3 (gestionvilles.local). Le statut 307
+     * preserve la methode et le corps de la requete (POST inclus).
+     */
+    protected function toCi3()
+    {
+        $uri = $this->request->getUri();
+        // getPath() peut inclure /index.php/ (rewrite vhost) — on le retire
+        $path = preg_replace('#^/index\.php#i', '', $uri->getPath());
+        $target = 'http://gestionvilles.local' . $path;
+        $query = $uri->getQuery();
+        if ($query !== '') {
+            $target .= '?' . $query;
+        }
+        return redirect()->to($target, 307);
+    }
 }

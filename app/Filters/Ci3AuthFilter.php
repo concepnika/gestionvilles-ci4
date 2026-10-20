@@ -19,9 +19,7 @@ class Ci3AuthFilter implements FilterInterface
         $ci3 = new Ci3Session();
         if (! $ci3->isLoggedIn()) {
             $uri = $request->getUri();
-            return redirect()->to(
-                $uri->getScheme() . '://' . $uri->getHost() . '/'
-            );
+            return redirect()->to('/login?next=' . urlencode($uri->getPath()));
         }
     }
 

@@ -59,6 +59,33 @@ class Ci3Session
     }
 
     /**
+     * Cree une session CI3 : insere la ligne ci_sessions et pose le
+     * cookie 'ci_session' sur l'hote courant. Necessaire quand l'app
+     * CI4 vit sur son propre vhost (le cookie pose par CI3 n'y est
+     * jamais envoye) et qu'elle authentifie l'usager elle-meme.
+     */
+    public function create(array $data): void
+    {
+        self::$loaded = true;
+        self::$sessionId = bin2hex(random_bytes(20));
+        self::$ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
+        self::$data = $data;
+
+        Database::connect()->table(self::TABLE)->insert([
+            'id' => self::$sessionId,
+            'ip_address' => self::$ipAddress,
+            'timestamp' => time(),
+            'data' => self::encode($data),
+        ]);
+
+        setcookie(self::COOKIE_NAME, self::$sessionId, [
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
+    }
+
+    /**
      * Ecrit une cle dans la session CI3 (equivalent set_userdata).
      * Persiste dans la colonne data de ci_sessions.
      */
@@ -101,6 +128,8 @@ class Ci3Session
             ->where('id', self::$sessionId)
             ->delete();
         self::$data = null;
+        self::$sessionId = '';
+        setcookie(self::COOKIE_NAME, '', time() - 3600, '/');
     }
 
     private function load(): void
@@ -138,16 +167,25 @@ class Ci3Session
      */
     private function save(): void
     {
-        $raw = '';
-        foreach (self::$data as $k => $v) {
-            $raw .= $k . '|' . serialize($v);
-        }
         Database::connect()->table(self::TABLE)
             ->where('id', self::$sessionId)
             ->update([
-                'data' => $raw,
+                'data' => self::encode(self::$data),
                 'timestamp' => time(),
             ]);
+    }
+
+    /**
+     * Encode au format de serialisation de session PHP (handler 'php') :
+     * nom|valeur_serialisee;nom2|valeur2;...
+     */
+    private static function encode(array $data): string
+    {
+        $raw = '';
+        foreach ($data as $k => $v) {
+            $raw .= $k . '|' . serialize($v);
+        }
+        return $raw;
     }
 
     /**
