@@ -40,19 +40,41 @@ if (! function_exists('ci3_url')) {
 
 if (! function_exists('ci3lang')) {
     /**
-     * Équivalent de $this->lang->line($key). CI3 n'a pas de fichiers
-     * de langue pour ces clés (elles s'affichaient vides) — on met
-     * le libellé français attendu (tablette, page de connexion admin).
+     * Équivalent de $this->lang->line($key). CI3 chargeait
+     * application/language/{french|english} selon site_lang — fichiers
+     * présents sur la PROD mais absents de la copie locale CI3.
+     *
+     * Les clés connues sont stockées par langue ['fr' =>, 'en' =>] ;
+     * une valeur scalaire reste valide pour toutes les langues.
+     * Les clés absentes retournent '' (comme CI3 sans fichier).
      */
     function ci3lang(string $key): string
     {
         static $map = [
+            // ─── Page de connexion (admin + citoyen) ───
             'login_email' => 'Courriel',
             'login_password' => 'Mot de passe',
             'login_connect' => 'Connexion',
             'login_forget' => 'Mot de passe oublié?',
             'inscription_adresse_courriel' => 'Adresse courriel',
+            // ─── Menu citoyen (inc_menu_2) — la bascule affiche la
+            //     langue CIBLE (en mode en : « FR ») ───
+            'mne_profil' => ['fr' => 'Votre profil', 'en' => 'Your profile'],
+            'mne_quitter' => ['fr' => 'Quitter', 'en' => 'Quit'],
+            'inc_menu_langue' => ['fr' => 'EN', 'en' => 'FR'],
+            'menu_link_2' => ['fr' => 'en', 'en' => 'fr'],
+            'localisation' => ['fr' => 'Localisation', 'en' => 'Location'],
         ];
-        return $map[$key] ?? '';
+
+        if (! array_key_exists($key, $map)) {
+            return '';
+        }
+
+        $val = $map[$key];
+        if (is_array($val)) {
+            $lang = (string) (ci3sess('site_lang') ?: 'fr');
+            return (string) ($val[$lang] ?? $val['fr']);
+        }
+        return (string) $val;
     }
 }
