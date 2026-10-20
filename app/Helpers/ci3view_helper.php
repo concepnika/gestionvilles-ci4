@@ -42,13 +42,16 @@ if (! function_exists('ci3lang')) {
     /**
      * Équivalent de $this->lang->line($key). CI3 n'a pas de fichiers
      * de langue pour ces clés (elles s'affichaient vides) — on met
-     * le libellé français attendu par les tablettes.
+     * le libellé français attendu (tablette, page de connexion admin).
      */
     function ci3lang(string $key): string
     {
         static $map = [
+            'login_email' => 'Courriel',
             'login_password' => 'Mot de passe',
             'login_connect' => 'Connexion',
+            'login_forget' => 'Mot de passe oublié?',
+            'inscription_adresse_courriel' => 'Adresse courriel',
         ];
         return $map[$key] ?? '';
     }

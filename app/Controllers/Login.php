@@ -21,13 +21,17 @@ class Login extends BaseController
     /**
      * Page de connexion — affiche toujours le formulaire, comme
      * co_gestion/index en CI3 (meme si une session est active).
+     * Vue portee de partials/login2 (contrat : msgerror, msgreset,
+     * ActiveDate, email, next).
      */
     public function index()
     {
         return $this->response->setBody(view('auth/login', [
-            'error' => null,
-            'email' => '',
-            'next' => $this->safeNext((string) $this->request->getGet('next')),
+            'msgerror'  => '',
+            'msgreset'  => '',
+            'ActiveDate' => date('Y-m-d'),
+            'email'     => '',
+            'next'      => $this->safeNext((string) $this->request->getGet('next')),
         ]));
     }
 
@@ -44,6 +48,11 @@ class Login extends BaseController
         return redirect()->to('/');
     }
 
+    /**
+     * Cible POST du formulaire de connexion (routes : POST /login et
+     * /admin/tableau_de_bord — l'action du formulaire CI3). Equivalent
+     * de co_gestion/login.
+     */
     public function attempt()
     {
         $email = trim((string) $this->request->getPost('email'));
@@ -58,9 +67,11 @@ class Login extends BaseController
         $peppered = hash_hmac('sha256', $password, self::PEPPER);
         if (! $user || ! password_verify($peppered, (string) $user->pass)) {
             return $this->response->setStatusCode(401)->setBody(view('auth/login', [
-                'error' => 'Courriel ou mot de passe invalide.',
-                'email' => $email,
-                'next' => $next,
+                'msgerror'  => 'Courriel ou mot de passe invalide.',
+                'msgreset'  => '',
+                'ActiveDate' => date('Y-m-d'),
+                'email'     => $email,
+                'next'      => $next,
             ]));
         }
 
@@ -70,8 +81,22 @@ class Login extends BaseController
             'privilege' => $user->privilege ?? null,
             'user_id' => $user->id_user ?? null,
             'login_in' => true,
+            'code' => $user->email,
         ]);
 
+        // CI3 : utilisateur force au changement de mot de passe.
+        if ((int) ($user->forcechange ?? 0) === 1) {
+            return redirect()->to('/login/change?email=' . urlencode($email));
+        }
+
+        // CI3 : from=1 renvoie vers la page routecam du jour.
+        $from = (string) $this->request->getPostGet('from');
+        if ($from === '1') {
+            return redirect()->to('/sanivan/routecam/' . date('Y-m-d') . '?idchauffeur=0');
+        }
+
+        // CI3 rend le tableau de bord directement ; il n'est pas encore
+        // porte — on renvoie vers la page statut en attendant.
         return redirect()->to($next === '' ? '/' : $next);
     }
 

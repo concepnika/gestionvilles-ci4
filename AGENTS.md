@@ -11,10 +11,16 @@
 Migration strangler CI3 → CI4 de l'app GestionVilles.
 
 - **Repo** : `https://github.com/concepnika/gestionvilles-ci4` (branche `main`)
-- **App CI3 (source de référence)** : `E:/Serveur Cloud/GestionVilles`
-  (non versionnée avec CI4 — c'est l'app legacy en prod)
+- **Machine de dév actuelle** : Surface Pro 7 — CI3 et CI4 vivent tous
+  deux sous `D:\Programmations\php appl\`
+- **App CI3 (source de référence)** : `D:\Programmations\php appl\GestionVilles`
+  (non versionnée avec CI4 — c'est l'app legacy en prod ; CodeIgniter 3.1.11,
+  pas de `.htaccess` racine local → routage vhost requis)
 - **Prod cible** : CI4 servi sous `https://robert-daoust.ca/ci4/`
-- **PHP local** : 8.2.29 (fcgid), WampServer Apache 2.4.65
+- **PHP local** : 8.2.29 (fcgid), WampServer Apache 2.4.65, MySQL 8.4.7
+- **Ancienne machine** : les chemins `e:/devin_projet/...` et
+  `E:/Serveur Cloud/...` qui apparaissent dans MIGRATION.md et l'historique
+  sont OBSOLÈTES — toujours utiliser les chemins D: ci-dessus.
 
 ## Décision d'architecture (2026-10-20) : vhosts séparés
 
@@ -37,16 +43,25 @@ portées redirigent vers CI3 en 307.
 ```apache
 <VirtualHost *:80>
     ServerName gestionvillesci4.local
-    DocumentRoot "e:/devin_projet/gestionvilles-ci4/public"
+    DocumentRoot "d:/Programmations/php appl/gestionvilles-ci4/public"
+
+    # Assets partages avec CI3 : en prod, CI4 vit sous /ci4/ du meme
+    # domaine et /assets est servi par CI3 a la racine — l'Alias
+    # reproduit ce montage localement (logo, AdminLTE, bootstrap...).
+    Alias /assets "d:/Programmations/php appl/GestionVilles/assets"
+    <Directory "d:/Programmations/php appl/GestionVilles/assets">
+        Require local
+    </Directory>
 
     # Routage front-controller AU NIVEAU VHOST : le .htaccess de
     # public/ garde RewriteBase /ci4/ pour la prod.
     RewriteEngine On
+    RewriteRule ^/assets/ - [L]
     RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
     RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
     RewriteRule ^/(?!index\.php)(.+)$ /index.php/$1 [L]
 
-    <Directory "e:/devin_projet/gestionvilles-ci4/public">
+    <Directory "d:/Programmations/php appl/gestionvilles-ci4/public">
         Options +Includes +FollowSymLinks +MultiViews
         AllowOverride All
         AcceptPathInfo On
@@ -65,15 +80,38 @@ portées redirigent vers CI3 en 307.
 </VirtualHost>
 ```
 
-Fichier `C:\Windows\System32\drivers\etc\hosts` (déjà présent sur la
-machine d'origine) :
+Un vhost similaire est requis pour CI3 (`gestionvilles.local`,
+DocumentRoot `d:/Programmations/php appl/GestionVilles`, même
+routage front-controller vhost car pas de `.htaccess` racine local,
+PHP 8.2.29).
+
+Fichier `C:\Windows\System32\drivers\etc\hosts` :
 
 ```
+127.0.0.1	gestionvilles.local
+::1	gestionvilles.local
 127.0.0.1	gestionvillesci4.local
 ::1	gestionvillesci4.local
 ```
 
 Puis redémarrer Apache (`wampapache64`).
+
+### Procédure fresh-clone (Surface Pro 7)
+
+Dans `D:\Programmations\php appl\gestionvilles-ci4` :
+
+1. `composer install` (vendor/ non commité — phar dispo :
+   `/c/wamp64/bin/php/php8.2.29/php.exe "/d/Programmations/php appl/composer.phar" install`).
+   Si échec `installed.php: Resource temporarily unavailable` (verrou
+   antivirus/OneDrive sur les fichiers fraîchement extraits) : relancer.
+2. Créer `writable/{cache,logs,session,uploads,cache/osrm}` avec un
+   `.gitkeep` dans chacun (sinon : `CacheException` silencieuse →
+   `spark` sort en 1 SANS message en environnement production).
+3. Créer `.env` (non commité, gitignore) — modèle ci-dessous.
+4. Vhosts (ci-dessus) + hosts + démarrage services : lancer
+   `setup_gestionvilles_local.bat` **en administrateur** (idempotent :
+   entrées hosts + `net start wampmysqld64`/`wampapache64`).
+5. Vérifier la config Apache : `httpd.exe -t` → `Syntax OK`.
 
 **Pièges déjà rencontrés** :
 - `RewriteBase /ci4/` dans `public/.htaccess` doit rester (prod) → ne
@@ -83,18 +121,26 @@ Puis redémarrer Apache (`wampapache64`).
 - En contexte vhost, `%{REQUEST_FILENAME}` n'est pas encore mappé →
   tester `%{DOCUMENT_ROOT}%{REQUEST_URI}`.
 - `AcceptPathInfo On` requis avec mod_fcgid + PATH_INFO.
+- `App::$indexPage = ''` requis : avec `'index.php'`, les `redirect()`
+  de CI4 pointent vers `/index.php/...` (double redirection sale).
+  Le montage vhost (local) et le .htaccess (prod) gèrent les URLs
+  propres.
 
 ### `.env` (non commité — à recréer)
 
 ```ini
+CI_ENVIRONMENT = development
 app.baseURL = 'http://gestionvillesci4.local/'
 database.default.hostname = localhost
 database.default.database = gestionvilles
 database.default.username = root
 database.default.password =
 database.default.DBDriver = MySQLi
-# + samsara.apiKey, samsara.baseUrl, osrm.base, sanivan.uploadDir,
-#   ci3.webroot (voir MIGRATION.md § ".env")
+samsara.apiKey = '<clé reprise de GestionVilles/application/config/samsara.php>'
+samsara.baseUrl = 'https://api.samsara.com'
+osrm.base = 'http://127.0.0.1:5000'
+sanivan.uploadDir = 'D:/Programmations/php appl/GestionVilles/upload/sanivan'
+ci3.webroot = 'D:/Programmations/php appl/GestionVilles'
 ```
 
 ## Authentification CI4 (portée)
@@ -115,8 +161,13 @@ session **au format CI3** (même mécanisme que CI3, même table).
 - `app/Controllers/Login.php` : `index` (formulaire, toujours affiché
   comme `co_gestion/index`), `attempt` (POST), `admin` (≈ `GotoHome`),
   `logout`, `safeNext` (anti open-redirect).
-- `app/Views/auth/login.php` : formulaire simple (la vraie vue CI3
-  `partials/login2` n'est pas encore portée).
+- `app/Views/auth/login.php` : **portée de `partials/login2`** (logo,
+  « Gestion des villes », « Connectez-vous pour débuter votre session »,
+  « Mot de passe oublié? » → modal → `/inscription/getinfo`). POST vers
+  `/admin/tableau_de_bord?from=2` (routes CI3 conservées) ; libellés
+  via `ci3lang()` (CI3 n'avait pas de fichiers de langue — clés
+  `login_email`, `login_forget`, ... ajoutées au helper) ; assets servis
+  par l'Alias vhost `/assets` (miroir prod).
 - `app/Filters/Ci3AuthFilter.php` : non connecté → `/login?next=<uri>`.
 - **Hachage identique à CI3** :
   `password_verify(hash_hmac('sha256', $mdp, 'nikajhdgsjgdsdssd'), webuser.pass)`
@@ -178,8 +229,17 @@ curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 - Porter les méthodes stub (ordre recommandé : voir MIGRATION.md
   « Ordre de migration » — `Co_web_chauffeur`, `Co_ville` en priorité
   phase 2 ; `co_gestion` en dernier).
-- Porter la vue de login CI3 (`partials/login2` : logo, « Connectez-vous
-  pour débuter votre session », « Mot de passe oublié? »).
+- `co_gestion/login` : le tableau de bord n'étant pas porté, un login
+  réussi (`from=2`) redirige vers `/` (page statut) au lieu de rendre
+  `partials/home` ; `from=1` redirige vers `/sanivan/routecam/{date}`
+  (porté). Brancher sur le vrai tableau de bord quand il sera porté.
+- Flow `forcechange` : `Login::attempt` redirige vers
+  `/login/change?email=...` (stub → 307 CI3) — le flow complet
+  (`resetPassW`, vue `chgpassw`, `ValidOldPassW`, `ValidStrongPassW`,
+  `PostresetPassW`) est à porter si des comptes ont `forcechange=1`.
+- « Mot de passe oublié? » → `/inscription/getinfo` : stub → 307 vers
+  CI3 (GET, fonctionne cross-host sans session). Porter `sendPassword`
+  + vue `forgot-password` éventuellement.
 - `TabletteSani::loginChauffeur` : `$this->ci3->set()` est un no-op sans
   session existante — appeler `Ci3Session::create()` si `user()` est
   null avant les `set()` (le flow tablette sur l'hôte CI4).

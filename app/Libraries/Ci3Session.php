@@ -70,6 +70,9 @@ class Ci3Session
         self::$sessionId = bin2hex(random_bytes(20));
         self::$ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
         self::$data = $data;
+        // CI3 stocke toujours session_id dans les userdata
+        // (co_gestion/login : set_userdata('session_id', session_id())).
+        self::$data['session_id'] ??= self::$sessionId;
 
         Database::connect()->table(self::TABLE)->insert([
             'id' => self::$sessionId,
