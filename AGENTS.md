@@ -189,7 +189,7 @@ la correspondance CI3 → classe CI4 :
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_web_chauffeur` | `WebChauffeur` | **porté (phase 2)** |
-| `Co_ville` | `Ville` | stubs |
+| `Co_ville` | `Ville` | **porté (phase 2)** |
 | `co_polyline`, `polyline`, `Polyline` | `Polyline` | stubs (fusionnés) |
 | `co_admin`, `co_sessions`, `Co_admin_tags`, `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`, `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`, `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` | mêmes noms PascalCase | stubs |
 
@@ -258,11 +258,53 @@ bootstrap MAUI, heartbeat, logout) — données de test purgées.
   - `api_samsara_diag` / `api_autorisation_spectateur` : non portés
     (jamais routés en CI3, jamais appelés par les vues).
 
+## Port Co_ville → Ville (phase 2, 2026-10-20)
+
+Portail citoyen (~40 routes `villes/*` + `ville/*`), zones de collecte
+et tags de carte. Testé de bout en bout en local avec un citoyen de
+test (login AES, accueil + carte, liste/création requête, réponse,
+profil, polling, tags, hub, logout) — données de test purgées.
+
+- `app/Controllers/Ville.php` : port des ~40 méthodes routées
+  (auth citoyenne AES contre `villesrecipiendaire`, requêtes/réponses
+  avec fichiers joints, mot de passe oublié par courriel, profil,
+  zones (`nav_zone`, `zones_api`, `saveZone`, `save_drawn_polyline`),
+  tags de collecte et de carte, `NavZoneHub`, langue fr/en).
+- `app/Libraries/VilleService.php` : AES (clé SHA2 de
+  `Villes_model::$keysha` — **différente du pepper admin**), zones,
+  raisons de tags.
+- `app/Config/MapTags.php` : fallback des raisons (config CI3).
+- `app/Views/` : 18 vues copiées (villes/*, requetes/lstereception,
+  sections/inc_menu_2, partials/menu_motpasse, leaflet/map_nav_zone
+  2 800 lignes + map_nav_zone_hub) avec remplacements mécaniques
+  (`ci3sess`, `ci3lang`, `ci3_url`, `view`). `villes/incfile/*`
+  conservés (déjà adaptés CI4 au port TabletteSani).
+- **Session citoyenne** : clés `idville`, `ville`, `nom`, `email`,
+  `id`, `site_lang`, `last_page_{fr,en}` — créée par le constructeur
+  (détection langue) et le login comme CI3.
+- **Uploads** : docroot CI3 (`env ci3.webroot`) —
+  `upload/{idville}/{id}` (requêtes), `.../reponse/{id}` (réponses),
+  `userfiles/` (summernote), `upload/sanivan/tags/` (images de tags).
+- **Divergences par rapport à CI3** (documentées dans le code) :
+  - Détection langue : CI3 testait `strpos('/fr/')` (jamais trouvé
+    sur les routes finissant par `/fr`) + comparait `FALSE > -1`
+    (toujours vrai) → forçait 'fr' en permanence. Le port teste
+    `/fr` et `/en` (intention d'origine restaurée).
+  - `set_tempdata('codemail')` → clé de session normale (Ci3Session
+    n'a pas de tempdata).
+  - `getOptStatut` : `ORDER BY description` (colonne absente — bug
+    latent CI3) → `ORDER BY description_fr`.
+  - Non portés (jamais routés en CI3 ni CI4) : `resetPassword`,
+    `mapTagChauffeurs`, `SlugUrl`, `getReponseForReq` est public
+    (helper interne), `current_idville` porté mais non routé.
+  - `base_url(null)` (CI3 silencieux) → cast string (CI4 strict).
+
 ## Reste à faire
 
 - Porter les méthodes stub (ordre recommandé : voir MIGRATION.md
-  « Ordre de migration » — `Co_ville` en priorité phase 2 ;
-  `Polyline`, TV, admin ensuite ; `co_gestion` en dernier).
+  « Ordre de migration » — `Polyline`, TV, admin ensuite ;
+  `co_gestion` en dernier). Les portails externes
+  (`Co_web_chauffeur`, `Co_ville`) sont PORTÉS.
 - `co_gestion/login` : le tableau de bord n'étant pas porté, un login
   réussi (`from=2`) redirige vers `/` (page statut) au lieu de rendre
   `partials/home` ; `from=1` redirige vers `/sanivan/routecam/{date}`
