@@ -1,0 +1,23 @@
+# CodeIgniter 4
+.env
+vendor/
+writable/cache/*
+writable/debugbar/*
+writable/logs/*
+writable/session/*
+writable/uploads/*
+!writable/*/.gitkeep
+!writable/*/*/.gitkeep
+phpunit.xml.dist
+.phpunit.result.cache
+
+# OS
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
