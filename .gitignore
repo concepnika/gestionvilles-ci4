@@ -19,5 +19,6 @@ $RECYCLE.BIN/
 # IDE
 .idea/
 .vscode/
+.vs/
 *.suo
 *.user
