@@ -1,5 +1,11 @@
 # Migration CI3 → CI4 (strangler)
 
+> **Mise à jour 2026-10-20** : le développement local utilise désormais
+> un vhost dédié `gestionvillesci4.local` (hôte séparé de CI3) avec
+> authentification CI4 propre. Voir `AGENTS.md` pour la config actuelle ;
+> la section « Déploiement local de test » ci-dessous décrit l'ancien
+> montage (Alias `/ci4`), conservé à titre de référence.
+
 Approche : les deux applications cohabitent en production. CI4 répond
 sous `/ci4/`; CI3 continue de servir le reste. Chaque module est porté
 et basculé indépendamment; la bascule finale remplace CI3 par CI4 à
