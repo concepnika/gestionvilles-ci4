@@ -398,6 +398,9 @@ $routes->add('web/api_change_cedule', 'WebChauffeur::api_change_cedule');
 $routes->add('web/api_zone_toggle', 'WebChauffeur::api_zone_toggle');
 $routes->add('web/api_inzone_history', 'WebChauffeur::api_inzone_history');
 $routes->add('web/api_tag_badge', 'WebChauffeur::api_tag_badge');
+// Route absente de la table CI3 mais appelée par le JS de truckmap.php
+// (bug latent CI3 corrigé au passage — voir MIGRATION.md)
+$routes->add('web/api_get_polyline_dynamique', 'WebChauffeur::api_get_polyline_dynamique');
 $routes->add('web/aide', 'WebChauffeur::showAidePourWEB');
 $routes->add('web/cron_gps_poll', 'WebChauffeur::cron_gps_poll');
 

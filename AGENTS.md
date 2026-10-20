@@ -188,8 +188,8 @@ la correspondance CI3 → classe CI4 :
 | `co_gestion` | `Gestion` (extends `Login`) | auth portée ; ~175 méthodes en stubs |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
+| `Co_web_chauffeur` | `WebChauffeur` | **porté (phase 2)** |
 | `Co_ville` | `Ville` | stubs |
-| `Co_web_chauffeur` | `WebChauffeur` | stubs |
 | `co_polyline`, `polyline`, `Polyline` | `Polyline` | stubs (fusionnés) |
 | `co_admin`, `co_sessions`, `Co_admin_tags`, `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`, `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`, `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` | mêmes noms PascalCase | stubs |
 
@@ -224,11 +224,45 @@ curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" \
 curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 ```
 
+## Port Co_web_chauffeur → WebChauffeur (phase 2, 2026-10-20)
+
+Portail web navigateur des chauffeurs SaniVan (~40 routes `web/*`,
+`ramassage-ville`). Testé de bout en bout en local avec un chauffeur
+de test (login, dashboard, villes, truckmap, APIs JSON, écritures,
+bootstrap MAUI, heartbeat, logout) — données de test purgées.
+
+- `app/Controllers/WebChauffeur.php` : port des ~40 méthodes +
+  helpers (`checkAuth`, heartbeat throttlé 60s, CORS, flashdata via
+  clé `web_flash_error`, dédup GPS Haversine/buckets 10s, Nominatim
+  throttlé 60s/camion).
+- `app/Libraries/WebChauffeurService.php` : port de
+  `Web_chauffeur_model` (SQL verbatim CI3).
+- `app/Libraries/SamsaraClient.php` : étendu avec stats GPS
+  (`getLatestLocation` avec retry stats→feed→history, batch multi
+  véhicules, historique).
+- `app/Views/web_chauffeur/` : 6 vues CI3 copiées avec remplacement
+  mécanique (`session->userdata` → `ci3sess`, `load->view` → `view`).
+- `app/Libraries/Pdf/` : FPDF + font/ copiés de CI3 pour les billets
+  de dépotoir (photo → PDF).
+- **Session** : clés `web_*` en session CI3 partagée ; le login et le
+  bootstrap MAUI **créent** la session via `Ci3Session::create()` si
+  absente (garanti par `ensureSession()` — voir `sessSet`).
+- **Uploads** : `api_upload_ticket` écrit dans le docroot CI3
+  (`env ci3.webroot`), URLs `/uploads/...` servies par CI3 en prod ;
+  localement via `Alias /uploads` du vhost (comme `/assets`).
+- **Divergences documentées** :
+  - `nav_bureau` → `/admin/connexion` (CI3 hardcodait des
+    identifiants en clair dans l'URL — non reproduits en repo).
+  - `web/api_get_polyline_dynamique` : route AJOUTÉE (appelée par le
+    JS de truckmap mais absente de la table CI3 — bug latent corrigé).
+  - `api_samsara_diag` / `api_autorisation_spectateur` : non portés
+    (jamais routés en CI3, jamais appelés par les vues).
+
 ## Reste à faire
 
 - Porter les méthodes stub (ordre recommandé : voir MIGRATION.md
-  « Ordre de migration » — `Co_web_chauffeur`, `Co_ville` en priorité
-  phase 2 ; `co_gestion` en dernier).
+  « Ordre de migration » — `Co_ville` en priorité phase 2 ;
+  `Polyline`, TV, admin ensuite ; `co_gestion` en dernier).
 - `co_gestion/login` : le tableau de bord n'étant pas porté, un login
   réussi (`from=2`) redirige vers `/` (page statut) au lieu de rendre
   `partials/home` ; `from=1` redirige vers `/sanivan/routecam/{date}`
