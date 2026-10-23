@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
   </style>
   <script type='text/javascript'>
-    var ActiveDate = "<?php echo $ActiveDate ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
     function ConfirmeLoad(Route)
     {
         $("#td_" + Route).css("background-color","#80FF9F");
@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <p class="login-box-msg">Connectez-vous pour d&eacute;buter votre session</p>
       <div style="border-color:red; border:double;padding-left:4px;display:<?php echo (($msgerror != '') ? 'block' : 'none'); ?>;">
         <label style="font-size:small;color:darksalmon;">
-          <?php echo $msgerror; ?>
+          <?php echo ($msgerror ?? ''); ?>
         </label>
       </div>
       <form action="/tablettes_san/routes?from=0" method="post" id="frmLogin">
@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="input-group">
             <div class="input-group-addon"><label>Camion:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div>
             <select class="form-control" onchange="getCamSani()" id="edtcamion" name="edtcamion" style="font-size:medium;font-weight:bold;width:90%;">
-              <option value="">Choisir</option><?php echo $camion;?>
+              <option value="">Choisir</option><?php echo ($camion ?? '');?>
             </select>
           </div>
         </div>
@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!--<input type="text" class="form-control" id="code" placeholder="Code usager" name="code" style="font-size:medium;font-weight:bold;width:90%;" />-->
             <select class="form-control" id="code" name="code" style="font-size:medium;font-weight:bold;width:90%;">
               
-              <?php echo $chauffeurs;?>
+              <?php echo ($chauffeurs ?? '');?>
             </select>
           </div>
         </div>

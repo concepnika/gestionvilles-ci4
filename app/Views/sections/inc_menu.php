@@ -18,7 +18,7 @@
 
       <ul class="dropdown-menu">
 
-        <?php echo $dropmenu ; ?>
+        <?php echo ($dropmenu ?? '') ; ?>
       </ul>
     </li>-->
 
@@ -27,7 +27,7 @@
         <a href="#" onclick="loadToday('-1')" id="divShowHideEmp" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journ&eacute;e pr&eacute;c&eacute;dente" data-content="Affiche la c&eacute;dule de la journ&eacute;e pr&eacute;c&eacute;dente">
           <img src="/assets/img/fleche_left.png" width="30" />&nbsp;
         </a>
-        <input type="date" style="height:28px" onchange="loadToday('0')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo $ActiveDate ?>" id="dteActivePage1" />
+        <input type="date" style="height:28px" onchange="loadToday('0')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActivePage1" />
 
         <a href="#" onclick="loadToday('1')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journ&eacute;e suivante" data-content="Affiche la c&eacute;dule de la journ&eacute;e suivante">
           <img src="/assets/img/fleche_right.png" width="30" />&nbsp;
@@ -102,7 +102,7 @@
       </a>
 
       <ul class="dropdown-menu">
-        <?php echo $mnureq ?>
+        <?php echo ($mnureq ?? '') ?>
       </ul>
     </li>
     <!--<li>

@@ -17,6 +17,7 @@ use Config\Database;
  *  - $this->session : pont Ci3Session
  *  - $this->JourDeSemaine : colonnes reshumaine DIM..SAM
  */
+#[\AllowDynamicProperties]
 abstract class Ci3Model
 {
     /** @var \CodeIgniter\Database\BaseConnection */
@@ -46,7 +47,7 @@ abstract class Ci3Model
 
     public function __construct()
     {
-        $this->db = Database::connect();
+        $this->db = new \App\Libraries\Ci3Db();
         $this->objData = new \stdClass();
         $this->ci3session = new \App\Libraries\Ci3Session();
         helper(['ci3view', 'text']);

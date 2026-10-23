@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 
 ?>
 <!DOCTYPE html><html data-bs-theme="light" lang="fr">
@@ -69,11 +69,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <div id="pre_take_buttons">
                 <button id="idsnapshot" type=button class="btn btn-primary" onclick="take_snapshot()">Confirmer la photo</button>
                 <input type="hidden" name="image" class="image-tag">
-                <input id="idinfoville" name="idinfoville" type="hidden" value="<?php echo $idinfoville; ?>" />
-                <input id="depotoire" name="depotoire" type="hidden" value="<?php echo $depotoire; ?>" />
-                <input id="nocamion" name="nocamion" type="hidden" value="<?php echo $nocamion; ?>" />
-                <input id="iddepotoire" type="hidden" value="<?php echo $iddepotoire; ?>" />
-                <input id="dteactive" name="dteactive" type="hidden" value="<?php echo $dteActive; ?>" />
+                <input id="idinfoville" name="idinfoville" type="hidden" value="<?php echo ($idinfoville ?? ''); ?>" />
+                <input id="depotoire" name="depotoire" type="hidden" value="<?php echo ($depotoire ?? ''); ?>" />
+                <input id="nocamion" name="nocamion" type="hidden" value="<?php echo ($nocamion ?? ''); ?>" />
+                <input id="iddepotoire" type="hidden" value="<?php echo ($iddepotoire ?? ''); ?>" />
+                <input id="dteactive" name="dteactive" type="hidden" value="<?php echo ($dteActive ?? ''); ?>" />
                 <button type="submit" class="btn btn-success">Enregistrer &gt;</button>
                 
               </div>

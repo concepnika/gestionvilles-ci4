@@ -73,7 +73,7 @@
   <script src="/assets/css/fontawesome/all.css"></script>
   <script type='text/javascript'>
     var base_url = "<?php echo ci3_url()?>";
-    var ActiveDate = "<?php echo $ActiveDate ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
     function ConfirmeLoad(Route)
     {
         $("#td_" + Route).css("background-color","#80FF9F");
@@ -113,7 +113,7 @@
             <div class="input-group">
               <div class="input-group-addon">
                 <label>Date</label>
-                <input type="date" onchange="CalculJour()" class="form-control pull-right" title="Cliquer pour afficher le calendrier" value="<?php echo $ActiveDate; ?>" id="dteCalcul" />
+                <input type="date" onchange="CalculJour()" class="form-control pull-right" title="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? ''); ?>" id="dteCalcul" />
               </div>
               <div class="input-group-addon">
                 <button type="button" class="btn btn-primary pull-right" onclick="CalculJour()" style="margin: 6px;">
@@ -135,7 +135,7 @@
               <div class="box box-primary" id="divvalid">
 
                     
-                        <?php echo $validsanivan ; ?>
+                        <?php echo ($validsanivan ?? '') ; ?>
 
               </div>
             </div>
@@ -165,7 +165,7 @@
                           <label style="font-weight: bold; "># Camions  </label> <br />
                             <select class="form-control" name="camionmat" id="camionmat" required>
                                 <option value="">Choisir</option>
-                                <?php echo $camions ; ?>
+                                <?php echo ($camions ?? '') ; ?>
                             </select>
                         </div>     
                         <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
@@ -180,7 +180,7 @@
                           <label style="font-weight: bold; ">Type de matériel</label> <br />
                             <select class="form-control" name="typemat" id="typemat" required>
                                 <option value="">Choisir</option>
-                                <?php echo $typededechet ; ?>
+                                <?php echo ($typededechet ?? '') ; ?>
                             </select>
                         </div> 
                         <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
@@ -224,7 +224,7 @@
                           <label style="font-weight: bold; "># Camions  </label> <br />
                             <select class="form-control" name="camionhs" id="camionhs" required>
                                 <option value="">Choisir</option>
-                                <?php echo $camions ; ?>
+                                <?php echo ($camions ?? '') ; ?>
                             </select>
                         </div>     
                            <br /> <br />
@@ -281,7 +281,7 @@
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <select class="form-control" name="selRH" id="selRH" required>
                                 <option value="">Choisir</option>
-                                <?php echo $employes ; ?>
+                                <?php echo ($employes ?? '') ; ?>
                             </select>
                         </div>     
                            <br /> <br />
@@ -303,7 +303,7 @@
                           <label style="font-weight: bold; ">Type d'absence</label> <br />
                             <select class="form-control"  id="selRHabsence" required>
                                 <option value="">Choisir</option>
-                                <?php echo $typeabsences ; ?>
+                                <?php echo ($typeabsences ?? '') ; ?>
                             </select>
                         </div> 
                            <br /> <br />  
@@ -339,7 +339,7 @@
   <script src="/assets/plugins/iCheck/icheck.min.js"></script>
     <script src="/assets/js/nika.js"></script>
   <script>
-    selectedDay = "<?php echo $ActiveDate ?>";
+    selectedDay = "<?php echo ($ActiveDate ?? '') ?>";
     
     //iCheck for checkbox and radio inputs
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({

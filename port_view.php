@@ -40,6 +40,24 @@ $rules = [
     ['/\bsite_url\s*\(/' => 'ci3_url('],
     ['/\$this->input->post_get\(/' => 'ci3in('],
     ['/\$this->input->get_post\(/' => 'ci3in('],
+    // Tolerance aux variables indefinies : CI3 affichait vide
+    // (notice silencieuse), CI4 leve ErrorException. On force ?? ''
+    // sur les echoes de variables simples ($x, $x->prop, $x['k']) —
+    // ?? supprime les acces indefinis sur proprietes/cles. Les appels
+    // de methodes ($x->m()) sont exclus (lookahead !\( ).
+    ['/echo\s+(\$\w+(?:->\w+|\[[^\]]*\])*)(?!\s*\()/'
+        => 'echo ($1 ?? \'\')'],
+    ['/<\?=\s*(\$\w+(?:->\w+|\[[^\]]*\])*)(?!\s*\()\s*\?>/'
+        => '<?= ($1 ?? \'\') ?>'],
+    // if ($x) / elseif ($x) — bare var : non defini -> notice CI3,
+    // ErrorException CI4 -> !empty()
+    ['/\b(if|elseif)\s*\(\s*!\s*\$([A-Za-z_]\w*)\s*\)/'
+        => '$1 (empty($$2))'],
+    ['/\b(if|elseif)\s*\(\s*\$([A-Za-z_]\w*)\s*\)/'
+        => '$1 (!empty($$2))'],
+    // foreach ($x as ...) — tableau indefini -> []
+    ['/foreach\s*\(\s*(\$\w+(?:->\w+|\[[^\]]*\])*)(?!\s*\()\s+as\b/'
+        => 'foreach (($1 ?? []) as'],
 ];
 
 foreach (array_slice($argv, 1) as $arg) {

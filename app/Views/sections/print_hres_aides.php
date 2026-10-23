@@ -94,10 +94,10 @@
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
     var base_url = "<?php echo ci3_url()?>";
-    var ActiveDate = "<?php echo $ActiveDate ?>";
-    var activecedule = "<?php echo $typecedule ?>";
-    var ActiveDrop = "<?php echo $ActiveDrop ?>";
-    var notab = "<?php echo $notab ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
+    var activecedule = "<?php echo ($typecedule ?? '') ?>";
+    var ActiveDrop = "<?php echo ($ActiveDrop ?? '') ?>";
+    var notab = "<?php echo ($notab ?? '') ?>";
     function ConfirmeLoad(Route)
     {
         $("#td_" + Route).css("background-color","#80FF9F");
@@ -131,7 +131,7 @@
                 </tr>
             </thead>
             <tbody id="tboProd">
-              <?php echo $listhresaides ; ?>
+              <?php echo ($listhresaides ?? '') ; ?>
             </tbody>
           </table>
       </div>

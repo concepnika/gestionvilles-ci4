@@ -235,7 +235,7 @@
               color: #2c3e50;
               text-decoration: underline;
           }
-    <?php echo $classstat ?>
+    <?php echo ($classstat ?? '') ?>
 
     button:hover {
       opacity: 0.8;
@@ -311,14 +311,14 @@
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
     var base_url = "<?php echo ci3_url() ?>";
-    var ActiveDate = "<?php echo $ActiveDate ?>";
-    var activecedule = "<?php echo $typecedule ?>";
-    var ActiveDrop = "<?php echo $ActiveDrop ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
+    var activecedule = "<?php echo ($typecedule ?? '') ?>";
+    var ActiveDrop = "<?php echo ($ActiveDrop ?? '') ?>";
     var ActiveRow = 1;
-    var LastRow =  "<?php echo $LastRow ?>";
-    var notab = "<?php echo $notab ?>";
-    var AideIsShow = "<?php echo $AideIsShow ?>";
-    var from = "<?php echo $from ?>";
+    var LastRow =  "<?php echo ($LastRow ?? '') ?>";
+    var notab = "<?php echo ($notab ?? '') ?>";
+    var AideIsShow = "<?php echo ($AideIsShow ?? '') ?>";
+    var from = "<?php echo ($from ?? '') ?>";
     var activeRH = 1;
     function ConfirmeLoad(Route) {
       $("#td_" + Route).css("background-color", "#80FF9F");
@@ -399,7 +399,7 @@
           <div>
 
             <div class="input-group">
-              <input type="date" style="margin-left: 25px;height: 28px;margin-top:3px;" onchange="LoadRHhres()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo $ActiveDate ?>" id="dteRH" />
+              <input type="date" style="margin-left: 25px;height: 28px;margin-top:3px;" onchange="LoadRHhres()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteRH" />
               <span class="input-group-btn">
                 <input type="text" id="edtFind" class="form-control" onkeyup="EntersearchTableRHhres(this.value, event)" placeholder="Rechercher" style="width:100px;height: 28px;margin-left: 10px;margin-top:0px" />
 
@@ -439,7 +439,7 @@
               </tr>
             </thead>
             <tbody id="tboRHhres">
-              <?php echo $listhresaides; ?>
+              <?php echo ($listhresaides ?? ''); ?>
             </tbody>
           </table>
         </div>
@@ -475,7 +475,7 @@
           <div id="divDropVille" class="box-body" style="overflow: scroll;height: 350px;">
 
             <?php
-            echo $ville;
+            echo ($ville ?? '');
             ?>
 
           </div>
@@ -488,7 +488,7 @@
           <div id="divDropSecteur" class="box-body" style="display: none; overflow: scroll; height: 350px;">
 
             <?php
-            echo $SecteurDrop;
+            echo ($SecteurDrop ?? '');
             ?>
 
           </div>
@@ -511,7 +511,7 @@
             <div id="divDropCamion" class="box-body" style="padding-left:7px;">
 
               <?php
-              echo $CamionDrop;
+              echo ($CamionDrop ?? '');
               ?>
 
             </div>
@@ -534,7 +534,7 @@
           <div class="box box-solid" id="divDropRH" style="padding-left:7px;display:block;overflow: scroll; height: 290px; width: 200px">
 
             <?php
-            echo $ChauffeurDrop;
+            echo ($ChauffeurDrop ?? '');
             ?>
 
           </div>
@@ -549,23 +549,23 @@
       <!--<div class="box box-primary"  style="position:absolute;left:5px;top: 100px;min-height:800px;width:100%;">-->
       <div id="hs_dispo_cam" style="margin-top: 10px;display: none;border:solid; border-color: black;border-width:1px;" class="row">
         <?php
-        echo $hs_cam;
+        echo ($hs_cam ?? '');
         ?>
       </div>
 
       <div id="non_dispo_chauf" style="margin-left:10px;display: none;margin-top:5px;border:solid; border-color: black;border-width:1px;" class="row">
         <?php
-        echo $non_dispo_chauf;
+        echo ($non_dispo_chauf ?? '');
         ?>
       </div>
       <div id="non_dispo_aide" style="margin-left:10px;display: none;margin-top:5px;border:solid; border-color: black;border-width:1px;" class="row">
         <?php
-        echo $non_dispo_aide;
+        echo ($non_dispo_aide ?? '');
         ?>
       </div>
       <div id="divCedule">
         <?php
-        echo $today;
+        echo ($today ?? '');
         ?>
       </div>
       <!-- /.box-body -->
@@ -574,13 +574,13 @@
 
     <div id="non_dispo_cam" style="margin-left:5px;margin-left:5px;display: block;margin-top:5px;border:solid; border-color: black;border-width:1px;" class="row">
       <?php
-      echo $non_dispo_cam;
+      echo ($non_dispo_cam ?? '');
       ?>
     </div>
     <!--<div id="divFooterSan" class="footer" style="margin-top:5px;width:100%">
 
       <?php
-      echo $requetes;
+      echo ($requetes ?? '');
       ?>
 
     </div>-->
@@ -626,7 +626,7 @@
                   <label style="font-weight: bold; ">Secteurs  </label><br />
                   <select class="form-control" name="secteur" id="secteur" required>
                     <option value="">Choisir</option>
-                    <?php echo $SecteurRobo; ?>
+                    <?php echo ($SecteurRobo ?? ''); ?>
                   </select>
                 </div>
               </div>
@@ -702,7 +702,7 @@
                   <label style="font-weight: bold; ">Secteurs  </label><br />
                   <select class="form-control" name="secteur" id="secteur" required>
                     <option value="">Choisir</option>
-                    <?php echo $SecteurRobo; ?>
+                    <?php echo ($SecteurRobo ?? ''); ?>
                   </select>
                 </div>
               </div>
@@ -873,7 +873,7 @@
             <form>
               <div class="box-header with-border">
                 <h3>S&eacute;lectionner la date d'avis</h3>
-                <input type="date" class="form-control" style="height: 35px;font-weight:bold;width:150px" onchange="loadToday()" value="<?php echo $ActiveDate; ?>" id="dteEnvoi" />
+                <input type="date" class="form-control" style="height: 35px;font-weight:bold;width:150px" onchange="loadToday()" value="<?php echo ($ActiveDate ?? ''); ?>" id="dteEnvoi" />
               </div>
             </form>
           </div>
@@ -941,7 +941,7 @@
       $(function () {
         $('.select2').select2()
       })
-    selectedDay = "<?php echo $ActiveDate ?>";
+    selectedDay = "<?php echo ($ActiveDate ?? '') ?>";
 
     function PrintHresAides() {
       var urlName = '/sanivan/printhresaides/' + $("#dteRH").val();

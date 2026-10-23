@@ -145,9 +145,9 @@
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
     var base_url = "<?php echo ci3_url()?>";
-    var ActiveDate = "<?php echo $ActiveDate ?>";
-    var moisseul = "<?php echo $moisseul ?>";
-    typederamassage = "<?php echo $typederamassage; ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
+    var moisseul = "<?php echo ($moisseul ?? '') ?>";
+    typederamassage = "<?php echo ($typederamassage ?? ''); ?>";
     function ConfirmeLoad(Route)
     {
         $("#td_" + Route).css("background-color","#80FF9F");
@@ -186,7 +186,7 @@
                   <div class="input-group-addon" style="height:42px"><b>VILLES</b></div>
                   <select class="form-control" style="height:42px" name="optVilles" id="optVilles" onchange="getVille(this.value)">
                       <option value="0">Choisir</option>
-                      <?php echo $optvilles; ?>
+                      <?php echo ($optvilles ?? ''); ?>
                   </select>
                 </div>
 			        </li>  
@@ -199,7 +199,7 @@
                   <div class="input-group-addon" style="height:42px"><b>RAMASSAGES</b></div>
                   <select class="form-control" style="height:42px" name="optRamassages" id="optRamassages">
                       <option value="">Choisir</option>
-                      <?php echo $optramassages; ?>
+                      <?php echo ($optramassages ?? ''); ?>
                   </select>
                 </div>
 			        </li>  
@@ -265,7 +265,7 @@
                     <div class="input-group-addon" style="width:92px;height:42px;max-height:20px;margin-top:0px"><b>Secteurs</b></div>
                       <select class="form-control" style="height:42px;width:200px" name="optFrequences" id="optFrequences">
                           <option value="0">Choisir</option>
-                        <?php echo $secteurs; ?>
+                        <?php echo ($secteurs ?? ''); ?>
 
                       </select>
                     
@@ -310,7 +310,7 @@
               </button>
               </span>
               <select class="form-control" name="optAnnee" id="optAnnee" onchange="ChangeAnnee(this.value)" >
-                  <?php echo $listyear; ?>
+                  <?php echo ($listyear ?? ''); ?>
               </select>
               <span class="input-group-btn">
                 <button type="button" id="btnNextAnnee" class="btn btn-info btn-flat" onclick="ChangeAnnee(2)" >
@@ -328,7 +328,7 @@
               </button>
               </span>
               <select class="form-control" name="optMois" id="optMois" onchange="ChangeMois(this.value)" >
-                  <?php echo $listmois ; ?>
+                  <?php echo ($listmois ?? '') ; ?>
               </select>
               <span class="input-group-btn">
  
@@ -346,7 +346,7 @@
 				    <button type="button" id="btnCancel" onclick="gotoAnnee()" class="btn btn-default" style="margin-top:0px">ANNÉE</button>
 			    </li>    
           <li >
-				    <?php echo $nomenclature; ?>
+				    <?php echo ($nomenclature ?? ''); ?>
 			    </li>          
 		        </ul>
 	        </div>       
@@ -357,7 +357,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar" style="width:100%">
-                <?php echo $calendrier; ?>
+                <?php echo ($calendrier ?? ''); ?>
               </div>
             </div>
           </div>
@@ -412,7 +412,7 @@
                         <div class="col-sm-7 col-xs-12">
                             <select class="form-control" name="chauffeur" id="chauffeur" required>
                                 <option value="25">Choisir</option>
-                                <?php echo $chauffeurs ; ?>
+                                <?php echo ($chauffeurs ?? '') ; ?>
                             </select>
                         </div>
                         <br /><br />
@@ -421,7 +421,7 @@
                         <div class="col-sm-7 col-xs-12">
                             <select class="form-control" name="aide" id="aide" required>
                                 <option value="24">Choisir</option>
-                                <?php echo $aides ; ?>
+                                <?php echo ($aides ?? '') ; ?>
                             </select>
                         </div>
                              <br />
@@ -432,7 +432,7 @@
                         <div class="col-sm-7 col-xs-12">
                             <select class="form-control" name="camion" id="camion" required>
                                 <option value="Cam: 1">Choisir</option>
-                                <?php echo $camions ; ?>
+                                <?php echo ($camions ?? '') ; ?>
                             </select>
                         </div>                  
 				</div>
@@ -463,7 +463,7 @@
     <script src="/assets/fullcalendar/dist/locale/fr-ca.js"></script>
     <script src="/assets/fullcalendar/dist/locale/fr.js"></script>
   <script>
-    selectedDay = "<?php echo $ActiveDate ?>";
+    selectedDay = "<?php echo ($ActiveDate ?? '') ?>";
     var dftView = 'basicWeek';
     //-------------------------------------------------------------------------------
     var objData = "";

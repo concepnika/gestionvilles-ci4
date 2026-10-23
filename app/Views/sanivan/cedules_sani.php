@@ -217,7 +217,7 @@
       width: 100%;
     }
 
-    <?php echo $classstat ?>
+    <?php echo ($classstat ?? '') ?>
 
     button:hover {
       opacity: 0.8;
@@ -225,7 +225,7 @@
   </style>
 
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <script type='text/javascript'><?php echo ci3_url() ?><?php echo $ActiveDate ?><?php echo $typecedule ?><?php echo $ActiveDrop ?><?php echo $LastRow ?><?php echo $notab ?><?php echo $AideIsShow ?><?php echo $from ?></script>
+  <script type='text/javascript'><?php echo ci3_url() ?><?php echo ($ActiveDate ?? '') ?><?php echo ($typecedule ?? '') ?><?php echo ($ActiveDrop ?? '') ?><?php echo ($LastRow ?? '') ?><?php echo ($notab ?? '') ?><?php echo ($AideIsShow ?? '') ?><?php echo ($from ?? '') ?></script>
   </head>
   <body class="hold-transition skin-blue" onresize="ChangeSizeOfDiv(this)">
     <!-- Header Navbar: style can be found in header.less -->
@@ -246,23 +246,23 @@
       <!--<div class="box box-primary"  style="position:absolute;left:5px;top: 100px;min-height:800px;width:100%;">-->
       <div id="hs_dispo_cam" style="margin-top: 10px;display: none;border:solid; border-color: black;border-width:1px;" class="row">
         <?php
-        echo $hs_cam;
+        echo ($hs_cam ?? '');
         ?>
       </div>
 
       <div id="non_dispo_chauf" style="margin-left:10px;display: none;margin-top:5px;border:solid; border-color: black;border-width:1px;" class="row">
         <?php
-        echo $non_dispo_chauf;
+        echo ($non_dispo_chauf ?? '');
         ?>
       </div>
       <div id="non_dispo_aide" style="margin-left:10px;display: none;margin-top:5px;border:solid; border-color: black;border-width:1px;" class="row">
         <?php
-        echo $non_dispo_aide;
+        echo ($non_dispo_aide ?? '');
         ?>
       </div>
       <div id="divCedule">
         <?php
-        echo $today;
+        echo ($today ?? '');
         ?>
       </div>
       <!-- /.box-body -->
@@ -271,14 +271,14 @@
 
     <div id="non_dispo_cam" style="margin-left:5px;margin-left:5px;display: block;margin-top:5px;border:solid; border-color: black;border-width:1px;" class="row">
       <?php
-      echo $non_dispo_cam;
+      echo ($non_dispo_cam ?? '');
       ?>
     </div>
 
     <div id="divFooterSan" class="footer" style="margin-top:5px;width:100%">
 
       <?php
-      echo $requetes;
+      echo ($requetes ?? '');
       ?>
 
     </div>
@@ -324,7 +324,7 @@
                   <label style="font-weight: bold; ">Secteurs  </label><br />
                   <select class="form-control" name="secteur" id="secteur" required>
                     <option value="">Choisir</option>
-                    <?php echo $SecteurRobo; ?>
+                    <?php echo ($SecteurRobo ?? ''); ?>
                   </select>
                 </div>
               </div>
@@ -407,7 +407,7 @@
                   <label style="font-weight: bold; ">Secteurs  </label><br />
                   <select class="form-control" name="secteur" id="secteur" required>
                     <option value="">Choisir</option>
-                    <?php echo $SecteurRobo; ?>
+                    <?php echo ($SecteurRobo ?? ''); ?>
                   </select>
                 </div>
               </div>
@@ -578,7 +578,7 @@
             <form>
               <div class="box-header with-border">
                 <h3>S&eacute;lectionner la date d'avis</h3>
-                <input type="date" class="form-control" style="height: 35px;font-weight:bold;width:150px" onchange="loadToday()" value="<?php echo $ActiveDate; ?>" id="dteEnvoi" />
+                <input type="date" class="form-control" style="height: 35px;font-weight:bold;width:150px" onchange="loadToday()" value="<?php echo ($ActiveDate ?? ''); ?>" id="dteEnvoi" />
               </div>
             </form>
           </div>
@@ -643,7 +643,7 @@
                   <label style="font-weight: bold; ">Ville</label><br />
                   <select class="form-control" name="selVilleslist" id="selVilleslist" required>
                     <option value="">Choisir</option>
-                    <?php echo $optville; ?>
+                    <?php echo ($optville ?? ''); ?>
                   </select>
                 </div>
 
@@ -687,7 +687,7 @@
     <script src="/assets/pronto/vendor/pnotify/pnotify.custom.js"></script>
     <script src="/assets/js/nika.js"></script>
     <script>
-    selectedDay = "<?php echo $ActiveDate ?>";
+    selectedDay = "<?php echo ($ActiveDate ?? '') ?>";
 
     function PrintHresAides() {
       var urlName = '/sanivan/printhresaides/' + $("#dteRH").val();

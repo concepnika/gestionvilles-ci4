@@ -1,6 +1,6 @@
 
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -87,16 +87,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <nav>
               <ul class="nav nav-pills" id="mainNav">
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                <?php echo $nav_tabs; ?>
+                <?php echo ($nav_tabs ?? ''); ?>
 
                 <li> &nbsp;&nbsp;&nbsp;&nbsp;</li>
                 <li>
                   <input type="date" class="form-control" style="height:28px;" onchange="loadSaniDay()" value="<?php echo date("Y-m-d") ?>" id="dteActive" />
-                  <input type="hidden" id="idActiveCedule" value="<?php echo $idcedule; ?>" />
-                  <input type="hidden" id="idcamjour" value="<?php echo $idcamionjour; ?>" />
-                  <input type="hidden" id="idsanivanrh" value="<?php echo $idsanivanrh; ?>" />
-                  <input type="hidden" id="idinfoville" value="<?php echo $idinfoville; ?>" />
-                  <input type="hidden" id="idrh" value="<?php echo $idrh; ?>" />
+                  <input type="hidden" id="idActiveCedule" value="<?php echo ($idcedule ?? ''); ?>" />
+                  <input type="hidden" id="idcamjour" value="<?php echo ($idcamionjour ?? ''); ?>" />
+                  <input type="hidden" id="idsanivanrh" value="<?php echo ($idsanivanrh ?? ''); ?>" />
+                  <input type="hidden" id="idinfoville" value="<?php echo ($idinfoville ?? ''); ?>" />
+                  <input type="hidden" id="idrh" value="<?php echo ($idrh ?? ''); ?>" />
                 </li>
                 <li> &nbsp;&nbsp;&nbsp;&nbsp;</li>
                 <li style="display:<?php echo (($idrh == 27 or $idrh == 23 or $idrh == 76) ? 'block' : 'none'); ?>">
@@ -159,31 +159,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <label class="form-control" style="width: 100px; max-width: 100px; font-weight: bold; ">CAM</label>
                             <span class="input-group-btn">
                               <select class="form-control form-control-modern" id="NOCAMION" onchange="chgCamion(this.value)" style="width: 100px; color: red; font-weight: bold;">
-                                <?php echo $camions; ?>
+                                <?php echo ($camions ?? ''); ?>
                               </select>
                             </span>
                             <label class="form-control" style="width: 100px; max-width: 100px; font-weight: bold; ">Km deb</label>
                             <span class="input-group-btn">
-                              <input type="text" class="form-control form-control-modern" onchange="postTextSani(this.value, this.id)" id="KiloDeb" value="<?php echo $KiloDeb; ?>" style="width: 100px; background-color: yellow; font-weight: bold;" required />
+                              <input type="text" class="form-control form-control-modern" onchange="postTextSani(this.value, this.id)" id="KiloDeb" value="<?php echo ($KiloDeb ?? ''); ?>" style="width: 100px; background-color: yellow; font-weight: bold;" required />
                             </span>
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold; ">Km fin</label>
                             <span class="input-group-btn">
-                              <input type="text" class="form-control form-control-modern" id="KiloFin" onchange="postTextSani(this.value, this.id)" value="<?php echo $KiloFin; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
+                              <input type="text" class="form-control form-control-modern" id="KiloFin" onchange="postTextSani(this.value, this.id)" value="<?php echo ($KiloFin ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
                             </span>
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold; ">Fuel</label>
                             <span class="input-group-btn">
-                              <input type="text" class="form-control form-control-modern" id="Fuel" onchange="postTextSani(this.value, this.id)" value="<?php echo $Fuel; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
+                              <input type="text" class="form-control form-control-modern" id="Fuel" onchange="postTextSani(this.value, this.id)" value="<?php echo ($Fuel ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
                             </span>
                           </div>
 
                           <div class="input-group" style="width:1200px;margin-top:25px">
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold; ">Hre deb</label>
                             <span class="input-group-btn">
-                              <input type="time" class="form-control form-control-modern" id="HreDeb_cam" onchange="postTextSani(this.value, this.id)"  value="<?php echo $HreDeb_cam; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
+                              <input type="time" class="form-control form-control-modern" id="HreDeb_cam" onchange="postTextSani(this.value, this.id)"  value="<?php echo ($HreDeb_cam ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
                             </span>
                             <label class="form-control" style="width: 100px; max-width: 100px; font-weight: bold; ">Hre fin</label>
                             <span class="input-group-btn">
-                              <input type="time" class="form-control form-control-modern" id="HreFin_cam" onchange="postTextSani(this.value, this.id)" value="<?php echo $HreFin_cam; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold; " required />
+                              <input type="time" class="form-control form-control-modern" id="HreFin_cam" onchange="postTextSani(this.value, this.id)" value="<?php echo ($HreFin_cam ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold; " required />
                             </span>
                             <button type='button'
                               class='btn btn-default btn-sm' style='font-size:18px;' xclass='btn-primary btn'
@@ -200,16 +200,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold; ">Chauffeur</label>
                             <span class="input-group-btn">
                               <select class="form-control form-control-modern" id="idchauffeur" onchange="chgChauffeur(this.value)" style="width: 180px; color: red; font-weight: bold; ">
-                                <?php echo $chauffeurs; ?>
+                                <?php echo ($chauffeurs ?? ''); ?>
                               </select>
                             </span>
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold;color:lightblue ">Hre deb</label>
                             <span class="input-group-btn">
-                              <input type="time" class="form-control form-control-modern" id="HreDeb" onchange="postTextSani(this.value, this.id)" value="<?php echo $HreDeb; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold; " required />
+                              <input type="time" class="form-control form-control-modern" id="HreDeb" onchange="postTextSani(this.value, this.id)" value="<?php echo ($HreDeb ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold; " required />
                             </span>
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold; ">Hre fin</label>
                             <span class="input-group-btn">
-                              <input type="time" class="form-control form-control-modern" onchange="postTextSani(this.value, this.id)" id="HreFin" value="<?php echo $HreFin; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
+                              <input type="time" class="form-control form-control-modern" onchange="postTextSani(this.value, this.id)" id="HreFin" value="<?php echo ($HreFin ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
                             </span>
 
                             <button type='button'
@@ -221,16 +221,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span class="input-group-btn">
                               <select class="form-control form-control-modern" id="idtypeextra" style="width: 180px; color: red; font-weight: bold; ">
                                 <option value="">Choisir</option>
-                                <?php echo $typeextra; ?>
+                                <?php echo ($typeextra ?? ''); ?>
                               </select>
                             </span>
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold;color:lightblue ">Hre deb</label>
                             <span class="input-group-btn">
-                              <input type="time" class="form-control form-control-modern" id="HreDeb_extra" value="<?php echo $HreDeb_extra; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold; " required />
+                              <input type="time" class="form-control form-control-modern" id="HreDeb_extra" value="<?php echo ($HreDeb_extra ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold; " required />
                             </span>
                             <label class="form-control" style="max-width: 100px; width: 100px; font-weight: bold; ">Hre fin</label>
                             <span class="input-group-btn">
-                              <input type="time" class="form-control form-control-modern" id="HreFin_extra" value="<?php echo $HreFin_extra; ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
+                              <input type="time" class="form-control form-control-modern" id="HreFin_extra" value="<?php echo ($HreFin_extra ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold;" required />
                             </span>
 
                             <button type='button'
@@ -241,7 +241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
 
                           <div id="divAide">
-                            <?php echo $aides; ?>
+                            <?php echo ($aides ?? ''); ?>
                           </div>
 
                         </div>
@@ -253,11 +253,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-lg-6">
                           <div class="tabs" style="margin-left:20px;width:1050px">
                             <ul class="nav nav-tabs">
-                              <?php echo $tabsville; ?>
+                              <?php echo ($tabsville ?? ''); ?>
                               
                             </ul>
                             <div class="tab-content">
-                              <?php echo $contentville; ?>
+                              <?php echo ($contentville ?? ''); ?>
                               
                             </div>
                           </div>
@@ -387,7 +387,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     navigator.permissions.query({ name: 'geolocation' }).then(function(result) { console.log('Permission state is ', result.state); });
 
     var typeerr = 'success';
-    var msgerr = "<?php echo $msgerror; ?>";
+    var msgerr = "<?php echo ($msgerror ?? ''); ?>";
     if (msgerr.trim() != '') {
       if (msgerr == 'Une erreur s\'est produite.') {
         typeerr = 'error';

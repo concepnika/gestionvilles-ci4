@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -42,9 +42,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
   <!-- Panneau de contrôle pour saisir l'adresse -->
   <div id="control">
-    <input type="hidden" id="adresse" placeholder="" value="<?php echo $adresse; ?>">
-    <input type="hidden" id="camionLat" placeholder="" value="<?php echo $lat; ?>"> 
-    <input type="hidden" id="camionLng" placeholder="" value="<?php echo $lng; ?>">     
+    <input type="hidden" id="adresse" placeholder="" value="<?php echo ($adresse ?? ''); ?>">
+    <input type="hidden" id="camionLat" placeholder="" value="<?php echo ($lat ?? ''); ?>"> 
+    <input type="hidden" id="camionLng" placeholder="" value="<?php echo ($lng ?? ''); ?>">     
   </div>
   
   <!-- Panneau de contrôle pour saisir l'adresse -->

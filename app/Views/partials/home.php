@@ -128,7 +128,7 @@
     <div>
       <div id="divCeduleHome" class="box-body no-padding" style="min-height:800px;width:1100px;margin-left:30px">
         <?php
-        echo $tdbhome;
+        echo ($tdbhome ?? '');
         ?>
       </div>
       <!-- /.box-body -->
@@ -153,7 +153,7 @@
   <script src="/assets/js/nika.js"></script>
 
   <script>
-    startVerifReqDel = <?php echo $startVerifReqDel; ?>;
+    startVerifReqDel = <?php echo ($startVerifReqDel ?? ''); ?>;
     if (startVerifReqDel == 1) {
       clearTimeout(adminTimeout);
       adminTimeout = setTimeout("_AdminVerif()", 5000);

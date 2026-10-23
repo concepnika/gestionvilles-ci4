@@ -26,7 +26,7 @@
                            </select>
                             <select class="form-control" name="camion" id="camion" required>
                                 <option value="">Choisir</option>
-                                <?php echo $camions ; ?>
+                                <?php echo ($camions ?? '') ; ?>
                             </select>
                             <input id="idsuiviscam" type="hidden" />
                         </div>     
@@ -38,7 +38,7 @@
                           <label style="font-weight: bold; ">Type de matériel</label> <br />
                             <select class="form-control" name="typemat" id="typemat" required>
                                 <option value="">Choisir</option>
-                                <?php echo $typededechet ; ?>
+                                <?php echo ($typededechet ?? '') ; ?>
                             </select>
                         </div>
                         <div class="col-sm-7 col-xs-12"  style="margin-bottom:1%">
@@ -80,7 +80,7 @@
                            </select>
                             <select class="form-control" name="camionhs" id="camionhs" required>
                                 <option value="">Choisir</option>
-                                <?php echo $camions ; ?>
+                                <?php echo ($camions ?? '') ; ?>
                             </select>
                         </div>     
                            <br /> <br />
@@ -130,7 +130,7 @@
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <select class="form-control" name="selRH" id="selRH" required>
                                 <option value="">Choisir</option>
-                                <?php echo $employes ; ?>
+                                <?php echo ($employes ?? '') ; ?>
                             </select>
                             <input id="idsuivisrh" type="hidden" />
                         </div>     
@@ -151,7 +151,7 @@
                           <label style="font-weight: bold; ">Type d'absence</label> <br />
                             <select class="form-control" name="selRHabsence" id="selRHabsence" required>
                                 <option value="">Choisir</option>
-                                <?php echo $typeabsences ; ?>
+                                <?php echo ($typeabsences ?? '') ; ?>
                             </select>
                         </div>     
                            <br /> <br />  
@@ -204,7 +204,7 @@
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <select class="form-control" name="selRHlist" id="selRHlist" required>
                                 <option value="">Choisir</option>
-                                <?php echo $employes ; ?>
+                                <?php echo ($employes ?? '') ; ?>
                             </select>
                             <input id="idsuivisrhlist" type="hidden" />
                         </div>     
@@ -225,7 +225,7 @@
                           <label style="font-weight: bold; ">Type d'absence</label> <br />
                             <select class="form-control" name="selRHabsencelist" id="selRHabsencelist" required>
                                 <option value="">Choisir</option>
-                                <?php echo $typeabsences ; ?>
+                                <?php echo ($typeabsences ?? '') ; ?>
                             </select>
                         </div>     
                            <br /> <br />  

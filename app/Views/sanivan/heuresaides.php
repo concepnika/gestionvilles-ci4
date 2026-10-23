@@ -111,7 +111,7 @@
 		            <section >
                   <div class="modal-body" style="margin-top:37px;">
                     <div class="box-body" style="margin-left:20px;">
-                      <input type="date" style="margin-left: 25px;height: 28px;margin-top:3px;" onchange="LoadRHhresWin()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo $ActiveDate ?>" id="dteRHWin" />
+                      <input type="date" style="margin-left: 25px;height: 28px;margin-top:3px;" onchange="LoadRHhresWin()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteRHWin" />
                       <button type="button" onclick="PrintHresAides()" class="btn btn-primary">
                         <i class="fa fa-download"></i> Imprimer
                       </button>
@@ -132,7 +132,7 @@
                           </tr>
                         </thead>
                         <tbody id="tboRHhres">
-                          <?php echo $listhresaides ; ?>
+                          <?php echo ($listhresaides ?? '') ; ?>
                         </tbody>
                       </table>
                     </div>
@@ -159,7 +159,7 @@
     <script src="/assets/js/nika.js"></script>
 
   <script>
-    selectedDay = "<?php echo $ActiveDate ?>";
+    selectedDay = "<?php echo ($ActiveDate ?? '') ?>";
      $(function () {
     $('#tblproduits').DataTable({
       'paging': true,

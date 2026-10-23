@@ -143,14 +143,14 @@
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
     var base_url = "<?php echo ci3_url()?>";
-    var ActiveDate = "<?php echo $ActiveDate ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
     var dftView = 'basicWeek';
-    var moisseul = "<?php echo $moisseul ?>";
+    var moisseul = "<?php echo ($moisseul ?? '') ?>";
     //-------------------------------------------------------------------------------
     var objData = "";
-    typederamassage = "<?php echo $typederamassage; ?>";
+    typederamassage = "<?php echo ($typederamassage ?? ''); ?>";
     var typecam = 1;
-    var manuel = <?php echo $manuel; ?>;
+    var manuel = <?php echo ($manuel ?? ''); ?>;
     $(document).ready(function () {
 		  $('[data-toggle="popover"]').popover();  
     });
@@ -183,7 +183,7 @@
                   <div class="input-group-addon" style="height:42px"><b>VILLES</b></div>
                   <select class="form-control" style="height:42px" name="optVilles" id="optVilles" onchange="getVille(this.value)">
                       <option value="0">Choisir</option>
-                      <?php echo $optvilles; ?>
+                      <?php echo ($optvilles ?? ''); ?>
                   </select>
                 </div>
 			        </li>  
@@ -196,7 +196,7 @@
                   <div class="input-group-addon" style="height:42px"><b>RAMASSAGES</b></div>
                   <select class="form-control" style="height:42px" name="optRamassages" id="optRamassages">
                       <option value="0">Choisir</option>
-                      <?php echo $optramassages; ?>
+                      <?php echo ($optramassages ?? ''); ?>
                   </select>
                 </div>
 			        </li>  
@@ -291,7 +291,7 @@
     <div  class="row">&nbsp;&nbsp;</div>
          <div id="divShowRev" class="row" style="margin-left: -50px; border-style: solid;max-width:1500px;padding:15px;display:none">
            <div id="divRevenu" class="col-8">
-             <?php echo $revenu; ?>
+             <?php echo ($revenu ?? ''); ?>
            </div>
            <div class="col-12" style="margin-top:15px;">
              <hr style="border-top:2px solid darkblue;" />
@@ -327,7 +327,7 @@
               </button>
               </span>
               <select class="form-control" name="optAnnee" id="optAnnee" onchange="ChangeAnnee(this.value)" >
-                  <?php echo $listyear; ?>
+                  <?php echo ($listyear ?? ''); ?>
               </select>
               <span class="input-group-btn">
                 <button type="button" id="btnNextAnnee" class="btn btn-info btn-flat" onclick="ChangeAnnee(2)" >
@@ -345,7 +345,7 @@
               </button>
               </span>
               <select class="form-control" name="optMois" id="optMois" onchange="ChangeMois(this.value)" >
-                  <?php echo $listmois ; ?>
+                  <?php echo ($listmois ?? '') ; ?>
               </select>
               <span class="input-group-btn">
  
@@ -376,7 +376,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar1">
-                <?php echo $calendrier1; ?>
+                <?php echo ($calendrier1 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -386,7 +386,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar2">
-                <?php echo $calendrier2; ?>
+                <?php echo ($calendrier2 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -396,7 +396,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar3">
-                <?php echo $calendrier3; ?>
+                <?php echo ($calendrier3 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -408,7 +408,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar4">
-                <?php echo $calendrier4; ?>
+                <?php echo ($calendrier4 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -418,7 +418,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar5">
-                <?php echo $calendrier5; ?>
+                <?php echo ($calendrier5 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -428,7 +428,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar6">
-                <?php echo $calendrier6; ?>
+                <?php echo ($calendrier6 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -440,7 +440,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar7">
-                <?php echo $calendrier7; ?>
+                <?php echo ($calendrier7 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -450,7 +450,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar8">
-                <?php echo $calendrier8; ?>
+                <?php echo ($calendrier8 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -460,7 +460,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar9">
-                <?php echo $calendrier9; ?>
+                <?php echo ($calendrier9 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -472,7 +472,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar10">
-                <?php echo $calendrier10; ?>
+                <?php echo ($calendrier10 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -482,7 +482,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar11">
-                <?php echo $calendrier11; ?>
+                <?php echo ($calendrier11 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -492,7 +492,7 @@
             <div class="box box-primary">
             <div class="box-body no-padding">
               <div id="calendar12">
-                <?php echo $calendrier12; ?>
+                <?php echo ($calendrier12 ?? ''); ?>
               </div>
             </div>
           </div>
@@ -567,7 +567,7 @@
     <script src="/assets/fullcalendar/dist/locale/fr-ca.js"></script>
     <script src="/assets/fullcalendar/dist/locale/fr.js"></script>
   <script>
-    var redep = '<?php echo $redep; ?>';
+    var redep = '<?php echo ($redep ?? ''); ?>';
     if (redep == 1) {
       alert("Redeploiement OK")
     }

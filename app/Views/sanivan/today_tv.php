@@ -105,12 +105,12 @@
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
     var base_url = "<?php echo ci3_url()?>";
-    var ActiveDate = "<?php echo $ActiveDate ?>";
-    var activecedule = "<?php echo $typecedule ?>";
-    var ActiveDrop = "<?php echo $ActiveDrop ?>";
-    var notab = "<?php echo $notab ?>";
-    var AideIsShow = "<?php echo $AideIsShow ?>";
-    var from = "<?php echo $from ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
+    var activecedule = "<?php echo ($typecedule ?? '') ?>";
+    var ActiveDrop = "<?php echo ($ActiveDrop ?? '') ?>";
+    var notab = "<?php echo ($notab ?? '') ?>";
+    var AideIsShow = "<?php echo ($AideIsShow ?? '') ?>";
+    var from = "<?php echo ($from ?? '') ?>";
     var activeRH = 1;
     function ConfirmeLoad(Route)
     {
@@ -162,13 +162,13 @@
 
     <div id="divCedule">
       <?php
-                echo $today;
+                echo ($today ?? '');
       ?>
     </div>
     <!-- Horodatage du dernier rendu serveur: permet de verifier d'un
          coup d'oeil que la TV se recharge bien (heure + journee). -->
     <div style="text-align:right;font-size:11px;color:#777;margin-right:10px;">
-      C&eacute;dule du <?php echo $ActiveDate; ?> &mdash; charg&eacute;e &agrave; <?php echo date('H:i:s'); ?>
+      C&eacute;dule du <?php echo ($ActiveDate ?? ''); ?> &mdash; charg&eacute;e &agrave; <?php echo date('H:i:s'); ?>
     </div>
     <!-- /.box-body -->
   </div>
@@ -187,7 +187,7 @@
   <script src="/assets/plugins/iCheck/icheck.min.js"></script>
   <script src="/assets/js/nika.js"></script>
   <script>
-    selectedDay = "<?php echo $ActiveDate ?>";
+    selectedDay = "<?php echo ($ActiveDate ?? '') ?>";
 
 
     function getChauffeur(value) {
@@ -252,7 +252,7 @@
     }
     // Journee actuellement affichee (le serveur force toujours "aujourd'hui"
     // au rendu; cette valeur sert a detecter un changement de jour).
-    var TV_DISPLAYED_DATE = "<?php echo $ActiveDate ?>";
+    var TV_DISPLAYED_DATE = "<?php echo ($ActiveDate ?? '') ?>";
 
     function tvReload() {
       window.location.href = window.location.pathname + '?ts=' + Date.now();

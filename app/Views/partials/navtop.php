@@ -23,7 +23,7 @@
     <ul class="nav navbar-nav">
       <li class="user-header" style="max-height:20px;margin-top:-20px">
         <a href="/admin/quitter" style="max-height:20px;" title="Cliquer pour quitter">
-          <?php echo $nom;?>
+          <?php echo ($nom ?? '');?>
           <i class="fa fa-close" style="font-size:18px; color:red"></i>
         </a>
 

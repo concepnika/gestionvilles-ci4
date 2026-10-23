@@ -12,7 +12,7 @@
                     <div class="input-group">
                       <div class="input-group-addon">
                         <label>Date</label>
-                        <input type="date" class="form-control pull-right" title="Cliquer pour afficher le calendrier" value="<?php echo $ActiveDate; ?>" id="dteCalcul" />
+                        <input type="date" class="form-control pull-right" title="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? ''); ?>" id="dteCalcul" />
                       </div>
                       <div class="input-group-addon">
                         <button type="button" class="btn btn-primary pull-right" onclick="CalculJour()" style="margin: 6px;">
@@ -33,7 +33,7 @@
               
           <div class="box box-primary">
 
-                    <?php echo $validsanivan ; ?>
+                    <?php echo ($validsanivan ?? '') ; ?>
 
 </div>
         </div>
