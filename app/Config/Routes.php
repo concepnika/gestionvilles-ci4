@@ -495,6 +495,12 @@ $routes->match(['get', 'post'], 'co_tablette_sani', 'TabletteSani::index');
 $routes->match(['get', 'post'], 'co_tablette_sani/(:segment)', 'TabletteSani::$1');
 $routes->match(['get', 'post'], 'co_tablette_sani/(:segment)/(:any)', 'TabletteSani::$1/$2');
 
+// ─── Fallback : tout le reste est relaye a CI3 (proxy interne) ───────
+// Doit rester la DERNIERE route. Couvre les assets du docroot CI3
+// (upload/*, images, js...), les chemins non declares et toute URL
+// qui n'a pas de correspondance CI4.
+$routes->add('(:any)', 'Proxy::pass');
+
 // Non portés — restent servis par CI3 (voir MIGRATION.md) :
 //   rapport/sani/(:any)/(:num)      → getSaniReport (machinerie CamDay ~850 lignes)
 //   rapport/sani/excel/(:any)       → exportSaniExcel (PHPExcel → PhpSpreadsheet séparé)

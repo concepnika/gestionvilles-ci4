@@ -28,7 +28,9 @@ gestionvillesci4.local   → CI4  (DocumentRoot e:/devin_projet/gestionvilles-ci
 
 Conséquence : le cookie `ci_session` ne traverse PAS les hôtes. CI4 a
 donc sa **propre authentification** (voir plus bas). Les méthodes non
-portées redirigent vers CI3 en 307.
+portées sont **relayées à CI3 par un proxy interne** (voir plus bas) :
+toute l'application fonctionne sur `gestionvillesci4.local` pendant
+la migration, avec session partagée.
 
 ### Config Apache à recréer sur une nouvelle machine
 
@@ -142,20 +144,32 @@ la correspondance CI3 → classe CI4 :
 | `co_polyline`, `polyline`, `Polyline` | `Polyline` | stubs (fusionnés) |
 | `co_admin`, `co_sessions`, `Co_admin_tags`, `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`, `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`, `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` | mêmes noms PascalCase | stubs |
 
-**Mécanisme de stub** : `BaseController::toCi3()` → `redirect()->to(
-'http://gestionvilles.local' + path + query, 307)` (307 préserve méthode
-et corps POST). Chaque méthode non portée = `public function x(...$args) { return $this->toCi3(); }`.
+**Mécanisme de stub — proxy interne** : `BaseController::toCi3()`
+exécute la même requête sur `http://gestionvilles.local` via
+`Services::curlrequest()` (méthode, corps et en-têtes Cookie/
+Content-Type/Accept/X-Requested-With/Referer/User-Agent relayés) puis
+renvoie statut + en-têtes + corps de la réponse CI3 :
+
+- `Location` et les URLs `gestionvilles.local` dans les corps
+  HTML/JSON/texte sont réécrites en `gestionvillesci4.local` → la
+  navigation reste sur l'hôte CI4.
+- `Set-Cookie` est relayé sans `domain` → `ci_session` s'applique à
+  l'hôte CI4 → **session partagée CI3↔CI4** (une ligne `ci_sessions`
+  lue par les deux apps).
+- Route catch-all `(:any)` → `Proxy::pass` en fin de `Routes.php` :
+  relaie aussi les assets du docroot CI3 (`upload/*`, images, JS) et
+  toute URL non déclarée.
 
 **Pour porter une méthode** : remplacer `return $this->toCi3();` par
 l'implémentation réelle dans le contrôleur CI4 — les routes sont déjà
 en place, aucune modif de Routes.php nécessaire.
 
-### Limites connues du stub
+### Limites connues du proxy
 
-- Le 307 renvoie vers CI3 qui exigera **sa propre session** (cookie par
-  hôte) → l'usager devra être connecté sur `gestionvilles.local` aussi.
-- Les POST AJAX cross-origin vers `gestionvilles.local` échoueront sans
-  CORS côté CI3 (les POST de formulaire classiques suivent le 307).
+- Le proxy dépend de la config DNS locale : `gestionvilles.local` doit
+  résoudre vers 127.0.0.1 (fichier hosts) et le vhost CI3 doit tourner.
+- `Accept-Language` est relayé — `Co_ville::index` boucle en 307 sans
+  cet en-tête (comportement CI3 normal, voir MIGRATION.md).
 - Routes exclues volontairement : `admin/(:any)` (commentée en CI3),
   `default_controller` (CI3 → `Co_ville`; CI4 garde `/` → `Home::index`,
   page statut).
