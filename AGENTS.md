@@ -159,6 +159,17 @@ renvoie statut + en-têtes + corps de la réponse CI3 :
 - Route catch-all `(:any)` → `Proxy::pass` en fin de `Routes.php` :
   relaie aussi les assets du docroot CI3 (`upload/*`, images, JS) et
   toute URL non déclarée.
+- **Piège sess_match_ip** : CI3 a `sess_match_ip = true` et le hosts
+  local mappe `gestionvilles.local` sur `::1` ET `127.0.0.1`. Le proxy
+  appelle donc `http://127.0.0.1` + `Host: gestionvilles.local` pour
+  garantir une IP source constante — sinon CI3 invalide la session à
+  chaque bascule IPv4/IPv6 (redirection vers `/`).
+- **Format id session** : les ids `ci_sessions` CI3 font 32 chars
+  `[0-9a-v]` (sid_bits=5). `Ci3Session::create()` reproduit ce format
+  et enregistre `ip_address = '127.0.0.1'` (l'IP que CI3 voit via le
+  proxy), sinon CI3 rejetterait la session lors des appels proxies.
+  Une session créée avant ce correctif (ip `::1`) est invalide →
+  se reconnecter.
 
 **Pour porter une méthode** : remplacer `return $this->toCi3();` par
 l'implémentation réelle dans le contrôleur CI4 — les routes sont déjà

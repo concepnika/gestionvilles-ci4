@@ -60,13 +60,16 @@ abstract class BaseController extends Controller
     protected function toCi3()
     {
         $uri = $this->request->getUri();
-        // getPath() peut inclure /index.php/ (rewrite vhost) — on le retire
-        $target = 'http://gestionvilles.local' . preg_replace('#^/index\.php#i', '', $uri->getPath());
+        // 127.0.0.1 + Host: gestionvilles.local — l'IP source est
+        // TOUJOURS 127.0.0.1 : indispensable car CI3 a sess_match_ip
+        // = true (le hosts a a la fois ::1 et 127.0.0.1 ; en IPv6 la
+        // session serait invalidee a chaque bascule).
+        $target = 'http://127.0.0.1' . preg_replace('#^/index\.php#i', '', $uri->getPath());
         if (($query = $uri->getQuery()) !== '') {
             $target .= '?' . $query;
         }
 
-        $headers = [];
+        $headers = ['Host' => 'gestionvilles.local'];
         foreach (['Cookie', 'Content-Type', 'Accept', 'Accept-Language',
                   'X-Requested-With', 'Referer', 'User-Agent'] as $h) {
             $header = $this->request->header($h);

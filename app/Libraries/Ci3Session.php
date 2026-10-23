@@ -67,8 +67,16 @@ class Ci3Session
     public function create(array $data): void
     {
         self::$loaded = true;
-        self::$sessionId = bin2hex(random_bytes(20));
-        self::$ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
+        // Format d'id CI3 : 32 caracteres [0-9a-v] (sid_bits=5) —
+        // un id 40-hex serait rejete par CI3 lors des appels proxies.
+        $alphabet = '0123456789abcdefghijklmnopqrstuv';
+        self::$sessionId = '';
+        for ($i = 0; $i < 32; $i++) {
+            self::$sessionId .= $alphabet[random_int(0, 31)];
+        }
+        // IP vue par CI3 via le proxy interne (sess_match_ip = true) :
+        // toutes les requetes proxies partent de 127.0.0.1.
+        self::$ipAddress = '127.0.0.1';
         self::$data = $data;
 
         Database::connect()->table(self::TABLE)->insert([
