@@ -136,7 +136,7 @@ la correspondance CI3 → classe CI4 :
 
 | CI3 | CI4 | État |
 |---|---|---|
-| `co_gestion` | `Gestion` (extends `Login`) | auth portée ; `GotoHome` porté ; ~174 stubs |
+| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` portés ; ~173 stubs |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | stubs |
@@ -187,11 +187,20 @@ en place, aucune modif de Routes.php nécessaire.
   dans le contrôleur avant `view()`.
 - **`App\Models\Ci3Model`** : base des modèles portés — fournit
   `$this->db` (connexion CI4, API quasi identique CI3), `$this->input`
-  (post_get/get/post), `$this->data`/`objData`, `JourDeSemaine`,
-  `$this->sess()`. Les requêtes SQL CI3 se copient telles quelles
-  (`->result()` → `->getResult()`, `->row()` → `->getRow()`).
-- **`CedulesModel`** / **`CreationcdModel`** : ports partiels — ne
-  copier que les méthodes utilisées par la page en cours de port.
+  (post_get/get/post), `$this->session` (adaptateur userdata/set_userdata/
+  has_userdata + magic `->email`), `$this->data`/`objData`,
+  `JourDeSemaine`, `$this->sess()`.
+- **`port_model.php`** (racine) : `php port_model.php Cedules_model`
+  copie un modèle CI3 ENTIER vers `app/Models/XModel.php` avec
+  transformation mécanique (classe, loaders, `load->model` →
+  `new XModel()`, session, `result()/row()/num_rows()` → API CI4,
+  `private $` → `protected $`, `new stdClass` → `new \stdClass`,
+  Query Builder `db->insert/update/set/get_where` → `table()`).
+  `CedulesModel`/`CreationcdModel`/`RequetesModel` sont des ports
+  complets ainsi générés — **NE PAS éditer à la main**, relancer le
+  script (les modifs manuelles sont perdues).
+- ⚠️ Reste dans les modèles portés : `$this->upload` (Requetes) non
+  adapté — les méthodes upload fatalement si appelées.
 - **Vues portées** : `auth/login` (= login2), `partials/{home,navtop,
   navleft}`, `sections/{menu,inc_pop_up_gen}`.
 - ⚠️ La debugbar CI4 s'injecte dans toutes les réponses HTML

@@ -34,14 +34,56 @@ abstract class Ci3Model
     /** @var \App\Libraries\Ci3Session */
     protected $ci3session;
 
-    /** @var array (equiv. $this->JourDeSemaine CI3) */
-    protected array $JourDeSemaine = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
+    /** @var object adaptateur de $this->session CI3 (magic userdata) */
+    protected $session;
+
+    /** @var array (equiv. $this->JourDeSemaine CI3 — non type :
+     * les classes portees le redeclarent sans type) */
+    protected $JourDeSemaine = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
 
     public function __construct()
     {
         $this->db = Database::connect();
         $this->objData = new \stdClass();
         $this->ci3session = new \App\Libraries\Ci3Session();
+        helper(['ci3view', 'text']);
+        $sess = $this->ci3session;
+        $this->session = new class ($sess) {
+            private $s;
+
+            public function __construct($s)
+            {
+                $this->s = $s;
+            }
+
+            /** Magic : $this->session->email (CI3) -> userdata('email') */
+            public function __get(string $key)
+            {
+                return $this->s->get($key);
+            }
+
+            public function userdata(?string $key = null)
+            {
+                return $key === null ? $this->s->user() : $this->s->get($key);
+            }
+
+            public function has_userdata(string $key): bool
+            {
+                return $this->s->get($key) !== null;
+            }
+
+            public function set_userdata($key, $value = null): void
+            {
+                foreach (is_array($key) ? $key : [$key => $value] as $k => $v) {
+                    $this->s->set($k, $v);
+                }
+            }
+
+            public function unset_userdata($keys): void
+            {
+                $this->s->remove($keys);
+            }
+        };
         $this->input = new class {
             public function post_get(string $key)
             {

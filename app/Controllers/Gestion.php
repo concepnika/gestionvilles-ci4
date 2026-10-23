@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\Ci3Session;
 use App\Models\CedulesModel;
 use App\Models\CreationcdModel;
+use App\Models\RequetesModel;
 
 /**
  * Port CI3 -> CI4 de co_gestion.
@@ -135,9 +136,130 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
-    public function showToday(...$args)
+    /**
+     * CI3 : co_gestion/showToday($from, $dateactive) — cedule du jour.
+     * PORTE : from=1 (vue sanivan/today), 8 (today_tv), 99
+     * (cedules_sani), 3 (JSON), 4/5 (JSON), 6/7 (HTML partiel).
+     */
+    public function showToday($from = null, $dateactive = null)
     {
-        return $this->toCi3();
+        $ci3 = new Ci3Session();
+        if (! $ci3->has('email')) {
+            return redirect()->to('/admin/connexion');
+        }
+        $from = (int) $from;
+        $db = \Config\Database::connect();
+        $input = $this->request;
+        helper('ci3view');
+        $cedules = new CedulesModel();
+        $creationcd = new CreationcdModel();
+        $requetes = new RequetesModel();
+
+        $datacd = [];
+        if ($from == 8) {
+            // Page TV: toujours la journee courante, jamais de cache.
+            $date = date_create(date('Y-m-d'));
+            $dateactive = $date->format('Y-m-d');
+            $this->response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+            $this->response->setHeader('Pragma', 'no-cache');
+            $this->response->setHeader('Expires', '0');
+        }
+        $ActiveDate = $dateactive;
+        $dateactive = $db->escape($dateactive);
+        //--------------------------------------------------------------
+        $typerh = $input->getPostGet('typerh') ?? '1,3,4,7';
+        $typerh = (($typerh == 'chauf') ? '1,3,7' : $typerh);
+        $typecam = $input->getPostGet('typecam') ?? 1;
+        $typecedule = $input->getPostGet('typecedule') ?? 1;
+        $activedrop = $input->getPostGet('activedrop') ?? 1;
+        $limit = $input->getPostGet('limit') ?? 0;
+        $notab = $input->getPostGet('notab') ?? 1;
+        $AideIsShow = $input->getPostGet('AideIsShow') ?? 0;
+        //--------------------------------------------------------------
+        if ($from != 5) {
+            $ci3->set('LAST_PAGE', '/sanivan/aujourdhui/1/' . $ActiveDate);
+        } else {
+            $from = 4;
+        }
+        $ci3->set('CHAMP_1', $from);
+        $ci3->set('CHAMP_2', $ActiveDate);
+
+        if (in_array($from, [1, 3, 8, 10, 99], true)) {
+            $data = $creationcd->LoadCreateToday($ActiveDate, $typecedule);
+            $data['employes'] = $cedules->GetAllEmployes('0', '0');
+            $datacd = $cedules->LoadToday($ActiveDate, $from, $activedrop);
+            $data['listhresaides'] = $cedules->getHresAides($ActiveDate, '');
+            $data['updcamion'] = $cedules->GetTypeCamion($typecam);
+            $data['camions'] = $cedules->GetAllCamions($typecam);
+            $data['classstat'] = $requetes->GetAllClassStatut();
+            // $data['requetes'] = $requetes->GetActivesRequetes(); (commente en CI3)
+            $data['requetes'] = '';
+            $data['mnureq'] = $requetes->GetDropActivesRequetes();
+            $data['LastRow'] = $requetes->LastRow;
+            $data['notab'] = $notab;
+            $data['ActiveDate'] = $ActiveDate;
+            $data['typecedule'] = $typecedule;
+            $data['ActiveDrop'] = $activedrop;
+            $data['limitcedule'] = $limit;
+            $data['AideIsShow'] = $AideIsShow;
+            $data['from'] = $from;
+            $data['nom'] = $ci3->get('nom');
+            $data['email'] = $ci3->get('email');
+            $data['typerh'] = $cedules->GetTypeRH($typerh);
+            $dataall = array_merge($data, $datacd);
+            if ($from == 1) {
+                return $this->response->setBody(view('sanivan/today', $dataall));
+            }
+            if ($from == 8) {
+                return $this->response->setBody(view('sanivan/today_tv', $dataall));
+            }
+            if ($from == 99) {
+                return $this->response->setBody(view('sanivan/cedules_sani', $dataall));
+            }
+            if ($from == 3 || $from == 10) {
+                foreach ($dataall as $key => $value) {
+                    $dataall[$key] = mb_convert_encoding(mb_convert_encoding((string) $value, 'ISO-8859-1', 'UTF-8'), 'UTF-8', 'ISO-8859-1');
+                }
+                return $this->response->setBody(json_encode($dataall));
+            }
+        } elseif ($from == 4 || $from == 5) {
+            $data['ShowTransBo'] = 0;
+            $data = $creationcd->LoadCreateToday($ActiveDate, $typecedule);
+            $datacd = $cedules->LoadToday($ActiveDate, $from, $activedrop);
+            $valtofind = $input->getPostGet('valtofind');
+            if ($valtofind == '' || $valtofind === null) {
+                $valtofind = '';
+            } else {
+                $valtofind = $db->escape('%' . $valtofind . '%');
+                $valtofind = " AND (( Select CONCAT (Nom, ', ', left(Prenom, 1) )
+	                      FROM reshumaine where id = suivis.idrh ) LIKE $valtofind )";
+            }
+            $data['employes'] = $cedules->GetAllEmployes('0', '0');
+            $data['listhresaides'] = $cedules->getHresAides(date('Y-m-d'), $valtofind);
+            $data['notab'] = $notab;
+            $data['updcamion'] = $cedules->GetTypeCamion($typecam);
+            $data['ActiveDate'] = $ActiveDate;
+            $data['dtetoday'] = date('Y-m-d');
+            $data['typecedule'] = $typecedule;
+            $data['ActiveDrop'] = $activedrop;
+            $data['limitcedule'] = $limit;
+            $data['AideIsShow'] = $AideIsShow;
+            $data['nom'] = $ci3->get('nom');
+            $data['email'] = $ci3->get('email');
+            $data['typerh'] = $cedules->GetTypeRH($typerh);
+            $dataall = array_merge($data, $datacd);
+            $dataNewHS = $cedules->checkNewInHS();
+            $datapush = array_merge($dataall, $dataNewHS);
+            foreach ($datapush as $key => $value) {
+                $datapush[$key] = mb_convert_encoding(mb_convert_encoding((string) $value, 'ISO-8859-1', 'UTF-8'), 'UTF-8', 'ISO-8859-1');
+            }
+            return $this->response->setBody(json_encode($datapush));
+        } elseif ($from == 6) {
+            return $this->response->setBody($creationcd->LoadCedules($ActiveDate, $typecedule));
+        } elseif ($from == 7) {
+            return $this->response->setBody($cedules->LoadCedules($ActiveDate, 1));
+        }
+        return $this->response->setBody('');
     }
 
     public function showCreateToday(...$args)
