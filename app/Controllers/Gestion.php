@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\Ci3Session;
+use App\Libraries\LibCalendrier;
 use App\Models\CedulesModel;
 use App\Models\CreationcdModel;
 use App\Models\RequetesModel;
@@ -361,9 +362,33 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
+    /**
+     * CI3 : co_gestion/showCedules — calendrier des villes.
+     * PORTE : vue sanivan/villescalendar.
+     */
     public function showCedules(...$args)
     {
-        return $this->toCi3();
+        $ci3 = new Ci3Session();
+        helper('ci3view');
+        $cedules = new CedulesModel();
+        $data = $cedules->GetAllVillesCal();
+        $datacal = $cedules->getCalendrierVille(42);
+        $data['nom'] = $ci3->get('nom');
+        $data['email'] = $ci3->get('email');
+        $dataall = array_merge($data, $datacal);
+        // Variables lues par villescalendar que CI3 tolerait en
+        // undefined : on les initialise vides.
+        $dataall += [
+            'moisseul' => '', 'typederamassage' => '', 'redep' => '',
+            'manuel' => '', 'revenu' => '', 'nomenclature' => '',
+            'optramassages' => '', 'secteurs' => '', 'ActiveDate' => date('Y-m-d'),
+            'listmois' => '', 'listyear' => '', 'optvilles' => '',
+        ];
+        for ($i = 1; $i <= 12; $i++) {
+            $dataall += ['calendrier' . $i => ''];
+        }
+        $ci3->set('LAST_PAGE', 5);
+        return $this->response->setBody(view('sanivan/villescalendar', $dataall));
     }
 
     public function CalendrierDesVilles(...$args)
@@ -371,9 +396,69 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
+    /**
+     * CI3 : co_gestion/infoVille — infos + calendriers d'une ville
+     * (12 mois glissants ou mois seul). PORTE.
+     */
     public function infoVille(...$args)
     {
-        return $this->toCi3();
+        $ci3 = new Ci3Session();
+        helper('ci3view');
+        $input = $this->request;
+        $idville = $input->getPostGet('idville');
+        $activeDate = $input->getPostGet('selectedDay');
+        $redep = $input->getPostGet('redep');
+        if ($input->getPostGet('from') == '2') {
+            $activeDate = date('Y-m-d');
+        }
+        $arrMois = explode('-', $activeDate) + [1 => null];
+        $typederamassage = $input->getPostGet('typederamassage');
+        $cal = new LibCalendrier();
+
+        $data = [];
+        if ($input->getPostGet('moisseul') == '1') {
+            $data = $cal->getCalendrierVille($idville, $activeDate, '');
+        } else {
+            $idmois = 1;
+            for ($iter = (int) $arrMois[1]; $iter <= 13; $iter++) {
+                if ($iter == $arrMois[1]) {
+                    $data = $cal->getCalendrierVille($idville, $activeDate, $idmois);
+                } else {
+                    if ($iter == 13) {
+                        $arrMois[0]++;
+                        $arrMois[1] = '01';
+                        $iter = 1;
+                    } else {
+                        $arrMois[1] = $iter;
+                    }
+                    $dataall = $cal->getCalendrierVille($idville, $arrMois[0] . '-' . $arrMois[1] . '-01', $idmois);
+                    $data['calendrier' . $idmois] = $dataall['calendrier' . $idmois];
+                }
+                $idmois++;
+                if ($idmois > 12) {
+                    break;
+                }
+            }
+        }
+        $data['redep'] = ($redep == 1) ? $redep : '';
+        $data['chauffeurs'] = '';
+        $data['aides'] = '';
+        $data['camions'] = '';
+        $data['nom'] = $ci3->get('nom');
+        $data['email'] = $ci3->get('email');
+        $data['field_RE'] = '';
+        $data['moisseul'] = $input->getPostGet('moisseul');
+        $data['field_ROBOT'] = '';
+        $data['ActiveDate'] = $activeDate;
+        $data['typederamassage'] = $typederamassage;
+        $ci3->set('LAST_PAGE', 2);
+        if ($input->getPostGet('from') == '1') {
+            return $this->response->setBody(json_encode($data));
+        }
+        if ($input->getPostGet('moisseul') == '1') {
+            return $this->response->setBody(view('sanivan/villescalendarMois', $data));
+        }
+        return $this->response->setBody(view('sanivan/villescalendar', $data));
     }
 
     public function postRevenu(...$args)
@@ -391,19 +476,280 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
+    /**
+     * CI3 : co_gestion/postCalDeploie — deploiement de ramassages en
+     * frequence (hebdo, 2 sem., 1er/2e/3e jour du mois). PORTE.
+     */
     public function postCalDeploie(...$args)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $input = $this->request;
+        $arrday = [];
+        $idville = $input->getPostGet('idville');
+        $typecam = $db->escape($input->getPostGet('typecam'));
+        $activeDate = $input->getPostGet('selectedDay');
+        $startDate = new \DateTime($input->getPostGet('dtestartdeploie'));
+        $endDate = new \DateTime($input->getPostGet('dteenddeploie'));
+        $frequence = $input->getPostGet('frequence');
+        $typederamassage = $db->escape($input->getPostGet('typederamassage'));
+        if ($input->getPostGet('lun') == 1) {
+            $arrday['lun'] = 'Mon';
+        }
+        if ($input->getPostGet('mar') == 1) {
+            $arrday['mar'] = 'Tue';
+        }
+        if ($input->getPostGet('mer') == 1) {
+            $arrday['mer'] = 'Wed';
+        }
+        if ($input->getPostGet('jeu') == 1) {
+            $arrday['jeu'] = 'Thu';
+        }
+        if ($input->getPostGet('ven') == 1) {
+            $arrday['ven'] = 'Fri';
+        }
+        $this->FrequenceDeploie($idville, $arrday, $startDate, $endDate, $typecam, $typederamassage, $frequence);
+        return $this->infoVille();
     }
 
-    public function postDaySanivan(...$args)
+    /**
+     * CI3 : co_gestion/postDaySanivan — ajout d'un ramassage au
+     * calendrier d'une ville (cree grp_cedules + cedule). PORTE.
+     */
+    public function postDaySanivan($idville = null)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $input = $this->request;
+        $returnval = '';
+        $typecam = $db->escape($input->getPostGet('typecam'));
+
+        $activeDate = $input->getPostGet('selectedDay');
+        $annee = substr($activeDate, 0, 4);
+        $mois = substr($activeDate, 4, 2);
+        $jour = substr($activeDate, -2);
+        $dateToScroll = $db->escape($annee . '-' . $mois . '-' . $jour);
+        $typederamassage = $db->escape($input->getPostGet('typederamassage'));
+        $strSQL = "SELECT Id, idville, Dateramassage, TypeRamassage
+	                    FROM tblvillesdateramassage
+	                     WHERE Dateramassage = $dateToScroll AND idville = $idville
+	                      AND TypeRamassage = $typederamassage AND typecam = $typecam";
+        $calendrier = $db->query($strSQL);
+        $num_row = $calendrier->getNumRows();
+        if ($num_row == 0) {
+            $strSQL = "INSERT INTO tblvillesdateramassage
+	                  (idville, Dateramassage, TypeRamassage, typecam)
+	                  VALUES ($idville, $dateToScroll, $typederamassage, $typecam)";
+            $db->query($strSQL);
+            $strSQL = "SELECT (MAX(ARow) + 1) AS MaxRow FROM grp_cedules
+                              WHERE datejour = $dateToScroll AND `TypeCedule` = $typecam";
+            $grp = $db->query($strSQL)->getRow(0);
+            $arow = (! isset($grp->MaxRow)) ? 1 : $grp->MaxRow;
+
+            $strSQL = "INSERT INTO grp_cedules
+	              (datejour, idvilles, ACol, ARow, TypeCedule, TypeDechet)
+	              VALUES ($dateToScroll, $idville, 1, $arow, $typecam, $typederamassage)";
+            $db->query($strSQL);
+            $strSQL = 'SELECT LAST_INSERT_ID() as id';
+            $result = $db->query($strSQL)->getRow(0);
+            $idgrp = $result->id;
+            $strSQL = "INSERT INTO cedules
+	                      (DateJour, idvilles, TypeCedule, idgrp, TypeDeProduit, idchauffeurs)
+	                    VALUES ($dateToScroll, $idville, $typecam, $idgrp,
+                            (SELECT Nom FROM typededechet WHERE id = $typederamassage), 27)";
+            $db->query($strSQL);
+        }
+        $returnval .= '<table> <tr>
+														<td valign="top" align="right" >
+														<label onclick="AddRamassage(' . $activeDate . ')" ondrop="dropCollecte(event, ' . intval($jour) . ')" ondragover="allowDrop(event)" class="form-control tdjour">' . $jour . '</label> </td> </tr>';
+        $strSQL = "SELECT tblvillesdateramassage.Id, idville, Dateramassage, TypeRamassage,typecam,
+(SELECT typededechet.couleur FROM typededechet WHERE typededechet.id = tblvillesdateramassage.TypeRamassage) AS couleur,
+(SELECT typededechet.textcolor FROM typededechet WHERE typededechet.id = tblvillesdateramassage.TypeRamassage) AS textcolor
+													FROM tblvillesdateramassage INNER JOIN ville
+															ON tblvillesdateramassage.idville = ville.id
+															WHERE idville = $idville AND MONTH(Dateramassage) = MONTH($dateToScroll)
+																									AND YEAR(Dateramassage) = YEAR($dateToScroll)
+																									and DAY(Dateramassage) = " . intval($jour) . " order by tblvillesdateramassage.Id";
+        $calendrier = $db->query($strSQL);
+        foreach ($calendrier->getResult() as $row) {
+            $titre = '';
+            $titre = (($row->typecam == 1) ? 'RE' : 'RO');
+            $returnval .= '<tr id="tr_' . $dateToScroll . '_' . $row->Id . '">
+								<td class="tdinfo"><div id="divCollecte_' . $annee . $mois . $jour . '_' . $row->Id . '" class="btn btn-default" draggable="true" ondragstart="drag(event)" onclick="showInfoRanmassage(' . $row->Id . ')"
+										style="min-width:60px;width:40px;height:30px;font-size:medium;background-color:' . $row->couleur . ';color:' . $row->textcolor . ';font-weight:bold;text-align:center;">' . $titre . '</div></td>
+							</tr>';
+        }
+        $returnval .= '</table>';
+        return $this->response->setBody($returnval);
     }
 
+    /**
+     * CI3 : co_gestion/removeCalDeploie — suppression des ramassages
+     * deployes (tblvillesdateramassage + cedules + grp_cedules). PORTE.
+     */
     public function removeCalDeploie(...$args)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $input = $this->request;
+        $idville = $input->getPostGet('idville');
+        $typecam = $db->escape($input->getPostGet('typecam'));
+        $activeDate = $input->getPostGet('selectedDay');
+        $startDate = $db->escape($input->getPostGet('dtestartdeploie'));
+        $endDate = $db->escape($input->getPostGet('dteenddeploie'));
+        $frequence = $input->getPostGet('frequence');
+        $typederamassage = $db->escape($input->getPostGet('typederamassage'));
+        $strSQL = "DELETE FROM tblvillesdateramassage WHERE idville = $idville AND typecam = $typecam
+                    AND TypeRamassage = $typederamassage AND
+                    Dateramassage BETWEEN $startDate AND $endDate";
+        $db->query($strSQL);
+        $strSQL = "DELETE FROM cedules WHERE idvilles = $idville AND `TypeCedule` = $typecam
+                    AND TypeDeProduit =
+						  (SELECT Nom FROM typededechet WHERE id = $typederamassage) AND
+                    DateJour BETWEEN $startDate AND $endDate";
+        $db->query($strSQL);
+        $strSQL = "DELETE FROM grp_cedules WHERE idvilles = $idville AND `TypeCedule` = $typecam
+                    AND TypeDechet = $typederamassage AND
+                    datejour BETWEEN $startDate AND $endDate";
+        $db->query($strSQL);
+        return $this->infoVille();
+    }
+
+    /**
+     * CI3 : co_gestion/FrequenceDeploie (interne) — genere les
+     * ramassages selon la frequence choisie.
+     */
+    private function FrequenceDeploie($idville, $arrday, $startDate, $endDate, $typecam, $typederamassage, $frequence)
+    {
+        $db = \Config\Database::connect();
+        switch ($frequence) {
+            case '1':
+            case '2':
+                $freq = (($frequence == 1) ? "$frequence week" : "$frequence weeks");
+                $interval = \DateInterval::createFromDateString($freq);
+                foreach ($arrday as $jour) {
+                    $datejour = clone $startDate;
+                    $datejour->modify("first $jour of this month");
+                    $daterange = new \DatePeriod($datejour, $interval, $endDate);
+                    foreach ($daterange as $date1) {
+                        $date = $db->escape($date1->format('Y-m-d'));
+                        $strSQL = "INSERT INTO tblvillesdateramassage
+	                    (idville, Dateramassage, TypeRamassage, typecam)
+	                    VALUES ($idville, $date, $typederamassage, $typecam)";
+                        $db->query($strSQL);
+                        $strSQL = "SELECT (MAX(ARow) + 1) AS MaxRow FROM grp_cedules
+                              WHERE datejour = $date AND `TypeCedule` = $typecam";
+                        $grp = $db->query($strSQL)->getRow(0);
+                        $arow = (! isset($grp->MaxRow)) ? 1 : $grp->MaxRow;
+                        $strSQL = "INSERT INTO grp_cedules
+	              (datejour, idvilles, ACol, ARow, TypeCedule, TypeDechet)
+	              VALUES ($date, $idville, 1, $arow, $typecam, $typederamassage)";
+                        $db->query($strSQL);
+                        $strSQL = 'SELECT LAST_INSERT_ID() as id';
+                        $result = $db->query($strSQL)->getRow(0);
+                        $idgrp = $result->id;
+                        $strSQL = "INSERT INTO cedules
+	                      (DateJour, idvilles, TypeCedule, idgrp, TypeDeProduit, idchauffeurs)
+	                    VALUES ($date, $idville, $typecam, $idgrp,
+                            (SELECT Nom FROM typededechet WHERE id = $typederamassage), 27)";
+                        $db->query($strSQL);
+                    }
+                }
+                break;
+            case 3:
+                $freq = "1 month";
+                $interval = \DateInterval::createFromDateString($freq);
+                $daterange = new \DatePeriod($startDate, $interval, $endDate);
+                foreach ($daterange as $date1) {
+                    foreach ($arrday as $jour) {
+                        $date = clone $date1;
+                        $date->modify("first $jour of this month");
+                        $datejour = $db->escape($date->format('Y-m-d'));
+                        $strSQL = "INSERT INTO tblvillesdateramassage
+	                    (idville, Dateramassage, TypeRamassage, typecam)
+	                    VALUES ($idville, $datejour, $typederamassage, $typecam)";
+                        $db->query($strSQL);
+                        $strSQL = "SELECT (MAX(ARow) + 1) AS MaxRow FROM grp_cedules
+                              WHERE datejour = $datejour AND `TypeCedule` = $typecam";
+                        $grp = $db->query($strSQL)->getRow(0);
+                        $arow = (! isset($grp->MaxRow)) ? 1 : $grp->MaxRow;
+                        $strSQL = "INSERT INTO grp_cedules
+	              (datejour, idvilles, ACol, ARow, TypeCedule, TypeDechet)
+	              VALUES ($datejour, $idville, 1, $arow, $typecam, $typederamassage)";
+                        $db->query($strSQL);
+                        $strSQL = 'SELECT LAST_INSERT_ID() as id';
+                        $result = $db->query($strSQL)->getRow(0);
+                        $idgrp = $result->id;
+                        $strSQL = "INSERT INTO cedules
+	                      (DateJour, idvilles, TypeCedule, idgrp, TypeDeProduit, idchauffeurs)
+	                    VALUES ($datejour, $idville, $typecam, $idgrp,
+                            (SELECT Nom FROM typededechet WHERE id = $typederamassage), 27)";
+                        $db->query($strSQL);
+                    }
+                }
+                break;
+            case 4:
+                $freq = "1 month";
+                $interval = \DateInterval::createFromDateString($freq);
+                $daterange = new \DatePeriod($startDate, $interval, $endDate);
+                foreach ($daterange as $date1) {
+                    foreach ($arrday as $jour) {
+                        $date = clone $date1;
+                        $date->modify("second $jour of this month");
+                        $datejour = $db->escape($date->format('Y-m-d'));
+                        $strSQL = "INSERT INTO tblvillesdateramassage
+	                    (idville, Dateramassage, TypeRamassage, typecam)
+	                    VALUES ($idville, $datejour, $typederamassage, $typecam)";
+                        $db->query($strSQL);
+                        $strSQL = "SELECT (MAX(ARow) + 1) AS MaxRow FROM grp_cedules
+                              WHERE datejour = $datejour AND `TypeCedule` = $typecam";
+                        $grp = $db->query($strSQL)->getRow(0);
+                        $arow = (! isset($grp->MaxRow)) ? 1 : $grp->MaxRow;
+                        $strSQL = "INSERT INTO grp_cedules
+	              (datejour, idvilles, ACol, ARow, TypeCedule, TypeDechet)
+	              VALUES ($datejour, $idville, 1, $arow, $typecam, $typederamassage)";
+                        $db->query($strSQL);
+                        $strSQL = 'SELECT LAST_INSERT_ID() as id';
+                        $result = $db->query($strSQL)->getRow(0);
+                        $idgrp = $result->id;
+                        $strSQL = "INSERT INTO cedules
+	                      (DateJour, idvilles, TypeCedule, idgrp, TypeDeProduit, idchauffeurs)
+	                    VALUES ($datejour, $idville, $typecam, $idgrp,
+                            (SELECT Nom FROM typededechet WHERE id = $typederamassage), 27)";
+                        $db->query($strSQL);
+                    }
+                }
+                break;
+            case 5:
+                $freq = "1 month";
+                $interval = \DateInterval::createFromDateString($freq);
+                $daterange = new \DatePeriod($startDate, $interval, $endDate);
+                foreach ($daterange as $date1) {
+                    foreach ($arrday as $jour) {
+                        $date = clone $date1;
+                        $date->modify("third $jour of this month");
+                        $datejour = $db->escape($date->format('Y-m-d'));
+                        $strSQL = "INSERT INTO tblvillesdateramassage
+	                    (idville, Dateramassage, TypeRamassage, typecam)
+	                    VALUES ($idville, $datejour, $typederamassage, $typecam)";
+                        $db->query($strSQL);
+                        $strSQL = "SELECT (MAX(ARow) + 1) AS MaxRow FROM grp_cedules
+                              WHERE datejour = $datejour AND `TypeCedule` = $typecam";
+                        $grp = $db->query($strSQL)->getRow(0);
+                        $arow = (! isset($grp->MaxRow)) ? 1 : $grp->MaxRow;
+                        $strSQL = "INSERT INTO grp_cedules
+	              (datejour, idvilles, ACol, ARow, TypeCedule, TypeDechet)
+	              VALUES ($datejour, $idville, 1, $arow, $typecam, $typederamassage)";
+                        $db->query($strSQL);
+                        $strSQL = 'SELECT LAST_INSERT_ID() as id';
+                        $result = $db->query($strSQL)->getRow(0);
+                        $idgrp = $result->id;
+                        $strSQL = "INSERT INTO cedules
+	                      (DateJour, idvilles, TypeCedule, idgrp, TypeDeProduit, idchauffeurs)
+	                    VALUES ($datejour, $idville, $typecam, $idgrp,
+                            (SELECT Nom FROM typededechet WHERE id = $typederamassage), 27)";
+                        $db->query($strSQL);
+                    }
+                }
+                break;
+        }
     }
 
     public function postDayCamion(...$args)
@@ -596,9 +942,25 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
-    public function getnewDate(...$args)
+    /**
+     * CI3 : co_gestion/getnewDate — jour precedent/suivant. PORTE.
+     */
+    public function getnewDate($nbjour = null, $dateactive = null)
     {
-        return $this->toCi3();
+        $date = date_create($dateactive);
+        switch ($nbjour) {
+            case -1:
+                date_sub($date, date_interval_create_from_date_string("1 day"));
+                $ActiveDate = $date->format('Y-m-d');
+                break;
+            case 1:
+                date_add($date, date_interval_create_from_date_string("1 day"));
+                $ActiveDate = $date->format('Y-m-d');
+                break;
+            default:
+                $ActiveDate = $dateactive;
+        }
+        return $this->response->setBody($ActiveDate);
     }
 
     public function chkLoad(...$args)
@@ -616,9 +978,19 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
+    /**
+     * CI3 : co_gestion/copieCedule — page de copie de cedules.
+     * PORTE (la vue sanivan/copy_cedules est absente aussi en CI3 :
+     * meme comportement d'erreur).
+     */
     public function copieCedule(...$args)
     {
-        return $this->toCi3();
+        $ci3 = new Ci3Session();
+        helper('ci3view');
+        $data['nom'] = $ci3->get('nom');
+        $data['email'] = $ci3->get('email');
+        $ci3->set('LAST_PAGE', 3);
+        return $this->response->setBody(view('sanivan/copy_cedules', $data));
     }
 
     public function excCedule(...$args)
@@ -626,19 +998,69 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
-    public function getWeekCedule(...$args)
+    /**
+     * CI3 : co_gestion/getWeekCedule — fragment HTML des cedules de
+     * la semaine. PORTE.
+     */
+    public function getWeekCedule($radval = null, $dateactive = null)
     {
-        return $this->toCi3();
+        $cedules = new CedulesModel();
+        return $this->response->setBody($cedules->LoadWeekCedules($radval, $dateactive));
     }
 
+    /**
+     * CI3 : co_gestion/postCopyCedule — copie de cedules d'une semaine
+     * a l'autre. PORTE.
+     */
     public function postCopyCedule(...$args)
     {
-        return $this->toCi3();
+        $input = $this->request;
+        $testCheck = $input->getPostGet('r1');
+        if ($testCheck == 1) {
+            $chkRearEnd = 1;
+            $chkRobot = 0;
+        } else {
+            $chkRearEnd = 0;
+            $chkRobot = 1;
+        }
+        $TypeCopy = $input->getPostGet('r2');
+        $dteFrom = $input->getPostGet('dteFrom');
+        $dteTo = $input->getPostGet('dteTo');
+        $cedules = new CedulesModel();
+        $result = $cedules->CopyCeduleTo($chkRearEnd, $chkRobot, $TypeCopy, $dteFrom, $dteTo);
+        $date = date_create($input->getPostGet('dteTo'));
+        date_add($date, date_interval_create_from_date_string("1 days"));
+        $newDate = date_format($date, "Y-m-d");
+        if ($result) {
+            return $this->response->setBody('Votre copie est terminée avec succès pour la semaine du ' . $dteTo);
+        }
+        return $this->response->setBody('Une erreur est survenue. Vous devez supprimer les données qui ont été transféré: semaine du ' . $dteTo);
     }
 
-    public function removeCedule(...$args)
+    /**
+     * CI3 : co_gestion/removeCedule — suppression de cedules sur une
+     * plage de dates (rearend/robot). PORTE.
+     */
+    public function removeCedule($rearend = null, $robot = null, $datedeb = null, $datefin = null)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $typecedule = '';
+        $datedeb = $db->escape($datedeb);
+        $datefin = $db->escape($datefin);
+        if ($rearend == 1) {
+            if ($robot == 1) {
+                $typecedule = ' IN ( 1, 2) ';
+            } else {
+                $typecedule = ' = 1 ';
+            }
+        } else {
+            $typecedule = ' = 2 ';
+        }
+        $strSQL = "DELETE FROM cedules WHERE TypeCedule $typecedule and  DateJour BETWEEN $datedeb AND $datefin";
+        $db->query($strSQL);
+        $strSQL = "DELETE FROM grp_cedules WHERE TypeCedule $typecedule and datejour BETWEEN $datedeb AND $datefin";
+        $db->query($strSQL);
+        return $this->response->setBody('');
     }
 
     public function camionInfo(...$args)

@@ -4737,7 +4737,7 @@ class CedulesModel extends Ci3Model
     $resultLine = $this->db->query($strSQL);
     //-------------------------------------------------------------------------------
     $dteStartDel = $this->db->escape($dteTo);
-    $dteEndDel = new DateTime( $dteTo );
+    $dteEndDel = new \DateTime( $dteTo );
     date_add($dteEndDel,date_interval_create_from_date_string("6 days"));
     $dteEndDel = $this->db->escape(date_format($dteEndDel,"Y-m-d") );
     //-----------------------------------------------------------------
@@ -4866,7 +4866,7 @@ class CedulesModel extends Ci3Model
     /** @var string $newDate */
     $date=date_create($dteTo);
     $dteStartDel = $this->db->escape($dteTo);
-    $dteEndDel = new DateTime( $dteTo );
+    $dteEndDel = new \DateTime( $dteTo );
     date_add($dteEndDel,date_interval_create_from_date_string("6 days"));
     $dteEndDel = $this->db->escape(date_format($dteEndDel,"Y-m-d") );
     if ($TypeCopy == 2)
@@ -5257,7 +5257,7 @@ class CedulesModel extends Ci3Model
     /** @var string $returnval */
     $returnval = '';
 		$intDayOfMonth = date('t');
-		$today = new DateTime('NOW');
+		$today = new \DateTime('NOW');
 		$DayOfWeek = date('Y').'-'.date('m').'-01';
 		$SelectedDate = date('Y').'-'.date('m').'-01';
 		//date_add($today,date_interval_create_from_date_string("1 month"));
@@ -5273,7 +5273,7 @@ class CedulesModel extends Ci3Model
 			$monthtoshow = $arrdate[1];
       $activeMont = intval($arrdate[1]);
       $activeYear = intval($arrdate[0]);
-			$newdate = new DateTime($activeDate.'-01');
+			$newdate = new \DateTime($activeDate.'-01');
 			$intDayOfMonth = $newdate->format('t');
 			$DayOfWeek =  $newdate->format('Y-m-d');
 			$SelectedDate = $newdate->format('Y-m-d');
@@ -5337,7 +5337,7 @@ class CedulesModel extends Ci3Model
 				</tr>';
 		//$returnval = '' ;
 		$DayStart = 1;
-		$dateMonth = new DateTime($DayOfWeek);
+		$dateMonth = new \DateTime($DayOfWeek);
 		$DayOfWeek = date_format($dateMonth, 'w');
 		if (($DayOfWeek == 0) || ( $DayOfWeek == 6)) {
 			//

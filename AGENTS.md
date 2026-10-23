@@ -136,7 +136,7 @@ la correspondance CI3 → classe CI4 :
 
 | CI3 | CI4 | État |
 |---|---|---|
-| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` + AJAX cédule (`UpdCedule`, `PostCedule`/`AddToCedule`, `getHresAides`, `postHHelpers`, `loadChauffeur`, `GetRHToDrop`, `showPrintHresAides`) portés ; ~165 stubs |
+| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` + AJAX cédule + calendrier (`showCedules`, `infoVille`, `postDaySanivan`, `postCalDeploie`/`FrequenceDeploie`, `removeCalDeploie`, `copieCedule`, `getWeekCedule`, `postCopyCedule`, `removeCedule`, `getnewDate`) portés ; ~155 stubs |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | stubs |
@@ -207,6 +207,15 @@ en place, aucune modif de Routes.php nécessaire.
 - ⚠️ `strpos($x, ',', 2)` : PHP 8 lève `ValueError` si offset >
   longueur (CI3/PHP7 retournait false) — garder avec `strlen() > 2`
   lors du port.
+- ⚠️ Variables de vues non fournies : CI3 tolérait les `undefined`,
+  CI4 lève `ErrorException` — initialiser les clés lues par la vue.
+- ⚠️ `explode('-', $d)[1]` : `+ [1 => null]` pour reproduire
+  l'index manquant toléré par CI3.
+- **`App\Libraries\LibCalendrier`** : port de la librairie CI3
+  (`getCalendrierVille` génère le HTML des calendriers par ville).
+- ⚠️ `FrequenceDeploie` case 5 : CI3 utilisait `DateInterval('1 third')`
+  (false → crash) ; le port utilise `'1 month'` + `third X of this
+  month` — intention réelle, déviation assumée.
 - **Vues portées** : `auth/login` (= login2), `partials/{home,navtop,
   navleft}`, `sections/{menu,inc_pop_up_gen}`.
 - ⚠️ La debugbar CI4 s'injecte dans toutes les réponses HTML

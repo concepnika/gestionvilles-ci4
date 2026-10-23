@@ -31,6 +31,8 @@ $rules = [
     ['/class\s+(\w+?)_model\s+extends\s+CI_Model/s' => 'class $1Model extends Ci3Model'],
     // upload : conserver la config via l'adaptateur Ci3Upload
     ['/\$this->load->library\(\s*[\'"]upload[\'"]\s*,\s*(\$\w+)\s*\)\s*;/' => '$this->upload = new \\App\\Libraries\\Ci3Upload($1);'],
+    // classes globales en namespace : new X -> new \X
+    ['/new\s+(?!\\\\)(stdClass|DateTime|Datetime|DateInterval|DatePeriod|Exception|mysqli)\b/' => 'new \\\\$1'],
     // loaders a retirer (database/helper/library sont fournis par Ci3Model)
     ['/\$this->load->(database|helper|library)\s*\([^;]*;/' => ''],
     // load->model("x_model","x") -> $this->x = new XModel()
