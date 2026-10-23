@@ -2,19 +2,54 @@
 
 namespace App\Controllers;
 
+use App\Libraries\Ci3Session;
+use App\Models\CedulesModel;
+use App\Models\CreationcdModel;
+
 /**
- * Squelette du port CI3 -> CI4 de co_gestion.
- * Chaque methode redirige vers gestionvilles.local (CI3) via
- * toCi3() tant qu'elle n'est pas portee — voir MIGRATION.md.
+ * Port CI3 -> CI4 de co_gestion.
+ * Chaque methode non portee est relayee a gestionvilles.local (CI3)
+ * via toCi3() — voir AGENTS.md / MIGRATION.md.
  */
 class Gestion extends Login
 {
     // index(), attempt() et logout() sont herites de Login (deja portes).
 
-    // CI3 : co_gestion/GotoHome
+    /**
+     * CI3 : co_gestion/GotoHome — tableau de bord d'accueil.
+     * PORTE : rend partials/home nativement (session requise).
+     */
     public function GotoHome(...$args)
     {
-        return $this->admin();
+        $ci3 = new Ci3Session();
+        if (! $ci3->has('email')) {
+            return $this->index();
+        }
+
+        helper('ci3view');
+        $cedules = new CedulesModel();
+        $creationcd = new CreationcdModel();
+
+        $data = [
+            'startVerifReqDel' => 0,
+            'havedelcom' => 0,
+            'nom' => $ci3->get('nom'),
+            'email' => $ci3->get('email'),
+            'privilege' => $ci3->get('privilege'),
+            'typeabsences' => $cedules->GetTypeAbsences(),
+            'CamionDrop' => $creationcd->GetHomeCamions(),
+            'ChauffeurDrop' => $creationcd->GetChauffeursToDropHome(date('Y-m-d'), '1'),
+            'AideDrop' => $creationcd->GetAidesToDrop(date('Y-m-d')),
+            'tdbhome' => $creationcd->getTDBHome(),
+            'employes' => $cedules->GetAllEmployes('0', '0'),
+            'camions' => $cedules->GetAllCamions(),
+            'typededechet' => $cedules->GetAllTypeProduits(),
+        ];
+        $data['navtop'] = view('partials/navtop', $data);
+        $data['navleft'] = view('partials/navleft', $data);
+        $ci3->set('LAST_PAGE', '/admin');
+
+        return $this->response->setBody(view('partials/home', $data));
     }
 
     // CI3 : co_gestion/login (cible POST du formulaire de connexion) —

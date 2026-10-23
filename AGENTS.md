@@ -136,7 +136,7 @@ la correspondance CI3 → classe CI4 :
 
 | CI3 | CI4 | État |
 |---|---|---|
-| `co_gestion` | `Gestion` (extends `Login`) | auth portée ; ~175 méthodes en stubs |
+| `co_gestion` | `Gestion` (extends `Login`) | auth portée ; `GotoHome` porté ; ~174 stubs |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | stubs |
@@ -174,6 +174,29 @@ renvoie statut + en-têtes + corps de la réponse CI3 :
 **Pour porter une méthode** : remplacer `return $this->toCi3();` par
 l'implémentation réelle dans le contrôleur CI4 — les routes sont déjà
 en place, aucune modif de Routes.php nécessaire.
+
+### Chaîne de port (outillage en place)
+
+- **`port_view.php`** (racine) : `php port_view.php partials/home ...`
+  copie une vue CI3 vers `app/Views/` avec transformation mécanique
+  (`$this->load->view` → `echo view()`, `userdata` → `ci3sess`,
+  `base_url`/`site_url` → `ci3_url`, `lang->line` → `ci3lang`,
+  `input->post_get` → `ci3in`, garde BASEPATH retirée).
+- **`app/Helpers/ci3view_helper.php`** : `ci3sess()`/`ci3set()`/
+  `ci3lang()`/`ci3_url()`/`ci3in()` — penser à `helper('ci3view')`
+  dans le contrôleur avant `view()`.
+- **`App\Models\Ci3Model`** : base des modèles portés — fournit
+  `$this->db` (connexion CI4, API quasi identique CI3), `$this->input`
+  (post_get/get/post), `$this->data`/`objData`, `JourDeSemaine`,
+  `$this->sess()`. Les requêtes SQL CI3 se copient telles quelles
+  (`->result()` → `->getResult()`, `->row()` → `->getRow()`).
+- **`CedulesModel`** / **`CreationcdModel`** : ports partiels — ne
+  copier que les méthodes utilisées par la page en cours de port.
+- **Vues portées** : `auth/login` (= login2), `partials/{home,navtop,
+  navleft}`, `sections/{menu,inc_pop_up_gen}`.
+- ⚠️ La debugbar CI4 s'injecte dans toutes les réponses HTML
+  (portées ET proxifiées) — `CI_ENVIRONMENT=production` dans `.env`
+  la désactive si elle gêne les tests.
 
 ### Limites connues du proxy
 

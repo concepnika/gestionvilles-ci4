@@ -38,6 +38,26 @@ if (! function_exists('ci3_url')) {
     }
 }
 
+if (! function_exists('ci3set')) {
+    /**
+     * Équivalent de $this->session->set_userdata($key, $value).
+     */
+    function ci3set(string $key, $value): void
+    {
+        (new Ci3Session())->set($key, $value);
+    }
+}
+
+if (! function_exists('ci3in')) {
+    /**
+     * Équivalent de $this->input->post_get($key) dans les vues CI3.
+     */
+    function ci3in(string $key)
+    {
+        return service('request')->getPostGet($key);
+    }
+}
+
 if (! function_exists('ci3lang')) {
     /**
      * Équivalent de $this->lang->line($key). CI3 n'a pas de fichiers
