@@ -223,11 +223,33 @@ en place, aucune modif de Routes.php nécessaire.
   corrections non génériques — ex. init de `$backColor1..3` avant les
   boucles de `getRapportJour`/`getRapportJourRes`/`getValidChauffeurJour`
   (CI3 réutilisait la valeur de l'itération précédente).
-- **Vues portées** : `auth/login` (= login2), `partials/{home,navtop,
-  navleft}`, `sections/{menu,inc_pop_up_gen}`.
-- ⚠️ La debugbar CI4 s'injecte dans toutes les réponses HTML
-  (portées ET proxifiées) — `CI_ENVIRONMENT=production` dans `.env`
-  la désactive si elle gêne les tests.
+- **Vues portées** : ~180 vues via `port_view.php` (toutes sauf
+  `errors/` et `sanivan/index.php` — ce dernier dépend de classes
+  legacy inexistantes `ClassCedule`/`ClassConnect`).
+- Debugbar CI4 **désactivée** (`Filters::$required`) — elle injectait
+  ~28 Ko dans chaque réponse, fragments AJAX inclus.
+- ⚠️ `$this->session->userdata['x']` (forme tableau) en CI3 = accès
+  tableau sur la méthode → **toujours null** (via `__get`). Les vues
+  convertissent vers `ci3sess('userdata')['x'] ?? null` pour garder
+  ce comportement (ex. switch de menu de `partials/calendrier*.php`,
+  dont les vues `menu_supersuser`/`menu_superviseur`/… n'existent
+  pas même en CI3).
+- ⚠️ `Ci3Db` : `query()`/terminaux QB retournent `false` sur
+  `DatabaseException` (contrat CI3 `db_debug=false`) ; erreurs dans
+  `writable/logs`. `getResult()` sur `false` = fatal, comme CI3.
+- Libs PDF legacy (`application/controllers/pdf/*.php`) : incluses
+  via `env('ci3.webroot')` + `chdir()` préalable pour résoudre les
+  chemins relatifs `./assets/`/`./upload/` ; `new \PDF()` global.
+- `APPPATH` CI3 → `env('ci3.webroot') . '/application/'` ;
+  `PHPExcel*` préfixé `\` (classes globales).
+- ⚠️ **PHPExcel incompatible PHP 8** (accolades `$str{0}`) — les
+  exports Excel (`villes/requeteexcel`, `excel/cedule`, `excel/hres`)
+  retournent 500 en CI3 local aussi (parité). En prod PHP ancien
+  ils fonctionnaient ; remplacement nécessaire (PhpSpreadsheet?).
+- ⚠️ Table `requetes` vide en local → `villes/reponsepdf/*` échoue
+  dans les deux apps (parité 500).
+- `sweep.sh` : balayage comparatif CI3 vs CI4 (~60 routes,
+  codes + tailles). `./sweep.sh [filtre]`.
 
 ### Limites connues du proxy
 
@@ -254,11 +276,20 @@ curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 
 ## Reste à faire
 
-- Porter les méthodes stub (ordre recommandé : voir MIGRATION.md
-  « Ordre de migration » — `Co_web_chauffeur`, `Co_ville` en priorité
-  phase 2 ; `co_gestion` en dernier).
-- Porter la vue de login CI3 (`partials/login2` : logo, « Connectez-vous
-  pour débuter votre session », « Mot de passe oublié? »).
+- `co_gestion` est **entièrement porté** (146 méthodes converties via
+  `port_controller.php` + 20 modèles + ~180 vues) et en parité
+  fonctionnelle avec CI3 (balayage `sweep.sh`). Il reste à éprouver
+  les POST réels côté UI (formulaires complets avec données
+  valides) — les tests automatisés couvrent surtout les GET et
+  quelques POST représentatifs.
+- Exports Excel : remplacer PHPExcel (incompatible PHP 8) —
+  `villes/requeteexcel`, `excel/cedule`, `excel/hres`.
+- Porter les autres contrôleurs : `Co_ville`, `Co_web_chauffeur`,
+  `Polyline`, `Co_admin`, `co_sessions`, `Co_admin_tags`,
+  `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`,
+  `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`,
+  `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` (stubs →
+  `toCi3()` pour l'instant).
 - `TabletteSani::loginChauffeur` : `$this->ci3->set()` est un no-op sans
   session existante — appeler `Ci3Session::create()` si `user()` est
   null avant les `set()` (le flow tablette sur l'hôte CI4).

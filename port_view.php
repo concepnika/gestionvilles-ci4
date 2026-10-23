@@ -35,7 +35,11 @@ $rules = [
     ['/unset\(\s*\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\][^)]*\)/' => 'ci3unset(\'$1\')'],
     ['/\$_SESSION\s*\[\s*[\'"]([^\'"]+)[\'"]\s*\]\s*(?<![=<>!])=(?![=>])\s*([^;]+);/' => 'ci3set(\'$1\', $2);'],
     ['/\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\]/' => 'ci3sess(\'$1\')'],
-    ['/\$this->session->userdata\[\s*[\'"]([^\'"]+)[\'"]\s*\]/' => 'ci3sess(\'$1\')'],
+    // userdata['x'] (forme tableau) : en CI3 c'est un acces tableau
+    // sur la methode userdata -> toujours null (via __get). Fidele :
+    // ci3sess('userdata') lit la cle 'userdata' absente -> null.
+    ['/\$this->session->userdata\[\s*[\'"]([^\'"]+)[\'"]\s*\]/'
+        => '(ci3sess(\'userdata\')[\'$1\'] ?? null)'],
     ['/\$this->session->userdata\(\s*[\'"]([^\'"]+)[\'"]\s*\)/' => 'ci3sess(\'$1\')'],
     ['/\$this->session->has_userdata\(\s*[\'"]([^\'"]+)[\'"]\s*\)/' => '(ci3sess(\'$1\') !== null)'],
     ['/\$this->session->set_userdata\(/' => 'ci3set('],

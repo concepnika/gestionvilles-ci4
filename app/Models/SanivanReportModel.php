@@ -10,11 +10,11 @@ namespace App\Models;
 
 
 
-require_once(APPPATH . 'libraries/Sanivan/CamDayEntity.php');
-require_once(APPPATH . 'libraries/Sanivan/CamDayCollection.php');
-require_once(APPPATH . 'libraries/Sanivan/SanivanRepository.php');
-require_once(APPPATH . 'libraries/Sanivan/SanivanCalculator.php');
-require_once(APPPATH . 'libraries/Sanivan/SanivanHtmlBuilder.php');
+require_once(env('ci3.webroot') . '/application/' . 'libraries/Sanivan/CamDayEntity.php');
+require_once(env('ci3.webroot') . '/application/' . 'libraries/Sanivan/CamDayCollection.php');
+require_once(env('ci3.webroot') . '/application/' . 'libraries/Sanivan/SanivanRepository.php');
+require_once(env('ci3.webroot') . '/application/' . 'libraries/Sanivan/SanivanCalculator.php');
+require_once(env('ci3.webroot') . '/application/' . 'libraries/Sanivan/SanivanHtmlBuilder.php');
 
 /**
  * Sanivan_report_model — Orchestrateur du rapport quotidien Sanivan.

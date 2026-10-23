@@ -75,6 +75,13 @@ $rules = [
     ['/->trans_start\(/' => '->transStart('],
     ['/->trans_complete\(/' => '->transComplete('],
     ['/->trans_status\(/' => '->transStatus('],
+    // APPPATH CI3 (application/) -> racine de l'app CI3 via env
+    ['/\bAPPPATH\b/' => 'env(\'ci3.webroot\') . \'/application/\''],
+    // classes PHPExcel (globales legacy) en namespace App\Models —
+    // uniquement en contexte de classe (new X / X::), pas dans les
+    // chaines comme '/libraries/PHPExcel.php'
+    ['/\bnew\s+(?!\\\\)(PHPExcel\w*)\b/' => 'new \\\\$1'],
+    ['/(?<![\\\\\w])(PHPExcel\w*)::/' => '\\\\$1::'],
 ];
 
 /**

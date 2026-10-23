@@ -9,7 +9,7 @@ namespace App\Models;
  */
 
 
-require_once APPPATH . '/libraries/PHPExcel.php';
+require_once env('ci3.webroot') . '/application/' . '/libraries/PHPExcel.php';
 /**
  * @name: Login model
  * @author: Serge Dallaire
@@ -64,7 +64,7 @@ class ExcelModel extends Ci3Model
    */
   public function LoadCedules ($dateactive, $from)
 	{
-    $objPHPExcel = new PHPExcel();
+    $objPHPExcel = new \PHPExcel();
     $objPHPExcel->setActiveSheetIndex(0);
 		//----------------------------------------------------------------------
     $colTypeCedule = 0;
@@ -112,8 +112,8 @@ class ExcelModel extends Ci3Model
       $end = ($nbcolcedule * $nbCol) + $ActiveCol - 1;
       $objPHPExcel->getActiveSheet()->mergeCells($this->Alphabet[$colTypeCedule].'1'.':'.$this->Alphabet[$end].'1');
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$colTypeCedule].'1', (($typecedule->TypeCedule == 1)? 'REAR END' : 'ROBOT'));
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($typecedule->TypeCedule == 1)? 'FF00FFFF' : 'FFD2691E'));
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($typecedule->TypeCedule == 1)? 'FF00FFFF' : 'FFD2691E'));
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getFont()->setBold(true);
       $colTypeCedule = ($nbcolcedule * $nbCol);
       /** @var object $row */
@@ -121,13 +121,13 @@ class ExcelModel extends Ci3Model
       {
         $activestartcol = $ActiveCol;
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'CAM');
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(9);
         $ActiveCol++;
         //-----------------------------------
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'CHAUFFEUR');
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
         $ActiveCol++;
@@ -135,14 +135,14 @@ class ExcelModel extends Ci3Model
         if ($typecedule->TypeCedule == 1)
         {
           $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'AIDE');
-          $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+          $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
           $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
           $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
           $ActiveCol++;
         }
         //-----------------------------------
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'SECTEUR');
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
         $ActiveCol++;
@@ -175,7 +175,7 @@ class ExcelModel extends Ci3Model
         $this->getLignesCedule($resultLine, $GrpID, $activestartcol, $objPHPExcel);
       }
     }
-    $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
     $filename = "./upload/cedule_'.$activedate.xlsx";
     $objWriter->save($filename);
@@ -191,7 +191,7 @@ class ExcelModel extends Ci3Model
    */
   public function LoadRollOff ($dateactive, $from)
 	{
-    $objPHPExcel = new PHPExcel();
+    $objPHPExcel = new \PHPExcel();
     $objPHPExcel->setActiveSheetIndex(0);
 		//----------------------------------------------------------------------
     $colTypeCedule = 0;
@@ -239,8 +239,8 @@ class ExcelModel extends Ci3Model
       $end = ($nbcolcedule * $nbCol) + $ActiveCol - 1;
       $objPHPExcel->getActiveSheet()->mergeCells($this->Alphabet[$colTypeCedule].'1'.':'.$this->Alphabet[$end].'1');
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$colTypeCedule].'1', (($typecedule->TypeCedule == 1)? 'REAR END' : 'ROBOT'));
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($typecedule->TypeCedule == 1)? 'FF00FFFF' : 'FFD2691E'));
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($typecedule->TypeCedule == 1)? 'FF00FFFF' : 'FFD2691E'));
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$colTypeCedule].'1')->getFont()->setBold(true);
       $colTypeCedule = ($nbcolcedule * $nbCol);
       /** @var object $row */
@@ -248,13 +248,13 @@ class ExcelModel extends Ci3Model
       {
         $activestartcol = $ActiveCol;
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'CAM');
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(9);
         $ActiveCol++;
         //-----------------------------------
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'CHAUFFEUR');
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
         $ActiveCol++;
@@ -262,14 +262,14 @@ class ExcelModel extends Ci3Model
         if ($typecedule->TypeCedule == 1)
         {
           $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'AIDE');
-          $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+          $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
           $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
           $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
           $ActiveCol++;
         }
         //-----------------------------------
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'2', 'SECTEUR');
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
         $ActiveCol++;
@@ -302,7 +302,7 @@ class ExcelModel extends Ci3Model
         $this->getLignesCedule($resultLine, $GrpID, $activestartcol, $objPHPExcel);
       }
     }
-    $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
     $filename = "./upload/cedule_'.$activedate.'xlsx";
     $objWriter->save($filename);
@@ -367,8 +367,8 @@ class ExcelModel extends Ci3Model
         $span = $ActiveCol + (($row->TypeCedule == 2)? '3' : '4');
         $objPHPExcel->getActiveSheet()->mergeCells($this->Alphabet[$ActiveCol].$iterRow.':'.$this->Alphabet[$span - 1].$iterRow);
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, $row->nomville);
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FF'.substr($row->couleurville, 1));
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('FF'.substr($row->couleurville, 1));
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
         $GrpID = $row->idgrp;
         $iterRow++;
@@ -383,20 +383,20 @@ class ExcelModel extends Ci3Model
         $backColor = 'FFFFFF00' ;
       }
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, ((($cam == 'Cam') or (trim($cam) == ''))? '?' : $row->NOCAMION ));
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(9);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($backColor != '')? $backColor : 'FFFFFFFF'));
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($backColor != '')? $backColor : 'FFFFFFFF'));
       $ActiveCol++;
       if ($row->chaufconfirme == 1)
       {
         $backColor = 'FFFFFF00' ;
       }
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, substr( $row->chauffeur, 0,20));
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($backColor != '')? $backColor : 'FFFFFFFF'));
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($backColor != '')? $backColor : 'FFFFFFFF'));
       $ActiveCol++;
       if ($row->helperconfirme == 1)
       {
@@ -405,21 +405,21 @@ class ExcelModel extends Ci3Model
       if ($row->TypeCedule == 1)
       {
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, substr( $row->aide1, 0,20));
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($backColor != '')? $backColor : 'FFFFFFFF'));
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB((($backColor != '')? $backColor : 'FFFFFFFF'));
         $ActiveCol++;
         //-------------------------------
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, substr( $row->Secteur, 0,20));
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
       }
       else
       {
         $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, substr( $row->Secteur, 0,20));
-        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
       }
@@ -429,7 +429,7 @@ class ExcelModel extends Ci3Model
   }
   public function getHresAides($dateactive, $strWhere)
   {
-    $objPHPExcel = new PHPExcel();
+    $objPHPExcel = new \PHPExcel();
     $objPHPExcel->setActiveSheetIndex(0);
     $arrHresPM = array('11:00','11:15','11:30',
                         '11:45','12:00','12:15','12:30','12:45','13:00','13:15','13:30','13:45','14:00',
@@ -440,37 +440,37 @@ class ExcelModel extends Ci3Model
     $iterRow = 0;
     $dateactive = $this->db->escape($dateactive);
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'1', 'Aides');
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(20);
     $ActiveCol++;
     //-----------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'1', 'Début');
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
     $ActiveCol++;
     //-----------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'1', 'Fin');
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
     $ActiveCol++;
     //-----------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'1', 'Pause');
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
     $ActiveCol++;
     //-----------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'1', 'Note');
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(25);
     $ActiveCol++;
     //-----------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].'1', 'Hres');
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].'1')->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(16);
     $ActiveCol++;
@@ -489,38 +489,38 @@ class ExcelModel extends Ci3Model
     foreach($ville->getResult() as $row)
     {
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, $row->NomComplet);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(20);
       $ActiveCol++;
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, $row->StartTime);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(10);
       $ActiveCol++;
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, $row->EndTime);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(10);
       $ActiveCol++;
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, $row->pause);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(10);
       $ActiveCol++;
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, $row->note);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(30);
       $ActiveCol++;
       $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[$ActiveCol].$iterRow, $row->HrsTrav);
-      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[$ActiveCol].$iterRow)->getFont()->setBold(true);
       $objPHPExcel->getActiveSheet()->getColumnDimension($this->Alphabet[$ActiveCol])->setWidth(30);
       $ActiveCol = 0;
       $iterRow++;
     }
-    $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
     $filename = "./upload/heures_aides_'.$dateactive.xlsx";
     $objWriter->save($filename);
@@ -565,7 +565,7 @@ class ExcelModel extends Ci3Model
     else if ( ( strpos(strtolower($filename),'.xls' ) == true ) ||
             ( strpos(strtolower($filename),'.xlsx' ) == true )   )
     {
-      $objPHPExcel = PHPExcel_IOFactory::load('./upload/'.$filename);
+      $objPHPExcel = \PHPExcel_IOFactory::load('./upload/'.$filename);
       $objPHPExcel->setActiveSheetIndexByName('2021');
       /** @var int $ACol */
 
@@ -754,7 +754,7 @@ class ExcelModel extends Ci3Model
       $returnval .= '<table class="table table-bordered table-hover"   >
 	                        	    <thead>  <tr>    '.((trim($ligne1) == '') ? '' : $ligne1) .' </tr>    </thead>
 	                        	<tbody>';
-      $objPHPExcel = PHPExcel_IOFactory::load($filename);
+      $objPHPExcel = \PHPExcel_IOFactory::load($filename);
       $objPHPExcel->setActiveSheetIndex(0);
       $highestColumm = $objPHPExcel->setActiveSheetIndex(0)->getHighestColumn();
       $highestRow = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();

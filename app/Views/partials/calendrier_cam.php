@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </button>
 
     <?php 
-      switch(ci3sess('privilege') )
+      switch((ci3sess('userdata')['privilege'] ?? null) )
       {
         case 1:
           echo view('sections/menu_supersuser');
@@ -482,8 +482,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="UpdViderMatCal()" id="btnEndMat" class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo ((ci3sess('privilege') == 5)? 'bloc' : 'none') ?>;"></button>
-                <button type="button" onclick="PostSuivisCamMatCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo ((ci3sess('privilege') == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" onclick="UpdViderMatCal()" id="btnEndMat" class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;"></button>
+                <button type="button" onclick="PostSuivisCamMatCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
                 <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
@@ -535,8 +535,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="UpdRetourCal()" id="btnEndHS" class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo ((ci3sess('privilege') == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
-                <button type="button" onclick="PostSuivisCamHSCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo ((ci3sess('privilege') == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" onclick="UpdRetourCal()" id="btnEndHS" class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
+                <button type="button" onclick="PostSuivisCamHSCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
                 <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
@@ -594,8 +594,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="UpdRetourHome()"  class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo ((ci3sess('privilege') == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
-                <button type="button" onclick="PostSuivisCamBris()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo ((ci3sess('privilege') == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" onclick="UpdRetourHome()"  class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
+                <button type="button" onclick="PostSuivisCamBris()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
                 <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>

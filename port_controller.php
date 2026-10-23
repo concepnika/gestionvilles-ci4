@@ -90,6 +90,11 @@ $rules = [
     ['/\$this->uri->segment_array\(\)/' => 'service(\'uri\')->getSegments()'],
     // classes globales en namespace
     ['/new\s+(?!\\\\)(stdClass|DateTime|Datetime|DateInterval|DatePeriod|Exception|DOMDocument|SimpleXMLElement|ZipArchive|PDF|FPDF|ClassCedule|ClassConnect)\b/' => 'new \\\\$1'],
+    // APPPATH CI3 (application/) -> racine de l'app CI3 via env
+    ['/\bAPPPATH\b/' => 'env(\'ci3.webroot\') . \'/application/\''],
+    // classes PHPExcel (globales legacy) en namespace App\Controllers
+    ['/\bnew\s+(?!\\\\)(PHPExcel\w*)\b/' => 'new \\\\$1'],
+    ['/(?<![\\\\\w])(PHPExcel\w*)::/' => '\\\\$1::'],
     ['/(?<![\w\\\\])(DateTime|DateInterval|DatePeriod)::/' => '\\\\$1::'],
 ];
 
