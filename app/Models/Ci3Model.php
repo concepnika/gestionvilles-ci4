@@ -37,6 +37,9 @@ abstract class Ci3Model
     /** @var object adaptateur de $this->session CI3 (magic userdata) */
     protected $session;
 
+    /** @var \App\Libraries\Ci3Upload (equiv. $this->upload CI3) */
+    protected $upload;
+
     /** @var array (equiv. $this->JourDeSemaine CI3 — non type :
      * les classes portees le redeclarent sans type) */
     protected $JourDeSemaine = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];

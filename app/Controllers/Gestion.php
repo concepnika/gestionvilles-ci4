@@ -121,19 +121,108 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
+    /**
+     * CI3 : co_gestion/UpdCedule — mise a jour d'une cedule
+     * (drag&drop camion/chauffeur/aides/secteur). PORTE.
+     */
     public function UpdCedule(...$args)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $input = $this->request;
+        $chaufconfirme = (($input->getPostGet('idchauffeur') == '0') ? ' chaufconfirme = 0,' : '');
+        $helperconfirme = (($input->getPostGet('idaide') == '0') ? ' helperconfirme = 0,' : '');
+        $IsStart = (($input->getPostGet('camion') == '') ? ' IsStart = 0,' : '');
+        $camion = (($input->getPostGet('camion') == '') ? ' NULL ' : $db->escape($input->getPostGet('camion')));
+        $secteur = (($input->getPostGet('secteur') == '') ? ' NULL ' : $db->escape($input->getPostGet('secteur')));
+        $idchauffeur = (($input->getPostGet('idchauffeur') == '') ? ' NULL ' : $db->escape($input->getPostGet('idchauffeur')));
+        $idaide = (($input->getPostGet('idaide') == '') ? ' NULL ' : $input->getPostGet('idaide'));
+
+        $dateactive = $input->getPostGet('dateactive');
+        $id = $db->escape($input->getPostGet('id'));
+        $helpers = '';
+        if (strlen((string) $idaide) > 2 && strpos($idaide, ',', 2)) {
+            $arAide = explode(',', $idaide);
+            for ($iter = 0; $iter < count($arAide); $iter++) {
+                switch ($iter) {
+                    case 0:
+                        $helpers .= 'HELPERS_1=' . $arAide[$iter] . ',';
+                        break;
+                    case 1:
+                        $helpers .= 'HELPERS_2=' . $arAide[$iter] . ',';
+                        break;
+                    case 2:
+                        $helpers .= 'HELPERS_3=' . $arAide[$iter] . ',';
+                        break;
+                    case 3:
+                        $helpers .= 'HELPERS_4=' . $arAide[$iter] . ',';
+                        break;
+                }
+            }
+        }
+        $helpers = substr($helpers, 0, -1);
+        $strSQL = "UPDATE cedules
+                    SET
+                        secteur=$secteur,
+                        NOCAMION=$camion,
+                        idchauffeurs=$idchauffeur,
+                        $chaufconfirme $helperconfirme $IsStart
+                        $helpers
+                    WHERE id = $id";
+        $db->query($strSQL);
+        return $this->showToday(4, $dateactive);
     }
 
-    public function getHresAides(...$args)
+    /**
+     * CI3 : co_gestion/getHresAides — heures des aides (HTML ou vue
+     * sanivan/heuresaides quand from=1). PORTE.
+     */
+    public function getHresAides($dateactive = null)
     {
-        return $this->toCi3();
+        helper('ci3view');
+        $cedules = new CedulesModel();
+        $strSQL = '';
+        $from = $this->request->getPostGet('from');
+        if ($from == 1) {
+            $data['ActiveDate'] = $dateactive;
+            $data['listhresaides'] = $cedules->getWinHresAides($dateactive, $strSQL);
+            return $this->response->setBody(view('sanivan/heuresaides', $data));
+        }
+        return $this->response->setBody($cedules->getHresAides($dateactive, $strSQL));
     }
 
-    public function PostCedule(...$args)
+    /**
+     * CI3 : co_gestion/PostCedule — aiguillage add/upd d'une cedule.
+     * PORTE.
+     */
+    public function PostCedule($typeprod = null, $camion = null, $chauffeur = null, $aide = null, $id = null, $idville = null, $date = null, $ville = null, $action = null)
     {
-        return $this->toCi3();
+        switch ($action) {
+            case 'add':
+                return $this->AddToCedule($typeprod, $camion, $chauffeur, $aide, $date, $idville);
+            case 'createcedule':
+            case 'upd':
+                return $this->UpdCedule($typeprod, $camion, $chauffeur, $aide, $id, -1, $date, $action);
+        }
+        return $this->response->setBody('');
+    }
+
+    /**
+     * CI3 : co_gestion/AddToCedule (interne) — ajoute puis renvoie le
+     * calendrier des cedules.
+     */
+    private function AddToCedule($typeprod, $camion, $chauffeur, $aide, $date, $ville)
+    {
+        $db = \Config\Database::connect();
+        $cedules = new CedulesModel();
+        $cedules->AddToCedule(
+            $db->escape($typeprod),
+            $db->escape($camion),
+            $db->escape($chauffeur),
+            $db->escape($aide),
+            $db->escape($date),
+            $db->escape($ville)
+        );
+        return $this->response->setBody($cedules->getCalendar());
     }
 
     /**
@@ -632,14 +721,33 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
-    public function GetRHToDrop(...$args)
+    /**
+     * CI3 : co_gestion/GetRHToDrop — RH glissables pour la cedule.
+     * PORTE.
+     */
+    public function GetRHToDrop($idtype = null, $activedate = null)
     {
-        return $this->toCi3();
+        $idtype = (($idtype == 'chauf') ? '1,3,7' : $idtype);
+        $creationcd = new CreationcdModel();
+        return $this->response->setBody($creationcd->GetChauffeursToDrop($activedate, $idtype));
     }
 
-    public function showPrintHresAides(...$args)
+    /**
+     * CI3 : co_gestion/showPrintHresAides — page d'impression des
+     * heures d'aides. PORTE.
+     */
+    public function showPrintHresAides($activedate = null)
     {
-        return $this->toCi3();
+        helper('ci3view');
+        $cedules = new CedulesModel();
+        $strSQL = '';
+        $input = $this->request;
+        $data['ActiveDate'] = $activedate;
+        $data['typecedule'] = $input->getPostGet('typecedule') ?? 1;
+        $data['ActiveDrop'] = $input->getPostGet('activedrop') ?? 1;
+        $data['notab'] = $input->getPostGet('notab') ?? 1;
+        $data['listhresaides'] = $cedules->getHresAides($activedate, $strSQL);
+        return $this->response->setBody(view('sections/print_hres_aides', $data));
     }
 
     public function showVille(...$args)
@@ -702,9 +810,43 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
+    /**
+     * CI3 : co_gestion/postHHelpers — MAJ d'un champ de suivis puis
+     * renvoie la liste des heures d'aides. PORTE.
+     */
     public function postHHelpers(...$args)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $input = $this->request;
+        $field = '';
+        switch ($input->getPostGet('field')) {
+            case 1:
+                $field = 'StartTime';
+                break;
+            case 2:
+                $field = 'EndTime';
+                break;
+            case 3:
+                $field = 'pause';
+                break;
+            case 4:
+                $field = 'note';
+                break;
+        }
+        $from = $input->getPostGet('from');
+        $idsuivis = $db->escape($input->getPostGet('idsuivis'));
+        $value = $db->escape($input->getPostGet('value'));
+        $ActiveDate = $input->getPostGet('activedate');
+        $strSQL = "UPDATE suivis
+                    SET
+                        $field = $value
+                    WHERE id = $idsuivis";
+        $db->query($strSQL);
+        $cedules = new CedulesModel();
+        if ($from == 1) {
+            return $this->response->setBody($cedules->getWinHresAides($ActiveDate, ''));
+        }
+        return $this->response->setBody($cedules->getHresAides($ActiveDate, ''));
     }
 
     public function postAllHresAide(...$args)
@@ -727,9 +869,17 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
-    public function loadChauffeur(...$args)
+    /**
+     * CI3 : co_gestion/loadChauffeur — liste des chauffeurs d'une
+     * cedule (fragment HTML). PORTE.
+     */
+    public function loadChauffeur($typerh = null, $dateactive = null)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $id = $db->escape($this->request->getPostGet('id'));
+        $cedules = new CedulesModel();
+        $objCedule = json_decode($cedules->getCedule($id, $dateactive, $typerh));
+        return $this->response->setBody($objCedule->lstchauffeur ?? '');
     }
 
     public function DeleteSecteur(...$args)

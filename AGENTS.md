@@ -136,7 +136,7 @@ la correspondance CI3 → classe CI4 :
 
 | CI3 | CI4 | État |
 |---|---|---|
-| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` portés ; ~173 stubs |
+| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` + AJAX cédule (`UpdCedule`, `PostCedule`/`AddToCedule`, `getHresAides`, `postHHelpers`, `loadChauffeur`, `GetRHToDrop`, `showPrintHresAides`) portés ; ~165 stubs |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | stubs |
@@ -199,8 +199,14 @@ en place, aucune modif de Routes.php nécessaire.
   `CedulesModel`/`CreationcdModel`/`RequetesModel` sont des ports
   complets ainsi générés — **NE PAS éditer à la main**, relancer le
   script (les modifs manuelles sont perdues).
-- ⚠️ Reste dans les modèles portés : `$this->upload` (Requetes) non
-  adapté — les méthodes upload fatalement si appelées.
+- **`App\Libraries\Ci3Upload`** : adaptateur de `$this->upload` CI3
+  (`do_upload`/`display_errors`/`file_name`). Les chemins `./upload/…`
+  sont résolus contre `ci3.webroot` (.env) pour que CI3 et CI4 voient
+  les mêmes fichiers. `port_model.php` convertit
+  `load->library('upload', $config)` en `new Ci3Upload($config)`.
+- ⚠️ `strpos($x, ',', 2)` : PHP 8 lève `ValueError` si offset >
+  longueur (CI3/PHP7 retournait false) — garder avec `strlen() > 2`
+  lors du port.
 - **Vues portées** : `auth/login` (= login2), `partials/{home,navtop,
   navleft}`, `sections/{menu,inc_pop_up_gen}`.
 - ⚠️ La debugbar CI4 s'injecte dans toutes les réponses HTML

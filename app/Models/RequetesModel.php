@@ -907,7 +907,7 @@ Iscomplete, isdeleted,(SELECT ville.Nom FROM ville WHERE ville.id = reponses.idv
     $config['file_ext_tolower'] = true;
     $config['remove_spaces'] = true;
 		//$config['encrypt_name'] = TRUE;
-		
+		$this->upload = new \App\Libraries\Ci3Upload($config);
 		if (!$this->upload->do_upload('fileRequete_1')) {
 			$error = array('error' => $this->upload->display_errors());
 			//Action, in case file upload failed
@@ -1052,7 +1052,7 @@ Iscomplete, isdeleted,(SELECT ville.Nom FROM ville WHERE ville.id = reponses.idv
       $config['file_ext_tolower'] = true;
       $config['remove_spaces'] = true;
       //$config['encrypt_name'] = TRUE;
-      
+      $this->upload = new \App\Libraries\Ci3Upload($config);
       if (!$this->upload->do_upload('fileRequete_1')) {
         $error = array('error' => $this->upload->display_errors());
         //Action, in case file upload failed
