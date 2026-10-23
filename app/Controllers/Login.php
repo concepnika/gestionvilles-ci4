@@ -24,24 +24,27 @@ class Login extends BaseController
      */
     public function index()
     {
+        helper('ci3view');
         return $this->response->setBody(view('auth/login', [
             'error' => null,
+            'reset' => '',
             'email' => '',
+            'activeDate' => date('Y-m-d'),
             'next' => $this->safeNext((string) $this->request->getGet('next')),
         ]));
     }
 
     /**
      * Equivalent de co_gestion/GotoHome : tableau de bord si session
-     * active (remplace par la page statut tant qu'il n'est pas porte),
-     * sinon le formulaire de connexion.
+     * active (relaye a CI3, qui rend partials/home), sinon le
+     * formulaire de connexion.
      */
     public function admin()
     {
         if (! (new Ci3Session())->isLoggedIn()) {
             return $this->index();
         }
-        return redirect()->to('/');
+        return $this->toCi3();
     }
 
     public function attempt()
@@ -57,9 +60,12 @@ class Login extends BaseController
 
         $peppered = hash_hmac('sha256', $password, self::PEPPER);
         if (! $user || ! password_verify($peppered, (string) $user->pass)) {
+            helper('ci3view');
             return $this->response->setStatusCode(401)->setBody(view('auth/login', [
                 'error' => 'Courriel ou mot de passe invalide.',
+                'reset' => '',
                 'email' => $email,
+                'activeDate' => date('Y-m-d'),
                 'next' => $next,
             ]));
         }
@@ -72,13 +78,13 @@ class Login extends BaseController
             'login_in' => true,
         ]);
 
-        return redirect()->to($next === '' ? '/' : $next);
+        return redirect()->to($next === '' ? '/admin' : $next);
     }
 
     public function logout()
     {
         (new Ci3Session())->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/admin/connexion');
     }
 
     /**

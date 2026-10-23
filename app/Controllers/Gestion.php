@@ -17,10 +17,12 @@ class Gestion extends Login
         return $this->admin();
     }
 
-    // CI3 : co_gestion/login (cible POST du formulaire de connexion)
+    // CI3 : co_gestion/login (cible POST du formulaire de connexion) —
+    // relaye a CI3 : authentifie, cree la session partagee et rend le
+    // vrai tableau de bord (partials/home), exactement comme en CI3.
     public function login(...$args)
     {
-        return $this->attempt();
+        return $this->toCi3();
     }
 
     public function logoutchauffeur(...$args)

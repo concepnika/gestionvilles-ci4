@@ -96,23 +96,28 @@ abstract class BaseController extends Controller
             if (in_array($ln, $skip, true)) {
                 continue;
             }
-            // getHeaders() : array<nom, Header|Header[]> et
-            // Header::getValue() : string|string[]
-            foreach ((array) $headers as $h) {
-                // getHeaders() : Header|Header[]|string selon le cas
-                $values = $h instanceof \CodeIgniter\HTTP\Header ? $h->getValue() : $h;
-                foreach ((array) $values as $v) {
-                    $v = (string) $v;
-                    if ($ln === 'set-cookie') {
-                        // domain retire : le cookie s'applique a l'hote CI4
-                        $response->appendHeader('Set-Cookie', preg_replace('/;\s*domain=[^;]*/i', '', $v));
-                    } elseif ($ln === 'location') {
-                        $response->setHeader($name, str_replace('gestionvilles.local', 'gestionvillesci4.local', $v));
-                    } elseif ($ln === 'content-type' || $ln === 'content-disposition') {
-                        $response->setHeader($name, $v);
-                    } else {
-                        $response->appendHeader($name, $v);
+            // getHeaders() : array<nom, Header|Header[]> ; PAS de cast
+            // (array) sur un objet Header (expose ses proprietes).
+            $values = [];
+            foreach (is_array($headers) ? $headers : [$headers] as $h) {
+                if ($h instanceof \CodeIgniter\HTTP\Header) {
+                    foreach ((array) $h->getValue() as $v) {
+                        $values[] = (string) $v;
                     }
+                } else {
+                    $values[] = (string) $h;
+                }
+            }
+            foreach ($values as $v) {
+                if ($ln === 'set-cookie') {
+                    // domain retire : le cookie s'applique a l'hote CI4
+                    $response->appendHeader('Set-Cookie', preg_replace('/;\s*domain=[^;]*/i', '', $v));
+                } elseif ($ln === 'location') {
+                    $response->setHeader($name, str_replace('gestionvilles.local', 'gestionvillesci4.local', $v));
+                } elseif ($ln === 'content-type' || $ln === 'content-disposition') {
+                    $response->setHeader($name, $v);
+                } else {
+                    $response->appendHeader($name, $v);
                 }
             }
         }
