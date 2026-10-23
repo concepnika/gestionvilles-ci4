@@ -29,7 +29,12 @@ $rules = [
     // load->view avec retour TRUE (avant la forme echo)
     ['/\$this->load->view\(\s*(.*?),\s*TRUE\s*\)/s' => 'view($1)'],
     ['/\$this->load->view\(\s*(.*?)\)/s' => 'echo view($1)'],
-    // session
+    // session — $_SESSION direct aussi (CI4 n'a pas de session PHP
+    // demarree ; ci3sess() pont vers ci_sessions)
+    ['/isset\(\s*\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\]\s*\)/' => '(ci3sess(\'$1\') !== null)'],
+    ['/unset\(\s*\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\][^)]*\)/' => 'ci3unset(\'$1\')'],
+    ['/\$_SESSION\s*\[\s*[\'"]([^\'"]+)[\'"]\s*\]\s*(?<![=<>!])=(?![=>])\s*([^;]+);/' => 'ci3set(\'$1\', $2);'],
+    ['/\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\]/' => 'ci3sess(\'$1\')'],
     ['/\$this->session->userdata\[\s*[\'"]([^\'"]+)[\'"]\s*\]/' => 'ci3sess(\'$1\')'],
     ['/\$this->session->userdata\(\s*[\'"]([^\'"]+)[\'"]\s*\)/' => 'ci3sess(\'$1\')'],
     ['/\$this->session->has_userdata\(\s*[\'"]([^\'"]+)[\'"]\s*\)/' => '(ci3sess(\'$1\') !== null)'],
@@ -58,6 +63,10 @@ $rules = [
     // foreach ($x as ...) — tableau indefini -> []
     ['/foreach\s*\(\s*(\$\w+(?:->\w+|\[[^\]]*\])*)(?!\s*\()\s+as\b/'
         => 'foreach (($1 ?? []) as'],
+    // jeton Mapbox code en dur dans la vue CI3 -> variable d'env
+    // (GitHub push protection le bloque sinon)
+    ['/mapboxgl\.accessToken\s*=\s*[\'"][^\'"]+[\'"]/'
+        => 'mapboxgl.accessToken = \'<?= env(\'mapbox.accessToken\', \'\') ?>\''],
 ];
 
 foreach (array_slice($argv, 1) as $arg) {

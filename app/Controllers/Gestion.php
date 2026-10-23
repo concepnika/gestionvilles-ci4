@@ -29,6 +29,20 @@ class Gestion extends Login
     private $datanew;
 
     /**
+     * Equiv. du __construct de co_gestion : les deux modeles
+     * pre-charges etaient disponibles dans toutes les methodes.
+     */
+    public function initController(
+        \CodeIgniter\HTTP\RequestInterface $request,
+        \CodeIgniter\HTTP\ResponseInterface $response,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::initController($request, $response, $logger);
+        $this->creationcd = new \App\Models\CreationcdModel();
+        $this->cedules    = new \App\Models\CedulesModel();
+    }
+
+    /**
      * CI3 : co_gestion/GotoHome — tableau de bord d'accueil.
      * PORTE : rend partials/home nativement (session requise).
      */
@@ -172,10 +186,7 @@ class Gestion extends Login
             /** @var array  $sessionvar */
             $sessionvar = $this->session->all_userdata();
             $this->session->unset_userdata($sessionvar);
-            unset(
-                $_SESSION['email'],
-                $_SESSION['nom']
-            );
+            $this->session->unset_userdata(['email', 'nom']);
             $this->session->set_userdata('login_in', FALSE);
             $this->session->sess_destroy();
             $this->output->set_header('Last-Modified: '.gmdate("D, d M Y H:i:s").' GMT');
@@ -4575,8 +4586,8 @@ class Gestion extends Login
                         }
                         $data[] = array($row->nocamion, $row->startStr, $row->dateend, $statut, utf8_encode($row->note));
                     }
-                    require_once('pdf/libcalendrier.php');
-                    $pdf = new PDF('L');
+                    require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
+                    $pdf = new \PDF('L');
                     // Titres des colonnes
                     $header = array('Camions', utf8_decode('Début'), 'Fin', 'Statuts', 'Notes');
                     $pdf->SetFont('Arial', '', 14);
@@ -4717,8 +4728,8 @@ class Gestion extends Login
                     foreach ($cal->getResult() as $row) {
                         $data[] = array(utf8_decode($row->NomComplet), $row->datestart, $row->endStr, $row->absence, $row->note);
                     }
-                    require_once('pdf/libcalendrier.php');
-                    $pdf = new PDF('L');
+                    require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
+                    $pdf = new \PDF('L');
                     // Titres des colonnes
                     $header = array('Nom', utf8_decode('Début'), 'Fin', 'Absence', 'Notes');
                     $pdf->SetFont('Arial', '', 14);
@@ -5075,8 +5086,8 @@ class Gestion extends Login
 
     public function RequetesPDF()
     {    
-            require_once('pdf/librequete.php');
-            $pdf = new PDF('L');
+            require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/librequete.php';
+            $pdf = new \PDF('L');
             $pdf->SetFont('Arial', '', 12);
             $returnval = '';
             $idville = trim($this->input->post_get('idville', TRUE));
@@ -5248,8 +5259,8 @@ class Gestion extends Login
 
     public function ReponsesPDF($idrequete)
     {    
-            require_once('pdf/libreceptions.php');
-            $pdf = new PDF('L');
+            require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/libreceptions.php';
+            $pdf = new \PDF('L');
             $pdf->SetFont('Arial', '', 12);
             $arrReq = $this->getDescriptionRequete($idrequete);
             $returnval = '';
@@ -5481,6 +5492,13 @@ class Gestion extends Login
 
 
 
+    public function index()
+    {    
+            $data = array();
+            $data['msgerror'] = $this->message_error;
+            $data['msgreset'] = $this->message_error;
+            echo view('partials/login2', $data);
+    }
 
     private function updateActivy()
     {    
@@ -5494,6 +5512,20 @@ class Gestion extends Login
             //$this->db->query($strSQL);
     }
 
+    public function logout()
+    {    
+            /** @var array  $sessionvar */
+            $sessionvar = $this->session->all_userdata();
+            $this->session->unset_userdata($sessionvar);
+            $this->session->unset_userdata(['email', 'nom']);
+            $this->session->set_userdata('login_in', FALSE);
+            $this->session->sess_destroy();
+            $this->output->set_header('Last-Modified: '.gmdate("D, d M Y H:i:s").' GMT');
+            $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+            $this->output->set_header('Pragma: no-cache');
+            $this->output->set_header("Expires: ".gmdate("D, d M Y H:i:s").' GMT');
+            $this->index();
+    }
 
     public function pageLogin()
     {    
@@ -5748,7 +5780,7 @@ class Gestion extends Login
             $cal = $this->db->query($strSQL);
             $total = '';
             //-------------------------------------------------------------------------
-            require_once('pdf/requetespdf.php');
+            require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/requetespdf.php';
             /** @var array $data */
             foreach ($cal->getResult() as $row) {
                 switch ($listtoprint) {
@@ -5779,9 +5811,9 @@ class Gestion extends Login
     
             }
             if ($listtoprint == 2) {
-                $pdf = new PDF('L');
+                $pdf = new \PDF('L');
             } else {
-                $pdf = new PDF('P');
+                $pdf = new \PDF('P');
             }
             $pdf->SetTopMargin(4);
             $pdf->SetAutoPageBreak(true, 2);
@@ -5909,4 +5941,8 @@ class Gestion extends Login
             $this->google->getAdresseFromLatLng();
     }
 
+    public function __destruct()
+    {    
+            $this->db->close();
+    }
 }

@@ -58,7 +58,9 @@ class Filters extends BaseFilters
         'after' => [
             'pagecache',   // Web Page Caching
             'performance', // Performance Metrics
-            'toolbar',     // Debug Toolbar
+            // 'toolbar' desactive : injectait ~28 Ko dans chaque
+            // reponse (pages ET fragments AJAX) — risque de casser le
+            // JS des vues portees de CI3.
         ],
     ];
 

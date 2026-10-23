@@ -48,6 +48,11 @@ class Ci3SessionAdapter
         }
     }
 
+    public function all_userdata(): array
+    {
+        return $this->s->user() ?? [];
+    }
+
     public function unset_userdata($keys): void
     {
         $this->s->remove($keys);

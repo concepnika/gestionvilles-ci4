@@ -137,7 +137,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <h3 class="modal-title" id="mytitre">
-            <?php echo (($_SESSION['site_lang'] == 'fr')? 'Confirmation' : 'Confirmation');?>
+            <?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmation' : 'Confirmation');?>
           </h3>
         </div>
 
@@ -151,7 +151,7 @@
         <!-- Modal footer -->
         <div class="modal-footer" style="background-color:Window;">
           <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" onclick="SendInfoVille()" data-dismiss="modal">
-            <?php echo (($_SESSION['site_lang'] == 'fr')? 'Confirmer l\'envoi' : 'Confirm shipment');?>
+            <?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmer l\'envoi' : 'Confirm shipment');?>
           </button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
         </div>

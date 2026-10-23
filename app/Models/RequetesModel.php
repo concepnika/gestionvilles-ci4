@@ -868,7 +868,7 @@ Iscomplete, isdeleted,(SELECT ville.Nom FROM ville WHERE ville.id = reponses.idv
 				$data['createby'] = $this->sess('user_id');
 				//$data['idville'] = $this->sess('idville');
 
-				$this->db->table('requetes')->insert($data);
+				$this->db->insert('requetes', $data);
 				//----------------------------------------
 				$error = $this->db->error();
 				if (!empty($error['code'])) {
@@ -983,10 +983,13 @@ Iscomplete, isdeleted,(SELECT ville.Nom FROM ville WHERE ville.id = reponses.idv
 		$returnval = '';
 		/** @var string $strSQL */
 		/** @var array $dataResult */
+		$dataResult = array();
 		if (!$this->sess('email')) {
 			//$this->logout();
 		} else {
-			$data = $this->input->post(NULL, TRUE);
+			$data = $this->input->post(NULL, TRUE) ?: array();
+			$data += array('adresse' => '', 'idville' => null, 'idrequete' => null,
+								'statut' => null, 'dteCedule' => '');
       $adr = $data['adresse'];
 			if (trim($adr) != '')
       {
@@ -998,7 +1001,7 @@ Iscomplete, isdeleted,(SELECT ville.Nom FROM ville WHERE ville.id = reponses.idv
 			$idville = $data['idville'];
 			$idrequete = $data['idrequete'];
       $data['createby'] = $this->sess('user_id');
-      $this->db->table('reponses')->insert($data);
+      $this->db->insert('reponses', $data);
       $dataResult['id'] = $this->db->insertID();
 			$idreponse = $dataResult['id'];
 			$error = $this->db->error();

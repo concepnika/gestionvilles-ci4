@@ -13,23 +13,23 @@ use Config\Database;
 /** $this->input CI3 : post_get/get_post/get/post/server/cookie/ip_address. */
 class Ci3Input
 {
-    public function post_get(string $key)
+    public function post_get(?string $key = null)
     {
         return service('request')->getPostGet($key);
     }
 
-    public function get_post(string $key)
+    public function get_post(?string $key = null)
     {
         return service('request')->getGetPost($key);
     }
 
-    public function get(?string $key = null)
+    public function get(?string $key = null, $xss = null)
     {
         $r = service('request');
         return $key === null ? $r->getGet() : $r->getGet($key);
     }
 
-    public function post(?string $key = null)
+    public function post(?string $key = null, $xss = null)
     {
         $r = service('request');
         return $key === null ? $r->getPost() : $r->getPost($key);

@@ -89,22 +89,22 @@ abstract class Ci3Model
             }
         };
         $this->input = new class {
-            public function post_get(string $key)
+            public function post_get(?string $key = null)
             {
                 return service('request')->getPostGet($key);
             }
 
-            public function get_post(string $key)
+            public function get_post(?string $key = null)
             {
                 return service('request')->getPostGet($key);
             }
 
-            public function get(string $key)
+            public function get(?string $key = null)
             {
                 return service('request')->getGet($key);
             }
 
-            public function post(string $key)
+            public function post(?string $key = null)
             {
                 return service('request')->getPost($key);
             }

@@ -23,11 +23,11 @@ if (isset($_POST['uname']))
 	$ClsUser = ClassCedule::LoginDriver($login, $pass);
 	if (!empty($ClsUser))
 	{
-		//$_SESSION['ClsUser'] = array();
+		//ci3set('ClsUser', array());
 		$_SESSION = $ClsUser  ;
-        $_SESSION['NoCamion'] = $_POST['Camion']  ;
+        ci3set('NoCamion', $_POST['Camion']  );
 		//header("Location:accueil.php");
-		//echo ($_SESSION['ClsUser'] ?? '');
+		//echo ci3sess('ClsUser');
         $value = $ClsUser['id'];
         $query = "Select HELPERS_1, HELPERS_2 from cedules where idchauffeurs = '$value' and DateJour = CURDATE() " ;
         $Connect = new ClassConnect();
@@ -169,9 +169,9 @@ else if (isset($_REQUEST['motpasseoublie']))
 			if (isset($_GET['erreur']) && ($_GET['erreur'] == "logout"))
 			{
 				$infoChauf = '';
-				if (isset($_SESSION['login']))
+				if ((ci3sess('login') !== null))
 				{
-					$infoChauf = $_SESSION['Prenom']. ' '. $_SESSION['Nom'];
+					$infoChauf = ci3sess('Prenom'). ' '. ci3sess('Nom');
 				}
 				session_unset();
 

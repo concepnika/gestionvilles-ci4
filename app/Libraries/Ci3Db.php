@@ -52,7 +52,14 @@ class Ci3Db
 
     public function query(string $sql, ...$args)
     {
-        return $this->conn->query($sql, ...$args);
+        try {
+            return $this->conn->query($sql, ...$args);
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            // CI3 avec db_debug=false : retourne false au lieu de
+            // lancer ; l'erreur reste visible via ->error() et le log.
+            log_message('error', 'Ci3Db::query ' . $e->getMessage());
+            return false;
+        }
     }
 
     public function escape($str)
@@ -74,21 +81,36 @@ class Ci3Db
     {
         $b = $this->builder($table);
         $this->queue = [];
-        return $b->get($limit, $offset);
+        try {
+            return $b->get($limit, $offset);
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            log_message('error', 'Ci3Db::get ' . $e->getMessage());
+            return false;
+        }
     }
 
     public function get_where(string $table, array $where = [], ?int $limit = null, ?int $offset = null)
     {
         $b = $this->builder($table);
         $this->queue = [];
-        return $b->getWhere($where, $limit, $offset);
+        try {
+            return $b->getWhere($where, $limit, $offset);
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            log_message('error', 'Ci3Db::get_where ' . $e->getMessage());
+            return false;
+        }
     }
 
     public function count_all_results(?string $table = null): int
     {
         $b = $this->builder($table);
         $this->queue = [];
-        return $b->countAllResults();
+        try {
+            return $b->countAllResults();
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            log_message('error', 'Ci3Db::count_all_results ' . $e->getMessage());
+            return 0;
+        }
     }
 
     public function get_compiled_select(string $table = '', bool $reset = true): string
@@ -113,7 +135,12 @@ class Ci3Db
             array_shift($a);
             $b = $this->builder($table);
             $this->queue = [];
-            return $b->{self::TERMINALS_TABLE_FIRST[$m]}(...$a);
+            try {
+                return $b->{self::TERMINALS_TABLE_FIRST[$m]}(...$a);
+            } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+                log_message('error', 'Ci3Db::' . $m . ' ' . $e->getMessage());
+                return false;
+            }
         }
         // sinon : relais a la connexion (trans_*, insertID,
         // affectedRows, tableExists, getLastQuery, close, ...)

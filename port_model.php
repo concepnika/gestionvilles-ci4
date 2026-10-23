@@ -103,6 +103,44 @@ $patches = [
             return $code;
         },
     ],
+    'Requetes' => [
+        // postReponse : $dataResult utilise sans initialisation
+        // (tolere par CI3, ErrorException en CI4).
+        function (string $code): string {
+            $anchor = "public function postReponse()\n\t{\n    /** @var string \$filename1 */";
+            $pos = strpos($code, 'function postReponse');
+            if ($pos === false) {
+                return $code;
+            }
+            $doc = strpos($code, '/** @var array $dataResult */', $pos);
+            if ($doc === false) {
+                return $code;
+            }
+            $end = $doc + strlen('/** @var array $dataResult */');
+            $code = substr($code, 0, $end) . "\n\t\t\$dataResult = array();" . substr($code, $end);
+            // GET nu ou POST incomplet : CI3 tolere les cles absentes
+            // (notices silencieuses) ; CI4 doit fournir les defauts.
+            $code = preg_replace(
+                '/\$data = \$this->input->post\(NULL, TRUE\);\R      \$adr = \$data\[.adresse.\];/',
+                "\$data = \$this->input->post(NULL, TRUE) ?: array();\n"
+                . "\t\t\t\$data += array('adresse' => '', 'idville' => null, 'idrequete' => null,\n"
+                . "\t\t\t\t\t\t\t\t'statut' => null, 'dteCedule' => '');\n"
+                . "      \$adr = \$data['adresse'];",
+                $code,
+                1
+            );
+            // ->table(x)->insert() contourne Ci3Db : reroutage vers le
+            // terminal QB (retourne false sur erreur, comme CI3).
+            $code = str_replace(
+                ["\$this->db->table('reponses')->insert(\$data);",
+                 "\$this->db->table('requetes')->insert(\$data);"],
+                ["\$this->db->insert('reponses', \$data);",
+                 "\$this->db->insert('requetes', \$data);"],
+                $code
+            );
+            return $code;
+        },
+    ],
 ];
 
 foreach (array_slice($argv, 1) as $arg) {

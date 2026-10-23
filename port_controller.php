@@ -79,11 +79,17 @@ $rules = [
     ['/\$this->db->where\(([^;]+)\)->update\(\s*[\'"](\w+)[\'"]\s*,\s*/' => '$this->db->table(\'$2\')->where($1)->update('],
     ['/\$this->db->get_where\(\s*([\'"]\w+[\'"])\s*,\s*/' => '$this->db->table($1)->getWhere('],
     ['/\$this->db->where\(([^;]+)\);\s*\$this->db->delete\(\s*[\'"](\w+)[\'"]\s*\)/' => '$this->db->table(\'$2\')->where($1)->delete()'],
+    // includes relatifs au dossier controllers CI3 (pdf/...)
+    ['/(require_once|include_once|require|include)\s*\(?\s*[\'"](pdf\/[^\'"]+)[\'"]\s*\)?/'
+        => '$1 rtrim((string) env(\'ci3.webroot\'), \'/\\\\\') . \'/application/controllers/$2\''],
+    // $_SESSION direct -> pont ci_sessions
+    ['/isset\(\s*\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\]\s*\)/' => '($this->session->userdata(\'$1\') !== null)'],
+    ['/\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\]/' => '$this->session->userdata(\'$1\')'],
     // uri
     ['/\$this->uri->segment\(/' => 'service(\'uri\')->getSegment('],
     ['/\$this->uri->segment_array\(\)/' => 'service(\'uri\')->getSegments()'],
     // classes globales en namespace
-    ['/new\s+(?!\\\\)(stdClass|DateTime|Datetime|DateInterval|DatePeriod|Exception|DOMDocument|SimpleXMLElement|ZipArchive)\b/' => 'new \\\\$1'],
+    ['/new\s+(?!\\\\)(stdClass|DateTime|Datetime|DateInterval|DatePeriod|Exception|DOMDocument|SimpleXMLElement|ZipArchive|PDF|FPDF|ClassCedule|ClassConnect)\b/' => 'new \\\\$1'],
     ['/(?<![\w\\\\])(DateTime|DateInterval|DatePeriod)::/' => '\\\\$1::'],
 ];
 
