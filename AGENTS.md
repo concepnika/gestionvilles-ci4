@@ -136,7 +136,7 @@ la correspondance CI3 → classe CI4 :
 
 | CI3 | CI4 | État |
 |---|---|---|
-| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` + AJAX cédule + calendrier (`showCedules`, `infoVille`, `postDaySanivan`, `postCalDeploie`/`FrequenceDeploie`, `removeCalDeploie`, `copieCedule`, `getWeekCedule`, `postCopyCedule`, `removeCedule`, `getnewDate`) portés ; ~155 stubs |
+| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` + AJAX cédule + calendrier + validation (`showValidSanivan`, `getValidation`, `getValidationChauffeur`, `PostSuivis`, `DeleteSuivis`) portés ; ~150 stubs |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | stubs |
@@ -216,6 +216,13 @@ en place, aucune modif de Routes.php nécessaire.
 - ⚠️ `FrequenceDeploie` case 5 : CI3 utilisait `DateInterval('1 third')`
   (false → crash) ; le port utilise `'1 month'` + `third X of this
   month` — intention réelle, déviation assumée.
+- ⚠️ Schéma local : `camionjour` manquait `debut1..4`, `fin1..4`,
+  `Depotoire1..4`, `Ticket1..4`, `Tonnage1..4` (prod les a) —
+  ajoutées localement le 2026-10-23 pour tester la validation.
+- `port_model.php` a une section `$patches` (par modèle) pour les
+  corrections non génériques — ex. init de `$backColor1..3` avant les
+  boucles de `getRapportJour`/`getRapportJourRes`/`getValidChauffeurJour`
+  (CI3 réutilisait la valeur de l'itération précédente).
 - **Vues portées** : `auth/login` (= login2), `partials/{home,navtop,
   navleft}`, `sections/{menu,inc_pop_up_gen}`.
 - ⚠️ La debugbar CI4 s'injecte dans toutes les réponses HTML

@@ -3957,6 +3957,7 @@ class CedulesModel extends Ci3Model
     $obTable = new \stdClass();
     $obTable = $this->db->query($sql);
     /** @var object $row */
+    $backColor1 = $backColor2 = $backColor3 = '';
     foreach ($obTable->getResult() as $row)
 		{
       $edit = "<button type='button'
@@ -4189,6 +4190,7 @@ class CedulesModel extends Ci3Model
     $obTable = $this->db->query($sql);
     $idchauf = 0;
     /** @var object $row */
+    $backColor1 = $backColor2 = $backColor3 = '';
     foreach ($obTable->getResult() as $row)
 		{
       switch ($row->TypeDeProduit)
@@ -4454,6 +4456,7 @@ class CedulesModel extends Ci3Model
     $obTable = $this->db->query($sql);
     $idchauf = 0;
     /** @var object $row */
+    $backColor1 = $backColor2 = $backColor3 = '';
     foreach ($obTable->getResult() as $row)
 		{
       switch ($row->TypeDeProduit)

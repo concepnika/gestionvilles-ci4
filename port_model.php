@@ -77,6 +77,34 @@ $rules = [
     ['/->trans_status\(/' => '->transStatus('],
 ];
 
+/**
+ * Patches manuels par modele — appliques APRES les regles
+ * mecaniques, pour les cas qu'aucune regex generique ne couvre.
+ * Chaque entree : fonction(string $code): string.
+ */
+$patches = [
+    'Cedules' => [
+        // getRapportJour : CI3 reutilisait les $backColorN de
+        // l'iteration precedente (undefined au 1er tour, tolere).
+        // On les initialise avant le foreach des camions.
+        function (string $code): string {
+            $inject = "\$backColor1 = \$backColor2 = \$backColor3 = '';\n    ";
+            foreach (['function getRapportJour(', 'function getRapportJourRes(', 'function getValidChauffeurJour('] as $anchor) {
+                $pos = strpos($code, $anchor);
+                if ($pos === false) {
+                    continue;
+                }
+                $loop = strpos($code, 'foreach ($obTable->getResult() as $row)', $pos);
+                if ($loop === false) {
+                    continue;
+                }
+                $code = substr($code, 0, $loop) . $inject . substr($code, $loop);
+            }
+            return $code;
+        },
+    ],
+];
+
 foreach (array_slice($argv, 1) as $arg) {
     $base = preg_replace('/_model$/i', '', trim($arg));
     $src = CI3_MODELS . $base . '_model.php';
@@ -89,6 +117,9 @@ foreach (array_slice($argv, 1) as $arg) {
     $code = file_get_contents($src);
     foreach ($rules as $r) {
         $code = preg_replace(array_keys($r), array_values($r), $code);
+    }
+    foreach ($patches[$base] ?? [] as $patch) {
+        $code = $patch($code);
     }
     // entete : <?php + namespace + docblock
     $code = preg_replace(

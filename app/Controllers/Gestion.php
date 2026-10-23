@@ -757,29 +757,82 @@ class Gestion extends Login
         return $this->toCi3();
     }
 
+    /**
+     * CI3 : co_gestion/showValidSanivan — page de validation sanivan
+     * (rapport de la veille). PORTE.
+     */
     public function showValidSanivan(...$args)
     {
-        return $this->toCi3();
+        $ci3 = new Ci3Session();
+        helper('ci3view');
+        $cedules = new CedulesModel();
+
+        $date = date_create(date('Y-m-d'));
+        $date = date_modify($date, "-1 days");
+        $data['ActiveDate'] = $date->format('Y-m-d');
+        $data['validsanivan'] = $cedules->getRapportJour($data['ActiveDate']);
+        $data['html'] = view('sanivan/inc_rapport', $data);
+        $data['nom'] = $ci3->get('nom');
+        $data['email'] = $ci3->get('email');
+        $data['employes'] = $cedules->GetAllEmployes('0', '0');
+        $data['camions'] = $cedules->GetAllCamions();
+        $data['typededechet'] = $cedules->GetAllTypeProduits();
+        $data['typeabsences'] = $cedules->GetTypeAbsences();
+
+        $data['navtop'] = view('partials/navtop', $data);
+        $data['navleft'] = view('partials/navleft', $data);
+        $ci3->set('LAST_PAGE', 6);
+        return $this->response->setBody(view('sanivan/validation', $data));
     }
 
-    public function getValidation(...$args)
+    /**
+     * CI3 : co_gestion/getValidation — rapport du jour (HTML). PORTE.
+     */
+    public function getValidation($date = null)
     {
-        return $this->toCi3();
+        $cedules = new CedulesModel();
+        return $this->response->setBody($cedules->getRapportJour($date));
     }
 
-    public function getValidationChauffeur(...$args)
+    /**
+     * CI3 : co_gestion/getValidationChauffeur — validation chauffeur
+     * du jour. PORTE.
+     */
+    public function getValidationChauffeur($date = null)
     {
-        return $this->toCi3();
+        $ci3 = new Ci3Session();
+        $db = \Config\Database::connect();
+        $cedules = new CedulesModel();
+        return $this->response->setBody(
+            $cedules->getValidChauffeurJour($date, $db->escape($ci3->get('user_id')))
+        );
     }
 
-    public function PostSuivis(...$args)
+    /**
+     * CI3 : co_gestion/PostSuivis — MAJ heures d'un suivis puis
+     * rapport du jour. PORTE.
+     */
+    public function PostSuivis($StartTime = null, $EndTime = null, $dinerdeb = null, $id = null, $dateactive = null)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $StartTime = $db->escape($StartTime);
+        $EndTime = $db->escape($EndTime);
+        $dinerdeb = $db->escape($dinerdeb);
+        $id = $db->escape($id);
+        $cedules = new CedulesModel();
+        $cedules->PostSuivis($StartTime, $EndTime, $dinerdeb, $id);
+        return $this->response->setBody($cedules->getRapportJour($dateactive));
     }
 
-    public function DeleteSuivis(...$args)
+    /**
+     * CI3 : co_gestion/DeleteSuivis — suppression d'un suivis. PORTE.
+     */
+    public function DeleteSuivis($id = null)
     {
-        return $this->toCi3();
+        $db = \Config\Database::connect();
+        $id = $db->escape($id);
+        $db->query("DELETE FROM suivis WHERE id = $id");
+        return $this->response->setBody('ok');
     }
 
     public function PostCam(...$args)
