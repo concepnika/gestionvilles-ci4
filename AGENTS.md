@@ -11,16 +11,10 @@
 Migration strangler CI3 → CI4 de l'app GestionVilles.
 
 - **Repo** : `https://github.com/concepnika/gestionvilles-ci4` (branche `main`)
-- **Machine de dév actuelle** : Surface Pro 7 — CI3 et CI4 vivent tous
-  deux sous `D:\Programmations\php appl\`
-- **App CI3 (source de référence)** : `D:\Programmations\php appl\GestionVilles`
-  (non versionnée avec CI4 — c'est l'app legacy en prod ; CodeIgniter 3.1.11,
-  pas de `.htaccess` racine local → routage vhost requis)
+- **App CI3 (source de référence)** : `E:/Serveur Cloud/GestionVilles`
+  (non versionnée avec CI4 — c'est l'app legacy en prod)
 - **Prod cible** : CI4 servi sous `https://robert-daoust.ca/ci4/`
-- **PHP local** : 8.2.29 (fcgid), WampServer Apache 2.4.65, MySQL 8.4.7
-- **Ancienne machine** : les chemins `e:/devin_projet/...` et
-  `E:/Serveur Cloud/...` qui apparaissent dans MIGRATION.md et l'historique
-  sont OBSOLÈTES — toujours utiliser les chemins D: ci-dessus.
+- **PHP local** : 8.2.29 (fcgid), WampServer Apache 2.4.65
 
 ## Décision d'architecture (2026-10-20) : vhosts séparés
 
@@ -45,25 +39,16 @@ la migration, avec session partagée.
 ```apache
 <VirtualHost *:80>
     ServerName gestionvillesci4.local
-    DocumentRoot "d:/Programmations/php appl/gestionvilles-ci4/public"
-
-    # Assets partages avec CI3 : en prod, CI4 vit sous /ci4/ du meme
-    # domaine et /assets est servi par CI3 a la racine — l'Alias
-    # reproduit ce montage localement (logo, AdminLTE, bootstrap...).
-    Alias /assets "d:/Programmations/php appl/GestionVilles/assets"
-    <Directory "d:/Programmations/php appl/GestionVilles/assets">
-        Require local
-    </Directory>
+    DocumentRoot "e:/devin_projet/gestionvilles-ci4/public"
 
     # Routage front-controller AU NIVEAU VHOST : le .htaccess de
     # public/ garde RewriteBase /ci4/ pour la prod.
     RewriteEngine On
-    RewriteRule ^/assets/ - [L]
     RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
     RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
     RewriteRule ^/(?!index\.php)(.+)$ /index.php/$1 [L]
 
-    <Directory "d:/Programmations/php appl/gestionvilles-ci4/public">
+    <Directory "e:/devin_projet/gestionvilles-ci4/public">
         Options +Includes +FollowSymLinks +MultiViews
         AllowOverride All
         AcceptPathInfo On
@@ -82,38 +67,15 @@ la migration, avec session partagée.
 </VirtualHost>
 ```
 
-Un vhost similaire est requis pour CI3 (`gestionvilles.local`,
-DocumentRoot `d:/Programmations/php appl/GestionVilles`, même
-routage front-controller vhost car pas de `.htaccess` racine local,
-PHP 8.2.29).
-
-Fichier `C:\Windows\System32\drivers\etc\hosts` :
+Fichier `C:\Windows\System32\drivers\etc\hosts` (déjà présent sur la
+machine d'origine) :
 
 ```
-127.0.0.1	gestionvilles.local
-::1	gestionvilles.local
 127.0.0.1	gestionvillesci4.local
 ::1	gestionvillesci4.local
 ```
 
 Puis redémarrer Apache (`wampapache64`).
-
-### Procédure fresh-clone (Surface Pro 7)
-
-Dans `D:\Programmations\php appl\gestionvilles-ci4` :
-
-1. `composer install` (vendor/ non commité — phar dispo :
-   `/c/wamp64/bin/php/php8.2.29/php.exe "/d/Programmations/php appl/composer.phar" install`).
-   Si échec `installed.php: Resource temporarily unavailable` (verrou
-   antivirus/OneDrive sur les fichiers fraîchement extraits) : relancer.
-2. Créer `writable/{cache,logs,session,uploads,cache/osrm}` avec un
-   `.gitkeep` dans chacun (sinon : `CacheException` silencieuse →
-   `spark` sort en 1 SANS message en environnement production).
-3. Créer `.env` (non commité, gitignore) — modèle ci-dessous.
-4. Vhosts (ci-dessus) + hosts + démarrage services : lancer
-   `setup_gestionvilles_local.bat` **en administrateur** (idempotent :
-   entrées hosts + `net start wampmysqld64`/`wampapache64`).
-5. Vérifier la config Apache : `httpd.exe -t` → `Syntax OK`.
 
 **Pièges déjà rencontrés** :
 - `RewriteBase /ci4/` dans `public/.htaccess` doit rester (prod) → ne
@@ -123,27 +85,36 @@ Dans `D:\Programmations\php appl\gestionvilles-ci4` :
 - En contexte vhost, `%{REQUEST_FILENAME}` n'est pas encore mappé →
   tester `%{DOCUMENT_ROOT}%{REQUEST_URI}`.
 - `AcceptPathInfo On` requis avec mod_fcgid + PATH_INFO.
-- `App::$indexPage = ''` requis : avec `'index.php'`, les `redirect()`
-  de CI4 pointent vers `/index.php/...` (double redirection sale).
-  Le montage vhost (local) et le .htaccess (prod) gèrent les URLs
-  propres.
 
 ### `.env` (non commité — à recréer)
 
 ```ini
-CI_ENVIRONMENT = development
 app.baseURL = 'http://gestionvillesci4.local/'
 database.default.hostname = localhost
 database.default.database = gestionvilles
 database.default.username = root
 database.default.password =
 database.default.DBDriver = MySQLi
-samsara.apiKey = '<clé reprise de GestionVilles/application/config/samsara.php>'
-samsara.baseUrl = 'https://api.samsara.com'
-osrm.base = 'http://127.0.0.1:5000'
-sanivan.uploadDir = 'D:/Programmations/php appl/GestionVilles/upload/sanivan'
-ci3.webroot = 'D:/Programmations/php appl/GestionVilles'
+ci3.webroot = 'E:/Serveur Cloud/GestionVilles'
+mapbox.accessToken = '<jeton pk.…>'
+# + samsara.apiKey, samsara.baseUrl, osrm.base, sanivan.uploadDir
+#   (voir MIGRATION.md § ".env")
 ```
+
+### Checklist « nouvelle machine »
+
+1. `git clone https://github.com/concepnika/gestionvilles-ci4`
+2. `composer install`
+3. Recréer `.env` ci-dessus (adapter `ci3.webroot` au chemin local
+   de l'app CI3 — **pas en version CI4 dans ce repo**)
+4. Copier l'app CI3 `E:/Serveur Cloud/GestionVilles` (non versionnée)
+   + importer la BD `gestionvilles` dans MySQL
+5. Vhost `gestionvillesci4.local` + hosts (bloc Apache ci-dessus)
+6. Schéma local : s'assurer que `camionjour` a les colonnes
+   `debut1..4`, `fin1..4`, `Depotoire1..4`, `Ticket1..4`, `Tonnage1..4`
+   (ajoutées sur la machine d'origine — voir note plus bas)
+7. Test : `php tools/mksess.php` → cookie `ci_session`, puis
+   `./sweep.sh` (balayage CI3 vs CI4)
 
 ## Authentification CI4 (portée)
 
@@ -163,13 +134,8 @@ session **au format CI3** (même mécanisme que CI3, même table).
 - `app/Controllers/Login.php` : `index` (formulaire, toujours affiché
   comme `co_gestion/index`), `attempt` (POST), `admin` (≈ `GotoHome`),
   `logout`, `safeNext` (anti open-redirect).
-- `app/Views/auth/login.php` : **portée de `partials/login2`** (logo,
-  « Gestion des villes », « Connectez-vous pour débuter votre session »,
-  « Mot de passe oublié? » → modal → `/inscription/getinfo`). POST vers
-  `/admin/tableau_de_bord?from=2` (routes CI3 conservées) ; libellés
-  via `ci3lang()` (CI3 n'avait pas de fichiers de langue — clés
-  `login_email`, `login_forget`, ... ajoutées au helper) ; assets servis
-  par l'Alias vhost `/assets` (miroir prod).
+- `app/Views/auth/login.php` : formulaire simple (la vraie vue CI3
+  `partials/login2` n'est pas encore portée).
 - `app/Filters/Ci3AuthFilter.php` : non connecté → `/login?next=<uri>`.
 - **Hachage identique à CI3** :
   `password_verify(hash_hmac('sha256', $mdp, 'nikajhdgsjgdsdssd'), webuser.pass)`
@@ -187,11 +153,11 @@ la correspondance CI3 → classe CI4 :
 
 | CI3 | CI4 | État |
 |---|---|---|
-| `co_gestion` | `Gestion` (extends `Login`) | auth portée ; ~175 méthodes en stubs |
+| `co_gestion` | `Gestion` (extends `Login`) | **entièrement porté** (146 méthodes via `port_controller.php`, parité balayage `sweep.sh`) |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
-| `Co_web_chauffeur` | `WebChauffeur` | **porté (phase 2)** |
-| `Co_ville` | `Ville` | **porté (phase 2)** |
+| `Co_ville` | `Ville` | stubs |
+| `Co_web_chauffeur` | `WebChauffeur` | stubs |
 | `co_polyline`, `polyline`, `Polyline` | `Polyline` | stubs (fusionnés) |
 | `co_admin`, `co_sessions`, `Co_admin_tags`, `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`, `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`, `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` | mêmes noms PascalCase | stubs |
 
@@ -210,10 +176,97 @@ renvoie statut + en-têtes + corps de la réponse CI3 :
 - Route catch-all `(:any)` → `Proxy::pass` en fin de `Routes.php` :
   relaie aussi les assets du docroot CI3 (`upload/*`, images, JS) et
   toute URL non déclarée.
+- **Piège sess_match_ip** : CI3 a `sess_match_ip = true` et le hosts
+  local mappe `gestionvilles.local` sur `::1` ET `127.0.0.1`. Le proxy
+  appelle donc `http://127.0.0.1` + `Host: gestionvilles.local` pour
+  garantir une IP source constante — sinon CI3 invalide la session à
+  chaque bascule IPv4/IPv6 (redirection vers `/`).
+- **Format id session** : les ids `ci_sessions` CI3 font 32 chars
+  `[0-9a-v]` (sid_bits=5). `Ci3Session::create()` reproduit ce format
+  et enregistre `ip_address = '127.0.0.1'` (l'IP que CI3 voit via le
+  proxy), sinon CI3 rejetterait la session lors des appels proxies.
+  Une session créée avant ce correctif (ip `::1`) est invalide →
+  se reconnecter.
 
 **Pour porter une méthode** : remplacer `return $this->toCi3();` par
 l'implémentation réelle dans le contrôleur CI4 — les routes sont déjà
 en place, aucune modif de Routes.php nécessaire.
+
+### Chaîne de port (outillage en place)
+
+- **`port_view.php`** (racine) : `php port_view.php partials/home ...`
+  copie une vue CI3 vers `app/Views/` avec transformation mécanique
+  (`$this->load->view` → `echo view()`, `userdata` → `ci3sess`,
+  `base_url`/`site_url` → `ci3_url`, `lang->line` → `ci3lang`,
+  `input->post_get` → `ci3in`, garde BASEPATH retirée).
+- **`app/Helpers/ci3view_helper.php`** : `ci3sess()`/`ci3set()`/
+  `ci3lang()`/`ci3_url()`/`ci3in()` — penser à `helper('ci3view')`
+  dans le contrôleur avant `view()`.
+- **`App\Models\Ci3Model`** : base des modèles portés — fournit
+  `$this->db` (connexion CI4, API quasi identique CI3), `$this->input`
+  (post_get/get/post), `$this->session` (adaptateur userdata/set_userdata/
+  has_userdata + magic `->email`), `$this->data`/`objData`,
+  `JourDeSemaine`, `$this->sess()`.
+- **`port_model.php`** (racine) : `php port_model.php Cedules_model`
+  copie un modèle CI3 ENTIER vers `app/Models/XModel.php` avec
+  transformation mécanique (classe, loaders, `load->model` →
+  `new XModel()`, session, `result()/row()/num_rows()` → API CI4,
+  `private $` → `protected $`, `new stdClass` → `new \stdClass`,
+  Query Builder `db->insert/update/set/get_where` → `table()`).
+  `CedulesModel`/`CreationcdModel`/`RequetesModel` sont des ports
+  complets ainsi générés — **NE PAS éditer à la main**, relancer le
+  script (les modifs manuelles sont perdues).
+- **`App\Libraries\Ci3Upload`** : adaptateur de `$this->upload` CI3
+  (`do_upload`/`display_errors`/`file_name`). Les chemins `./upload/…`
+  sont résolus contre `ci3.webroot` (.env) pour que CI3 et CI4 voient
+  les mêmes fichiers. `port_model.php` convertit
+  `load->library('upload', $config)` en `new Ci3Upload($config)`.
+- ⚠️ `strpos($x, ',', 2)` : PHP 8 lève `ValueError` si offset >
+  longueur (CI3/PHP7 retournait false) — garder avec `strlen() > 2`
+  lors du port.
+- ⚠️ Variables de vues non fournies : CI3 tolérait les `undefined`,
+  CI4 lève `ErrorException` — initialiser les clés lues par la vue.
+- ⚠️ `explode('-', $d)[1]` : `+ [1 => null]` pour reproduire
+  l'index manquant toléré par CI3.
+- **`App\Libraries\LibCalendrier`** : port de la librairie CI3
+  (`getCalendrierVille` génère le HTML des calendriers par ville).
+- ⚠️ `FrequenceDeploie` case 5 : CI3 utilisait `DateInterval('1 third')`
+  (false → crash) ; le port utilise `'1 month'` + `third X of this
+  month` — intention réelle, déviation assumée.
+- ⚠️ Schéma local : `camionjour` manquait `debut1..4`, `fin1..4`,
+  `Depotoire1..4`, `Ticket1..4`, `Tonnage1..4` (prod les a) —
+  ajoutées localement le 2026-10-23 pour tester la validation.
+- `port_model.php` a une section `$patches` (par modèle) pour les
+  corrections non génériques — ex. init de `$backColor1..3` avant les
+  boucles de `getRapportJour`/`getRapportJourRes`/`getValidChauffeurJour`
+  (CI3 réutilisait la valeur de l'itération précédente).
+- **Vues portées** : ~180 vues via `port_view.php` (toutes sauf
+  `errors/` et `sanivan/index.php` — ce dernier dépend de classes
+  legacy inexistantes `ClassCedule`/`ClassConnect`).
+- Debugbar CI4 **désactivée** (`Filters::$required`) — elle injectait
+  ~28 Ko dans chaque réponse, fragments AJAX inclus.
+- ⚠️ `$this->session->userdata['x']` (forme tableau) en CI3 = accès
+  tableau sur la méthode → **toujours null** (via `__get`). Les vues
+  convertissent vers `ci3sess('userdata')['x'] ?? null` pour garder
+  ce comportement (ex. switch de menu de `partials/calendrier*.php`,
+  dont les vues `menu_supersuser`/`menu_superviseur`/… n'existent
+  pas même en CI3).
+- ⚠️ `Ci3Db` : `query()`/terminaux QB retournent `false` sur
+  `DatabaseException` (contrat CI3 `db_debug=false`) ; erreurs dans
+  `writable/logs`. `getResult()` sur `false` = fatal, comme CI3.
+- Libs PDF legacy (`application/controllers/pdf/*.php`) : incluses
+  via `env('ci3.webroot')` + `chdir()` préalable pour résoudre les
+  chemins relatifs `./assets/`/`./upload/` ; `new \PDF()` global.
+- `APPPATH` CI3 → `env('ci3.webroot') . '/application/'` ;
+  `PHPExcel*` préfixé `\` (classes globales).
+- ⚠️ **PHPExcel incompatible PHP 8** (accolades `$str{0}`) — les
+  exports Excel (`villes/requeteexcel`, `excel/cedule`, `excel/hres`)
+  retournent 500 en CI3 local aussi (parité). En prod PHP ancien
+  ils fonctionnaient ; remplacement nécessaire (PhpSpreadsheet?).
+- ⚠️ Table `requetes` vide en local → `villes/reponsepdf/*` échoue
+  dans les deux apps (parité 500).
+- `sweep.sh` : balayage comparatif CI3 vs CI4 (~60 routes,
+  codes + tailles). `./sweep.sh [filtre]`.
 
 ### Limites connues du proxy
 
@@ -238,98 +291,22 @@ curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" \
 curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 ```
 
-## Port Co_web_chauffeur → WebChauffeur (phase 2, 2026-10-20)
-
-Portail web navigateur des chauffeurs SaniVan (~40 routes `web/*`,
-`ramassage-ville`). Testé de bout en bout en local avec un chauffeur
-de test (login, dashboard, villes, truckmap, APIs JSON, écritures,
-bootstrap MAUI, heartbeat, logout) — données de test purgées.
-
-- `app/Controllers/WebChauffeur.php` : port des ~40 méthodes +
-  helpers (`checkAuth`, heartbeat throttlé 60s, CORS, flashdata via
-  clé `web_flash_error`, dédup GPS Haversine/buckets 10s, Nominatim
-  throttlé 60s/camion).
-- `app/Libraries/WebChauffeurService.php` : port de
-  `Web_chauffeur_model` (SQL verbatim CI3).
-- `app/Libraries/SamsaraClient.php` : étendu avec stats GPS
-  (`getLatestLocation` avec retry stats→feed→history, batch multi
-  véhicules, historique).
-- `app/Views/web_chauffeur/` : 6 vues CI3 copiées avec remplacement
-  mécanique (`session->userdata` → `ci3sess`, `load->view` → `view`).
-- `app/Libraries/Pdf/` : FPDF + font/ copiés de CI3 pour les billets
-  de dépotoir (photo → PDF).
-- **Session** : clés `web_*` en session CI3 partagée ; le login et le
-  bootstrap MAUI **créent** la session via `Ci3Session::create()` si
-  absente (garanti par `ensureSession()` — voir `sessSet`).
-- **Uploads** : `api_upload_ticket` écrit dans le docroot CI3
-  (`env ci3.webroot`), URLs `/uploads/...` servies par CI3 en prod ;
-  localement via `Alias /uploads` du vhost (comme `/assets`).
-- **Divergences documentées** :
-  - `nav_bureau` → `/admin/connexion` (CI3 hardcodait des
-    identifiants en clair dans l'URL — non reproduits en repo).
-  - `web/api_get_polyline_dynamique` : route AJOUTÉE (appelée par le
-    JS de truckmap mais absente de la table CI3 — bug latent corrigé).
-  - `api_samsara_diag` / `api_autorisation_spectateur` : non portés
-    (jamais routés en CI3, jamais appelés par les vues).
-
-## Port Co_ville → Ville (phase 2, 2026-10-20)
-
-Portail citoyen (~40 routes `villes/*` + `ville/*`), zones de collecte
-et tags de carte. Testé de bout en bout en local avec un citoyen de
-test (login AES, accueil + carte, liste/création requête, réponse,
-profil, polling, tags, hub, logout) — données de test purgées.
-
-- `app/Controllers/Ville.php` : port des ~40 méthodes routées
-  (auth citoyenne AES contre `villesrecipiendaire`, requêtes/réponses
-  avec fichiers joints, mot de passe oublié par courriel, profil,
-  zones (`nav_zone`, `zones_api`, `saveZone`, `save_drawn_polyline`),
-  tags de collecte et de carte, `NavZoneHub`, langue fr/en).
-- `app/Libraries/VilleService.php` : AES (clé SHA2 de
-  `Villes_model::$keysha` — **différente du pepper admin**), zones,
-  raisons de tags.
-- `app/Config/MapTags.php` : fallback des raisons (config CI3).
-- `app/Views/` : 18 vues copiées (villes/*, requetes/lstereception,
-  sections/inc_menu_2, partials/menu_motpasse, leaflet/map_nav_zone
-  2 800 lignes + map_nav_zone_hub) avec remplacements mécaniques
-  (`ci3sess`, `ci3lang`, `ci3_url`, `view`). `villes/incfile/*`
-  conservés (déjà adaptés CI4 au port TabletteSani).
-- **Session citoyenne** : clés `idville`, `ville`, `nom`, `email`,
-  `id`, `site_lang`, `last_page_{fr,en}` — créée par le constructeur
-  (détection langue) et le login comme CI3.
-- **Uploads** : docroot CI3 (`env ci3.webroot`) —
-  `upload/{idville}/{id}` (requêtes), `.../reponse/{id}` (réponses),
-  `userfiles/` (summernote), `upload/sanivan/tags/` (images de tags).
-- **Divergences par rapport à CI3** (documentées dans le code) :
-  - Détection langue : CI3 testait `strpos('/fr/')` (jamais trouvé
-    sur les routes finissant par `/fr`) + comparait `FALSE > -1`
-    (toujours vrai) → forçait 'fr' en permanence. Le port teste
-    `/fr` et `/en` (intention d'origine restaurée).
-  - `set_tempdata('codemail')` → clé de session normale (Ci3Session
-    n'a pas de tempdata).
-  - `getOptStatut` : `ORDER BY description` (colonne absente — bug
-    latent CI3) → `ORDER BY description_fr`.
-  - Non portés (jamais routés en CI3 ni CI4) : `resetPassword`,
-    `mapTagChauffeurs`, `SlugUrl`, `getReponseForReq` est public
-    (helper interne), `current_idville` porté mais non routé.
-  - `base_url(null)` (CI3 silencieux) → cast string (CI4 strict).
-
 ## Reste à faire
 
-- Porter les méthodes stub (ordre recommandé : voir MIGRATION.md
-  « Ordre de migration » — `Polyline`, TV, admin ensuite ;
-  `co_gestion` en dernier). Les portails externes
-  (`Co_web_chauffeur`, `Co_ville`) sont PORTÉS.
-- `co_gestion/login` : le tableau de bord n'étant pas porté, un login
-  réussi (`from=2`) redirige vers `/` (page statut) au lieu de rendre
-  `partials/home` ; `from=1` redirige vers `/sanivan/routecam/{date}`
-  (porté). Brancher sur le vrai tableau de bord quand il sera porté.
-- Flow `forcechange` : `Login::attempt` redirige vers
-  `/login/change?email=...` (stub → 307 CI3) — le flow complet
-  (`resetPassW`, vue `chgpassw`, `ValidOldPassW`, `ValidStrongPassW`,
-  `PostresetPassW`) est à porter si des comptes ont `forcechange=1`.
-- « Mot de passe oublié? » → `/inscription/getinfo` : stub → 307 vers
-  CI3 (GET, fonctionne cross-host sans session). Porter `sendPassword`
-  + vue `forgot-password` éventuellement.
+- `co_gestion` est **entièrement porté** (146 méthodes converties via
+  `port_controller.php` + 20 modèles + ~180 vues) et en parité
+  fonctionnelle avec CI3 (balayage `sweep.sh`). Il reste à éprouver
+  les POST réels côté UI (formulaires complets avec données
+  valides) — les tests automatisés couvrent surtout les GET et
+  quelques POST représentatifs.
+- Exports Excel : remplacer PHPExcel (incompatible PHP 8) —
+  `villes/requeteexcel`, `excel/cedule`, `excel/hres`.
+- Porter les autres contrôleurs : `Co_ville`, `Co_web_chauffeur`,
+  `Polyline`, `Co_admin`, `co_sessions`, `Co_admin_tags`,
+  `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`,
+  `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`,
+  `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` (stubs →
+  `toCi3()` pour l'instant).
 - `TabletteSani::loginChauffeur` : `$this->ci3->set()` est un no-op sans
   session existante — appeler `Ci3Session::create()` si `user()` est
   null avant les `set()` (le flow tablette sur l'hôte CI4).

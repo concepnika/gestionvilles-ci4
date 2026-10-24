@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 $page_id    = 'dashboard';
 $page_title = 'CAMION / RH';
 
@@ -31,8 +31,8 @@ ob_start();
 <?php if ( ! empty($cedules)): ?>
 <div class="row" style="margin-bottom:10px;">
     <div class="col-xs-12">
-        <?php foreach ($cedules as $i => $ced): ?>
-            <a href="/web/changeCedule/<?php echo $i; ?>"
+        <?php foreach (($cedules ?? []) as $i => $ced): ?>
+            <a href="/web/changeCedule/<?php echo ($i ?? ''); ?>"
                class="badge-cedule"
                style="display:inline-block;padding:6px 14px;margin:3px;border-radius:4px;text-decoration:none;font-weight:bold;
                       background:<?php echo !empty($ced['BackCouleurDechet']) ? $ced['BackCouleurDechet'] : '#3498db'; ?>;
@@ -63,7 +63,7 @@ ob_start();
                         CAM: <?php echo htmlspecialchars($nocamion); ?>
                     </span>
                 </div>
-                <?php if ( ! $broker): ?>
+                <?php if (empty($broker)): ?>
                 <div style="text-align:center; margin-bottom:10px;">
                     <button type="button" class="btn btn-default" id="btnChgCamion" style="background:transparent; border:none;">
                         <img src="/assets/img/fleche.jpg" style="width:60px; height:60px;" alt="Changer" />
@@ -102,7 +102,7 @@ ob_start();
                     <label class="col-xs-5 control-label" style="font-size:18px; font-weight:bold;">HEURES / DEBUT:</label>
                     <div class="col-xs-7">
                         <input type="time" class="form-control sani-input" id="HreDeb_cam"
-                               value="<?php echo $camHreDeb; ?>" data-field="HreDeb_cam" />
+                               value="<?php echo ($camHreDeb ?? ''); ?>" data-field="HreDeb_cam" />
                     </div>
                 </div>
                 <!-- HEURES / FIN -->
@@ -110,7 +110,7 @@ ob_start();
                     <label class="col-xs-5 control-label" style="font-size:18px; font-weight:bold;">HEURES / FIN:</label>
                     <div class="col-xs-7">
                         <input type="time" class="form-control sani-input" id="HreFin_cam"
-                               value="<?php echo $camHreFin; ?>" data-field="HreFin_cam" />
+                               value="<?php echo ($camHreFin ?? ''); ?>" data-field="HreFin_cam" />
                     </div>
                 </div>
 
@@ -144,23 +144,23 @@ ob_start();
                     <div class="form-group sani-field" style="margin-top:8px;">
                         <label style="font-size:22px; font-weight:bold;">DEBUT</label>
                         <input type="time" class="form-control sani-input" id="HreDeb_chauf"
-                               value="<?php echo $chaufHreDeb; ?>" style="background:Yellow; display:inline-block; width:auto;" />
+                               value="<?php echo ($chaufHreDeb ?? ''); ?>" style="background:Yellow; display:inline-block; width:auto;" />
                     </div>
                     <div class="form-group sani-field">
                         <label style="font-size:22px; font-weight:bold;">FIN</label>
                         <input type="time" class="form-control sani-input" id="HreFin_chauf"
-                               value="<?php echo $chaufHreFin; ?>" style="background:Yellow; display:inline-block; width:auto;" />
+                               value="<?php echo ($chaufHreFin ?? ''); ?>" style="background:Yellow; display:inline-block; width:auto;" />
                     </div>
                 </div>
 
                 <!-- Bloc EXTRA -->
-                <?php if ( ! $broker): ?>
+                <?php if (empty($broker)): ?>
                 <div style="border:2px solid #000; border-radius:8px; padding:8px;">
                     <div style="font-size:26px; color:Red; font-weight:bold;">EXTRA</div>
                     <div class="form-group sani-field" style="margin-top:8px;">
                         <select class="form-control sani-input" id="selExtra" style="font-size:18px; font-weight:bold;">
                             <option value="">CHOISIR TYPE</option>
-                            <?php foreach ($extras as $ext): ?>
+                            <?php foreach (($extras ?? []) as $ext): ?>
                                 <option value="<?php echo htmlspecialchars($ext); ?>"
                                     <?php if ($ext == $chaufTypeExtra) echo 'selected'; ?>>
                                     <?php echo htmlspecialchars($ext); ?>
@@ -171,12 +171,12 @@ ob_start();
                     <div class="form-group sani-field">
                         <label style="font-size:22px; font-weight:bold;">DEBUT</label>
                         <input type="time" class="form-control sani-input" id="HreDeb_extra"
-                               value="<?php echo $chaufHreDebEx; ?>" style="background:Yellow; display:inline-block; width:auto;" />
+                               value="<?php echo ($chaufHreDebEx ?? ''); ?>" style="background:Yellow; display:inline-block; width:auto;" />
                     </div>
                     <div class="form-group sani-field">
                         <label style="font-size:22px; font-weight:bold;">FIN</label>
                         <input type="time" class="form-control sani-input" id="HreFin_extra"
-                               value="<?php echo $chaufHreFinEx; ?>" style="background:Yellow; display:inline-block; width:auto;" />
+                               value="<?php echo ($chaufHreFinEx ?? ''); ?>" style="background:Yellow; display:inline-block; width:auto;" />
                     </div>
                 </div>
                 <?php endif; ?>
@@ -195,9 +195,9 @@ ob_start();
                     INFORMATION AIDE
                 </div>
 
-                <?php foreach ($aides as $idx => $aide): ?>
+                <?php foreach (($aides ?? []) as $idx => $aide): ?>
                 <div class="aide-frame" style="border:1px solid Orange; border-radius:8px; padding:6px; margin-top:8px; text-align:center;"
-                     data-aide-id="<?php echo htmlspecialchars($aide['id']); ?>" data-aide-idx="<?php echo $idx; ?>">
+                     data-aide-id="<?php echo htmlspecialchars($aide['id']); ?>" data-aide-idx="<?php echo ($idx ?? ''); ?>">
                     <div style="font-size:18px; color:DarkBlue; font-weight:bold;">
                         <?php echo htmlspecialchars($aide['Nom'] ?? 'Aide ' . ($idx+1)); ?>
                     </div>

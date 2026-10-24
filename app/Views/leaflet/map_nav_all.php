@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -130,7 +130,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div id="leftPanel">
       <label style="font-size:24px;font-weight:600;min-width:220px">LOCALISATION</label>
       <label style="width:220px;">Date
-        <input type="date" style="width:160px" class="form-control" onchange="getDateChange(this.value)" value="<?php echo $ActiveDate; ?>" id="dtedeb" />
+        <input type="date" style="width:160px" class="form-control" onchange="getDateChange(this.value)" value="<?php echo ($ActiveDate ?? ''); ?>" id="dtedeb" />
       </label>
       <input type="hidden" id="edtLapRefresh" value="30" />
       <input type="hidden" id="edtEpaisseur" value="4" />

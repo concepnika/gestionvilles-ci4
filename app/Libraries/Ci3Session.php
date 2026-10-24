@@ -67,8 +67,16 @@ class Ci3Session
     public function create(array $data): void
     {
         self::$loaded = true;
-        self::$sessionId = bin2hex(random_bytes(20));
-        self::$ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
+        // Format d'id CI3 : 32 caracteres [0-9a-v] (sid_bits=5) —
+        // un id 40-hex serait rejete par CI3 lors des appels proxies.
+        $alphabet = '0123456789abcdefghijklmnopqrstuv';
+        self::$sessionId = '';
+        for ($i = 0; $i < 32; $i++) {
+            self::$sessionId .= $alphabet[random_int(0, 31)];
+        }
+        // IP vue par CI3 via le proxy interne (sess_match_ip = true) :
+        // toutes les requetes proxies partent de 127.0.0.1.
+        self::$ipAddress = '127.0.0.1';
         self::$data = $data;
         // CI3 stocke toujours session_id dans les userdata
         // (co_gestion/login : set_userdata('session_id', session_id())).
@@ -208,17 +216,62 @@ class Ci3Session
             }
             $name = substr($raw, $offset, $pos - $offset);
             $offset = $pos + 1;
-            $value = @unserialize(substr($raw, $offset));
-            if ($value === false && substr($raw, $offset, 4) !== 'b:0;') {
+            // PHP 8 : unserialize() rejette les octets en trop — il
+            // faut la longueur exacte de la valeur serialisee.
+            $vlen = self::valueLength($raw, $offset);
+            if ($vlen === false) {
                 break; // donnee corrompue : on garde ce qui a ete decode
             }
-            // strlen(serialize($v)) = longueur consommee dans $raw :
-            // la forme serialisee est deterministe pour les scalaires,
-            // tableaux et objets stockes par CI3.
-            $offset += strlen(serialize($value));
-            $out[$name] = $value;
+            $out[$name] = unserialize(substr($raw, $offset, $vlen));
+            $offset += $vlen;
         }
 
         return $out;
+    }
+
+    /**
+     * Longueur de la valeur serialisee a $offset (format PHP :
+     * b:0; i:12; d:1.5; N; s:L:".."; a:N:{..}; O:L:"cls":N:{..}).
+     */
+    private static function valueLength(string $raw, int $offset): int|false
+    {
+        $c = $raw[$offset] ?? '';
+        switch ($c) {
+            case 'b':
+            case 'i':
+            case 'd':
+            case 'N':
+                $end = strpos($raw, ';', $offset);
+                return $end === false ? false : $end - $offset + 1;
+            case 's':
+                if (! preg_match('/\As:(\d+):"/', substr($raw, $offset), $m)) {
+                    return false;
+                }
+                return strlen($m[0]) + (int) $m[1] + 2; // "…";
+            case 'a':
+            case 'O':
+                if (! preg_match('/\A(?:a|O:\d+:"[^"]*"):\d+:\{/', substr($raw, $offset), $m)) {
+                    return false;
+                }
+                $depth = 1;
+                $j = $offset + strlen($m[0]);
+                $len = strlen($raw);
+                while ($j < $len && $depth > 0) {
+                    $ch = $raw[$j];
+                    if ($ch === '{') {
+                        $depth++;
+                    } elseif ($ch === '}') {
+                        $depth--;
+                    } elseif ($ch === 's' && ($raw[$j + 1] ?? '') === ':'
+                        && preg_match('/\As:(\d+):"/', substr($raw, $j), $sm)) {
+                        // sauter la chaine d'un coup (peut contenir { })
+                        $j += strlen($sm[0]) + (int) $sm[1] + 1;
+                    }
+                    $j++;
+                }
+                return $depth === 0 ? $j - $offset : false;
+            default:
+                return false;
+        }
     }
 }

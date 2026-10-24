@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 $page_id = 'truckmap';
 $page_title = 'Carte';
 
@@ -11,8 +11,8 @@ ob_start();
 
 <!-- Badges cédules + GPS -->
 <div style="margin-bottom:8px; display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
-    <?php foreach ($cedules as $i => $ced): ?>
-    <a href="/web/changeCedule/<?php echo $i; ?>"
+    <?php foreach (($cedules ?? []) as $i => $ced): ?>
+    <a href="/web/changeCedule/<?php echo ($i ?? ''); ?>"
        class="badge-cedule"
        style="background:<?php echo !empty($ced['BackCouleurDechet']) ? $ced['BackCouleurDechet'] : '#3498db'; ?>;
               color:<?php echo !empty($ced['TextColorDechet']) ? $ced['TextColorDechet'] : '#fff'; ?>;
@@ -2726,7 +2726,7 @@ $foot_extra = ob_get_clean();
 // Chargement du layout (seulement si pas en mode embed)
 // ═══════════════════════════════════════════════════════════════
 $embed = isset($embed) && $embed === true;
-if (!$embed) {
+if (empty($embed)) {
     echo view('web_chauffeur/layout', array(
         'content'    => $content,
         'page_id'    => $page_id,
@@ -2745,12 +2745,12 @@ if (!$embed) {
     echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">';
     echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">';
     echo '<link rel="stylesheet" href="/assets/css/web_chauffeur.css">';
-    echo $head_extra; // Inclure le CSS personnalisé
+    echo ($head_extra ?? ''); // Inclure le CSS personnalisé
     echo '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>';
     echo '<style>html,body{height:100%;margin:0;padding:0;}#map{position:absolute;inset:0;height:100%;width:100%;}</style>';
     echo '</head><body style="overflow:hidden;">';
-    echo $content;
-    echo $foot_extra;
+    echo ($content ?? '');
+    echo ($foot_extra ?? '');
     echo '</body></html>';
 }
 ?>

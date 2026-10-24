@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 
 ?>
 <!DOCTYPE html><html data-bs-theme="light" lang="fr">
@@ -13,7 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 <body id="page-top">
 
-	<?php echo $menu; ?>
+	<?php echo ($menu ?? ''); ?>
   <section role="main" class="content-body content-body-modern mt-0">
     <header class="page-header page-header-left-inline-breadcrumb"  style="margin-top:40px">
 
@@ -44,7 +44,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
       </div>
-      <input type="hidden" id="idville" value="<?php echo $idville; ?>" />
+      <input type="hidden" id="idville" value="<?php echo ($idville ?? ''); ?>" />
     </header>
 		<div class="row">
 			<div class="col-lg-1"></div>
@@ -74,7 +74,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
                   </thead>
                   <tbody id="tboDelCom">
-                    <?php echo $listrequestes; ?>
+                    <?php echo ($listrequestes ?? ''); ?>
                   </tbody>
                 </table>
 
@@ -151,12 +151,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 	<script>
-		var id = <?php echo $id; ?>;
+		var id = <?php echo ($id ?? ''); ?>;
     //
     var elementfourn = document.getElementById("trreq_" + $('#id').val());
     elementfourn.scrollIntoView(true);
     var typeerr = 'success';
-		var msgerr = "<?php echo $msgerror; ?>";
+		var msgerr = "<?php echo ($msgerror ?? ''); ?>";
 		if (msgerr.trim() != '') {
 			if (msgerr == 'Une erreur s\'est produite.') {
 				typeerr = 'error';

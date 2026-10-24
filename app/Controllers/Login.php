@@ -21,38 +21,32 @@ class Login extends BaseController
     /**
      * Page de connexion — affiche toujours le formulaire, comme
      * co_gestion/index en CI3 (meme si une session est active).
-     * Vue portee de partials/login2 (contrat : msgerror, msgreset,
-     * ActiveDate, email, next).
      */
     public function index()
     {
+        helper('ci3view');
         return $this->response->setBody(view('auth/login', [
-            'msgerror'  => '',
-            'msgreset'  => '',
-            'ActiveDate' => date('Y-m-d'),
-            'email'     => '',
-            'next'      => $this->safeNext((string) $this->request->getGet('next')),
+            'error' => null,
+            'reset' => '',
+            'email' => '',
+            'activeDate' => date('Y-m-d'),
+            'next' => $this->safeNext((string) $this->request->getGet('next')),
         ]));
     }
 
     /**
      * Equivalent de co_gestion/GotoHome : tableau de bord si session
-     * active (remplace par la page statut tant qu'il n'est pas porte),
-     * sinon le formulaire de connexion.
+     * active (relaye a CI3, qui rend partials/home), sinon le
+     * formulaire de connexion.
      */
     public function admin()
     {
         if (! (new Ci3Session())->isLoggedIn()) {
             return $this->index();
         }
-        return redirect()->to('/');
+        return $this->toCi3();
     }
 
-    /**
-     * Cible POST du formulaire de connexion (routes : POST /login et
-     * /admin/tableau_de_bord — l'action du formulaire CI3). Equivalent
-     * de co_gestion/login.
-     */
     public function attempt()
     {
         $email = trim((string) $this->request->getPost('email'));
@@ -66,12 +60,13 @@ class Login extends BaseController
 
         $peppered = hash_hmac('sha256', $password, self::PEPPER);
         if (! $user || ! password_verify($peppered, (string) $user->pass)) {
+            helper('ci3view');
             return $this->response->setStatusCode(401)->setBody(view('auth/login', [
-                'msgerror'  => 'Courriel ou mot de passe invalide.',
-                'msgreset'  => '',
-                'ActiveDate' => date('Y-m-d'),
-                'email'     => $email,
-                'next'      => $next,
+                'error' => 'Courriel ou mot de passe invalide.',
+                'reset' => '',
+                'email' => $email,
+                'activeDate' => date('Y-m-d'),
+                'next' => $next,
             ]));
         }
 
@@ -81,29 +76,15 @@ class Login extends BaseController
             'privilege' => $user->privilege ?? null,
             'user_id' => $user->id_user ?? null,
             'login_in' => true,
-            'code' => $user->email,
         ]);
 
-        // CI3 : utilisateur force au changement de mot de passe.
-        if ((int) ($user->forcechange ?? 0) === 1) {
-            return redirect()->to('/login/change?email=' . urlencode($email));
-        }
-
-        // CI3 : from=1 renvoie vers la page routecam du jour.
-        $from = (string) $this->request->getPostGet('from');
-        if ($from === '1') {
-            return redirect()->to('/sanivan/routecam/' . date('Y-m-d') . '?idchauffeur=0');
-        }
-
-        // CI3 rend le tableau de bord directement ; il n'est pas encore
-        // porte — on renvoie vers la page statut en attendant.
-        return redirect()->to($next === '' ? '/' : $next);
+        return redirect()->to($next === '' ? '/admin' : $next);
     }
 
     public function logout()
     {
         (new Ci3Session())->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/admin/connexion');
     }
 
     /**

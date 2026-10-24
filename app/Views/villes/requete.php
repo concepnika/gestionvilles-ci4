@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 
 ?>
 <!DOCTYPE html><html data-bs-theme="light" lang="fr">
@@ -11,11 +11,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 <body id="page-top">
 
-	<?php echo $menu; ?>
+	<?php echo ($menu ?? ''); ?>
 	<section role="main" class="content-body content-body-modern mt-0">
 		<header class="page-header page-header-left-inline-breadcrumb"  style="margin-top:40px;margin-bottom:20px">
 			<h2 class="font-weight-bold text-6"><?php echo ci3lang('mne_requete'); ?></h2>
-			<?php echo $noreq ?>
+			<?php echo ($noreq ?? '') ?>
       <div id="msgErreur" class="btn btn-danger" style="padding-left:4px;display:none;">
 
       </div>
@@ -68,9 +68,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo ci3lang('pgereq_titrereq'); ?></label>
                     <div class="col-lg-7 col-xl-6">
                       <input type="text" class="form-control" name="nom" id="nom" value="" required />
-                      <input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
-                      <input type="hidden" name="idville" id="idville" value="<?php echo $idville ?>" />
-                      <span style="display:none" id="nomVille"><?php echo $nomville ?></span>
+                      <input type="hidden" name="id" id="id" value="<?php echo ($id ?? '') ?>" />
+                      <input type="hidden" name="idville" id="idville" value="<?php echo ($idville ?? '') ?>" />
+                      <span style="display:none" id="nomVille"><?php echo ($nomville ?? '') ?></span>
                     </div>
                   </div>
                   <div class="form-group row align-items-center mb-3">
@@ -91,7 +91,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="col-lg-7 col-xl-6">
                       <select class="form-control" name="matiere" id="matiere" style="width:200px" required>
                         <option value=""><?php echo ci3lang('pgereq_choisir'); ?></option>
-                        <?php echo $optMatiere ?>
+                        <?php echo ($optMatiere ?? '') ?>
                       </select>
 
                     </div>
@@ -102,7 +102,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                     <div class="col-lg-7 col-xl-6">
                       <select class="form-control" name="chkRepareBac" id="chkRepareBac" style="width: 100%"  multiple="multiple" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200, "nonSelectedText": "<?php echo ci3lang('pgereq_choisir'); ?>" }'>
-														<?php echo $optMatiere ?>
+														<?php echo ($optMatiere ?? '') ?>
 											</select>
 
                     </div>
@@ -129,7 +129,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </button>
         </div>
         <div class="col-12 col-md-auto px-md-0 mt-3 mt-md-0">
-          <a href="/villes/accueil/<?php echo ci3sess('site_lang'); ?>" class="cancel-button btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3"><?php echo ci3lang('btn_annuler'); ?></a>
+          <a href="/villes/accueil/<?php echo ($this->session->site_lang ?? ''); ?>" class="cancel-button btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3"><?php echo ci3lang('btn_annuler'); ?></a>
 
         </div>
 
@@ -242,7 +242,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   }
    
   var typeerr = 'success';
-  var msgerr = "<?php echo $msgerror; ?>";
+  var msgerr = "<?php echo ($msgerror ?? ''); ?>";
   if (msgerr.trim() != '') {
     if (msgerr == 'Une erreur s\'est produite.') {
       typeerr = 'error';

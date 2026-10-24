@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 
 ?>
 <!DOCTYPE html><html data-bs-theme="light" lang="fr">
@@ -10,7 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 <body id="page-top">
 
-	<?php echo $menu; ?>
+	<?php echo ($menu ?? ''); ?>
 	<section role="main" class="content-body content-body-modern mt-0">
 		<header class="page-header page-header-left-inline-breadcrumb" style="margin-top:40px;margin-bottom:20px">
 
@@ -30,8 +30,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									<span class="input-group-text">
 										<label class="form-control" style="width: 120px">Courriel</label>
 									</span>
-                  <input type="email" id="email" class="form-control" value="<?php echo $email ?>" readonly />
-									<input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
+                  <input type="email" id="email" class="form-control" value="<?php echo ($email ?? '') ?>" readonly />
+									<input type="hidden" name="id" id="id" value="<?php echo ($id ?? '') ?>" />
 								</div>
 								<div class="input-group mb-3">
 									<span class="input-group-text">
@@ -44,25 +44,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									<span class="input-group-text">
 										<label class="form-control" style="width: 120px">Nom</label>
 									</span>
-									<input type="text" name="nom" id="nom" class="form-control" value="<?php echo $nom ?>" />
+									<input type="text" name="nom" id="nom" class="form-control" value="<?php echo ($nom ?? '') ?>" />
 								</div>
 								<div class="input-group mb-3">
 									<span class="input-group-text">
 										<label class="form-control" style="width: 120px">Prénom</label>
 									</span>
-									<input type="text" name="prenom" id="prenom" class="form-control" value="<?php echo $prenom ?>" />
+									<input type="text" name="prenom" id="prenom" class="form-control" value="<?php echo ($prenom ?? '') ?>" />
 								</div>
 								<div class="input-group mb-3">
 									<span class="input-group-text">
 										<label class="form-control" style="width: 120px">Téléphone</label>
 									</span>
-									<input type="tel" name="phone" id="phone" data-plugin-masked-input data-input-mask="(999) 999-9999"  class="form-control" value="<?php echo $phone ?>" />
+									<input type="tel" name="phone" id="phone" data-plugin-masked-input data-input-mask="(999) 999-9999"  class="form-control" value="<?php echo ($phone ?? '') ?>" />
 								</div>
 								<div class="input-group mb-3">
 									<span class="input-group-text">
 										<label class="form-control" style="width: 120px">Cellulaire</label>
 									</span>
-									<input type="tel" name="cell" id="cell" class="form-control" value="<?php echo $cell ?>" data-plugin-masked-input data-input-mask="(999) 999-9999" />
+									<input type="tel" name="cell" id="cell" class="form-control" value="<?php echo ($cell ?? '') ?>" data-plugin-masked-input data-input-mask="(999) 999-9999" />
 								</div>
 							</div>
 						</div>
@@ -124,7 +124,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		//	});			
 		//}
 		var typeerr = 'success';
-		var msgerr = "<?php echo $msgerror; ?>";
+		var msgerr = "<?php echo ($msgerror ?? ''); ?>";
 		if (msgerr.trim() != '') {
 			if (msgerr == 'Une erreur s\'est produite.') {
 				typeerr = 'error';

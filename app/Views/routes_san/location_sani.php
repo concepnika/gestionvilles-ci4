@@ -1,6 +1,6 @@
 
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -61,8 +61,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script type="text/javascript">
 
       //-------------------------------------------------------
-      var centerMap = <?php echo $center; ?>;
-      var parcoursMap = <?php //echo $parcours; ?>;
+      var centerMap = <?php echo ($center ?? ''); ?>;
+      var parcoursMap = <?php //echo ($parcours ?? ''); ?>;
 
     </script>
 

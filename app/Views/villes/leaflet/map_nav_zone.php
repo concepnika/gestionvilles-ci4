@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 
 $zonesFeatures = isset($zonesFeatures) ? $zonesFeatures : [];
 $polylinesData = isset($polylinesData) ? $polylinesData : [];

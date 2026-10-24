@@ -1,5 +1,5 @@
 ﻿<?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 $ActiveDate = isset($ActiveDate) ? $ActiveDate : date('Y-m-d');
 $Lang = isset($Lang) ? $Lang : 'fr';
 $Cities = isset($Cities) && is_array($Cities) ? $Cities : [];
@@ -447,9 +447,9 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
   </style>
 </head>
 
-<body<?php echo $IsTablette ? '' : ' class="mode-bureau"'; ?>>
+<body<?php echo ($IsTablette ?? '') ? '' : ' class="mode-bureau"'; ?>>
 
-  <?php if (!$IsTablette): ?>
+  <?php if (empty($IsTablette)): ?>
   <button type="button" class="btn-toggle-sidebar" id="btnToggleSidebar" title="Villes">&#9776;</button>
   <button type="button" class="btn-back" id="btnBack" title="Retour" onclick="history.back()">&#8592;</button>
   <?php endif; ?>
@@ -490,10 +490,10 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
       <?php if (empty($Cities)): ?>
         <div style="color:#999;">Aucune ville planifiÃ©e pour cette date.</div>
         <?php else:
-        foreach ($Cities as $c):
+        foreach (($Cities ?? []) as $c):
           $id = (int) $c['idvilles'];
           $nom = trim((string) $c['NomVille']); ?>
-          <button class="city-item" data-id="<?php echo $id; ?>" data-nom="<?php echo htmlspecialchars($nom, ENT_QUOTES); ?>">
+          <button class="city-item" data-id="<?php echo ($id ?? ''); ?>" data-nom="<?php echo htmlspecialchars($nom, ENT_QUOTES); ?>">
             <?php echo htmlspecialchars($nom, ENT_QUOTES); ?>
           </button>
       <?php endforeach;
@@ -507,7 +507,7 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
   </div>
 
   <!-- â•â•â• Barre d'onglets (tablette seulement) â•â•â• -->
-  <?php if ($IsTablette): ?>
+  <?php if (!empty($IsTablette)): ?>
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="carte" title="Carte de localisation" onclick="window._switchTab('carte'); return false;">
       <span class="tab-icon">&#128205;</span> Carte
@@ -868,7 +868,7 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
 
       function clearMap() {
         $frame.src = 'about:blank';
-        if ($empty) $empty.style.display = 'flex';
+        if (!empty($empty)) $empty.style.display = 'flex';
         clearActive();
         hideHubTruckButtons();
       }
@@ -881,7 +881,7 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
         _currentCityId = parseInt(idville, 10) || 0;
         _isTruckCity = (_currentCityId === idVilleAdmin);
         $frame.src = buildMapUrl(idville);
-        if ($empty) $empty.style.display = 'none';
+        if (!empty($empty)) $empty.style.display = 'none';
         if (btn) {
           clearActive();
           btn.classList.add('active');
@@ -968,9 +968,9 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
         } catch (e) {}
         try {
           if ($frame.src === 'about:blank' || $frame.contentWindow.location.href === 'about:blank') {
-            if ($empty) $empty.style.display = 'flex';
+            if (!empty($empty)) $empty.style.display = 'flex';
           } else {
-            if ($empty) $empty.style.display = 'none';
+            if (!empty($empty)) $empty.style.display = 'none';
           }
         } catch (e) {}
       });
@@ -1071,7 +1071,7 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
         } catch (e) {
           console.warn('postMessage FILTER_TRUCK error', e);
         }
-        if ($tfWrap) {
+        if (!empty($tfWrap)) {
           var btns = $tfWrap.querySelectorAll('.tf-btn');
           for (var i = 0; i < btns.length; i++) {
             var b = btns[i];
@@ -1086,8 +1086,8 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
       }
 
       function hideHubTruckButtons() {
-        if ($tfContainer) $tfContainer.classList.remove('visible');
-        if ($tfWrap) $tfWrap.innerHTML = '';
+        if (!empty($tfContainer)) $tfContainer.classList.remove('visible');
+        if (!empty($tfWrap)) $tfWrap.innerHTML = '';
         _hubTruckFilter = null;
       }
 
@@ -1117,7 +1117,7 @@ $IsTablette = (!empty($NoCamion) || !empty($IdChauffeur));
       $frame.addEventListener('load', function() {
         try {
           if ($frame.src === 'about:blank' || $frame.contentWindow.location.href === 'about:blank') {
-            if ($empty) $empty.style.display = 'flex';
+            if (!empty($empty)) $empty.style.display = 'flex';
           }
         } catch (e) {}
       });

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">

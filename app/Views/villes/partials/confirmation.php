@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       }
       else {
         $('#divValidSame').hide();
-        var from = '<?php echo $from;?>';
+        var from = '<?php echo ($from ?? '');?>';
         if (from == '2') {
           $('#btnSubmit').prop("disabled", false);
         }
@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       });
     }
     function SubmitChangePass() {
-      var from = '<?php echo $from;?>';
+      var from = '<?php echo ($from ?? '');?>';
       var urlName = ''
       if (from == '2') {
         urlName = "/login/postchange?passnew=" + encodeURIComponent($('#passnew').val()) + '&email=' + encodeURIComponent($('#email').val());

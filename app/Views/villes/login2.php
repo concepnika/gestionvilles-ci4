@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
   </style>
   <script type='text/javascript'>
-    var ActiveDate = "<?php echo $ActiveDate ?>";
+    var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
     function ConfirmeLoad(Route)
     {
         $("#td_" + Route).css("background-color","#80FF9F");
@@ -92,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <h2 style="text-align:center;color:orange;font-weight:900">Gestion des villes</h2>
       <p class="login-box-msg">Connectez-vous pour d&eacute;buter votre session</p>
 
-      <form action="/villes/tdb/<?php echo ci3sess('site_lang'); ?>" method="post">
+      <form action="/villes/tdb/<?php echo ($this->session->site_lang ?? ''); ?>" method="post">
         <div class="form-group has-feedback">
           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?php echo ci3lang('login_email');?>" name="email" />
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div style="border-color:red; border:double;padding-left:4px;display:<?php echo (($msgerror != '')? 'block' : 'none'); ?>;">
           <label style="font-size:small;color:darksalmon;">
-            <?php echo $msgerror; ?>
+            <?php echo ($msgerror ?? ''); ?>
           </label>
         </div>
         <div class="row" style="margin-top:10px;">
@@ -177,7 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	  $("#modalgetEmailVille").modal('show');
   }
 
-    var isResetPass = '<?php echo $msgreset;?>';
+    var isResetPass = '<?php echo ($msgreset ?? '');?>';
     if (isResetPass.trim() != '') {
 								  
       alert(isResetPass);

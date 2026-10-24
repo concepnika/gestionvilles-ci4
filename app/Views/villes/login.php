@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -27,7 +27,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<form action="" method="post">
 							<div style="border-color:red; border:double;padding-left:4px;display:<?php echo (($msgerror != '') ? 'block' : 'none'); ?>;">
 								<label style="font-size:small;color:darksalmon;">
-									<?php echo $msgerror; ?>
+									<?php echo ($msgerror ?? ''); ?>
 								</label>
 							</div>
 							<div class="form-group mb-3">

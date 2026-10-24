@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 $_isAdmin = isset($isAdmin) ? $isAdmin : false;
 $_pageId  = isset($page_id) ? $page_id : '';
 ?>
@@ -364,9 +364,9 @@ $_pageId  = isset($page_id) ? $page_id : '';
             white-space: nowrap;
         }
 
-        <?php if (isset($extra_css)) echo $extra_css; ?>
+        <?php if (isset($extra_css)) echo ($extra_css ?? ''); ?>
     </style>
-    <?php if (isset($head_extra)) echo $head_extra; ?>
+    <?php if (isset($head_extra)) echo ($head_extra ?? ''); ?>
 </head>
 <body>
 
@@ -396,25 +396,25 @@ $_pageId  = isset($page_id) ? $page_id : '';
 
         <!-- CAMION/RH (Red) -->
         <a href="/web/dashboard"
-           class="sani-btn sani-btn-camrh <?php echo $_pageId === 'dashboard' ? 'active-page' : ''; ?>">
+           class="sani-btn sani-btn-camrh <?php echo ($_pageId ?? '') === 'dashboard' ? 'active-page' : ''; ?>">
             CAMION/RH
         </a>
 
         <!-- Ville/Dump (Orange) -->
         <a href="/web/villes"
-           class="sani-btn sani-btn-ville <?php echo $_pageId === 'villes' ? 'active-page' : ''; ?>">
+           class="sani-btn sani-btn-ville <?php echo ($_pageId ?? '') === 'villes' ? 'active-page' : ''; ?>">
             Ville/Dump
         </a>
 
         <!-- GPS (DarkBlue/Orange) -->
         <a href="/web/truckmap"
-           class="sani-btn sani-btn-gps <?php echo $_pageId === 'truckmap' ? 'active-page' : ''; ?>">
+           class="sani-btn sani-btn-gps <?php echo ($_pageId ?? '') === 'truckmap' ? 'active-page' : ''; ?>">
             GPS
         </a>
 
         <!-- Tag (DarkRed) + badge -->
         <span class="sani-tag-wrap">
-            <?php if ($_isAdmin): ?>
+            <?php if (!empty($_isAdmin)): ?>
             <a href="javascript:void(0)" onclick="openSaniTagsPopup()" class="sani-btn sani-btn-tag">Tag</a>
             <?php else: ?>
             <a href="/web/truckmap" class="sani-btn sani-btn-tag">Tag</a>
@@ -422,7 +422,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
             <span class="sani-tag-badge" id="saniTagBadge">0</span>
         </span>
 
-        <?php if ($_isAdmin): ?>
+        <?php if (!empty($_isAdmin)): ?>
         <!-- Menu Nav (admin only) – reproduit btnMenuNav + OnMenuNavClicked -->
         <span class="sani-btn-nav-wrap">
             <button type="button" class="sani-btn sani-btn-nav" id="btnSaniMenuNav" title="Navigation">
@@ -466,16 +466,16 @@ $_pageId  = isset($page_id) ? $page_id : '';
             </div>
         </div>
         <div class="sani-drawer-nav">
-            <a href="/web/dashboard" class="<?php echo $_pageId === 'dashboard' ? 'active-item' : ''; ?>">
+            <a href="/web/dashboard" class="<?php echo ($_pageId ?? '') === 'dashboard' ? 'active-item' : ''; ?>">
                 <span class="nav-color-dot" style="background:Red"></span> CAMION/RH
             </a>
-            <a href="/web/villes" class="<?php echo $_pageId === 'villes' ? 'active-item' : ''; ?>">
+            <a href="/web/villes" class="<?php echo ($_pageId ?? '') === 'villes' ? 'active-item' : ''; ?>">
                 <span class="nav-color-dot" style="background:Orange"></span> Ville/Dump
             </a>
-            <a href="/web/truckmap" class="<?php echo $_pageId === 'truckmap' ? 'active-item' : ''; ?>">
+            <a href="/web/truckmap" class="<?php echo ($_pageId ?? '') === 'truckmap' ? 'active-item' : ''; ?>">
                 <span class="nav-color-dot" style="background:DarkBlue"></span> GPS
             </a>
-            <?php if ($_isAdmin): ?>
+            <?php if (!empty($_isAdmin)): ?>
             <a href="javascript:void(0)" onclick="closeSaniMobileMenu(); openSaniTagsPopup();" class="sani-btn-tag">
                 <span class="nav-color-dot" style="background:DarkRed"></span> Tag
             </a>
@@ -491,7 +491,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
             <button type="button" id="btnSaniHelpMobile"  onclick="showAideForWEB()">
                 <i class="fa fa-question-circle nav-icon"></i> Aide
             </button>
-            <?php if ($_isAdmin): ?>
+            <?php if (!empty($_isAdmin)): ?>
             <div class="sani-drawer-sep"></div>
             <a href="/sanivan/routecam/<?php echo date("Y-m-d"); ?>?idchauffeur=0&camchauf=">
                 <i class="fa fa-truck nav-icon"></i> Tous les camions
@@ -511,7 +511,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
     </div>
 </div>
 
-<?php if ($_isAdmin): ?>
+<?php if (!empty($_isAdmin)): ?>
 <!-- ═══ Modal Tags Admin (reproduit AdminTagsPopup.cs MAUI) ═══ -->
 <div class="modal fade" id="saniTagsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
@@ -535,7 +535,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
 
 <!-- Contenu -->
 <div class="web-content">
-    <?php echo $content; ?>
+    <?php echo ($content ?? ''); ?>
 </div>
 
 <!-- Scripts -->
@@ -703,7 +703,7 @@ function showAideForWEB(){
 
     var POLL_MS = 30000;
     var STORAGE_KEY = 'saniTagsSeen';
-    var currentPageId = '<?php echo $_pageId; ?>';
+    var currentPageId = '<?php echo ($_pageId ?? ''); ?>';
     var _lastTagIds = [];
 
     function getSeenIds() {
@@ -786,7 +786,7 @@ function showAideForWEB(){
     setInterval(pollTags, POLL_MS);
 })();
 </script>
-<?php if (isset($foot_extra)) echo $foot_extra; ?>
+<?php if (isset($foot_extra)) echo ($foot_extra ?? ''); ?>
 
 <?php
 // ═══════════════════════════════════════════════════════════════

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 
 ?>
 <!DOCTYPE HTML>
@@ -80,7 +80,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $(document).ready(function () {
       $('[data-toggle="popover"]').popover();
     });
-    var titrediscution = <?php echo $titreNB ?>
+    var titrediscution = <?php echo ($titreNB ?? '') ?>
 
   </script>
 </head>
@@ -90,10 +90,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class="input-group" style="width:550px;">
         <h2 class="font-weight-bold text-6">
           Requête&nbsp;&nbsp;
-          <?php echo $retour; ?>&nbsp;&nbsp;&nbsp;&nbsp;
+          <?php echo ($retour ?? ''); ?>&nbsp;&nbsp;&nbsp;&nbsp;
         </h2>
 
-        <a href="#" style="height:32px;width:32px;margin-left:5px;margin-top:0px" onclick="PrintReponse(<?php echo $idrequete; ?>)">
+        <a href="#" style="height:32px;width:32px;margin-left:5px;margin-top:0px" onclick="PrintReponse(<?php echo ($idrequete ?? ''); ?>)">
           
           <i class="fa fa-file-pdf-o" style="font-size:34px;color:red;height:32px;width:33px;"></i>
         </a>
@@ -112,7 +112,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <thead>
                     <tr>
                       <th align="center" colspan="7" style="text-align:center">
-                        <h2><?php echo $titreNB; ?></h2>
+                        <h2><?php echo ($titreNB ?? ''); ?></h2>
                       </th>
                     </tr>
                     <tr>
@@ -126,7 +126,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
                   </thead>
                   <tbody id="tboDelCom">
-                    <?php echo $listreceptions; ?>
+                    <?php echo ($listreceptions ?? ''); ?>
                   </tbody>
                 </table>
 
@@ -215,7 +215,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   
   <script src="/assets/js/nika.js"></script>
   <script>
-    selectedDay = "<?php //echo $ActiveDate ?>";
+    selectedDay = "<?php //echo ($ActiveDate ?? '') ?>";
     function setIsDelChecked(id) {
       var urlName = '/bureau/setcheck/' + id;
       $.ajax({

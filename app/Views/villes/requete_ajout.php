@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 
 ?>
 <!DOCTYPE html><html data-bs-theme="light" lang="fr">
@@ -10,11 +10,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 <body id="page-top">
 
-	<?php echo $menu; ?>
+	<?php echo ($menu ?? ''); ?>
   <section role="main" class="content-body content-body-modern mt-0">
     <header class="page-header page-header-left-inline-breadcrumb" style="margin-top:40px;margin-bottom:20px">
       <h2 class="font-weight-bold text-6"><?php echo ci3lang('mne_requete'); ?></h2>
-      <?php echo $noreq ?>
+      <?php echo ($noreq ?? '') ?>
     </header>
 
     <div class="row">
@@ -28,26 +28,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div>
 
             <h2 class="card-title">
-              <?php echo $villenom ?>
+              <?php echo ($villenom ?? '') ?>
             </h2>
           </header>
           <div class="card-body">
             <div style="scroll-margin-bottom:10px;">
               <label class="control-label font-weight-bold" style="font-size: 16px"><?php echo ci3lang('pgereq_titrereq'); ?></label>
               <div>
-                <input type="text" class="form-control" style="width:100%;" id="nom" value="<?php echo $nom ?>" disabled />
+                <input type="text" class="form-control" style="width:100%;" id="nom" value="<?php echo ($nom ?? '') ?>" disabled />
 
-                <input type="hidden" name="idrequete" id="idrequete" value="<?php echo $id ?>" />
-                <input type="hidden" name="idville" id="idville" value="<?php echo $idville ?>" />
+                <input type="hidden" name="idrequete" id="idrequete" value="<?php echo ($id ?? '') ?>" />
+                <input type="hidden" name="idville" id="idville" value="<?php echo ($idville ?? '') ?>" />
               </div>
               <br />
             </div>
 
-            <?php echo $inforequete ?>
+            <?php echo ($inforequete ?? '') ?>
             <div>
               <select class="form-control" name="matiere" id="matiere" style="width:100%" disabled>
                 <option value=""><?php echo ci3lang('pgereq_enrreq'); ?><?php echo ci3lang('pgereq_choisir'); ?></option>
-                <?php echo $optMatiere ?>
+                <?php echo ($optMatiere ?? '') ?>
               </select>
 
             </div>
@@ -60,7 +60,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class="col-2"></div>
 
 
-        <?php echo $fichiers ?>
+        <?php echo ($fichiers ?? '') ?>
 
 
 
@@ -82,8 +82,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </header>
           <div class="card-body">
             <form action="/villes/send/reponse" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="idrequete" id="idrequete" value="<?php echo $id ?>" />
-              <input type="hidden" name="idville" id="idville" value="<?php echo $idville ?>" />
+              <input type="hidden" name="idrequete" id="idrequete" value="<?php echo ($id ?? '') ?>" />
+              <input type="hidden" name="idville" id="idville" value="<?php echo ($idville ?? '') ?>" />
               
               <div class="row mt-2">
                 <div>
@@ -119,7 +119,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <div class="row">
 
                         <div>
-                          <div style="display:<?php echo $fileinclude ?>">
+                          <div style="display:<?php echo ($fileinclude ?? '') ?>">
                             <label class="col-lg-5 col-xl-3 control-label font-weight-bold mb-0" style="font-size: 16px;"><?php echo ci3lang('btn_telecharger'); ?></label>
                             <div class="col-lg-3-5">
                               <div>
@@ -153,7 +153,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="col-lg-7 col-xl-6">
                               <select class="form-control" name="matiere" id="matiere" style="width:200px" required>
                                 <option value=""><?php echo ci3lang('pgereq_choisir'); ?></option>
-                                <?php echo $optMatiereStat ?>
+                                <?php echo ($optMatiereStat ?? '') ?>
                               </select>
 
                             </div>
@@ -187,7 +187,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="input-group" style="width:550px;">
 
                               <textarea name="adresse" placeholder="Adresse: Adresse, Code postal" id="adresse" rows="3" cols="40" style="height:100%;"></textarea>
-                              <a href="javascript:GoogleVille(<?php echo $idville ?>)" style="width:35px;height:35px;">
+                              <a href="javascript:GoogleVille(<?php echo ($idville ?? '') ?>)" style="width:35px;height:35px;">
                                 <img src="/assets/img/googlemap.png" height="35" />
                               </a>
                             </div>
@@ -308,7 +308,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       }
 
       var typeerr = 'success';
-      var msgerr = "<?php echo $msgerror; ?>";
+      var msgerr = "<?php echo ($msgerror ?? ''); ?>";
       if (msgerr.trim() != '') {
         if (msgerr == 'Une erreur s\'est produite.') {
           typeerr = 'error';

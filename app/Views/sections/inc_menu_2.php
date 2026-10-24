@@ -13,7 +13,7 @@
 							<nav>
 								<ul class="nav nav-pills" id="mainNav">
 									<li class="">
-                    <a class="nav-link" style="font-size:16px" href="<?php echo $retour ?>"> Retour
+                    <a class="nav-link" style="font-size:16px" href="<?php echo ($retour ?? '') ?>"> Retour
                     </a>
 
     

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +22,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </style>
 </head>
 <body>
-    <?php if (!empty($menu)) echo $menu; ?>
+    <?php if (!empty($menu)) echo ($menu ?? ''); ?>
 
     <div class="container my-3">
         <h4 class="mb-3">Tags de la ville</h4>

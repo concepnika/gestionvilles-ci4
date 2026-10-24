@@ -20,14 +20,32 @@ use Psr\Log\LoggerInterface;
  *
  * For security, be sure to declare any new methods as protected or private.
  */
+#[\AllowDynamicProperties]
 abstract class BaseController extends Controller
 {
     /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
+     * Adaptateurs CI3 pour les methodes portees mecaniquement :
+     * $this->db / input / session / load / output / email / upload.
+     * Les proprietes dynamiques (load->model('x','y')) sont permises.
      */
 
-    // protected $session;
+    /** @var \CodeIgniter\Database\BaseConnection equiv. $this->db CI3 */
+    protected $db;
+
+    /** @var \App\Libraries\Ci3Input */
+    protected $input;
+
+    /** @var \App\Libraries\Ci3SessionAdapter */
+    protected $session;
+
+    /** @var \App\Libraries\Ci3Loader */
+    protected $load;
+
+    /** @var \App\Libraries\Ci3Output */
+    protected $output;
+
+    /** @var \App\Libraries\Ci3Session pont direct (idem modeles) */
+    protected $ci3session;
 
     /**
      * @param CLIRequest|IncomingRequest $request
@@ -36,15 +54,21 @@ abstract class BaseController extends Controller
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
-        // Load here all helpers you want to be available in your controllers that extend BaseController.
-        // Caution: Do not put the this below the parent::initController() call below.
-        // $this->helpers = ['form', 'url'];
-
         // Caution: Do not edit this line.
         parent::initController($request, $response, $logger);
 
-        // Preload any models, libraries, etc, here.
-        // $this->session = service('session');
+        helper(['ci3view', 'url']);
+        $this->db         = new \App\Libraries\Ci3Db();
+        $this->ci3session = new \App\Libraries\Ci3Session();
+        $this->session    = new \App\Libraries\Ci3SessionAdapter($this->ci3session);
+        $this->input      = new \App\Libraries\Ci3Input();
+        $this->load       = new \App\Libraries\Ci3Loader($this);
+        $this->output     = new \App\Libraries\Ci3Output();
+
+        // Equiv. du __construct de co_gestion : langue par defaut
+        if (! $this->session->has_userdata('site_lang')) {
+            $this->session->set_userdata('site_lang', 'fr');
+        }
     }
 
     /**
@@ -60,13 +84,16 @@ abstract class BaseController extends Controller
     protected function toCi3()
     {
         $uri = $this->request->getUri();
-        // getPath() peut inclure /index.php/ (rewrite vhost) — on le retire
-        $target = 'http://gestionvilles.local' . preg_replace('#^/index\.php#i', '', $uri->getPath());
+        // 127.0.0.1 + Host: gestionvilles.local — l'IP source est
+        // TOUJOURS 127.0.0.1 : indispensable car CI3 a sess_match_ip
+        // = true (le hosts a a la fois ::1 et 127.0.0.1 ; en IPv6 la
+        // session serait invalidee a chaque bascule).
+        $target = 'http://127.0.0.1' . preg_replace('#^/index\.php#i', '', $uri->getPath());
         if (($query = $uri->getQuery()) !== '') {
             $target .= '?' . $query;
         }
 
-        $headers = [];
+        $headers = ['Host' => 'gestionvilles.local'];
         foreach (['Cookie', 'Content-Type', 'Accept', 'Accept-Language',
                   'X-Requested-With', 'Referer', 'User-Agent'] as $h) {
             $header = $this->request->header($h);
@@ -96,23 +123,28 @@ abstract class BaseController extends Controller
             if (in_array($ln, $skip, true)) {
                 continue;
             }
-            // getHeaders() : array<nom, Header|Header[]> et
-            // Header::getValue() : string|string[]
-            foreach ((array) $headers as $h) {
-                // getHeaders() : Header|Header[]|string selon le cas
-                $values = $h instanceof \CodeIgniter\HTTP\Header ? $h->getValue() : $h;
-                foreach ((array) $values as $v) {
-                    $v = (string) $v;
-                    if ($ln === 'set-cookie') {
-                        // domain retire : le cookie s'applique a l'hote CI4
-                        $response->appendHeader('Set-Cookie', preg_replace('/;\s*domain=[^;]*/i', '', $v));
-                    } elseif ($ln === 'location') {
-                        $response->setHeader($name, str_replace('gestionvilles.local', 'gestionvillesci4.local', $v));
-                    } elseif ($ln === 'content-type' || $ln === 'content-disposition') {
-                        $response->setHeader($name, $v);
-                    } else {
-                        $response->appendHeader($name, $v);
+            // getHeaders() : array<nom, Header|Header[]> ; PAS de cast
+            // (array) sur un objet Header (expose ses proprietes).
+            $values = [];
+            foreach (is_array($headers) ? $headers : [$headers] as $h) {
+                if ($h instanceof \CodeIgniter\HTTP\Header) {
+                    foreach ((array) $h->getValue() as $v) {
+                        $values[] = (string) $v;
                     }
+                } else {
+                    $values[] = (string) $h;
+                }
+            }
+            foreach ($values as $v) {
+                if ($ln === 'set-cookie') {
+                    // domain retire : le cookie s'applique a l'hote CI4
+                    $response->appendHeader('Set-Cookie', preg_replace('/;\s*domain=[^;]*/i', '', $v));
+                } elseif ($ln === 'location') {
+                    $response->setHeader($name, str_replace('gestionvilles.local', 'gestionvillesci4.local', $v));
+                } elseif ($ln === 'content-type' || $ln === 'content-disposition') {
+                    $response->setHeader($name, $v);
+                } else {
+                    $response->appendHeader($name, $v);
                 }
             }
         }

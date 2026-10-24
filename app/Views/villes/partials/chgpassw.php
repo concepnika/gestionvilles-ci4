@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">
                 <i class="fa fa-at" style="font-size: 24px; margin-top: 10px; margin-left: 15px;"></i>
               </span>
-              <input type="email" class="form-control" name="email" id="email" value="<?php echo $email;?>" placeholder="<?php echo ci3lang('inscription_adresse_courriel');?>" />
+              <input type="email" class="form-control" name="email" id="email" value="<?php echo ($email ?? '');?>" placeholder="<?php echo ci3lang('inscription_adresse_courriel');?>" />
             </div>
 
           </div>
@@ -184,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       }
       else {
         $('#divValidSame').hide();
-        var from = '<?php echo $from;?>';
+        var from = '<?php echo ($from ?? '');?>';
         if (from == '2') {
           $('#btnSubmit').prop("disabled", false);
         }
@@ -232,7 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       });
     }
     function SubmitChangePass() {
-      var from = '<?php echo $from; ?>';
+      var from = '<?php echo ($from ?? ''); ?>';
       var urlName = '';
       if (from == '2') {
         urlName = "/villes/login/postchange?passnew=" + encodeURIComponent($('#passnew').val()) + '&email=' + encodeURIComponent($('#email').val());

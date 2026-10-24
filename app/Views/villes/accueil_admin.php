@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 
 ?>
 <!DOCTYPE html><html data-bs-theme="light" lang="fr">
@@ -10,10 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body id="page-top">
 
-                 <?php echo $menu; ?>
+                 <?php echo ($menu ?? ''); ?>
   <div style="margin-top:5%;width:100%">
      <div style="margin-top:25%;width:100%">
-        <?php echo $map_nav; ?> 
+        <?php echo ($map_nav ?? ''); ?> 
      </div>
 </div>
  	  <div class="modal fade" id="newActionModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">

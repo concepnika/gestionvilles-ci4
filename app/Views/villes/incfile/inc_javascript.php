@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 
 <script src="/assets/pronto/vendor/jquery/jquery.js"></script>
@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="/assets/js/examples/examples.modals.js"></script>
 <script>
     setTimeout("checkSession()", 7600 * 2);
-    //var lastActiveId = "0";
+    //var lastActiveId = "<?php echo ($id ?? '') ; ?>";
     //$(document).ready(function() {
     //  $('#suivi').summernote();
     //});

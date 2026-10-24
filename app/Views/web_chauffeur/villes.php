@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 $page_id    = 'villes';
 $page_title = 'Villes';
 
@@ -11,22 +11,22 @@ ob_start();
      ══════════════════════════════════════════════════════ -->
 <div class="row" style="margin-bottom:10px;">
     <div class="col-md-12 text-center" id="cedule-buttons">
-        <?php foreach ($cedules as $i => $ced):
+        <?php foreach (($cedules ?? []) as $i => $ced):
             $bgColor   = ! empty($ced['BackCouleurDechet']) ? $ced['BackCouleurDechet'] : '#3498db';
             $txtColor  = ! empty($ced['TextColorDechet'])   ? $ced['TextColorDechet']   : '#fff';
             $label     = htmlspecialchars(($ced['NomVille'] ?? '') . ' / ' . substr($ced['TypeDeProduit'] ?? '', 0, 2));
             $isActive  = ($i == $activeCedule);
         ?>
         <button type="button"
-                class="btn btn-cedule-ville <?php if ($isActive) echo 'active-cedule'; ?>"
-                data-index="<?php echo $i; ?>"
-                data-idcedule="<?php echo $ced['Id']; ?>"
-                data-idville="<?php echo $ced['IdVilles'] ?? ''; ?>"
-                style="background:<?php echo $bgColor; ?>; color:<?php echo $txtColor; ?>;
+                class="btn btn-cedule-ville <?php if (!empty($isActive)) echo 'active-cedule'; ?>"
+                data-index="<?php echo ($i ?? ''); ?>"
+                data-idcedule="<?php echo ($ced['Id'] ?? ''); ?>"
+                data-idville="<?php echo ($ced['IdVilles'] ?? '') ?? ''; ?>"
+                style="background:<?php echo ($bgColor ?? ''); ?>; color:<?php echo ($txtColor ?? ''); ?>;
                        font-size:16px; font-weight:bold; min-width:250px; height:50px; margin:3px;
-                       <?php if ($isActive) echo 'border:3px solid #000; border-radius:8px;'; ?>">
-            <?php if ($isActive): ?><img src="/assets/img/etoilejaune.png" style="height:20px; margin-right:5px;"><?php endif; ?>
-            <?php echo $label; ?>
+                       <?php if (!empty($isActive)) echo 'border:3px solid #000; border-radius:8px;'; ?>">
+            <?php if (!empty($isActive)): ?><img src="/assets/img/etoilejaune.png" style="height:20px; margin-right:5px;"><?php endif; ?>
+            <?php echo ($label ?? ''); ?>
         </button>
         <?php endforeach; ?>
     </div>
@@ -49,54 +49,54 @@ ob_start();
     <table class="table table-bordered" id="tblVillesDepots" style="font-size:14px; font-weight:bold;">
         <tbody id="tbodyVilles">
         <?php if ( ! empty($villes)): ?>
-            <?php foreach ($villes as $ville): ?>
+            <?php foreach (($villes ?? []) as $ville): ?>
             <!-- ── Ligne VILLE ── -->
-            <tr class="row-ville" data-idville="<?php echo $ville['Id']; ?>">
+            <tr class="row-ville" data-idville="<?php echo ($ville['Id'] ?? ''); ?>">
                 <td style="width:200px; background:#fff; vertical-align:middle; text-align:center;">
-                    <?php echo $ville['Id']; ?> - <?php echo htmlspecialchars($ville['NomVille'] ?? 'Ville #' . $ville['IdVille']); ?>
+                    <?php echo ($ville['Id'] ?? ''); ?> - <?php echo htmlspecialchars($ville['NomVille'] ?? 'Ville #' . $ville['IdVille']); ?>
                 </td>
                 <td style="width:80px; text-align:center; vertical-align:middle;">
-                    <button class="btn btn-sm btn-start" data-id="<?php echo $ville['Id']; ?>"
+                    <button class="btn btn-sm btn-start" data-id="<?php echo ($ville['Id'] ?? ''); ?>"
                             title="Start" style="background:transparent; border:none;">
                         <img src="/assets/img/start.png" style="height:30px;">
                     </button>
                 </td>
                 <td style="width:80px;">
                     <input type="time" class="form-control input-sm ville-field"
-                           data-id="<?php echo $ville['Id']; ?>" data-champ="HreDeb"
+                           data-id="<?php echo ($ville['Id'] ?? ''); ?>" data-champ="HreDeb"
                            value="<?php echo ! empty($ville['HreDeb']) ? substr($ville['HreDeb'], 0, 5) : ''; ?>"
                            style="background:#ff0; font-weight:bold;">
                 </td>
                 <td style="width:80px; text-align:center; vertical-align:middle;">
-                    <button class="btn btn-sm btn-stop" data-id="<?php echo $ville['Id']; ?>"
+                    <button class="btn btn-sm btn-stop" data-id="<?php echo ($ville['Id'] ?? ''); ?>"
                             title="Stop" style="background:transparent; border:none;">
                         <img src="/assets/img/stop.png" style="height:30px;">
                     </button>
                 </td>
                 <td style="width:80px;">
                     <input type="time" class="form-control input-sm ville-field"
-                           data-id="<?php echo $ville['Id']; ?>" data-champ="HreFin"
+                           data-id="<?php echo ($ville['Id'] ?? ''); ?>" data-champ="HreFin"
                            value="<?php echo ! empty($ville['HreFin']) ? substr($ville['HreFin'], 0, 5) : ''; ?>"
                            style="background:#ff0; font-weight:bold;">
                 </td>
                 <td style="width:80px; text-align:center; vertical-align:middle;">Bacs</td>
                 <td style="width:80px;">
                     <input type="number" class="form-control input-sm ville-field"
-                           data-id="<?php echo $ville['Id']; ?>" data-champ="nbBac"
-                           value="<?php echo $ville['nbBac'] ?? '0'; ?>" min="0"
+                           data-id="<?php echo ($ville['Id'] ?? ''); ?>" data-champ="nbBac"
+                           value="<?php echo ($ville['nbBac'] ?? '') ?? '0'; ?>" min="0"
                            style="background:#ff0; font-weight:bold; width:70px;">
                 </td>
             </tr>
             <!-- ── Ligne(s) DÉPOTOIRE ── -->
             <?php if ( ! empty($ville['depots'])): ?>
-                <?php foreach ($ville['depots'] as $dep): ?>
-                <tr class="row-depot" data-iddepot="<?php echo $dep['Id']; ?>" data-idville="<?php echo $ville['Id']; ?>">
+                <?php foreach (($ville['depots'] ?? []) as $dep): ?>
+                <tr class="row-depot" data-iddepot="<?php echo ($dep['Id'] ?? ''); ?>" data-idville="<?php echo ($ville['Id'] ?? ''); ?>">
                     <!-- Col 0 : Picker dépotoire -->
                     <td style="width:200px;">
                         <select class="form-control input-sm depot-picker"
-                                data-id="<?php echo $dep['Id']; ?>" data-idville="<?php echo $ville['Id']; ?>">
+                                data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-idville="<?php echo ($ville['Id'] ?? ''); ?>">
                             <option value="">-- Dépotoire --</option>
-                            <?php foreach ($depotoires as $d): ?>
+                            <?php foreach (($depotoires ?? []) as $d): ?>
                                 <option value="<?php echo htmlspecialchars($d['Nom']); ?>"
                                     <?php if (($dep['NomDepotoire'] ?? '') == $d['Nom']) echo 'selected'; ?>>
                                     <?php echo htmlspecialchars($d['Nom']); ?>
@@ -109,8 +109,8 @@ ob_start();
                     <!-- Col 2 : TimePicker debut -->
                     <td style="width:80px;">
                         <input type="time" class="form-control input-sm depot-field"
-                               data-id="<?php echo $dep['Id']; ?>" data-champ="debut"
-                               data-idville="<?php echo $ville['Id']; ?>"
+                               data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="debut"
+                               data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                value="<?php echo ! empty($dep['HreDeb']) ? substr($dep['HreDeb'], 0, 5) : ''; ?>"
                                style="background:#ff0; font-weight:bold;">
                     </td>
@@ -119,8 +119,8 @@ ob_start();
                     <!-- Col 4 : TimePicker fin -->
                     <td style="width:80px;">
                         <input type="time" class="form-control input-sm depot-field"
-                               data-id="<?php echo $dep['Id']; ?>" data-champ="fin"
-                               data-idville="<?php echo $ville['Id']; ?>"
+                               data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="fin"
+                               data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                value="<?php echo ! empty($dep['HreFin']) ? substr($dep['HreFin'], 0, 5) : ''; ?>"
                                style="background:#ff0; font-weight:bold;">
                     </td>
@@ -129,9 +129,9 @@ ob_start();
                     <!-- Col 6 : Entry Tonnage -->
                     <td style="width:80px;">
                         <input type="number" step="0.01" class="form-control input-sm depot-field tonnage-field"
-                               data-id="<?php echo $dep['Id']; ?>" data-champ="Tonnage"
-                               data-idville="<?php echo $ville['Id']; ?>"
-                               value="<?php echo $dep['Tonnage'] ?? ''; ?>"
+                               data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="Tonnage"
+                               data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
+                               value="<?php echo ($dep['Tonnage'] ?? '') ?? ''; ?>"
                                style="background:#ff0; font-weight:bold; width:75px;">
                     </td>
                     <!-- Col 7 : Scanner -->
@@ -139,13 +139,13 @@ ob_start();
                         <?php if ( ! empty($dep['Ticket'])): ?>
                             <?php $isPdf = (strtolower(pathinfo($dep['Ticket'], PATHINFO_EXTENSION)) === 'pdf'); ?>
                             <a href="<?php echo htmlspecialchars($dep['Ticket']); ?>" target="_blank"
-                               class="btn btn-xs btn-success" title="Voir ticket<?php echo $isPdf ? ' PDF' : ''; ?>">
-                                <i class="fa <?php echo $isPdf ? 'fa-file-pdf-o' : 'fa-file-image-o'; ?>"></i>
+                               class="btn btn-xs btn-success" title="Voir ticket<?php echo ($isPdf ?? '') ? ' PDF' : ''; ?>">
+                                <i class="fa <?php echo ($isPdf ?? '') ? 'fa-file-pdf-o' : 'fa-file-image-o'; ?>"></i>
                             </a>
                         <?php else: ?>
                             <button class="btn btn-xs btn-default btn-upload-ticket"
-                                    data-iddepot="<?php echo $dep['Id']; ?>"
-                                    data-idville="<?php echo $ville['Id']; ?>"
+                                    data-iddepot="<?php echo ($dep['Id'] ?? ''); ?>"
+                                    data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                     title="Scanner / Photo">
                                 <i class="fa fa-camera"></i>
                             </button>
@@ -158,8 +158,8 @@ ob_start();
                     <!-- Col 10 : Entry Boîte -->
                     <td style="width:80px;">
                         <input type="text" class="form-control input-sm depot-field"
-                               data-id="<?php echo $dep['Id']; ?>" data-champ="boite"
-                               data-idville="<?php echo $ville['Id']; ?>"
+                               data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="boite"
+                               data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                value="<?php echo htmlspecialchars($dep['Boite'] ?? ''); ?>"
                                style="background:#ff0; font-weight:bold; width:75px;">
                     </td>
@@ -168,8 +168,8 @@ ob_start();
                     <!-- Col 12 : CheckBox IsTransBo -->
                     <td style="width:80px; text-align:center; vertical-align:middle;">
                         <input type="checkbox" class="depot-check"
-                               data-id="<?php echo $dep['Id']; ?>" data-champ="IsTransBo"
-                               data-idville="<?php echo $ville['Id']; ?>"
+                               data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="IsTransBo"
+                               data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                <?php if ( ! empty($dep['IsTransbo'])) echo 'checked'; ?>>
                     </td>
                     <!-- Col 13 : Label Mat. -->
@@ -177,8 +177,8 @@ ob_start();
                     <!-- Col 14 : CheckBox IsAvecMat -->
                     <td style="width:80px; text-align:center; vertical-align:middle;">
                         <input type="checkbox" class="depot-check"
-                               data-id="<?php echo $dep['Id']; ?>" data-champ="IsAvecMat"
-                               data-idville="<?php echo $ville['Id']; ?>"
+                               data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="IsAvecMat"
+                               data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                <?php if ( ! empty($dep['IsAvecMat'])) echo 'checked'; ?>>
                     </td>
                 </tr>
@@ -569,7 +569,7 @@ SCROLL;
 $foot_extra = $foot_extra . $autoScrollScript;
 
 $embedMode = isset($embed) && $embed;
-if ( ! $embedMode) {
+if (empty($embedMode)) {
     echo view('web_chauffeur/layout', array(
         'content'    => $content,
         'page_id'    => $page_id,
@@ -594,8 +594,8 @@ if ( ! $embedMode) {
     echo '<div style="margin-bottom:10px;text-align:left;">'
         . '<a href="/web/truckmap_embed?embed=1" class="btn btn-secondary btn-sm">'
         . '<i class="fa fa-arrow-left"></i> Retour a la carte</a></div>';
-    echo $content;
-    echo $foot_extra;
+    echo ($content ?? '');
+    echo ($foot_extra ?? '');
     echo '</body></html>';
 }
 ?>
