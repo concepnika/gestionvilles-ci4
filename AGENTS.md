@@ -154,7 +154,7 @@ la correspondance CI3 → classe CI4 :
 | CI3 | CI4 | État |
 |---|---|---|
 | `co_gestion` | `Gestion` (extends `Login`) | **entièrement porté** (146 méthodes via `port_controller.php`, parité balayage `sweep.sh`) |
-| `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
+| `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** + `getSaniReport`/`exportSaniExcel` (2026-10-24) |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | **porté (phase 2)** |
 | `Co_web_chauffeur` | `WebChauffeur` | **porté (phase 2)** |
@@ -364,6 +364,14 @@ en place, aucune modif de Routes.php nécessaire.
   `delete_files` (no-op sur un chemin de fichier, comme CI3 —
   les fichiers exports restent dans upload/, comportement CI3).
   Chargé par `BaseController::initController` et `Ci3Model`.
+- Classes utilitaires legacy dans les modèles (ex. `CamDay` dans
+  SanivanModel) : `$this->CI =& get_instance()` → `new \stdClass()`
+  avec `->db = new Ci3Db()` (règle `port_model.php`) — les appels
+  `$this->CI->db->…` restent valides. ⚠️ Le `__get` magique CI3
+  des modèles transférait `$this->x` vers le super-objet global
+  (propriétés chargées par le contrôleur) : en CI4 il faut
+  instancier dans le modèle (patch Sanivan : `$this->cedules =
+  new CedulesModel()` dans le constructeur).
 - ⚠️ Table `requetes` vide en local → `villes/reponsepdf/*` échoue
   dans les deux apps (parité 500).
 - `sweep.sh` : balayage comparatif CI3 vs CI4 (~60 routes,
@@ -394,11 +402,12 @@ curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 
 ## Reste à faire
 
-- **Ports terminés (2026-10-24)** : tous les contrôleurs vivants sont
-  portés nativement — le proxy ne reste que pour les routes mortes CI3
-  (voir « Routes mortes CI3 »), `getSaniReport` (machinerie CamDay) et
-  le catch-all de sécurité. Divergences du balayage final, toutes
-  voulues :
+- **Ports terminés (2026-10-24)** : **toutes les routes vivantes CI3
+  sont portées nativement** — `getSaniReport` (rapport Sanivan du
+  jour, parité 558 Ko à 26 o près) était la dernière. Le proxy ne
+  reste que pour les routes mortes CI3 (voir « Routes mortes CI3 »)
+  et le catch-all de sécurité (assets du docroot CI3, chemins non
+  déclarés). Divergences du balayage final, toutes voulues :
   - `sanivan/calrh`, `sanivan/calcam` : CI3 500 flaky → CI4 200 ✓
   - `villes/send-reponse` en GET : CI3 500 → CI4 302 propre ✓
   - `villes/charger/*` : CI4 renvoie une 302 explicite au lieu du

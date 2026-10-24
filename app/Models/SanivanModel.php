@@ -165,8 +165,8 @@ class CamDay
   //------------------------------------
   function __construct($transport, $Collecte, $hrescam, $camion, $date)
   {
-    $this->CI =& get_instance();
-    $this->CI->load->database();
+    $this->CI = new \stdClass();
+    $this->CI->db = new \App\Libraries\Ci3Db();
     $this->transport = $transport;
     $this->Collecte = $Collecte;
     $this->hresCam = $hrescam;
@@ -417,6 +417,7 @@ class SanivanModel extends Ci3Model
   function __construct()
   {
     parent::__construct();
+    $this->cedules = new CedulesModel();
     
     
     

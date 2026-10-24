@@ -312,6 +312,7 @@ $routes->add('sanivan/remove/collecte/(:any)/(:num)', 'Gestion::delCollecte/$1/$
 $routes->add('rapport/financier', 'Rapport::ShowTDBFinancier/none/none');
 $routes->add('rapport/financier/(:any)/(:any)', 'Rapport::ShowTDBFinancier/$1/$2');
 $routes->add('rapport/sani/excel/(:any)', 'TabletteSani::exportSaniExcel/$1');
+$routes->add('rapport/sani/(:any)/(:num)', 'TabletteSani::getSaniReport/$1/$2');
 
 // ─── Sse → Sse ───
 $routes->add('sanivan/star_sse', 'Sse::index');
@@ -505,6 +506,7 @@ $routes->match(['GET', 'POST'], 'co_tablette_sani/(:segment)/(:any)', 'TabletteS
 // qui n'a pas de correspondance CI4.
 $routes->add('(:any)', 'Proxy::pass');
 
-// Non portés — restent servis par CI3 (proxy interne) :
-//   rapport/sani/(:any)/(:num)      → getSaniReport (machinerie CamDay ~850 lignes)
-//   sanivan/ssecam                  → ssecaminfo (credentials en dur — à réécrire)
+// Routes mortes vérifiées côté CI3 (404/500 — voir AGENTS.md
+// « Routes mortes CI3 ») : tablettes/*, sanivan/ssecam,
+// api/upload-collecte, admin/tableau_de_bord/commandes, et les
+// 7 stubs morts de Gestion (getPage, updCamion, excCedule, ...).

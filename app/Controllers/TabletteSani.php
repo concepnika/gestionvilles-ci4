@@ -17,12 +17,12 @@ use CodeIgniter\HTTP\ResponseInterface;
  * écriture : le flow login écrit camion/kmdepart/user_id en session).
  *
  * Non porté (reste sur CI3 — voir MIGRATION.md) :
- *  - getSaniReport (machinerie CamDay ~850 lignes)
  *  - getInfoCeduleRTE : code mort en CI3 (ne produit rien)
  *  - osrmMatchWithGeometry / osrmMatchChunk : remplacés par OsrmSnapper
  *
  * exportSaniExcel porté sur PhpSpreadsheet (2026-10-24) — PHPExcel est
- * incompatible PHP 8.
+ * incompatible PHP 8. getSaniReport porté (2026-10-24) : la machinerie
+ * CamDay était déjà portée dans SanivanModel.
  */
 class TabletteSani extends BaseController
 {
@@ -225,6 +225,30 @@ class TabletteSani extends BaseController
         $objWriter->save($filename);
         force_download($filename, NULL);
         delete_files($filename);
+    }
+
+    /**
+     * Port de getSaniReport (CI3) : rapport Sanivan du jour. La
+     * machinerie CamDay est déjà portée (SanivanModel::getCamDay,
+     * ~850 lignes) ainsi que la vue sanivan/rap_sani_jour — il
+     * manquait seulement cette méthode de contrôleur.
+     * $from == 0 : la veille de $dateactive ; sinon $dateactive.
+     */
+    public function getSaniReport($dateactive, $from)
+    {
+        $sanivan = new \App\Models\SanivanModel();
+        if ($from == 0) {
+            $date = date_create($dateactive);
+            date_sub($date, date_interval_create_from_date_string('1 days'));
+            $data = $sanivan->getCamDay(date_format($date, 'Y-m-d'));
+            $data['ActiveDate'] = date_format($date, 'Y-m-d');
+        } else {
+            $data = $sanivan->getCamDay($dateactive);
+            $data['ActiveDate'] = $dateactive;
+        }
+        $data['optChauffeurs'] = $this->html->getOptionChauffeur(0, $this->db->escape($data['ActiveDate']));
+        $data['raprojour'] = '';
+        return $this->out(view('sanivan/rap_sani_jour', $data));
     }
 
     //=================================================================

@@ -94,6 +94,11 @@ $rules = [
     // public/, pas le docroot CI3)
     ['/"\.\/(upload|assets|formulaires)\//' => 'env(\'ci3.webroot\') . "/$1/'],
     ['/\'\.\/(upload|assets|formulaires)\//' => 'env(\'ci3.webroot\') . \'/$1/'],
+    // classes utilitaires legacy (ex. Collection dans Sanivan_model) :
+    // super-objet CI3 get_instance() -> adaptateur Ci3Db — les appels
+    // $this->CI->db->… restent valides sur le stdClass
+    ['/\$this->CI\s*=&\s*get_instance\(\);/' => '$this->CI = new \\\\stdClass();'],
+    ['/\$this->CI->load->database\(\);/' => '$this->CI->db = new \\\\App\\\\Libraries\\\\Ci3Db();'],
 ];
 
 /**
@@ -102,6 +107,25 @@ $rules = [
  * Chaque entree : fonction(string $code): string.
  */
 $patches = [
+    'Sanivan' => [
+        // $this->cedules (getCamDay) : en CI3 le __get magique des
+        // modeles transferait vers le super-objet où le contrôleur
+        // chargeait Cedules_model en 'cedules'. En CI4, instancier
+        // directement dans le constructeur du modèle.
+        function (string $code): string {
+            $anchor = "class SanivanModel extends Ci3Model";
+            $pos = strpos($code, 'function __construct()', strpos($code, $anchor));
+            if ($pos === false) {
+                return $code;
+            }
+            $after = strpos($code, 'parent::__construct();', $pos);
+            if ($after === false) {
+                return $code;
+            }
+            $after += strlen('parent::__construct();');
+            return substr($code, 0, $after) . "\n    \$this->cedules = new CedulesModel();" . substr($code, $after);
+        },
+    ],
     'Cedules' => [
         // getRapportJour : CI3 reutilisait les $backColorN de
         // l'iteration precedente (undefined au 1er tour, tolere).
