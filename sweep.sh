@@ -1,7 +1,7 @@
 #!/bin/bash
 # Balayage CI3 vs CI4 : compare les codes HTTP des routes.
 # Usage: ./sweep.sh [filtre]
-SESSION=$(/c/wamp64/bin/php/php8.2.29/php.exe /tmp/mksess.php)
+SESSION=$(/c/wamp64/bin/php/php8.2.29/php.exe "$(dirname "$0")/tools/mksess.php")
 FILTRE="${1:-}"
 test_url() {
   local u="$1"

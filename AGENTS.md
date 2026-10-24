@@ -95,9 +95,26 @@ database.default.database = gestionvilles
 database.default.username = root
 database.default.password =
 database.default.DBDriver = MySQLi
-# + samsara.apiKey, samsara.baseUrl, osrm.base, sanivan.uploadDir,
-#   ci3.webroot (voir MIGRATION.md § ".env")
+ci3.webroot = 'E:/Serveur Cloud/GestionVilles'
+mapbox.accessToken = '<jeton pk.…>'
+# + samsara.apiKey, samsara.baseUrl, osrm.base, sanivan.uploadDir
+#   (voir MIGRATION.md § ".env")
 ```
+
+### Checklist « nouvelle machine »
+
+1. `git clone https://github.com/concepnika/gestionvilles-ci4`
+2. `composer install`
+3. Recréer `.env` ci-dessus (adapter `ci3.webroot` au chemin local
+   de l'app CI3 — **pas en version CI4 dans ce repo**)
+4. Copier l'app CI3 `E:/Serveur Cloud/GestionVilles` (non versionnée)
+   + importer la BD `gestionvilles` dans MySQL
+5. Vhost `gestionvillesci4.local` + hosts (bloc Apache ci-dessus)
+6. Schéma local : s'assurer que `camionjour` a les colonnes
+   `debut1..4`, `fin1..4`, `Depotoire1..4`, `Ticket1..4`, `Tonnage1..4`
+   (ajoutées sur la machine d'origine — voir note plus bas)
+7. Test : `php tools/mksess.php` → cookie `ci_session`, puis
+   `./sweep.sh` (balayage CI3 vs CI4)
 
 ## Authentification CI4 (portée)
 
@@ -136,7 +153,7 @@ la correspondance CI3 → classe CI4 :
 
 | CI3 | CI4 | État |
 |---|---|---|
-| `co_gestion` | `Gestion` (extends `Login`) | auth, `GotoHome`, `showToday` + AJAX cédule + calendrier + validation (`showValidSanivan`, `getValidation`, `getValidationChauffeur`, `PostSuivis`, `DeleteSuivis`) portés ; ~150 stubs |
+| `co_gestion` | `Gestion` (extends `Login`) | **entièrement porté** (146 méthodes via `port_controller.php`, parité balayage `sweep.sh`) |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | stubs |
