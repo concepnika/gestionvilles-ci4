@@ -43,6 +43,14 @@ class Ci3SessionAdapter
 
     public function set_userdata($key, $value = null): void
     {
+        // CI3 auto-cree la session des la premiere requete (cookie
+        // ci_session sur tout visiteur) : set_userdata n'y echoue
+        // jamais. Sur le vhost CI4 dedie, le cookie CI3 n'arrive pas
+        // — sans ceci, set() serait un no-op silencieux et le login
+        // ne persisterait pas (pattern ensureSession, cf. AGENTS.md).
+        if ($this->s->user() === null) {
+            $this->s->create([]);
+        }
         foreach (is_array($key) ? $key : [$key => $value] as $k => $v) {
             $this->s->set($k, $v);
         }

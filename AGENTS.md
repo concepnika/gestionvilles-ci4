@@ -156,8 +156,8 @@ la correspondance CI3 → classe CI4 :
 | `co_gestion` | `Gestion` (extends `Login`) | **entièrement porté** (146 méthodes via `port_controller.php`, parité balayage `sweep.sh`) |
 | `co_tablette_sani` | `TabletteSani` | **porté (phase 2)** |
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
-| `Co_ville` | `Ville` | stubs |
-| `Co_web_chauffeur` | `WebChauffeur` | stubs |
+| `Co_ville` | `Ville` | **porté (phase 2)** |
+| `Co_web_chauffeur` | `WebChauffeur` | **porté (phase 2)** |
 | `co_polyline`, `polyline`, `Polyline` | `Polyline` | stubs (fusionnés) |
 | `co_admin`, `co_sessions`, `Co_admin_tags`, `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`, `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`, `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` | mêmes noms PascalCase | stubs |
 
@@ -207,6 +207,23 @@ en place, aucune modif de Routes.php nécessaire.
   (post_get/get/post), `$this->session` (adaptateur userdata/set_userdata/
   has_userdata + magic `->email`), `$this->data`/`objData`,
   `JourDeSemaine`, `$this->sess()`.
+- **Session auto-créée (2026-10-24)** : `Ci3SessionAdapter::set_userdata`
+  matérialise la ligne `ci_sessions` + cookie si absente. CI3 auto-créait
+  la session à chaque visite (le cookie existe toujours) ; sur le vhost
+  CI4, sans ceci `set()` est un no-op silencieux — le login rendait le
+  dashboard sans session persistante, puis chaque clic sur le menu
+  ramenait à la page de connexion. `BaseController::initController`
+  écrit `site_lang` → la session existe avant tout code de contrôleur.
+- ⚠️ Ne pas redéclarer `$db` (ni `$input`/`$session`/`$load`/`$output`)
+  dans les contrôleurs : `BaseController` les fournit (`Ci3Db`, etc.)
+  — une redéclaration `private` est un fatal PHP (visibilité réduite).
+- ⚠️ `Gestion::login` : CI3 testait `isset($result)` alors que
+  `validate_user` retourne `FALSE` sur échec (`isset(FALSE)` vaut TRUE
+  → CI3 rendait le dashboard avec identité nulle ; en CI4 le warning
+  « property on bool » devient une exception 500). Corrigé en
+  `!empty($result)` (pattern du `loginChauffeur` CI3) — **divergence
+  voulue** : mauvais identifiants → « Courriel ou mot de passe
+  invalide » au lieu d'un faux login.
 - **`port_model.php`** (racine) : `php port_model.php Cedules_model`
   copie un modèle CI3 ENTIER vers `app/Models/XModel.php` avec
   transformation mécanique (classe, loaders, `load->model` →
@@ -301,15 +318,17 @@ curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
   quelques POST représentatifs.
 - Exports Excel : remplacer PHPExcel (incompatible PHP 8) —
   `villes/requeteexcel`, `excel/cedule`, `excel/hres`.
-- Porter les autres contrôleurs : `Co_ville`, `Co_web_chauffeur`,
-  `Polyline`, `Co_admin`, `co_sessions`, `Co_admin_tags`,
+- Porter les autres contrôleurs : `Polyline`,
+  `Co_admin`, `co_sessions`, `Co_admin_tags`,
   `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`,
   `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`,
   `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` (stubs →
   `toCi3()` pour l'instant).
-- `TabletteSani::loginChauffeur` : `$this->ci3->set()` est un no-op sans
-  session existante — appeler `Ci3Session::create()` si `user()` est
-  null avant les `set()` (le flow tablette sur l'hôte CI4).
+- ~~`TabletteSani::loginChauffeur` : `$this->ci3->set()` est un no-op
+  sans session existante~~ **Résolu (2026-10-24)** :
+  `Ci3SessionAdapter::set_userdata` matérialise la session si
+  absente (voir « Session auto-créée » dans la chaîne de port) —
+  `initController` écrit `site_lang` avant tout code de contrôleur.
 - CSRF : les POST CI3 n'ont pas de token — exempter en `Filters` si le
   filtre csrf est activé un jour (actuellement non global).
 - `.env` prod : `app.baseURL = 'https://robert-daoust.ca/ci4/'` et

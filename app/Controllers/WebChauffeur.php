@@ -6,7 +6,6 @@ use App\Libraries\Ci3Session;
 use App\Libraries\SamsaraClient;
 use App\Libraries\WebChauffeurService;
 use CodeIgniter\HTTP\ResponseInterface;
-use Config\Database;
 
 /**
  * Port de Co_web_chauffeur (CI3, ~2 240 lignes) – interface web
@@ -30,7 +29,6 @@ use Config\Database;
  */
 class WebChauffeur extends BaseController
 {
-    private $db;
     private Ci3Session $ci3;
     private WebChauffeurService $web;
     private SamsaraClient $samsara;
@@ -38,7 +36,6 @@ class WebChauffeur extends BaseController
     public function __construct()
     {
         date_default_timezone_set('America/Toronto');
-        $this->db      = Database::connect();
         $this->ci3     = new Ci3Session();
         $this->web     = new WebChauffeurService();
         $this->samsara = new SamsaraClient();

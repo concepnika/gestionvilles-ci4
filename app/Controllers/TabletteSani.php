@@ -23,7 +23,6 @@ use CodeIgniter\HTTP\ResponseInterface;
  */
 class TabletteSani extends BaseController
 {
-    private $db;
     private Ci3Session $ci3;
     private TabletteService $svc;
     private TabletteHtml $html;
@@ -35,7 +34,6 @@ class TabletteSani extends BaseController
 
     public function __construct()
     {
-        $this->db = \Config\Database::connect();
         $this->ci3 = new Ci3Session();
         $this->svc = new TabletteService();
         $this->html = new TabletteHtml();

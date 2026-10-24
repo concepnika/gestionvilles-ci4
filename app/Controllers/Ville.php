@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Libraries\Ci3Session;
 use App\Libraries\VilleService;
 use CodeIgniter\HTTP\ResponseInterface;
-use Config\Database;
 
 /**
  * Port de Co_ville (CI3, ~2 900 lignes) — portail citoyen
@@ -33,7 +32,6 @@ class Ville extends BaseController
 {
     private const KEYSHA = VilleService::KEYSHA;
 
-    private $db;
     private Ci3Session $ci3;
     private VilleService $svc;
     /** Miroir de $this->message_error (CI3). */
@@ -43,7 +41,6 @@ class Ville extends BaseController
     {
         date_default_timezone_set('America/Toronto');
 
-        $this->db  = Database::connect();
         $this->ci3 = new Ci3Session();
         $this->svc = new VilleService();
 

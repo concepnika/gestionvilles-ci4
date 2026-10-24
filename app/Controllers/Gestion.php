@@ -103,7 +103,11 @@ class Gestion extends Login
                 $result = new \stdClass();
                 $result = $this->login->validate_user($data);
                 //$result = $this->login->updateUser();
-                if (isset($result)) {
+                // isset(FALSE) vaut TRUE : le code CI3 laissait passer
+                // les mauvais identifiants (dashboard a identite nulle,
+                // warning "property on bool" en CI4). !empty est le
+                // pattern du loginChauffeur CI3 — divergence documentee.
+                if (! empty($result)) {
                     $this->session->set_userdata('nom', $result->prenom.' '.$result->nom);
                     $this->session->set_userdata('email', $result->email);
                     $this->session->set_userdata('login_in', TRUE);

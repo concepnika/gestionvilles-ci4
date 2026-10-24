@@ -46,16 +46,18 @@
         <?php endif; ?>
 
         <ul>
+            <li><a href="/admin/connexion">Tableau de bord admin</a> (porté : GotoHome → partials/home)</li>
+            <li><a href="/villes/requetes">Portail villes</a> (porté : /fr, /en)</li>
             <li><a href="/ramassage-ville">Portail chauffeurs (web)</a></li>
             <li><a href="/sanivan/get?action=2">API tablettes SaniVan (JSON)</a></li>
             <li><a href="/whoami">/whoami</a> — session CI4 décodée (JSON)</li>
-            <li>Portail villes : <a href="http://gestionvilles.local/">http://gestionvilles.local/</a> (servi par CI3)</li>
         </ul>
 
         <div class="note">
-            Le tableau de bord administrateur n'est pas encore porté — il reste servi par CI3
-            (connexion séparée requise sur cet hôte : le cookie de session ne traverse pas les domaines).
-            Modules déjà portés : API tablettes, portail chauffeurs web, tablettes Sanivan.
+            L'essentiel de co_gestion est porté mécaniquement (adaptateurs CI3 : db, input, session,
+            load, output — voir AGENTS.md) ; les méthodes non portées restent relayées à CI3 par le
+            proxy interne. Modules portés : tableau de bord admin, portail villes, portail chauffeurs
+            web, tablettes Sanivan, API tablettes.
         </div>
     </div>
 </body>

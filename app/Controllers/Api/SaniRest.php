@@ -6,7 +6,6 @@ use App\Controllers\BaseController;
 use App\Libraries\OsrmSnapper;
 use App\Libraries\SamsaraClient;
 use App\Libraries\SaniRestService;
-use CodeIgniter\Database\BaseConnection;
 
 /**
  * Port CI4 de application/controllers/Co_Rest_Sani.php (CI3).
@@ -64,7 +63,6 @@ class SaniRest extends BaseController
     private const GET_AUTORISATION_SPECTATEUR = 46;
     private const GET_POLYLINE_DYNAMIQUE = 47;
 
-    private BaseConnection $db;
     private SaniRestService $svc;
     private int $httpCode = 400;
     private string $keysha = 'nikajhdgsjgdsdssd';
@@ -73,8 +71,7 @@ class SaniRest extends BaseController
     public function __construct()
     {
         date_default_timezone_set('America/Toronto');
-        $this->db = \Config\Database::connect();
-        $this->svc = new SaniRestService($this->db);
+        $this->svc = new SaniRestService();
     }
 
     /**
