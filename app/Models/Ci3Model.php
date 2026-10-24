@@ -50,7 +50,7 @@ abstract class Ci3Model
         $this->db = new \App\Libraries\Ci3Db();
         $this->objData = new \stdClass();
         $this->ci3session = new \App\Libraries\Ci3Session();
-        helper(['ci3view', 'text']);
+        helper(['ci3view', 'ci3compat', 'text']);
         $sess = $this->ci3session;
         $this->session = new class ($sess) {
             private $s;

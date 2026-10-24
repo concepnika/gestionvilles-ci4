@@ -169,7 +169,7 @@ la correspondance CI3 → classe CI4 :
 | `Sse` | `Sse` | **porté (2026-10-24)** — voir divergences SSE |
 | `Upload` | `Upload` | **porté (2026-10-24)** |
 | `Upload_ticket` | `UploadTicket` | **porté (2026-10-24)** |
-| `Co_samsara_ifta` | `SamsaraIfta` | **porté (2026-10-24)** sauf `exportExcel` (PHPExcel — voir Reste à faire) |
+| `Co_samsara_ifta` | `SamsaraIfta` | **porté (2026-10-24)** — 3 méthodes, exportExcel sur PhpSpreadsheet |
 | `co_admin`, `co_tablette`, `ssecaminfo`, `upload_collecte` | `Admin`, `Tablette`, `Ssecaminfo`, `UploadCollecte` | **routes mortes en CI3** — stubs qui relaient le même 404/500 (voir « Routes mortes CI3 ») |
 
 ### Routes mortes CI3 (vérifiées 2026-10-24 — rien à porter)
@@ -344,12 +344,26 @@ en place, aucune modif de Routes.php nécessaire.
 - Libs PDF legacy (`application/controllers/pdf/*.php`) : incluses
   via `env('ci3.webroot')` + `chdir()` préalable pour résoudre les
   chemins relatifs `./assets/`/`./upload/` ; `new \PDF()` global.
-- `APPPATH` CI3 → `env('ci3.webroot') . '/application/'` ;
-  `PHPExcel*` préfixé `\` (classes globales).
-- ⚠️ **PHPExcel incompatible PHP 8** (accolades `$str{0}`) — les
-  exports Excel (`villes/requeteexcel`, `excel/cedule`, `excel/hres`)
-  retournent 500 en CI3 local aussi (parité). En prod PHP ancien
-  ils fonctionnaient ; remplacement nécessaire (PhpSpreadsheet?).
+- `APPPATH` CI3 → `env('ci3.webroot') . '/application/'`.
+- **PhpSpreadsheet (2026-10-24)** remplace PHPExcel (incompatible
+  PHP 8, 500 côté CI3 local) : `composer require
+  phpoffice/phpspreadsheet` (^5.10). Les 5 exports Excel sont
+  natifs et testés : `excel/cedule`, `excel/hres` (+`modal/hres`),
+  `villes/requeteexcel`, `samsara_ifta/exportExcel`,
+  `rapport/sani/excel` (port `TabletteSani::exportSaniExcel`).
+  `port_model.php` mappe les classes PHPExcel → PhpSpreadsheet et
+  réécrit `./upload|assets|formulaires/…` contre `ci3.webroot`
+  (CWD CI4 = public/, pas le docroot CI3). ⚠️ Divergences d'API :
+  colonnes 0-based PHPExcel → 1-based (`setCellValue([$col+1, $row])`),
+  clés de style `type/startcolor` → `fillType/startColor`,
+  `setCellValueByColumnAndRow` supprimé en v5. Les noms de fichiers
+  exotiques (`cedule_'.DATE.xlsx` avec apostrophe+point) sont
+  fidèles à CI3 (vérifiés contre les fichiers produits par CI3).
+- **`app/Helpers/ci3compat_helper.php`** : polyfills `force_download`
+  (headers sur la Response CI4 partagée + corps via echo→ob) et
+  `delete_files` (no-op sur un chemin de fichier, comme CI3 —
+  les fichiers exports restent dans upload/, comportement CI3).
+  Chargé par `BaseController::initController` et `Ci3Model`.
 - ⚠️ Table `requetes` vide en local → `villes/reponsepdf/*` échoue
   dans les deux apps (parité 500).
 - `sweep.sh` : balayage comparatif CI3 vs CI4 (~60 routes,
@@ -382,19 +396,24 @@ curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 
 - **Ports terminés (2026-10-24)** : tous les contrôleurs vivants sont
   portés nativement — le proxy ne reste que pour les routes mortes CI3
-  (voir « Routes mortes CI3 »), `SamsaraIfta::exportExcel` (PHPExcel,
-  500 des deux côtés) et le catch-all de sécurité. Divergences du
-  balayage final, toutes voulues :
+  (voir « Routes mortes CI3 »), `getSaniReport` (machinerie CamDay) et
+  le catch-all de sécurité. Divergences du balayage final, toutes
+  voulues :
   - `sanivan/calrh`, `sanivan/calcam` : CI3 500 flaky → CI4 200 ✓
   - `villes/send-reponse` en GET : CI3 500 → CI4 302 propre ✓
   - `villes/charger/*` : CI4 renvoie une 302 explicite au lieu du
     rendu `upload_form` de CI3 (fonctionnellement équivalent).
+  - **Les 5 exports Excel** (`excel/cedule`, `excel/hres`,
+    `villes/requeteexcel`, `samsara_ifta/exportExcel`,
+    `rapport/sani/excel`) : CI3 500 (PHPExcel mort sous PHP 8) →
+    CI4 200 avec fichiers valides (PhpSpreadsheet) ✓ — données
+    réelles vérifiées (cedules, hres aides, rapport sani 13 camions,
+    liste requetes template+logo). Note locale : l'API Samsara
+    échoue en SSL sur WAMP (pas de bundle CA) — même erreur côté
+    CI3, parité ; la prod a un CA correct.
 - Éprouver les POST réels côté UI (formulaires complets avec données
   valides) — les tests automatisés couvrent surtout les GET et
   quelques POST représentatifs (login, upload-ticket, polyline).
-- Exports Excel : remplacer PHPExcel (incompatible PHP 8) —
-  `villes/requeteexcel`, `excel/cedule`, `excel/hres`,
-  `samsara_ifta/exportExcel`. PhpSpreadsheet recommandé.
 - SSE : re-tester `sanivan/sse` avec un client longue durée (parité
   0 octet constatée localement, scan BD lent des deux côtés).
 - CSRF : les POST CI3 n'ont pas de token — exempter en `Filters` si le
@@ -406,8 +425,8 @@ curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 
 ### Bascule finale en production (fin de la migration)
 
-1. Vérifier PHP ≥ 8.2 sur le cPanel de prod (PHPExcel y mourrait de
-   toute façon — d'où PhpSpreadsheet d'abord).
+1. Vérifier PHP ≥ 8.2 sur le cPanel de prod (les exports Excel sont
+   maintenant sur PhpSpreadsheet, compatibles PHP 8).
 2. Router **tout** le trafic vers CI4 : aujourd'hui tablettes,
    chauffeurs et citoyens atteignent CI3 à la racine du domaine —
    CI4 ne vit que sous `/ci4/`.

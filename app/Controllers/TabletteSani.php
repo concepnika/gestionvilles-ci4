@@ -17,9 +17,12 @@ use CodeIgniter\HTTP\ResponseInterface;
  * écriture : le flow login écrit camion/kmdepart/user_id en session).
  *
  * Non porté (reste sur CI3 — voir MIGRATION.md) :
- *  - getSaniReport / exportSaniExcel (machinerie CamDay + PHPExcel)
+ *  - getSaniReport (machinerie CamDay ~850 lignes)
  *  - getInfoCeduleRTE : code mort en CI3 (ne produit rien)
  *  - osrmMatchWithGeometry / osrmMatchChunk : remplacés par OsrmSnapper
+ *
+ * exportSaniExcel porté sur PhpSpreadsheet (2026-10-24) — PHPExcel est
+ * incompatible PHP 8.
  */
 class TabletteSani extends BaseController
 {
@@ -56,6 +59,172 @@ class TabletteSani extends BaseController
             'camchauf' => '', 'nocamion' => '', 'latlng' => '', 'center' => '',
             'chauffeursRte' => '', 'allchauffeur' => 0, 'idchauffeur' => 0,
         ];
+    }
+
+    /**
+     * Port de exportSaniExcel (CI3) : validation Sanivan en Excel.
+     * Adaptations PhpSpreadsheet : colonnes 0-based (PHPExcel) ->
+     * 1-based ([col, row]), cles de style type/startcolor ->
+     * fillType/startColor, chemin ./upload -> webroot CI3.
+     */
+    public function exportSaniExcel($dateactive)
+    {
+        $dteactive = $this->db->escape($dateactive);
+        $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $objPHPExcel->setActiveSheetIndex(0);
+        $sheet->setTitle('Rapport Sanivan');
+
+        // ---- Styles ----
+        $headerStyle = array(
+            'font' => array('bold' => true, 'color' => array('rgb' => 'FFFFFF'), 'size' => 11),
+            'fill' => array('fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => array('rgb' => '1B3A6B')),
+            'alignment' => array('horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+        );
+        $summaryStyle = array(
+            'font' => array('bold' => true, 'size' => 11),
+            'fill' => array('fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => array('rgb' => 'FFFF00')),
+            'alignment' => array('horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+        );
+
+        // ---- Titre ----
+        $sheet->mergeCells('A1:O1');
+        $sheet->setCellValue('A1', 'Validation Sanivan - ' . $dateactive);
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+        // ---- En-têtes camions (ligne 3) ----
+        $headers = array('CHAUFFEUR', 'CAMION', 'KM DÉPART', 'KM FIN', 'KM', 'CARBURANT',
+                         'HRE DÉBUT', 'HRE FIN', 'HRES TRAV.', 'TRANSPORT', 'COLLECTE',
+                         'DISPOSITION', 'REVENU', 'REV. NET', 'BROKER');
+        $col = 0;
+        foreach ($headers as $h) {
+            $sheet->setCellValue([$col + 1, 3], $h);
+            $sheet->getStyle([$col + 1, 3])->applyFromArray($headerStyle);
+            $sheet->getColumnDimensionByColumn($col + 1)->setAutoSize(true);
+            $col++;
+        }
+
+        // ---- Données par camion ----
+        $strSQL = "SELECT DISTINCT
+                    cj.NOCAMION,
+                    (SELECT CONCAT(rh.Prenom, ' ', rh.Nom) FROM reshumaine rh WHERE rh.id = c.idchauffeurs) AS Chauffeur,
+                    IFNULL((SELECT rh2.isbroker FROM reshumaine rh2 WHERE rh2.id = c.idchauffeurs), 0) AS isbroker,
+                    cj.KiloDeb, cj.KiloFin, (cj.KiloFin - cj.KiloDeb) AS KM,
+                    cj.Fuel, cj.HreDeb, cj.HreFin,
+                    LEFT(TIMEDIFF(cj.HreFin, cj.HreDeb), 5) AS HrsTrav,
+                    IFNULL(sd.hresCam, 0) AS hresCam,
+                    IFNULL(sd.carburant, 0) AS sdCarburant,
+                    IFNULL(sd.coutCarburant, 0) AS coutCarburant,
+                    IFNULL(sd.hresChauf, 0) AS hresChauf,
+                    IFNULL(sd.coutChauf, 0) AS coutChauf,
+                    IFNULL(sd.hresAide, 0) AS hresAide,
+                    IFNULL(sd.coutAide, 0) AS coutAide,
+                    IFNULL(sd.disposition, 0) AS disposition,
+                    IFNULL(sd.coutDisposition, 0) AS coutDisposition,
+                    IFNULL(sd.nbBac, 0) AS nbBac,
+                    IFNULL((SELECT srh.montant_forfaitaire FROM sanivan_rh srh
+                            WHERE srh.idcedule = c.ID AND srh.TypeRh = 0 LIMIT 1), 0) AS montant_broker
+                FROM camionjour cj
+                    INNER JOIN cedules c ON c.NOCAMION = cj.NOCAMION AND c.DateJour = cj.DateJour
+                    LEFT JOIN sanivanday sd ON sd.NOCAMION = cj.NOCAMION AND sd.DateJour = cj.DateJour
+                WHERE cj.DateJour = $dteactive
+                    AND (SELECT cam.TypeCamion FROM camions cam WHERE cam.NoCamion = cj.NOCAMION) IN (1,7)
+                GROUP BY cj.NOCAMION
+                ORDER BY cj.NOCAMION";
+
+        $result = $this->db->query($strSQL);
+        $row = 4;
+
+        // Totaux
+        $totHresChauf = 0; $totCoutChauf = 0; $totHresAide = 0; $totCoutAide = 0;
+        $totHresCam = 0; $totFuel = 0; $totCoutFuel = 0;
+        $totTransport = 0; $totCollecte = 0; $totDisposition = 0; $totCoutDispo = 0;
+        $totNbBac = 0; $totBroker = 0; $totRevenu = 0; $totNet = 0;
+
+        foreach ($result->getResult() as $r) {
+            $transport = floatval($r->hresCam) - floatval($r->disposition);
+            if ($transport < 0) $transport = 0;
+            $collecteVal = floatval($r->hresCam) - $transport - floatval($r->disposition);
+            if ($collecteVal < 0) $collecteVal = 0;
+
+            $revenu = floatval($r->coutChauf) + floatval($r->coutAide) + floatval($r->coutCarburant) + floatval($r->coutDisposition);
+            $net = $revenu;
+
+            $sheet->setCellValue([1, $row], $r->Chauffeur);
+            $sheet->setCellValue([2, $row], $r->NOCAMION);
+            $sheet->setCellValue([3, $row], floatval($r->KiloDeb));
+            $sheet->setCellValue([4, $row], floatval($r->KiloFin));
+            $sheet->setCellValue([5, $row], floatval($r->KM));
+            $sheet->setCellValue([6, $row], floatval($r->Fuel));
+            $sheet->setCellValue([7, $row], $r->HreDeb);
+            $sheet->setCellValue([8, $row], $r->HreFin);
+            $sheet->setCellValue([9, $row], $r->HrsTrav);
+            $sheet->setCellValue([10, $row], floatval($r->hresCam));
+            $sheet->setCellValue([11, $row], floatval($r->disposition));
+            $sheet->setCellValue([12, $row], floatval($r->disposition));
+            $sheet->setCellValue([13, $row], floatval($r->coutDisposition));
+            $sheet->setCellValue([14, $row], floatval($r->coutDisposition));
+            $sheet->setCellValue([15, $row], ($r->isbroker == 1) ? floatval($r->montant_broker) : 0);
+
+            // Accumulate totals
+            $totHresChauf += floatval($r->hresChauf);
+            $totCoutChauf += floatval($r->coutChauf);
+            $totHresAide += floatval($r->hresAide);
+            $totCoutAide += floatval($r->coutAide);
+            $totHresCam += floatval($r->hresCam);
+            $totFuel += floatval($r->Fuel);
+            $totCoutFuel += floatval($r->coutCarburant);
+            $totDisposition += floatval($r->disposition);
+            $totCoutDispo += floatval($r->coutDisposition);
+            $totNbBac += intval($r->nbBac);
+            $totBroker += ($r->isbroker == 1) ? floatval($r->montant_broker) : 0;
+
+            $row++;
+        }
+
+        // ---- Ligne RAPPORT DE LA JOURNÉE ----
+        $row += 1;
+        $sheet->mergeCells('A' . $row . ':O' . $row);
+        $sheet->setCellValue('A' . $row, 'RAPPORT DE LA JOURNÉE');
+        $sheet->getStyle('A' . $row)->applyFromArray($summaryStyle);
+        $sheet->getStyle('A' . $row)->getFont()->setSize(12);
+        $row++;
+
+        $sumHeaders = array('HRES CHAUF', '$ CHAUF', 'HRES AIDE', '$ AIDE', 'HRES CAM',
+                            'FUEL', '$ FUEL', 'TRANSPORT', 'COLLECTE', 'DISPOSITION',
+                            '$ DISPO', 'NB BACS', '$ BROKER', 'REVENU BRUT', 'REVENU NET');
+        $col = 0;
+        foreach ($sumHeaders as $sh) {
+            $sheet->setCellValue([$col + 1, $row], $sh);
+            $sheet->getStyle([$col + 1, $row])->applyFromArray($headerStyle);
+            $col++;
+        }
+        $row++;
+
+        $sumValues = array(
+            $totHresChauf, number_format($totCoutChauf, 2, '.', ''),
+            $totHresAide, number_format($totCoutAide, 2, '.', ''),
+            $totHresCam, $totFuel, number_format($totCoutFuel, 2, '.', ''),
+            $totTransport, $totCollecte, $totDisposition,
+            number_format($totCoutDispo, 2, '.', ''),
+            $totNbBac, number_format($totBroker, 2, '.', ''),
+            number_format($totRevenu, 2, '.', ''),
+            number_format($totNet, 2, '.', '')
+        );
+        $col = 0;
+        foreach ($sumValues as $sv) {
+            $sheet->setCellValue([$col + 1, $row], $sv);
+            $sheet->getStyle([$col + 1, $row])->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $col++;
+        }
+
+        // ---- Génération du fichier ----
+        $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
+        $objWriter->setPreCalculateFormulas(false);
+        $filename = env('ci3.webroot') . '/upload/rapport_sani_' . $dateactive . '.xlsx';
+        $objWriter->save($filename);
+        force_download($filename, NULL);
+        delete_files($filename);
     }
 
     //=================================================================

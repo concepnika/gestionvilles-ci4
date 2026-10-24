@@ -3,7 +3,7 @@
  * Convertisseur mecanique de modeles CI3 -> CI4.
  *
  * Usage : php port_model.php <X_model> [<Y_model> ...]
- * Source : E:/Serveur Cloud/GestionVilles/application/models/<arg>.php
+ * Source : D:/Programmations/php appl/GestionVilles/application/models/<arg>.php
  * Cible  : app/Models/<PascalCase>Model.php
  *
  * Transformations (les requetes SQL et le HTML sont inchanges) :
@@ -21,7 +21,7 @@
  * Builder), $this->upload, $this->email, helpers non portes.
  */
 
-const CI3_MODELS = 'E:/Serveur Cloud/GestionVilles/application/models/';
+const CI3_MODELS = 'D:/Programmations/php appl/GestionVilles/application/models/';
 const CI4_MODELS = __DIR__ . '/app/Models/';
 
 $rules = [
@@ -77,11 +77,23 @@ $rules = [
     ['/->trans_status\(/' => '->transStatus('],
     // APPPATH CI3 (application/) -> racine de l'app CI3 via env
     ['/\bAPPPATH\b/' => 'env(\'ci3.webroot\') . \'/application/\''],
-    // classes PHPExcel (globales legacy) en namespace App\Models —
-    // uniquement en contexte de classe (new X / X::), pas dans les
-    // chaines comme '/libraries/PHPExcel.php'
-    ['/\bnew\s+(?!\\\\)(PHPExcel\w*)\b/' => 'new \\\\$1'],
-    ['/(?<![\\\\\w])(PHPExcel\w*)::/' => '\\\\$1::'],
+    // PHPExcel (incompatible PHP 8) -> PhpSpreadsheet (composer).
+    // D'abord retirer le require legacy, puis mapper les classes —
+    // ordre : noms longs d'abord, "PHPExcel" seul (le classeur) en
+    // dernier, uniquement en contexte "new" pour ne pas toucher les
+    // chaines comme '/libraries/PHPExcel.php'.
+    ['/^[ \t]*require_once[^\n]*PHPExcel\.php[^\n]*\R?/m' => ''],
+    ['/\bnew\s+PHPExcel\b/' => 'new \\\\PhpOffice\\\\PhpSpreadsheet\\\\Spreadsheet'],
+    ['/\bPHPExcel_Writer_Excel2007\b/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\Writer\\\\Xlsx'],
+    ['/\bPHPExcel_IOFactory\b/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\IOFactory'],
+    ['/\bPHPExcel_Worksheet_Drawing\b/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\Worksheet\\\\Drawing'],
+    ['/\bPHPExcel_Style_(Fill|Alignment|Border)\b/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\Style\\\\$1'],
+    ['/(?<![\\\\\w>])PHPExcel(?!_)\s*::/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\Spreadsheet::'],
+    // chemins relatifs du webroot CI3 ('./upload/…', './assets/…',
+    // './formulaires/…') -> webroot CI3 via env (le CWD de CI4 est
+    // public/, pas le docroot CI3)
+    ['/"\.\/(upload|assets|formulaires)\//' => 'env(\'ci3.webroot\') . "/$1/'],
+    ['/\'\.\/(upload|assets|formulaires)\//' => 'env(\'ci3.webroot\') . \'/$1/'],
 ];
 
 /**

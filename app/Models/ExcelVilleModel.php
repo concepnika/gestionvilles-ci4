@@ -9,7 +9,6 @@ namespace App\Models;
  */
 
 
-require_once env('ci3.webroot') . '/application/' . '/libraries/PHPExcel.php';
 //---------------------------- //  REQUÉRANT	REQUÊTE	CÉDULÉE	TITRE	ADRESSE	DESCRIPTION	STATUT /MAT.	DATE
 const REQUERANT         = 'A';
 const REQUETE           = 'B';
@@ -56,10 +55,10 @@ class ExcelVilleModel extends Ci3Model
   private function getLogo($objPHPExcel,$row)
   {
     //-------------------------------------------------------------------- Logo
-    $objDrawing = new \PHPExcel_Worksheet_Drawing();
+    $objDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
     $objDrawing->setName('test_img');
     $objDrawing->setDescription('test_img');
-    $objDrawing->setPath('./assets/img/logo.jpg');
+    $objDrawing->setPath(env('ci3.webroot') . '/assets/img/logo.jpg');
     $objDrawing->setCoordinates('A'. $row);
     //setOffsetX works properly
     $objDrawing->setOffsetX(10);
@@ -72,10 +71,10 @@ class ExcelVilleModel extends Ci3Model
   private function getLogoREP($objPHPExcel,$row)
   {
     //-------------------------------------------------------------------- Logo
-    $objDrawing = new \PHPExcel_Worksheet_Drawing();
+    $objDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
     $objDrawing->setName('test_img');
     $objDrawing->setDescription('test_img');
-    $objDrawing->setPath('./assets/img/logo.jpg');
+    $objDrawing->setPath(env('ci3.webroot') . '/assets/img/logo.jpg');
     $objDrawing->setCoordinates('B'. $row);
     //setOffsetX works properly
     $objDrawing->setOffsetX(10);
@@ -106,9 +105,9 @@ class ExcelVilleModel extends Ci3Model
     $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getFont()->getColor()->setRGB("ffffff");
     $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getFill()->setFillType(
-    \PHPExcel_Style_Fill::FILL_SOLID
+    \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
     )->getStartColor()->setARGB('008000');
-    $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $iterRow++;
 //    const REQUERANT_REP          = 'B';
 //const DESCRIPTION_REP        = 'C';
@@ -118,50 +117,50 @@ class ExcelVilleModel extends Ci3Model
     $objPHPExcel->getActiveSheet()->setCellValue(REQUERANT_REP . $iterRow, '');
     $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getAlignment()->setHorizontal
-      (\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      (\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getFont()->getColor()->setRGB("ffffff");
     $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow)->getFill()->setFillType(
-    \PHPExcel_Style_Fill::FILL_SOLID
+    \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
     )->getStartColor()->setARGB('008000');
     $objPHPExcel->getActiveSheet()->setCellValue(CEDULEE_REP . $iterRow, utf8_encode('CÉDULÉE LE'));
     $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getAlignment()->setHorizontal
-    (\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    (\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getFont()->getColor()->setRGB("ffffff");
     $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getFill()->setFillType(
-    \PHPExcel_Style_Fill::FILL_SOLID
+    \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
     )->getStartColor()->setARGB('008000');
     $objPHPExcel->getActiveSheet()->setCellValue(DESCRIPTION_REP . $iterRow, 'DESCRIPTION');
     $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getAlignment()->setHorizontal
-    (\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    (\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getFont()->getColor()->setRGB("ffffff");
     $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getFill()->setFillType(
-    \PHPExcel_Style_Fill::FILL_SOLID
+    \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
     )->getStartColor()->setARGB('008000');
     $objPHPExcel->getActiveSheet()->setCellValue(ADRESSE_REP . $iterRow, utf8_encode('ADRESSE / BAC / MATIÈRE'));
     $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getAlignment()->setHorizontal
-    (\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    (\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getFont()->getColor()->setRGB("ffffff");
     $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getFill()->setFillType(
-    \PHPExcel_Style_Fill::FILL_SOLID
+    \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
     )->getStartColor()->setARGB('008000');
     $objPHPExcel->getActiveSheet()->setCellValue(STATUT_MAT_REP . $iterRow, 'STATUT');
     $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getAlignment()->setHorizontal
-    (\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    (\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getFont()->getColor()->setRGB("ffffff");
     $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getFill()->setFillType(
-    \PHPExcel_Style_Fill::FILL_SOLID
+    \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
     )->getStartColor()->setARGB('008000');
     $objPHPExcel->getActiveSheet()->setCellValue(DATE_CREE_REP . $iterRow, 'DATE');
     $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getAlignment()->setHorizontal
-    (\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    (\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getFont()->getColor()->setRGB("ffffff");
     $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getFill()->setFillType(
-    \PHPExcel_Style_Fill::FILL_SOLID
+    \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
     )->getStartColor()->setARGB('008000');
     $iterRow++;
     /** @var object $row */
@@ -184,16 +183,16 @@ class ExcelVilleModel extends Ci3Model
       $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getFont()->getColor()->setRGB("f1a905");
       $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getFont()->setSize(16);
       $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getFill()->setFillType(
-      \PHPExcel_Style_Fill::FILL_SOLID
+      \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle(CEDULEE_REP . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(DESCRIPTION_REP . $iterRow, utf8_encode($row->description));
       $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getFont()->setSize(16);
       $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getFill()->setFillType(
-      \PHPExcel_Style_Fill::FILL_SOLID
+      \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
+      $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION_REP . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY);
       //---------------------------------------------------------------------------------
       $infoStatAdr = '';
       if ($row->statut == 9) {
@@ -207,29 +206,29 @@ class ExcelVilleModel extends Ci3Model
       $objPHPExcel->getActiveSheet()->setCellValue(ADRESSE_REP . $iterRow,utf8_encode($infoStatAdr) );
       $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getFill()->setFillType(
-      \PHPExcel_Style_Fill::FILL_SOLID
+      \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
+      $objPHPExcel->getActiveSheet()->getStyle(ADRESSE_REP . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(STATUT_MAT_REP . $iterRow, $row->NonStatut);
       $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getFill()->setFillType(
-      \PHPExcel_Style_Fill::FILL_SOLID
+      \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
+      $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT_REP . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(DATE_CREE_REP . $iterRow, $row->dtecreate);
       $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getFill()->setFillType(
-      \PHPExcel_Style_Fill::FILL_SOLID
+      \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE_REP . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->getStyle(REQUERANT_REP . $iterRow.":".DATE_CREE_REP . $iterRow)->applyFromArray(
       array(
       'borders' => array(
       'allborders' => array(
-      'style' => \PHPExcel_Style_Border::BORDER_THIN,
+      'style' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
       'color' => array('rgb' => 'DDDDDD')
       )
       )
@@ -243,7 +242,7 @@ class ExcelVilleModel extends Ci3Model
   }
   public function getListRequetes($filename)
   {
-    $objPHPExcel = \PHPExcel_IOFactory::load($filename);
+    $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
     $objPHPExcel->setActiveSheetIndex(0);
     //-------------------------------------------------------------------------- Requetes
     $idville = trim($this->input->post_get('idville', TRUE));
@@ -288,7 +287,7 @@ class ExcelVilleModel extends Ci3Model
     //-----------------
     $objPHPExcel->getActiveSheet()->setCellValue('C1', utf8_encode('Liste des Requêtes / '.$endate));
     $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
-    $objPHPExcel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     /** @var int $iterRow */
     $iterRow = 4;
     /** @var object $row */
@@ -303,7 +302,7 @@ class ExcelVilleModel extends Ci3Model
         $objPHPExcel->getActiveSheet()->getStyle(REQUERANT . $iterRow)->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle(REQUERANT . $iterRow)->getFont()->setName("Arial Black");
         $objPHPExcel->getActiveSheet()->getStyle(REQUETE . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
         )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
       }
       else
@@ -314,51 +313,51 @@ class ExcelVilleModel extends Ci3Model
       $objPHPExcel->getActiveSheet()->getStyle(REQUETE . $iterRow)->getFont()->getColor()->setRGB("f1a905");
       $objPHPExcel->getActiveSheet()->getStyle(REQUETE . $iterRow)->getFont()->setSize(16);
       $objPHPExcel->getActiveSheet()->getStyle(REQUETE . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(REQUETE . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle(REQUETE . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(CEDULEE . $iterRow, $row->dteCedule);
       $objPHPExcel->getActiveSheet()->getStyle(CEDULEE . $iterRow)->getFont()->setSize(16);
       $objPHPExcel->getActiveSheet()->getStyle(CEDULEE . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(CEDULEE . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle(CEDULEE . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(TITRE . $iterRow, utf8_encode($row->nom));
       $objPHPExcel->getActiveSheet()->getStyle(TITRE . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(TITRE . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(TITRE . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
+      $objPHPExcel->getActiveSheet()->getStyle(TITRE . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(ADRESSE . $iterRow, utf8_encode($row->adresse));
       $objPHPExcel->getActiveSheet()->getStyle(ADRESSE . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(ADRESSE . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(ADRESSE . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
+      $objPHPExcel->getActiveSheet()->getStyle(ADRESSE . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(DESCRIPTION . $iterRow, utf8_encode($row->description));
       $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);
+      $objPHPExcel->getActiveSheet()->getStyle(DESCRIPTION . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(STATUT_MAT . $iterRow, $row->statut);
       $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle(STATUT_MAT . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       //---------------------------------------------------------------------------------
       $objPHPExcel->getActiveSheet()->setCellValue(DATE_CREE . $iterRow, $row->dtecreate);
       $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE . $iterRow)->getFont()->setSize(12);
       $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'b9ffff' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle(DATE_CREE . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       //---------------------------------------------------------------------------------
       $iterRow++;
       if($row->NbRep > 0)
@@ -372,10 +371,10 @@ class ExcelVilleModel extends Ci3Model
     }
     ///----------------------------------------------------------------------
     $objPHPExcel->getActiveSheet()->getRowDimension(1)->setRowHeight(71);
-    $objDrawing = new \PHPExcel_Worksheet_Drawing();
+    $objDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
     $objDrawing->setName('test_img');
     $objDrawing->setDescription('test_img');
-    $objDrawing->setPath('./assets/img/logo.jpg');
+    $objDrawing->setPath(env('ci3.webroot') . '/assets/img/logo.jpg');
     $objDrawing->setCoordinates('A1');
     //setOffsetX works properly
     $objDrawing->setOffsetX(15);
@@ -386,23 +385,23 @@ class ExcelVilleModel extends Ci3Model
     $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
     //-----------------------------------------------------------------------
     $objPHPExcel->getActiveSheet()->getPageSetup()->setPrintArea('A1:I'. $iterRow);
-    $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
-    $objWriter->save('./upload/liste_requetes.xlsx');
+    $objWriter->save(env('ci3.webroot') . '/upload/liste_requetes.xlsx');
   }
   public function getListTelephone($listtype, $membres, $titre, $filename)
   {
-    $objPHPExcel = \PHPExcel_IOFactory::load($filename);
+    $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
     $objPHPExcel->setActiveSheetIndex(0);
     //--------------------------------------------------------------------
 
     //--------------------------------------------------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[2] . '1', utf8_encode($titre));
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[2] . '1')->getFont()->setBold(true);
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[2] . '1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[2] . '1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()->setCellValue($this->Alphabet[5] . '1', 'Nbre membres: ' . $membres->getNumRows());
     $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[5] . '1')->getFont()->setBold(true);
-    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[5] . '1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $objPHPExcel->getActiveSheet()->getStyle($this->Alphabet[5] . '1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     /** @var string $ActiveCol */
     $ActiveCol = array('A', 'C', 'E');
     /** @var int $Col */
@@ -418,19 +417,19 @@ class ExcelVilleModel extends Ci3Model
     foreach ($membres->getResult() as $row) {
       $objPHPExcel->getActiveSheet()->setCellValue($Col1 . $iterRow, $row->Nom);
       $objPHPExcel->getActiveSheet()->getStyle($Col1 . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle($Col1 . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($Col1 . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->setCellValue($Col2 . $iterRow, $row->Prenom);
       $objPHPExcel->getActiveSheet()->getStyle($Col2 . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle($Col2 . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($Col2 . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       $objPHPExcel->getActiveSheet()->setCellValue($Col3 . $iterRow, $row->cell);
       $objPHPExcel->getActiveSheet()->getStyle($Col3 . $iterRow)->getFill()->setFillType(
-        \PHPExcel_Style_Fill::FILL_SOLID
+        \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
       )->getStartColor()->setARGB(((($iterRow % 2) == 0) ? 'D8D8D8' : 'FFFFFF'));
-      $objPHPExcel->getActiveSheet()->getStyle($Col3 . $iterRow)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      $objPHPExcel->getActiveSheet()->getStyle($Col3 . $iterRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
       $iterRow++;
       if ($iterRow > 37) {
         $iter++;
@@ -446,10 +445,10 @@ class ExcelVilleModel extends Ci3Model
       $rd->setRowHeight(-1);
     }
 
-    $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
     $objWriter->save($filename);
-    $filename = "./upload/requete'.xlsx";
+    $filename = env('ci3.webroot') . "/upload/requete'.xlsx";
     force_download($filename, NULL);
   }
   public function getListMembres($membres, $filename)
@@ -457,7 +456,7 @@ class ExcelVilleModel extends Ci3Model
     // compagnie, service, num_compte,
     //left( echeance, 10) as echeance, depenses, FORMAT(montant, 2) as montant, contact, courriel,
     //  coordonnees AS Telephone, site_web, utilisateur, passw, commentaire
-    $objPHPExcel = \PHPExcel_IOFactory::load($filename);
+    $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
     $objPHPExcel->setActiveSheetIndex(0);
     //--------------------------------------------------------------------
     //--------------------------------------------------------------------------
@@ -533,7 +532,7 @@ class ExcelVilleModel extends Ci3Model
       }
       $iterRow++;
     }
-    $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
     $objWriter->save($filename);
 
@@ -543,7 +542,7 @@ class ExcelVilleModel extends Ci3Model
     // compagnie, service, num_compte,
     //left( echeance, 10) as echeance, depenses, FORMAT(montant, 2) as montant, contact, courriel,
     //  coordonnees AS Telephone, site_web, utilisateur, passw, commentaire
-    $objPHPExcel = \PHPExcel_IOFactory::load($filename);
+    $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
     $objPHPExcel->setActiveSheetIndex(0);
     //--------------------------------------------------------------------
     //--------------------------------------------------------------------------
@@ -594,7 +593,7 @@ class ExcelVilleModel extends Ci3Model
       }
       $iterRow++;
     }
-    $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
     $objWriter->save($filename);
 

@@ -57,7 +57,7 @@ abstract class BaseController extends Controller
         // Caution: Do not edit this line.
         parent::initController($request, $response, $logger);
 
-        helper(['ci3view', 'url']);
+        helper(['ci3view', 'ci3compat', 'url']);
         $this->db         = new \App\Libraries\Ci3Db();
         $this->ci3session = new \App\Libraries\Ci3Session();
         $this->session    = new \App\Libraries\Ci3SessionAdapter($this->ci3session);
