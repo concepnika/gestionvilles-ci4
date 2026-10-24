@@ -10,7 +10,7 @@ namespace App\Models;
 
 
 
-class Map_tagsModel extends Ci3Model
+class MapTagsModel extends Ci3Model
 {
     public function get_reasons($activeOnly = true)
     {

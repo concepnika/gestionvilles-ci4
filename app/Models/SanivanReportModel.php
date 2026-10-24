@@ -30,7 +30,7 @@ require_once(env('ci3.webroot') . '/application/' . 'libraries/Sanivan/SanivanHt
  * Retourne les mêmes clés de données que l'ancien modèle
  * (rapdaychauf_cam, raprojoursani, IsLoaded) pour compatibilité avec la vue.
  */
-class Sanivan_reportModel extends Ci3Model
+class SanivanReportModel extends Ci3Model
 {
     /** @var SanivanRepository */
     protected $repo;

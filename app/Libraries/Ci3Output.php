@@ -31,4 +31,15 @@ class Ci3Output
         header($header, $replace);
         return $this;
     }
+
+    /** CI3 Output::set_status_header — utilisé par les ports
+     *  (ex. Co_villes_admin saveZone/updateZone, Polyline::postPolyline,
+     *  Gestion::togglePolylineCedule). NB : passer par la Response CI4
+     *  — http_response_code() brut serait écrasé par le statut par
+     *  défaut (200) au moment de l'envoi. */
+    public function set_status_header(int $code, string $text = '')
+    {
+        service('response')->setStatusCode($code);
+        return $this;
+    }
 }

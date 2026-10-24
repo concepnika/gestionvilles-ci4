@@ -14,7 +14,7 @@ namespace App\Models;
  * Modèle pour la table pdf_tickets.
  * Gère la persistance des billets de dépotoir envoyés depuis l'application MAUI.
  */
-class Pdf_ticketModel extends Ci3Model
+class PdfTicketModel extends Ci3Model
 {
     protected $_table = 'pdf_tickets';
 

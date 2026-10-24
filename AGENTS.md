@@ -158,8 +158,42 @@ la correspondance CI3 → classe CI4 :
 | `Co_Rest_Sani` | `Api\SaniRest` | **porté (phase 1)** |
 | `Co_ville` | `Ville` | **porté (phase 2)** |
 | `Co_web_chauffeur` | `WebChauffeur` | **porté (phase 2)** |
-| `co_polyline`, `polyline`, `Polyline` | `Polyline` | stubs (fusionnés) |
-| `co_admin`, `co_sessions`, `Co_admin_tags`, `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`, `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`, `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` | mêmes noms PascalCase | stubs |
+| `co_polyline`, `polyline`, `Polyline` | `Polyline` | **porté (2026-10-24)** — fusion des deux fichiers CI3 |
+| `co_sessions` | `Sessions` | **porté (2026-10-24)** |
+| `Co_admin_tags` | `AdminTags` | **porté (2026-10-24)** |
+| `Co_villes_admin` | `VillesAdmin` | **porté (2026-10-24)** |
+| `co_tvshow` | `Tvshow` | **porté (2026-10-24)** |
+| `co_osrm` | `Osrm` | **porté (2026-10-24)** |
+| `co_rapport` | `Rapport` | **porté (2026-10-24)** — seule `ShowTDBFinancier` est routée en CI3, seule méthode portée |
+| `co_sanivan` | `Sanivan` | **porté (2026-10-24)** — seul `upload_pdf_ticket` est routé en CI3, seule méthode portée |
+| `Sse` | `Sse` | **porté (2026-10-24)** — voir divergences SSE |
+| `Upload` | `Upload` | **porté (2026-10-24)** |
+| `Upload_ticket` | `UploadTicket` | **porté (2026-10-24)** |
+| `Co_samsara_ifta` | `SamsaraIfta` | **porté (2026-10-24)** sauf `exportExcel` (PHPExcel — voir Reste à faire) |
+| `co_admin`, `co_tablette`, `ssecaminfo`, `upload_collecte` | `Admin`, `Tablette`, `Ssecaminfo`, `UploadCollecte` | **routes mortes en CI3** — stubs qui relaient le même 404/500 (voir « Routes mortes CI3 ») |
+
+### Routes mortes CI3 (vérifiées 2026-10-24 — rien à porter)
+
+Ces routes sont référencées par routes.php CI3 mais les
+contrôleurs/méthodes n'existent pas ou plantent : CI3 rend 404/500,
+les stubs CI4 relaient exactement la même réponse via le proxy.
+
+- `tablettes`, `tablettes/acces`, `tablettes/savelocation` :
+  contrôleur `co_tablette` **inexistant** (404).
+- `sanivan/ssecam` : contrôleur `ssecaminfo` **inexistant** (404).
+- `api/upload-collecte` : fichier renommé `Upload_collecte_none.php`
+  (fonction désactivée, 404).
+- `admin/tableau_de_bord/commandes/(:any)` : `Clientscharts_model`
+  **inexistant** (500).
+- `admin/page_de_site`, `sanivan/setcamion`, `sanivan/excopie`,
+  `sanivan/getallcamion`, `sanivan/getrh`, `sanivan/getcam`,
+  `envoiville` : méthodes `getPage`/`updCamion`/`excCedule`/
+  `getAllCamion`/`getRHCal`/`getCamCal`/`sendConfirmVille` définies
+  **nulle part** dans l'app CI3 (404) — stubs correspondants dans
+  `Gestion`.
+- co_rapport/co_sanivan : toutes les AUTRES méthodes de ces
+  contrôleurs ne sont routées nulle part (module roll-off/bureau
+  jamais branché) — non portées.
 
 **Mécanisme de stub — proxy interne** : `BaseController::toCi3()`
 exécute la même requête sur `http://gestionvilles.local` via
@@ -234,10 +268,46 @@ en place, aucune modif de Routes.php nécessaire.
   complets ainsi générés — **NE PAS éditer à la main**, relancer le
   script (les modifs manuelles sont perdues).
 - **`App\Libraries\Ci3Upload`** : adaptateur de `$this->upload` CI3
-  (`do_upload`/`display_errors`/`file_name`). Les chemins `./upload/…`
-  sont résolus contre `ci3.webroot` (.env) pour que CI3 et CI4 voient
-  les mêmes fichiers. `port_model.php` convertit
+  (`do_upload`/`display_errors`/`file_name` + `allowed_types`,
+  `max_size`, `file_name` imposé, `data()` → file_name/file_type/
+  file_size Ko comme CI3). Les chemins `./upload/…` sont résolus
+  contre `ci3.webroot` (.env) pour que CI3 et CI4 voient les mêmes
+  fichiers. `port_model.php` convertit
   `load->library('upload', $config)` en `new Ci3Upload($config)`.
+- ⚠️ **Codes HTTP en CI4** : `http_response_code()`/`set_status_header()`
+  bruts sont **écrasés** par la Response CI4 au rendu (statut 200).
+  Passer par `$this->output->set_status_header($n)` (l'adaptateur
+  `Ci3Output` pose le statut sur la Response partagée) ou
+  `return $this->response->setStatusCode($n)->setBody(...)`.
+- `Ci3SessionAdapter` supporte `flashdata`/`keep_flashdata` (marqueur
+  `__flash` en fin de payload, expiré comme CI3 à l'itération suivante).
+- `port_controller.php` : la regex d'extraction des méthodes accepte
+  les **types de retour** (`: array`, `: ?string` — sinon les helpers
+  privés typés étaient perdus). Ne porte pas les propriétés de classe
+  ni les constructeurs CI3 → les transposer dans `initController`
+  (ex. filtres Kalman de `Polyline`, `$JourDeSemaine` de `Tvshow`).
+- Modèles renommés PSR-4 (2026-10-24) : `MapTagsModel.php` contenait
+  `class Map_tagsModel` (mismatch autoload fatal) — renommés en
+  `MapTagsModel`/`PdfTicketModel`/`TblDepotModel`/`TblUserModel`/
+  `RolloffParamsModel` + `SanivanModel.php` contenait une classe
+  utilitaire `Collection` en tête (le modèle réel est plus bas).
+- ⚠️ `catch (Exception $e)` dans un namespace : attrape
+  `App\Controllers\Exception` (inexistante) → jamais attrapée.
+  Toujours `catch (\Exception $e)` (fix appliqué dans `Gestion`,
+  `UploadTicket`).
+- `Ci3Db::get()` : n'appelle `BaseBuilder::get($limit, $offset)` qu'avec
+  des entiers — passer `null` lève un `TypeError` (param non-nullable).
+- **SSE (`Sse::index`)** : flux `while(true)+sleep(10)` — le port vide
+  tous les niveaux de buffer (`ob_flush`+`flush` itératif) et lève
+  `set_time_limit(0)` car CI4 bufferise contrairement à CI3. Test
+  local : 0 octet des deux côtés sous 16 s (scan `gps_sani` lent) —
+  parité, à re-tester avec un vrai client longue durée.
+- **`SamsaraClient`** : `getIftaVehicleReport()` (POST API Samsara
+  `/beta/ifta/vehicle-report`) + `getKmByCamion()` (agrégation BD
+  par camion) — port de `Samsaralib` CI3 pour `SamsaraIfta::getData`.
+- `UploadTicket::_generateTicketPdf` : upload + PDF écrivent sous
+  `env('ci3.webroot')` (pas `FCPATH`, qui pointe sur `public/` CI4)
+  pour que CI3 serve les mêmes fichiers.
 - ⚠️ `strpos($x, ',', 2)` : PHP 8 lève `ValueError` si offset >
   longueur (CI3/PHP7 retournait false) — garder avec `strlen() > 2`
   lors du port.
@@ -310,26 +380,39 @@ curl http://gestionvillesci4.local/admin/connexion  # → formulaire login
 
 ## Reste à faire
 
-- `co_gestion` est **entièrement porté** (146 méthodes converties via
-  `port_controller.php` + 20 modèles + ~180 vues) et en parité
-  fonctionnelle avec CI3 (balayage `sweep.sh`). Il reste à éprouver
-  les POST réels côté UI (formulaires complets avec données
+- **Ports terminés (2026-10-24)** : tous les contrôleurs vivants sont
+  portés nativement — le proxy ne reste que pour les routes mortes CI3
+  (voir « Routes mortes CI3 »), `SamsaraIfta::exportExcel` (PHPExcel,
+  500 des deux côtés) et le catch-all de sécurité. Divergences du
+  balayage final, toutes voulues :
+  - `sanivan/calrh`, `sanivan/calcam` : CI3 500 flaky → CI4 200 ✓
+  - `villes/send-reponse` en GET : CI3 500 → CI4 302 propre ✓
+  - `villes/charger/*` : CI4 renvoie une 302 explicite au lieu du
+    rendu `upload_form` de CI3 (fonctionnellement équivalent).
+- Éprouver les POST réels côté UI (formulaires complets avec données
   valides) — les tests automatisés couvrent surtout les GET et
-  quelques POST représentatifs.
+  quelques POST représentatifs (login, upload-ticket, polyline).
 - Exports Excel : remplacer PHPExcel (incompatible PHP 8) —
-  `villes/requeteexcel`, `excel/cedule`, `excel/hres`.
-- Porter les autres contrôleurs : `Polyline`,
-  `Co_admin`, `co_sessions`, `Co_admin_tags`,
-  `Co_villes_admin`, `co_tablette`, `co_rapport`, `co_tvshow`,
-  `co_sanivan`, `co_osrm`, `Sse`, `ssecaminfo`, `Upload`,
-  `upload_collecte`, `Upload_ticket`, `Co_samsara_ifta` (stubs →
-  `toCi3()` pour l'instant).
-- ~~`TabletteSani::loginChauffeur` : `$this->ci3->set()` est un no-op
-  sans session existante~~ **Résolu (2026-10-24)** :
-  `Ci3SessionAdapter::set_userdata` matérialise la session si
-  absente (voir « Session auto-créée » dans la chaîne de port) —
-  `initController` écrit `site_lang` avant tout code de contrôleur.
+  `villes/requeteexcel`, `excel/cedule`, `excel/hres`,
+  `samsara_ifta/exportExcel`. PhpSpreadsheet recommandé.
+- SSE : re-tester `sanivan/sse` avec un client longue durée (parité
+  0 octet constatée localement, scan BD lent des deux côtés).
 - CSRF : les POST CI3 n'ont pas de token — exempter en `Filters` si le
   filtre csrf est activé un jour (actuellement non global).
+- Dettes techniques CI3 héritées : SQL concaténé dans les modèles,
+  HTML généré dans les modèles, `ci_sessions` MyISAM → InnoDB.
 - `.env` prod : `app.baseURL = 'https://robert-daoust.ca/ci4/'` et
   `.htaccess` `RewriteBase /ci4/` déjà corrects pour ce déploiement.
+
+### Bascule finale en production (fin de la migration)
+
+1. Vérifier PHP ≥ 8.2 sur le cPanel de prod (PHPExcel y mourrait de
+   toute façon — d'où PhpSpreadsheet d'abord).
+2. Router **tout** le trafic vers CI4 : aujourd'hui tablettes,
+   chauffeurs et citoyens atteignent CI3 à la racine du domaine —
+   CI4 ne vit que sous `/ci4/`.
+3. Rapatrier les **assets** (`/assets` servi par le docroot CI3) et
+   les **uploads** (CI4 écrit déjà dans le docroot CI3 via
+   `ci3.webroot` — basculer cette config vers le docroot CI4).
+4. Retirer le proxy `toCi3()` + le catch-all `Proxy::pass`.
+5. Éteindre CI3.

@@ -102,7 +102,7 @@ $rules = [
 function extractMethods(string $code): array
 {
     $methods = [];
-    $re = '/(public|private|protected)\s+(static\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*\{/s';
+    $re = '/(public|private|protected)\s+(static\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*(?::\s*([^{\s]+)\s*)?\{/s';
     preg_match_all($re, $code, $m, PREG_OFFSET_CAPTURE);
     foreach ($m[0] as $i => $full) {
         $open = $full[1] + strlen($full[0]) - 1; // pos de '{'
@@ -157,6 +157,7 @@ function extractMethods(string $code): array
         }
         $methods[$m[3][$i][0]] = [
             'vis'  => $m[1][$i][0],
+            'ret'  => ($m[5][$i][0] ?? ''),
             'args' => $m[4][$i][0],
             'body' => substr($code, $open + 1, $j - $open - 2),
             'pos'  => $full[1],
@@ -193,7 +194,9 @@ $append = '';
 
 foreach ($meth as $name => $m) {
     $newBody = convertBody($m['body'], $rules);
-    $newMeth = "    {$m['vis']} function {$name}({$m['args']})\n    {"
+    $newMeth = "    {$m['vis']} function {$name}({$m['args']})"
+        . (($m['ret'] ?? '') !== '' ? ': ' . $m['ret'] : '')
+        . "\n    {"
         . preg_replace('/^/m', '    ', rtrim($newBody)) . "\n    }\n";
     $newMeth = preg_replace('/^    /m', '    ', $newMeth);
 

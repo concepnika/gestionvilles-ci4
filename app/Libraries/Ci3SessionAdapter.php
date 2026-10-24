@@ -76,6 +76,31 @@ class Ci3SessionAdapter
         // no-op : Ci3Session cree la ligne a create()/login
     }
 
+    /**
+     * Flashdata CI3 (message one-shot) : emulation par cle de session
+     * prefixee '__flash_' consommee a la lecture (meme pattern que le
+     * port WebChauffeur, cf. AGENTS.md).
+     */
+    public function set_flashdata(string $key, $value): void
+    {
+        $this->set_userdata('__flash_' . $key, $value);
+    }
+
+    public function flashdata(?string $key = null)
+    {
+        if ($key === null) {
+            return null;
+        }
+        $v = $this->s->get('__flash_' . $key);
+        $this->s->remove('__flash_' . $key);
+        return $v;
+    }
+
+    public function keep_flashdata(string $key): void
+    {
+        // no-op : la cle n'est consommee qu'a la lecture
+    }
+
     public function sess_regenerate(bool $destroy = false): void
     {
         // no-op : la ligne ci_sessions existe deja

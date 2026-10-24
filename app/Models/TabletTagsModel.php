@@ -10,7 +10,7 @@ namespace App\Models;
 
 
 
-class Tablet_tagsModel extends Ci3Model
+class TabletTagsModel extends Ci3Model
 {
     public function get_active_chauffeurs_for_city($idVille, $dateYmd)
     {

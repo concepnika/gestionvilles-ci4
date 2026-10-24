@@ -82,7 +82,8 @@ class Ci3Db
         $b = $this->builder($table);
         $this->queue = [];
         try {
-            return $b->get($limit, $offset);
+            // BaseBuilder::get() : $offset est int non-nullable (defaut 0).
+            return $b->get($limit, $offset ?? 0);
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
             log_message('error', 'Ci3Db::get ' . $e->getMessage());
             return false;

@@ -3856,7 +3856,7 @@ class Gestion extends Login
                 $this->updateMainPolyline($idcedule);
     
                 $this->output->set_content_type('application/json')->set_output(json_encode(['ok' => true]));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 log_message('error', 'togglePolylineCedule exception: ' . $e->getMessage());
                 $this->output
                     ->set_status_header(500)
@@ -4360,7 +4360,7 @@ class Gestion extends Login
                     $this->db->query($sql);
                     //--------------------------------------
                     $rep = 'Vos accès vous ont éé envoyés.';
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $rep = utf8_encode('Exception reçue : ').$e->getMessage();
                 }
             }
@@ -4878,7 +4878,7 @@ class Gestion extends Login
                     $this->db->query($strSQL);
                 }
                 $rep = 'Vos données ont été enregistrées';
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $rep = utf8_encode('Exception reçue : ').$e->getMessage();
             }
             /** @var string  $strSQL */

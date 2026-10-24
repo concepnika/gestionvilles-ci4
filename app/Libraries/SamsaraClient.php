@@ -250,6 +250,151 @@ class SamsaraClient
         return null;
     }
 
+    /**
+     * Port de SamsaraLib::getIftaVehicleReport (CI3) : rapport IFTA
+     * par véhicule, paginé mois par mois (endpoint
+     * /fleet/reports/ifta/vehicle).
+     */
+    public function getIftaVehicleReport($startDate, $endDate, $jurisdiction = 'ON')
+    {
+        $months = $this->monthsInRange($startDate, $endDate);
+        $monthNames = array(
+            1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
+            5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
+            9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December',
+        );
+
+        $allReports = array();
+
+        foreach ($months as $ym) {
+            $year  = $ym['year'];
+            $month = $ym['month'];
+
+            $params = "year={$year}&month=" . urlencode($monthNames[$month]) . "&jurisdictions=" . urlencode($jurisdiction);
+            $after = null;
+
+            do {
+                $url = "{$this->baseUrl}/fleet/reports/ifta/vehicle?{$params}";
+                if ($after) {
+                    $url .= "&after=" . urlencode($after);
+                }
+                $data = $this->request($url);
+                if (isset($data['error'])) {
+                    return $data;
+                }
+
+                if (isset($data['data']['vehicleReports']) && is_array($data['data']['vehicleReports'])) {
+                    foreach ($data['data']['vehicleReports'] as $entry) {
+                        $allReports[] = $entry;
+                    }
+                }
+                $after = isset($data['pagination']['endCursor']) ? $data['pagination']['endCursor'] : null;
+                $hasNext = isset($data['pagination']['hasNextPage']) ? $data['pagination']['hasNextPage'] : false;
+            } while ($hasNext && $after);
+        }
+
+        return $allReports;
+    }
+
+    /**
+     * Port de SamsaraLib::getKmByCamion (CI3) : agrège le rapport IFTA
+     * et lie chaque véhicule Samsara à son NoCamion de la BD.
+     */
+    public function getKmByCamion($startDate, $endDate, $jurisdiction = 'ON')
+    {
+        $reports = $this->getIftaVehicleReport($startDate, $endDate, $jurisdiction);
+        if (isset($reports['error'])) {
+            return $reports;
+        }
+
+        // Récupérer les camions de la BD (CI3 : get_instance()->db)
+        $camions = \Config\Database::connect()
+            ->query("SELECT NoCamion FROM camions WHERE isdeleted = 0")->getResult();
+        $camionNames = array();
+        foreach ($camions as $c) {
+            $camionNames[strtolower(trim($c->NoCamion))] = $c->NoCamion;
+        }
+
+        $aggregated = array();
+        foreach ($reports as $report) {
+            // L'API Samsara retourne vehicle (objet) et jurisdictions (tableau)
+            $vehicle    = isset($report['vehicle']) ? $report['vehicle'] : array();
+            $vehicleId   = isset($vehicle['id']) ? $vehicle['id'] : null;
+            $vehicleName = isset($vehicle['name']) ? $vehicle['name'] : '';
+            $vin         = isset($vehicle['vin']) ? $vehicle['vin'] : '';
+
+            if ($vehicleId === null) {
+                continue;
+            }
+
+            // Tenter de lier avec un camion de la BD par nom
+            if (! isset($aggregated[$vehicleId])) {
+                $noCamion = null;
+                $needle = strtolower(trim($vehicleName));
+                if (isset($camionNames[$needle])) {
+                    $noCamion = $camionNames[$needle];
+                } else {
+                    foreach ($camionNames as $dbName => $dbNo) {
+                        if (strpos($dbName, $needle) !== false || strpos($needle, $dbName) !== false) {
+                            $noCamion = $dbNo;
+                            break;
+                        }
+                    }
+                }
+                $aggregated[$vehicleId] = (object) array(
+                    'vehicleId'   => $vehicleId,
+                    'vehicleName' => $vehicleName,
+                    'vin'         => $vin,
+                    'noCamion'    => $noCamion,
+                    'totalKm'     => 0,
+                    'taxableKm'   => 0,
+                    'jurisdiction'=> $jurisdiction,
+                );
+            }
+
+            if (isset($report['jurisdictions']) && is_array($report['jurisdictions'])) {
+                foreach ($report['jurisdictions'] as $juris) {
+                    if (isset($juris['jurisdiction']) && $juris['jurisdiction'] === $jurisdiction) {
+                        $aggregated[$vehicleId]->totalKm   += isset($juris['totalMeters']) ? (float) $juris['totalMeters'] / 1000 : 0;
+                        $aggregated[$vehicleId]->taxableKm += isset($juris['taxableMeters']) ? (float) $juris['taxableMeters'] / 1000 : 0;
+                    }
+                }
+            }
+        }
+
+        $results = array_values($aggregated);
+
+        usort($results, function ($a, $b) {
+            $aKey = $a->noCamion ?: $a->vehicleName;
+            $bKey = $b->noCamion ?: $b->vehicleName;
+            return strcmp($aKey, $bKey);
+        });
+
+        return $results;
+    }
+
+    /** Port de SamsaraLib::_monthsInRange : liste {year, month} couverte. */
+    private function monthsInRange($startDate, $endDate)
+    {
+        $start = new \DateTime($startDate);
+        $end   = new \DateTime($endDate);
+        $end->modify('first day of next month');
+
+        $months = array();
+        $current = clone $start;
+        $current->modify('first day of this month');
+
+        while ($current < $end) {
+            $months[] = array(
+                'year'  => (int) $current->format('Y'),
+                'month' => (int) $current->format('n'),
+            );
+            $current->modify('+1 month');
+        }
+
+        return $months;
+    }
+
     private function request($url, $method = 'GET', $body = null)
     {
         if ($this->apiKey === null) {

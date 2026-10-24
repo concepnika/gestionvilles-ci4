@@ -14,7 +14,7 @@ namespace App\Models;
  * Web_chauffeur_model – Requêtes spécifiques à l'interface web chauffeur.
  * Réutilise les mêmes tables que LibSaniRest / Co_Rest_Sani.
  */
-class Web_chauffeurModel extends Ci3Model {
+class WebChauffeurModel extends Ci3Model {
 
     protected $keysha = 'nikajhdgsjgdsdssd';
 
