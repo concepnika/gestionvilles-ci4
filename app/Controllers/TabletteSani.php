@@ -1160,27 +1160,45 @@ class TabletteSani extends BaseController
                 if (count($pts) < 2) {
                     continue;
                 }
-                $coords = [];
-                $meta = [];
-                $n = count($pts);
-                for ($i = 0; $i < $n; $i++) {
-                    $lat = (float) $pts[$i][0];
-                    $lng = (float) $pts[$i][1];
-                    $coords[] = [$lat, $lng];
-                    $mraw = (string) ($metas[$i] ?? '');
-                    $hre = null;
-                    $adresse = null;
-                    $chauffeur = $lastChf ?: (string) ($r->Chauffeur ?? '');
-                    if (preg_match('/timespan\s*:\s*([^,]+)/i', $mraw, $mt)) {
-                        $hre = trim($mt[1]);
-                    }
-                    if (preg_match('/adresse\s*:\s*(.+)$/i', $mraw, $ma)) {
-                        $adresse = trim($ma[1]);
-                    }
-                    $meta[] = ['lat' => $lat, 'lng' => $lng, 'hre' => $hre, 'adresse' => $adresse, 'chauffeur' => $chauffeur];
+
+                // Découper aux gaps (même procédure que GetCityPolylines
+                // et que GetCityPolylinesRaw CI3) pour éviter les lignes
+                // droites entre les trous GPS.
+                $chunks = $snap->splitByGapsPublic($pts, $timestamps, 200, 120, 160, 50);
+                if (empty($chunks)) {
+                    $chunks = [[$pts, $timestamps]];
                 }
-                if (count($coords) >= 2) {
-                    $out[] = ['cam' => $cam, 'coords' => $coords, 'meta' => $meta];
+
+                foreach ($chunks as $chunk) {
+                    $cPts = $chunk[0];
+                    $cIdx = $chunk[2] ?? null;
+                    if (count($cPts) < 2) {
+                        continue;
+                    }
+
+                    $coords = [];
+                    $meta = [];
+                    $n = count($cPts);
+                    for ($i = 0; $i < $n; $i++) {
+                        $lat = (float) $cPts[$i][0];
+                        $lng = (float) $cPts[$i][1];
+                        $coords[] = [$lat, $lng];
+                        $origIdx = ($cIdx !== null && isset($cIdx[$i])) ? $cIdx[$i] : $i;
+                        $mraw = (string) ($metas[$origIdx] ?? '');
+                        $hre = null;
+                        $adresse = null;
+                        $chauffeur = $lastChf ?: (string) ($r->Chauffeur ?? '');
+                        if (preg_match('/timespan\s*:\s*([^,]+)/i', $mraw, $mt)) {
+                            $hre = trim($mt[1]);
+                        }
+                        if (preg_match('/adresse\s*:\s*(.+)$/i', $mraw, $ma)) {
+                            $adresse = trim($ma[1]);
+                        }
+                        $meta[] = ['lat' => $lat, 'lng' => $lng, 'hre' => $hre, 'adresse' => $adresse, 'chauffeur' => $chauffeur];
+                    }
+                    if (count($coords) >= 2) {
+                        $out[] = ['cam' => $cam, 'coords' => $coords, 'meta' => $meta];
+                    }
                 }
             }
         }
