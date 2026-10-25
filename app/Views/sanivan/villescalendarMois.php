@@ -10,8 +10,6 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Robert Daoust</title>
-  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js" ie.="" data-type=""></script>
   <script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>

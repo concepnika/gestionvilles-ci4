@@ -386,6 +386,31 @@ en place, aucune modif de Routes.php nécessaire.
   `delete_files` (no-op sur un chemin de fichier, comme CI3 —
   les fichiers exports restent dans upload/, comportement CI3).
   Chargé par `BaseController::initController` et `Ci3Model`.
+- **Requêtes fantômes supprimées (2026-10-25)** : les vues CI3
+  référençaient `style.css`, `../favicon.ico` et
+  `dist/css/skins/_all-skins.min.css` en chemins RELATIFS — sous
+  `/sanivan/aujourdhui/1/{date}`, le navigateur demandait
+  `/sanivan/aujourdhui/1/style.css` etc., ROUTÉS vers
+  `showToday(1, 'style.css')` : chaque chargement de page exécutait
+  donc le pipeline cédule complet (~118 requêtes BD) 3-4 fois pour
+  des fichiers inexistants. Mécanisme probable des TIMEOUTS prod
+  (CI3 a le même défaut — jamais chargés, donc aucun delta visuel).
+  Fix : liens morts supprimés dans 59 vues (aucun CSS n'a jamais
+  été appliqué, zéro changement visuel) + garde dans
+  `Gestion::showToday` : `$dateactive` non-date → 404 immédiat
+  (0,08 s) au lieu du pipeline + fatal.
+- **N+1 connu (piste perf)** : `showToday` ≈ 118 requêtes/rendu
+  (23× typededechet via GetAllProduits par ligne, 21× noms
+  polylines + 21× COUNT cedule_polylines par ligne, ...). Chaque
+  sauvegarde (`UpdCedule`) re-rend la page complète. Rapide en
+  local (0,2 s) — si la prod CI4 rame après la bascule :
+  mémoïser GetAllProduits + batcher les requêtes polylines
+  (patches `port_model.php`). Les index BD sont déjà en place
+  (datejour, nocamion, etc. — audité 2026-10-25).
+  (headers sur la Response CI4 partagée + corps via echo→ob) et
+  `delete_files` (no-op sur un chemin de fichier, comme CI3 —
+  les fichiers exports restent dans upload/, comportement CI3).
+  Chargé par `BaseController::initController` et `Ci3Model`.
 - Classes utilitaires legacy dans les modèles (ex. `CamDay` dans
   SanivanModel) : `$this->CI =& get_instance()` → `new \stdClass()`
   avec `->db = new Ci3Db()` (règle `port_model.php`) — les appels

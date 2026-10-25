@@ -10,10 +10,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Robert Daoust</title>
-  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
 
-  <link href="style.css" rel="stylesheet" type="text/css" />
   <script src="/assets/pronto/vendor/jquery/jquery.js"></script>
   <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.0/fullcalendar.min.css" />
@@ -46,7 +43,6 @@
   <link rel="stylesheet" href="/assets/bower_components/Ionicons/css/ionicons.min.css" />
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css" />
   <!-- Morris chart -->
   <link rel="stylesheet" href="/assets/bower_components/morris.js/morris.css" />
   <!-- jvectormap -->

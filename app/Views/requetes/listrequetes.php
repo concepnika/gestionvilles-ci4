@@ -10,10 +10,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Robert Daoust</title>
-  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
 
-  <link href="style.css" rel="stylesheet" type="text/css" />
   <script src="/assets/pronto/vendor/jquery/jquery.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />

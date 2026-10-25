@@ -7,10 +7,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Robert Daoust</title>
-  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
 
-  <link href="style.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js" ie.="" data-type=""></script>
   <script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
@@ -40,7 +37,6 @@
   <link rel="stylesheet" href="/assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="/assets/bower_components/morris.js/morris.css">
   <!-- jvectormap -->

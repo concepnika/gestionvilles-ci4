@@ -472,6 +472,19 @@ class Gestion extends BaseController
         if (! $ci3->has('email')) {
             return redirect()->to('/admin/connexion');
         }
+        // Garde anti-requêtes fantômes : les vues historiques
+        // référençaient des assets en chemins relatifs (style.css,
+        // ../favicon.ico, dist/css/...) résolus SOUS cette URL —
+        // chaque chargement de page exécutait donc le pipeline
+        // cédule complet 3-4 fois pour des fichiers inexistants
+        // (mécanisme des timeouts prod). Les vues sont corrigées ;
+        // ce garde 404 immédiatement tout paramètre non-date
+        // résiduel (divergence CI3 : CI3 y exécutait le pipeline
+        // puis fatalait).
+        if (! is_string($dateactive) || ! preg_match('/^\d{4}-\d{2}-\d{2}$/', trim($dateactive))) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $dateactive = trim($dateactive);
         $from = (int) $from;
         $db = \Config\Database::connect();
         $input = $this->request;

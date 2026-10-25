@@ -9,8 +9,6 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Robert Daoust</title>
-  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
 	<?php echo view('villes/incfile/inc_head'); ?>
   <link rel="stylesheet" href="/assets/vendor/datatables/media/css/dataTables.bootstrap5.css" />
   <style>
