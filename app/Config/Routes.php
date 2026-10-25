@@ -19,17 +19,16 @@ $routes->get('/', 'Home::index');
 $routes->get('whoami', 'Home::whoami', ['filter' => 'ci3auth']);
 $routes->get('cedules/(:segment)', 'Cedules::day/$1', ['filter' => 'ci3auth']);
 
-// ─── Authentification (portee — Login) ───
+// ─── Authentification unique (Login) ───
 $routes->get('login', 'Login::index');
 $routes->post('login', 'Login::attempt');
 $routes->get('logout', 'Login::logout');
-
-// ─── co_gestion → Gestion (auth portee, reste = stubs) ───
-$routes->get('admin/connexion', 'Gestion::index');
-$routes->post('admin/connexion', 'Gestion::login');
+$routes->get('admin/connexion', 'Login::index');
+$routes->post('admin/connexion', 'Login::attempt');
+$routes->get('admin/tableau_de_bord', 'Login::index');
+$routes->post('admin/tableau_de_bord', 'Login::attempt');
 $routes->add('admin', 'Gestion::GotoHome');
-$routes->add('admin/tableau_de_bord', 'Gestion::login');
-$routes->add('admin/quitter', 'Gestion::logout');
+$routes->get('admin/quitter', 'Login::logout');
 $routes->add('admin/quitterchauffeur', 'Gestion::logoutchauffeur');
 $routes->add('admin/optionssys', 'Gestion::getOptionSys');
 $routes->add('admin/optionssys/post', 'Gestion::setOptionSys');
@@ -40,7 +39,7 @@ $routes->add('session/bloque', 'Sessions::lockScreen');
 
 // ─── co_gestion → Gestion ───
 $routes->add('session/debloque', 'Gestion::setLastView');
-$routes->add('session/relog', 'Gestion::index');
+$routes->add('session/relog', 'Login::index');
 
 // ─── co_admin → Admin ───
 $routes->add('admin/tableau_de_bord/commandes/(:any)', 'Admin::getClientsCharts/$1');

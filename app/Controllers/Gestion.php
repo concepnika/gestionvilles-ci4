@@ -10,13 +10,11 @@ use App\Models\RequetesModel;
 
 /**
  * Port CI3 -> CI4 de co_gestion.
- * Chaque methode non portee est relayee a gestionvilles.local (CI3)
- * via toCi3() — voir AGENTS.md / MIGRATION.md.
+ * Auth bureau : Login (WebuserAuth). Filtre ci3auth sur admin/* et
+ * le POST calendrier — voir Config/Filters.php.
  */
-class Gestion extends Login
+class Gestion extends BaseController
 {
-    // index(), attempt() et logout() sont herites de Login (deja portes).
-
     // Proprietes de classe du controleur CI3 (accumulateurs entre
     // methodes, equivalents aux private/public de co_gestion).
     private $idiom = 'fr';
@@ -48,21 +46,20 @@ class Gestion extends Login
      */
     public function GotoHome(...$args)
     {
-        $ci3 = new Ci3Session();
-        if (! $ci3->has('email')) {
-            return $this->index();
+        if (! $this->ci3session->has('email')) {
+            return redirect()->to('/admin/connexion');
         }
 
         helper('ci3view');
-        $cedules = new CedulesModel();
-        $creationcd = new CreationcdModel();
+        $cedules    = $this->cedules;
+        $creationcd = $this->creationcd;
 
         $data = [
             'startVerifReqDel' => 0,
             'havedelcom' => 0,
-            'nom' => $ci3->get('nom'),
-            'email' => $ci3->get('email'),
-            'privilege' => $ci3->get('privilege'),
+            'nom' => $this->ci3session->get('nom'),
+            'email' => $this->ci3session->get('email'),
+            'privilege' => $this->ci3session->get('privilege'),
             'typeabsences' => $cedules->GetTypeAbsences(),
             'CamionDrop' => $creationcd->GetHomeCamions(),
             'ChauffeurDrop' => $creationcd->GetChauffeursToDropHome(date('Y-m-d'), '1'),
@@ -74,114 +71,9 @@ class Gestion extends Login
         ];
         $data['navtop'] = view('partials/navtop', $data);
         $data['navleft'] = view('partials/navleft', $data);
-        $ci3->set('LAST_PAGE', '/admin');
+        $this->ci3session->set('LAST_PAGE', '/admin');
 
         return $this->response->setBody(view('partials/home', $data));
-    }
-
-    // CI3 : co_gestion/login (cible POST du formulaire de connexion) —
-    // relaye a CI3 : authentifie, cree la session partagee et rend le
-    // vrai tableau de bord (partials/home), exactement comme en CI3.
-    public function login()
-    {    
-            $this->load->model("login_model", "login");
-            /** @var string $email */
-            $email = '';
-            $email = $this->input->post_get('email', TRUE);
-            
-            if (isset($email)) {
-                //$name=$this->input->post('name');
-                //$email = $this->input->post('email');
-                /** @var array $data */
-    
-                $data = [
-                    'email' => $this->input->post_get('email', TRUE),
-                    'password' => $this->input->post_get('password', TRUE)
-                ];
-                
-                /** @var object $result */
-                $result = new \stdClass();
-                $result = $this->login->validate_user($data);
-                //$result = $this->login->updateUser();
-                // isset(FALSE) vaut TRUE : le code CI3 laissait passer
-                // les mauvais identifiants (dashboard a identite nulle,
-                // warning "property on bool" en CI4). !empty est le
-                // pattern du loginChauffeur CI3 — divergence documentee.
-                if (! empty($result)) {
-                    $this->session->set_userdata('nom', $result->prenom.' '.$result->nom);
-                    $this->session->set_userdata('email', $result->email);
-                    $this->session->set_userdata('login_in', TRUE);
-                    $this->session->set_userdata('user_id', $result->id_user);
-                    $this->session->set_userdata('code', $this->input->post_get('email', TRUE));
-                    $this->session->set_userdata('session_id', $this->session->session_id);
-                    $this->session->set_userdata('privilege', $result->privilege);
-                    //$session_id = $this->db->escape($this->session->session_id);
-                    //$user_id = $result->id_user;
-                    if ($result->forcechange == 1) {
-                        return redirect()->to(ci3_url().'login/change?email='.$this->input->post_get('email', TRUE));
-                        return;
-                    }
-                    //        $strSQL = "UPDATE webuser
-                    //                SET
-                    //                  SessionLastUpd=NOW(),
-                    //                  SessionStart=NOW()
-                    //                WHERE id_user = ".$result->id_user;
-                    //$query = $this->db->query($strSQL);
-                    /** @var array  $data */
-                    $this->load->model("Cedules_model", "cedules");
-                    //$data = $this->cedules->GetAllVillesCal();
-                    $date = date_create(date('Y-m-d'));
-                    $ActiveDate = $date->format('Y-m-d');
-                    $dateend = date_create(date('Y-m-d'));
-                    date_sub($date, date_interval_create_from_date_string("1 year"));
-                    $this->objDate = (object) date_parse($date->format('Y-m-d'));
-                    $data['dtestart'] = (($this->objDate->month < 10) ? '0'.$this->objDate->month : $this->objDate->month).'/01/'.$this->objDate->year;
-                    $dateend->modify('last day of this month');
-                    $data['dteend'] = $dateend->format('m/d/Y');
-                    $data['alldate'] = $this->objDate->year.'-'.(($this->objDate->month < 10) ? '0'.$this->objDate->month : $this->objDate->month).'-01'.'_'.$dateend->format('Y-m-d');
-                    $data['CamionList'] = $this->cedules->GetCamions();
-                    $data['listcamions'] = $this->cedules->GetCamionList();
-                    $data['addcamion'] = $this->cedules->ShowAddCamions();
-                    $data['typecamion'] = $this->cedules->GetTypeCamion(1);
-                    $data['typerh'] = $this->cedules->GetTypeRH(1);
-                    $this->load->model("Creationcd_model", "creationcd");
-                    $data['typeabsences'] = $this->cedules->GetTypeAbsences();
-                    $data['CamionDrop'] = $this->creationcd->GetHomeCamions();
-                    $data['ChauffeurDrop'] = $this->creationcd->GetChauffeursToDropHome(date('Y-m-d'), '1');
-                    $data['AideDrop'] = $this->creationcd->GetAidesToDrop(date('Y-m-d'), '2');
-                    $data['tdbhome'] = $this->creationcd->getTDBHome();
-                    $data['employes'] = $this->cedules->GetAllEmployes('0', '0');
-                    $data['camions'] = $this->cedules->GetAllCamions();
-                    $arrDate = explode('_', $data['alldate']);
-                    $data['tdbhome'] = $this->creationcd->getTDBHome();
-                    ;
-                    $data['nom'] = $this->session->userdata('nom');
-                    $data['email'] = $this->session->userdata('email');
-                    $data['privilege'] = $this->session->userdata('privilege');
-                    $data['navtop'] = view('partials/navtop', $data);
-                    $data['navleft'] = view('partials/navleft', $data);
-                    $data['havedelcom'] = 0;
-    
-                    $HavePrivilege = true;
-    
-                    $data['startVerifReqDel'] = 1;
-                    $from = $this->input->post_get('from', TRUE);
-                    if ($from == 1) {
-                        $date = date("Y-m-d");
-                        $url = ci3_url("sanivan/routecam/$date?idchauffeur=0");
-                        return redirect()->to($url);
-                    } else {
-                        echo view('partials/home', $data);
-                    }
-    
-                } else {
-                    $this->message_error = 'Courriel ou mot de passe invalide.';
-                    $this->index();
-                }
-    
-            } else {
-                $this->index();
-            }
     }
 
 
@@ -326,20 +218,15 @@ class Gestion extends Login
 
     public function setLastView()
     {    
-            $this->load->model("login_model", "login");
-            /** @var string $email */
             $pass = $this->input->post_get('pass');
             $email = '';
             $email = $this->session->userdata('email');
             if (isset($email)) {
     
-                $data = [
-                    'email' => $this->session->userdata('email'),
-                    'password' => $this->input->post_get('pass', TRUE)
-                ];
-                /** @var object $result */
-                $result = new \stdClass();
-                $result = $this->login->validate_user($data);
+                $result = (new \App\Libraries\WebuserAuth())->verify(
+                    (string) $this->session->userdata('email'),
+                    (string) $this->input->post_get('pass', TRUE)
+                );
                 if (! empty($result)) {
                     $this->session->set_userdata('nom', $result->prenom.' '.$result->nom);
                     $this->session->set_userdata('email', $result->email);
@@ -367,7 +254,7 @@ class Gestion extends Login
     public function postNewUser()
     {    
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 $this->load->model("Menu_model", "menu");
                 $this->load->library('LibInscription');
@@ -381,7 +268,7 @@ class Gestion extends Login
     public function getInscription()
     {    
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 $this->load->model("menu_model", "menu");
                 $this->load->model("Usagers_model", "usagers");
@@ -404,7 +291,7 @@ class Gestion extends Login
     public function getUsagers()
     {    
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 $this->load->model("Usagers_model", "usagers");
                 /** @var array  $data */
@@ -444,7 +331,7 @@ class Gestion extends Login
     public function updateUser()
     {    
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 $this->load->model("Menu_model", "menu");
                 $this->load->model("Login_model", "login");
@@ -458,7 +345,7 @@ class Gestion extends Login
     {    
             $id = $this->input->get('iduser');
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 $this->load->model("menu_model", "menu");
                 $this->load->model("Usagers_model", "usagers");
@@ -478,48 +365,46 @@ class Gestion extends Login
      */
     public function UpdCedule(...$args)
     {
-        $db = \Config\Database::connect();
         $input = $this->request;
-        $chaufconfirme = (($input->getPostGet('idchauffeur') == '0') ? ' chaufconfirme = 0,' : '');
-        $helperconfirme = (($input->getPostGet('idaide') == '0') ? ' helperconfirme = 0,' : '');
-        $IsStart = (($input->getPostGet('camion') == '') ? ' IsStart = 0,' : '');
-        $camion = (($input->getPostGet('camion') == '') ? ' NULL ' : $db->escape($input->getPostGet('camion')));
-        $secteur = (($input->getPostGet('secteur') == '') ? ' NULL ' : $db->escape($input->getPostGet('secteur')));
-        $idchauffeur = (($input->getPostGet('idchauffeur') == '') ? ' NULL ' : $db->escape($input->getPostGet('idchauffeur')));
-        $idaide = (($input->getPostGet('idaide') == '') ? ' NULL ' : $input->getPostGet('idaide'));
+        $camion      = $input->getPostGet('camion');
+        $secteur     = $input->getPostGet('secteur');
+        $idchauffeur = $input->getPostGet('idchauffeur');
+        $idaide      = $input->getPostGet('idaide');
+        $dateactive  = $input->getPostGet('dateactive');
+        $id          = $input->getPostGet('id');
 
-        $dateactive = $input->getPostGet('dateactive');
-        $id = $db->escape($input->getPostGet('id'));
-        $helpers = '';
-        if (strlen((string) $idaide) > 2 && strpos($idaide, ',', 2)) {
-            $arAide = explode(',', $idaide);
-            for ($iter = 0; $iter < count($arAide); $iter++) {
-                switch ($iter) {
-                    case 0:
-                        $helpers .= 'HELPERS_1=' . $arAide[$iter] . ',';
-                        break;
-                    case 1:
-                        $helpers .= 'HELPERS_2=' . $arAide[$iter] . ',';
-                        break;
-                    case 2:
-                        $helpers .= 'HELPERS_3=' . $arAide[$iter] . ',';
-                        break;
-                    case 3:
-                        $helpers .= 'HELPERS_4=' . $arAide[$iter] . ',';
-                        break;
+        $set = [
+            'secteur'      => ($secteur === '' || $secteur === null) ? null : $secteur,
+            'NOCAMION'     => ($camion === '' || $camion === null) ? null : $camion,
+            'idchauffeurs' => ($idchauffeur === '' || $idchauffeur === null) ? null : $idchauffeur,
+        ];
+        if ($idchauffeur === '0') {
+            $set['chaufconfirme'] = 0;
+        }
+        if ($idaide === '0') {
+            $set['helperconfirme'] = 0;
+        }
+        if ($camion === '' || $camion === null) {
+            $set['IsStart'] = 0;
+        }
+
+        $idaideStr = (string) $idaide;
+        if (strlen($idaideStr) > 2 && strpos($idaideStr, ',', 2) !== false) {
+            foreach (explode(',', $idaideStr) as $iter => $aideId) {
+                if ($iter > 3) {
+                    break;
                 }
+                $set['HELPERS_' . ($iter + 1)] = (int) $aideId;
             }
         }
-        $helpers = substr($helpers, 0, -1);
-        $strSQL = "UPDATE cedules
-                    SET
-                        secteur=$secteur,
-                        NOCAMION=$camion,
-                        idchauffeurs=$idchauffeur,
-                        $chaufconfirme $helperconfirme $IsStart
-                        $helpers
-                    WHERE id = $id";
-        $db->query($strSQL);
+
+        if ($id !== null && $id !== '') {
+            \Config\Database::connect()
+                ->table('cedules')
+                ->where('id', $id)
+                ->update($set);
+        }
+
         return $this->showToday(4, $dateactive);
     }
 
@@ -4277,21 +4162,11 @@ class Gestion extends Login
 
     public function ValidOldPassW()
     {    
-            $this->load->model("login_model", "login");
-            /** @var array $data */
-    
-            $data = [
-                'email' => urldecode($this->input->post_get('email', TRUE)),
-                'password' => urldecode($this->input->post_get('password', TRUE))
-            ];
-            /** @var object $result */
-            $result = new \stdClass();
-            $result = $this->login->validate_user($data);
-            if (isset($result)) {
-                echo 1;
-            } else {
-                echo 0;
-            }
+            $result = (new \App\Libraries\WebuserAuth())->verify(
+                urldecode((string) $this->input->post_get('email', TRUE)),
+                urldecode((string) $this->input->post_get('password', TRUE))
+            );
+            echo ! empty($result) ? 1 : 0;
     }
 
 
@@ -5027,7 +4902,7 @@ class Gestion extends Login
     public function getListRequetes()
     {    
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 $this->load->model("Requetes_model", "requetes");
                 $from = trim($this->input->post_get('from', TRUE));
@@ -5047,7 +4922,7 @@ class Gestion extends Login
     public function verifRequetes()
     {    
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 // ----------------------
                 $datareq = array();
@@ -5497,11 +5372,8 @@ class Gestion extends Login
 
 
     public function index()
-    {    
-            $data = array();
-            $data['msgerror'] = $this->message_error;
-            $data['msgreset'] = $this->message_error;
-            echo view('partials/login2', $data);
+    {
+        return redirect()->to('/admin/connexion');
     }
 
     private function updateActivy()
@@ -5517,18 +5389,10 @@ class Gestion extends Login
     }
 
     public function logout()
-    {    
-            /** @var array  $sessionvar */
-            $sessionvar = $this->session->all_userdata();
-            $this->session->unset_userdata($sessionvar);
-            $this->session->unset_userdata(['email', 'nom']);
-            $this->session->set_userdata('login_in', FALSE);
-            $this->session->sess_destroy();
-            $this->output->set_header('Last-Modified: '.gmdate("D, d M Y H:i:s").' GMT');
-            $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-            $this->output->set_header('Pragma: no-cache');
-            $this->output->set_header("Expires: ".gmdate("D, d M Y H:i:s").' GMT');
-            $this->index();
+    {
+        $this->ci3session->destroy();
+
+        return redirect()->to('/admin/connexion');
     }
 
     public function pageLogin()
@@ -5927,7 +5791,7 @@ class Gestion extends Login
     public function getVerifInfo($from)
     {    
             if (! $this->session->has_userdata('email')) {
-                $this->index();
+                return redirect()->to('/admin/connexion');
             } else {
                 // ----------------------
                 $this->load->model("Requetes_model", "requetes");

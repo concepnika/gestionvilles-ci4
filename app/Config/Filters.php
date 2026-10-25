@@ -109,5 +109,23 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        // Zone bureau : CI3 protege deja via les checks de session
+        // in-method (le filtre est ceinture+bretelles : 302 vers
+        // /login au lieu du rendu du formulaire). Ecritures calendrier
+        // (UpdCedule, PostCedule) : CI3 laissait ces POST ouverts a
+        // tous (trou legacy) — divergence securite VOLUE, documentee
+        // dans AGENTS.md. Les autres routes CI3 publiques (requete/*,
+        // envoi, excel/*, sanivan/calendrier*, session/*, ...) NE
+        // DOIVENT PAS etre filtrees : parite CI3.
+        'ci3auth' => [
+            'before' => [
+                'admin',
+                'admin/*',
+                'sanivan/post',
+                'sanivan/post/*',
+                'sanivan/add_upd/*',
+            ],
+        ],
+    ];
 }

@@ -25,21 +25,10 @@ class UsagersModel extends Ci3Model
     }
 
     public function validate_user($data) {
-            /** @var string $password */
-            $password = $data['password'];
-            $sql = "Select MD5( '$password') AS password";
-            $query = $this->db->query($sql,FALSE);
-            /** @var string $encrypt_pass */
-            $encrypt_pass = '';
-            /** @var object $encrypt_pass */
-            $data2 = new \stdClass();
-            if($data2 = $query->getRow(0))
-            {
-                $encrypt_pass =  ((isset($data2->password)) ?$data2->password : '');
-            }
-       $this->db->where('email', $data['email']);
-       $this->db->where('pass', $encrypt_pass);
-       return $this->db->get('utilisateurs')->getRow();
+        return (new \App\Libraries\WebuserAuth())->verify(
+            (string) ($data['email'] ?? ''),
+            (string) ($data['password'] ?? '')
+        );
     }
     public function getPrivilege($privilege = '')
     {

@@ -116,34 +116,56 @@ mapbox.accessToken = '<jeton pk.…>'
 7. Test : `php tools/mksess.php` → cookie `ci_session`, puis
    `./sweep.sh` (balayage CI3 vs CI4)
 
-## Authentification CI4 (portée)
+## Authentification CI4 (consolidée 2026-10-25)
 
 CI4 authentifie lui-même contre la table partagée `webuser` et crée une
 session **au format CI3** (même mécanisme que CI3, même table).
 
-- `app/Libraries/Ci3Session.php`
-  - `user()`/`get()`/`isLoggedIn()` : lit cookie `ci_session` → ligne
-    `gestionvilles.ci_sessions` → décode `data` (format PHP
-    `cle|serialize(valeur)`), `timestamp > now()-7200`.
-  - **`create(array $data)`** (nouveau) : insère une ligne
-    `ci_sessions` (id hex 40, ip, timestamp, data encodé) + pose le
-    cookie `ci_session` sur l'hôte courant. Requis parce que le cookie
-    CI3 n'arrive jamais sur le vhost CI4.
-  - `set()`/`remove()` : écriture (utilisé par TabletteSani).
-  - `destroy()` : supprime la ligne ET expire le cookie.
-- `app/Controllers/Login.php` : `index` (formulaire, toujours affiché
-  comme `co_gestion/index`), `attempt` (POST), `admin` (≈ `GotoHome`),
-  `logout`, `safeNext` (anti open-redirect).
-- `app/Views/auth/login.php` : formulaire simple (la vraie vue CI3
-  `partials/login2` n'est pas encore portée).
+- `app/Libraries/Ci3Session.php` : lit cookie `ci_session` → ligne
+  `ci_sessions` (timestamp > now-7200) ; `create()` insère la ligne +
+  pose le cookie (requis : le cookie CI3 n'arrive jamais sur le vhost
+  CI4) ; `set()`/`remove()`/`destroy()` ; `Ci3SessionAdapter` expose
+  l'API CI3 (`userdata`/`set_userdata`/`flashdata` — auto-créée si
+  absente).
+- `app/Libraries/WebuserAuth.php` (2026-10-25) : auth unique des
+  usagers bureau — `verify()` (recherche webuser + hachage CI3),
+  `createSession()` (ligne ci_sessions + cookie, clés conformes à
+  `co_gestion/login`), `mustChangePassword()` (forcechange). Remplace
+  les doublons `Login::attempt` / `Gestion::login` /
+  `LoginModel::validate_user` / `UsagersModel::validate_user`.
+- `app/Controllers/Login.php` : `index`/`loginForm` (rend la VRAIE vue
+  `partials/login2` portée), `attempt` (POST `/admin/tableau_de_bord`,
+  gère `forcechange` → `login/change` et `from=1` → routecam, comme
+  `co_gestion/login`), `logout`, `safeNext` (anti open-redirect).
+  Toutes les URLs de connexion passent ici : `/login`,
+  `/admin/connexion`, POST `/admin/tableau_de_bord`, `session/relog`.
+- `Gestion` n'étend plus `Login` : `GotoHome` rend le dashboard
+  natif, les orphelins `index`/`logout` redirigent vers
+  `/admin/connexion`.
+- `app/Controllers/Gestion.php` : `UpdCedule` réécrit en Query Builder
+  (échappement des colonnes secteur/NOCAMION/idchauffeurs/HELPERS_*),
+  `ValidOldPassW` corrige le bug CI3 `isset(FALSE)` (echo 1/0 au lieu
+  de toujours 1).
 - `app/Filters/Ci3AuthFilter.php` : non connecté → `/login?next=<uri>`.
+  Skip-list : `admin/connexion`, `admin/tableau_de_bord` (endpoints
+  publics de login) + `sanivan/post/depot|camions` (API tablette).
+- **Filtre `ci3auth` (Config/Filters)** : activé sur `admin`,
+  `admin/*` (ceinture+bretelles — CI3 protège déjà in-method) et sur
+  les **écritures calendrier** `sanivan/post*`, `sanivan/add_upd/*`
+  — CI3 laissait ces POST ouverts à tous (trou legacy) : divergence
+  sécurité VOLUE. ⚠️ Ne PAS y ajouter les routes CI3 publiques
+  (`requete/*`, `envoi`, `excel/*`, `modal/hres/*`,
+  `sanivan/calendrier*`, `session/*`, `sanivan/aujourdhui/*`, ...) :
+  vérifié contre CI3 anonyme — elles doivent rester ouvertes (parité).
 - **Hachage identique à CI3** :
   `password_verify(hash_hmac('sha256', $mdp, 'nikajhdgsjgdsdssd'), webuser.pass)`
-  (pepper = `Login_model::$keysha`, codé en dur dans `Login::PEPPER`
-  comme dans CI3).
+  (pepper = `Login_model::$keysha` = `WebuserAuth::DEFAULT_PEPPER`,
+  surchargeable via `auth.webuserPepper`).
 - Données écrites en session : `email`, `nom` (= `prenom . ' ' . nom`
-  comme CI3), `privilege`, `user_id`, `login_in` — clés conformes à
-  `co_gestion/login` CI3.
+  comme CI3), `privilege`, `user_id`, `login_in`, `code` — clés
+  conformes à `co_gestion/login` CI3 (vérifié en base après login
+  réel). `app/Views/auth/login.php` est orphelin (ancien formulaire
+  simplifié, remplacé par partials/login2).
 
 ## Routes : table CI3 complète répliquée
 

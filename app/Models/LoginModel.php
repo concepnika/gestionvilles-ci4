@@ -24,28 +24,12 @@ class LoginModel extends Ci3Model
 	}
 
 	public function validate_user($data) {
-		/** @var string $password */
-		$password = $data['password'];
-		$pwd_peppered = hash_hmac("sha256", $password, $this->keysha);
-    //$this->db->where('email', $data['email']);
-    //$result = $this->db->get('webuser')->getRow();
-		$strSQL = "Select * from webuser where email = ".$this->db->escape($data['email']);
-		$result = $this->db->query($strSQL)->getRow(0);
+		$user = (new \App\Libraries\WebuserAuth())->verify(
+			(string) ($data['email'] ?? ''),
+			(string) ($data['password'] ?? '')
+		);
 
-		if (isset($result))
-    {
-			if (password_verify($pwd_peppered, $result->pass)) {
-
-				return $result;
-			}
-			else {
-				return FALSE;
-			}
-    }
-		else
-    {
-      return FALSE;
-    }
+		return $user ?? false;
 	}
   public function validate_chauffeur($data) {
 		/** @var string $password */
