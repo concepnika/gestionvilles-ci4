@@ -912,31 +912,40 @@ $Lang = isset($Lang) ? $Lang : 'fr';
           trucksByCam[key].allFullCoords.push(latlngsFull[ci]);
         }
 
-        // Détection et filtrage des sauts de temps/distance trop importants
-        // Seuils augmentés pour éviter le découpage excessif des segments
-        var MAX_DISTANCE_METERS = 2000; // 2km au lieu de 200m
-        var MAX_TIME_MINUTES = 30; // 30 minutes au lieu de 2min
-        var MAX_SPEED_KMH = 200; // 200 km/h au lieu de 100
-
-        // Dessiner la polyline avec toutes les coordonnées
-        var latlngsRender = latlngsFull.slice();
+        // Découper en sous-segments de points CONSECUTIFS dans la zone :
+        // filtrer point par point relierait en ligne droite le dernier
+        // point en zone avant une sortie au premier point en zone apres
+        // le retour (lignes droites inutiles). Les gaps GPS sont deja
+        // decoupes cote serveur (splitByGaps).
+        var segmentsRender = [];
         if (zonePolyGeoJson.length > 0) {
-          latlngsRender = latlngsRender.filter(function(ll) {
-            return zoneContains(ll[0], ll[1]);
+          var run = [];
+          latlngsFull.forEach(function(ll) {
+            if (zoneContains(ll[0], ll[1])) {
+              run.push(ll);
+            } else {
+              if (run.length >= 2) segmentsRender.push(run);
+              run = [];
+            }
           });
-          if (latlngsRender.length < 2) return;
+          if (run.length >= 2) segmentsRender.push(run);
+        } else {
+          segmentsRender = [latlngsFull];
         }
-        var pl = L.polyline(latlngsRender, {
-          color: color,
-          weight: 3,
-          opacity: 0.9
-        });
+
         var isVisible = (_activeTruckFilter === null || _activeTruckFilter === key);
-        if (isVisible) pl.addTo(map);
-        // Stocker les coordonnées complètes avant filtrage par zone pour la sauvegarde
-        pl._fullCoords = latlngsFull.slice();
-        attachPolylineClick(key, pl);
-        trucksByCam[key].polylines.push(pl);
+        segmentsRender.forEach(function(latlngsRender) {
+          var pl = L.polyline(latlngsRender, {
+            color: color,
+            weight: 3,
+            opacity: 0.9
+          });
+          if (isVisible) pl.addTo(map);
+          // Stocker les coordonnées complètes avant filtrage par zone pour la sauvegarde
+          pl._fullCoords = latlngsFull.slice();
+          attachPolylineClick(key, pl);
+          trucksByCam[key].polylines.push(pl);
+        });
 
         // --- Si le toggle est actif, (re)créer et afficher les cercles pour ce camion ---
         try {
@@ -1035,6 +1044,21 @@ $Lang = isset($Lang) ? $Lang : 'fr';
       };
       // Ignorer les positions déjà vues ('YYYY-MM-DD HH:MM:SS' → tri lexical ok)
       if (hre && tr.lastHre && hre <= tr.lastHre) return;
+
+      // Gap > 120 s : le camion a pu sortir de la zone ou perdre le
+      // signal ; demarrer un nouveau segment au lieu de relier la
+      // sortie a la rentree en ligne droite (meme seuil temps que le
+      // decoupage serveur splitByGaps).
+      var gapTooLong = false;
+      if (hre && tr.lastHre) {
+        var tPrev = new Date(tr.lastHre.replace(' ', 'T')).getTime();
+        var tCur = new Date(hre.replace(' ', 'T')).getTime();
+        if (!isNaN(tPrev) && !isNaN(tCur) && (tCur - tPrev) > 120000) gapTooLong = true;
+      }
+      if (gapTooLong) {
+        tr.coords = [];
+        tr.pl = null;
+      }
       if (hre) tr.lastHre = hre;
 
       var ll = [pos.lat, pos.lng];
@@ -1042,7 +1066,8 @@ $Lang = isset($Lang) ? $Lang : 'fr';
       if (lastPt && lastPt[0] === ll[0] && lastPt[1] === ll[1]) return;
 
       // Amorcer le trail depuis le dernier point connu du parcours serveur
-      if (tr.coords.length === 0) {
+      // (sauf apres un gap : le nouveau segment demarre au point courant)
+      if (tr.coords.length === 0 && !gapTooLong) {
         var t0 = trucksByCam[key];
         var full = t0 && t0.allFullCoords;
         if (full && full.length > 0) {
