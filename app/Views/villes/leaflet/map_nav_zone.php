@@ -1066,13 +1066,19 @@ $Lang = isset($Lang) ? $Lang : 'fr';
       if (lastPt && lastPt[0] === ll[0] && lastPt[1] === ll[1]) return;
 
       // Amorcer le trail depuis le dernier point connu du parcours serveur
-      // (sauf apres un gap : le nouveau segment demarre au point courant)
+      // (sauf apres un gap : le nouveau segment demarre au point courant).
+      // Uniquement si ce point est DANS la zone : le dernier point du
+      // parcours est souvent le retour au bureau (hors polygone) —
+      // l'amorcer tracerait une ligne droite bureau -> zone au premier
+      // poll live (divergence CI3 voulue : aucune ligne hors polygone).
       if (tr.coords.length === 0 && !gapTooLong) {
         var t0 = trucksByCam[key];
         var full = t0 && t0.allFullCoords;
         if (full && full.length > 0) {
           var seed = full[full.length - 1];
-          tr.coords.push([seed[0], seed[1]]);
+          if (zonePolyGeoJson.length === 0 || zoneContains(seed[0], seed[1])) {
+            tr.coords.push([seed[0], seed[1]]);
+          }
         }
       }
       tr.coords.push(ll);
