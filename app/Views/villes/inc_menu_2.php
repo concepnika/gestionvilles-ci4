@@ -15,8 +15,8 @@
 
             <!--<li class="">-->
               <?php
-              $lang = isset($this->session->site_lang) ? $this->session->site_lang : 'fr';
-              $idv = isset($this->session->idville) ? (int) $this->session->idville : 0;
+              $lang = ci3sess('site_lang') ?? 'fr';
+              $idv = (int) (ci3sess('idville') ?? 0);
               $today = date('Y-m-d');
               $q = ($idv > 0 ? ('?idville='.$idv.'&dte='.$today) : ('?dte='.$today));
               ?>
@@ -25,11 +25,11 @@
               </a>
             </li>-->
             <li class="">
-              <a class="nav-link" target="_blank"  style="font-size:16px" href="/profil/<?php echo ($this->session->site_lang ?? ''); ?>"><?php echo ci3lang('mne_profil'); ?></a>
+              <a class="nav-link" target="_blank"  style="font-size:16px" href="/profil/<?php echo (ci3sess('site_lang') ?? ''); ?>"><?php echo ci3lang('mne_profil'); ?></a>
 
             </li>
             <li class="">
-                <a class="nav-link"  style="font-size:16px" href="/villes/quitter/<?php echo ($this->session->site_lang ?? ''); ?>">
+                <a class="nav-link"  style="font-size:16px" href="/villes/quitter/<?php echo (ci3sess('site_lang') ?? ''); ?>">
                     
                     <?php echo ci3lang('mne_quitter'); ?>
                 </a>
@@ -39,10 +39,10 @@
                 <?php echo ($nomcomplet ?? '') ?>
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/profil/<?php echo ($this->session->site_lang ?? ''); ?>"><?php echo ci3lang('mne_profil'); ?></a></li>
+                <li><a class="dropdown-item" href="/profil/<?php echo (ci3sess('site_lang') ?? ''); ?>"><?php echo ci3lang('mne_profil'); ?></a></li>
                 <li class="dropdown-divider"></li>
                 <li>
-                  <a class="dropdown-item" href="/villes/quitter/<?php echo ($this->session->site_lang ?? ''); ?>">
+                  <a class="dropdown-item" href="/villes/quitter/<?php echo (ci3sess('site_lang') ?? ''); ?>">
                     <i class="fa fa-user" style="color:red;font-size:30px;margin-top:12px;"></i>
                     <?php echo ci3lang('mne_quitter'); ?>
                   </a>

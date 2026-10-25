@@ -92,7 +92,7 @@
         <h2 style="text-align:center;color:orange;font-weight:900">Gestion des villes</h2>
       <p class="login-box-msg">Connectez-vous pour d&eacute;buter votre session</p>
 
-      <form action="/villes/tdb/<?php echo ($this->session->site_lang ?? ''); ?>" method="post">
+      <form action="/villes/tdb/<?php echo (ci3sess('site_lang') ?? ''); ?>" method="post">
         <div class="form-group has-feedback">
           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?php echo ci3lang('login_email');?>" name="email" />
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

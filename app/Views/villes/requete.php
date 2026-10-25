@@ -129,7 +129,7 @@
           </button>
         </div>
         <div class="col-12 col-md-auto px-md-0 mt-3 mt-md-0">
-          <a href="/villes/accueil/<?php echo ($this->session->site_lang ?? ''); ?>" class="cancel-button btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3"><?php echo ci3lang('btn_annuler'); ?></a>
+          <a href="/villes/accueil/<?php echo (ci3sess('site_lang') ?? ''); ?>" class="cancel-button btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3"><?php echo ci3lang('btn_annuler'); ?></a>
 
         </div>
 
