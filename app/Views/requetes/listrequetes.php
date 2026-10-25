@@ -34,7 +34,6 @@
   <!-- Bootstrap 3.3.7 -->
   <script src="/assets/pronto/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
   <script src="/assets/pronto/vendor/datatables/media/js/dataTables.bootstrap5.min.js"></script>
-  <link rel="stylesheet" href="vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css" />
 
   <style>
     .popover-title {
