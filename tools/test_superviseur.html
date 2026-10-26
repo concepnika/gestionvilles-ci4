@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Plan de test superviseur — Cédules + patch assets (CI3 prod)</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a1a1a; font-size: 10.5pt; line-height: 1.45; margin: 0; }
+  h1 { font-size: 17pt; margin: 0 0 4mm 0; color: #0b3b70; border-bottom: 2.5pt solid #0b3b70; padding-bottom: 3mm; }
+  .subtitle { font-style: italic; color: #444; margin-bottom: 6mm; font-size: 10pt; }
+  h2 { font-size: 13pt; color: #0b3b70; border-bottom: 1pt solid #b8cbe0; padding-bottom: 1.5mm; margin: 8mm 0 3mm 0; page-break-after: avoid; }
+  h2 .num { display: inline-block; background: #0b3b70; color: #fff; border-radius: 3pt; padding: 0.5mm 2.5mm; margin-right: 2mm; font-size: 11pt; }
+  ul { margin: 2mm 0 3mm 0; padding-left: 6mm; }
+  li { margin-bottom: 1.4mm; }
+  table { border-collapse: collapse; width: 100%; margin: 3mm 0; font-size: 9.5pt; page-break-inside: avoid; }
+  th { background: #0b3b70; color: #fff; text-align: left; padding: 2mm 3mm; }
+  td { border: 0.6pt solid #9db3c8; padding: 1.8mm 3mm; vertical-align: top; }
+  tr:nth-child(even) td { background: #eef3f8; }
+  .box { background: #f4f7fa; border: 0.8pt solid #b8cbe0; border-left: 3pt solid #0b3b70; padding: 3mm 4mm; margin: 3mm 0; border-radius: 2pt; }
+  .warn { background: #fff8e6; border-left: 3pt solid #d99a00; border: 0.8pt solid #e8cc80; border-left: 3pt solid #d99a00; }
+  code, .mono { font-family: Consolas, "Courier New", monospace; font-size: 9pt; }
+  pre { background: #0f1c2b; color: #d8e6f2; padding: 3mm 4mm; border-radius: 3pt; font-family: Consolas, "Courier New", monospace; font-size: 8.8pt; white-space: pre-wrap; page-break-inside: avoid; }
+  .chk { font-family: "Segoe UI Symbol", sans-serif; }
+  .field { display: inline-block; border-bottom: 1pt solid #666; min-width: 18mm; }
+  .field-lg { min-width: 45mm; }
+  .pagebreak { page-break-before: always; }
+  .small { font-size: 9pt; color: #555; }
+  .step { font-weight: 600; color: #0b3b70; }
+</style>
+</head>
+<body>
+
+<h1>Plan de test superviseur<br>Cédules + patch assets (CI3 prod)</h1>
+<div class="subtitle">Session guidée ~45 min — Objectifs : (1) mesurer le problème AVANT, (2) appliquer le patch,
+(3) valider le flux de cédules APRÈS. Remplir les cases et noter les temps en secondes.</div>
+
+<div class="box"><span class="step">Préparation (10 min avant la session)</span>
+<ul>
+  <li><span class="chk">☐</span> F12 ouvert dans un onglet → onglet <b>Network</b> → cocher <b>Preserve log</b> et <b>Disable cache</b></li>
+  <li><span class="chk">☐</span> Être connecté en superviseur sur https://robert-daoust.ca</li>
+  <li><span class="chk">☐</span> Garder ce plan ouvert (imprimé ou 2<sup>e</sup> écran)</li>
+  <li><span class="chk">☐</span> Vérifier que <code>patch_ci3_assets.php</code> est téléversé à la racine (PAS encore exécuté)</li>
+</ul>
+</div>
+
+<h2><span class="num">1</span>Mesures AVANT le patch (~10 min)</h2>
+<p class="small">Le superviseur fait ses manipulations HABITUELLES. On mesure seulement.</p>
+
+<p><b>1.1 Chargement de la cédule du jour</b></p>
+<ul>
+  <li><span class="chk">☐</span> Ouvrir <code>https://robert-daoust.ca/sanivan/aujourdhui/1/2026-10-26</code></li>
+  <li><span class="chk">☐</span> Chronomètre (ou F12 → ligne du haut) : temps total ≈ <span class="field"></span> s</li>
+  <li><span class="chk">☐</span> Coller ce snippet dans la <b>Console</b> F12 (après chargement) :</li>
+</ul>
+
+<pre>(() => {
+  const nav = performance.getEntriesByType('navigation')[0];
+  const res = performance.getEntriesByType('resource');
+  const phantoms = res.filter(r => /style\.css|favicon|_all-skins/.test(r.name));
+  console.log(`Page chargée en : ${Math.round(nav.loadEventEnd)} ms`);
+  console.log(`Requêtes réseau : ${res.length}`);
+  console.log(`%cRequêtes FANTÔMES : ${phantoms.length}`, 'color:red;font-weight:bold');
+  phantoms.forEach(p => console.log('  ', Math.round(p.duration)+'ms', p.name));
+})();</pre>
+
+<ul>
+  <li><span class="chk">☐</span> Noter : <span class="field"></span> requêtes fantômes
+      <span class="small">(attendu AVANT : 3-4, en rouge/404 : <code>style.css</code>, <code>../favicon.ico</code>, <code>_all-skins.min.css</code>)</span></li>
+  <li><span class="chk">☐</span> Onglet Network : filtrer par <code>style.css</code> → capture d'écran des lignes rouges</li>
+</ul>
+
+<p><b>1.2 Workflow normal du superviseur (temps de chaque action)</b></p>
+<table>
+<tr><th>Action</th><th style="width:18%">Temps (s)</th><th style="width:28%">Bloque / timeouts ?</th></tr>
+<tr><td>Changer le dropdown <b>type camion</b></td><td></td><td><span class="chk">☐</span> non &nbsp; <span class="chk">☐</span> oui</td></tr>
+<tr><td>Dropdown <b>chauffeur</b> (la liste se remplit)</td><td></td><td><span class="chk">☐</span> non &nbsp; <span class="chk">☐</span> oui</td></tr>
+<tr><td>Dropdown <b>aide</b></td><td></td><td><span class="chk">☐</span> non &nbsp; <span class="chk">☐</span> oui</td></tr>
+<tr><td><b>Glisser/déposer</b> un camion sur une ville</td><td></td><td><span class="chk">☐</span> non &nbsp; <span class="chk">☐</span> oui</td></tr>
+<tr><td><b>Sauvegarder</b> un changement de cédule</td><td></td><td><span class="chk">☐</span> non &nbsp; <span class="chk">☐</span> oui</td></tr>
+<tr><td><b>Valider</b> la journée (<code>sanivan/validation</code>)</td><td></td><td><span class="chk">☐</span> non &nbsp; <span class="chk">☐</span> oui</td></tr>
+<tr><td>Changer de <b>date</b> (calendrier)</td><td></td><td><span class="chk">☐</span> non &nbsp; <span class="chk">☐</span> oui</td></tr>
+</table>
+
+<p><span class="chk">☐</span> Combien de timeouts en 5 minutes d'usage normal ? <span class="field"></span></p>
+
+<h2><span class="num">2</span>Appliquer le patch (5 min)</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>https://robert-daoust.ca/patch_ci3_assets.php?dry=1</code><br>
+      → vérifier : <b>63 fichiers / 226 lignes</b> <span class="small">(sinon STOP, m'envoyer le rapport)</span></li>
+  <li><span class="chk">☐</span> <code>https://robert-daoust.ca/patch_ci3_assets.php</code> → appliqué + sauvegardes</li>
+  <li><span class="chk">☐</span> <b>Supprimer</b> <code>patch_ci3_assets.php</code> du serveur (File Manager)</li>
+  <li><span class="chk">☐</span> Sauvegardes créées dans <code>application/views/_backup_assets_<horodatage>/</code><br>
+      <span class="small">noter le nom exact : <span class="field field-lg"></span></span></li>
+</ul>
+
+<h2><span class="num">3</span>Mesures APRÈS le patch (~10 min)</h2>
+<p><b>3.1 Vérification fantômes</b></p>
+<ul>
+  <li><span class="chk">☐</span> Recharger <code>/sanivan/aujourdhui/1/2026-10-26</code> (Ctrl+F5)</li>
+  <li><span class="chk">☐</span> Recoller le snippet console :
+      → <b>Requêtes FANTÔMES : <span class="field"></span></b> <span class="small">(attendu APRÈS : 0)</span><br>
+      → <b>Page chargée en : <span class="field"></span> ms</b> <span class="small">(à comparer avec §1.1)</span></li>
+</ul>
+
+<p><b>3.2 Refaire le tableau du §1.2 (mêmes actions, temps APRÈS)</b></p>
+<table>
+<tr><th>Action</th><th style="width:18%">Temps (s)</th><th style="width:34%">Commentaire vs avant</th></tr>
+<tr><td>Type camion</td><td></td><td>plus rapide / pareil / plus lent</td></tr>
+<tr><td>Chauffeur</td><td></td><td>plus rapide / pareil / plus lent</td></tr>
+<tr><td>Aide</td><td></td><td>plus rapide / pareil / plus lent</td></tr>
+<tr><td>Glisser/déposer</td><td></td><td>plus rapide / pareil / plus lent</td></tr>
+<tr><td>Sauvegarder</td><td></td><td>plus rapide / pareil / plus lent</td></tr>
+<tr><td>Valider la journée</td><td></td><td>plus rapide / pareil / plus lent</td></tr>
+<tr><td>Changer de date</td><td></td><td>plus rapide / pareil / plus lent</td></tr>
+</table>
+
+<div class="pagebreak"></div>
+
+<h2><span class="num">4</span>Validation fonctionnelle du flux complet (~15 min)</h2>
+<p class="small">Le superviseur construit la cédule de demain comme en vraie journée.</p>
+<ul>
+  <li><span class="chk">☐</span> Ouvrir <code>/sanivan/aujourdhui/1/2026-10-26</code></li>
+  <li><span class="chk">☐</span> Affecter un camion à chaque ville prévue</li>
+  <li><span class="chk">☐</span> Affecter chauffeur + aide sur au moins 2 lignes</li>
+  <li><span class="chk">☐</span> Modifier un <b>secteur</b> et vérifier la carte polylines (boutons secteurs)</li>
+  <li><span class="chk">☐</span> Sauvegarder puis <b>recharger la page</b> → les affectations <b>persistent</b> ✓</li>
+  <li><span class="chk">☐</span> <code>sanivan/validation</code> → la validation du jour fonctionne</li>
+  <li><span class="chk">☐</span> Export <b>Excel cédules</b> (icône Excel) → le fichier se télécharge</li>
+  <li><span class="chk">☐</span> Export <b>heures aides</b> → se télécharge</li>
+  <li><span class="chk">☐</span> Rapport <b>Sanivan du jour</b> (<code>rapport/sani/...</code> si utilisé) → s'affiche</li>
+  <li><span class="chk">☐</span> Visuel : <b>rien n'a changé à l'écran</b> <span class="small">(le patch ne supprime que des liens vers des fichiers qui n'existaient pas)</span></li>
+  <li><span class="chk">☐</span> Aucune erreur rouge dans la Console F12 <span class="small">(hors habituelles)</span></li>
+</ul>
+
+<h2><span class="num">5</span>En cas de problème</h2>
+<table>
+<tr><th style="width:32%">Symptôme</th><th>Action</th></tr>
+<tr><td>Page blanche / erreur PHP</td><td>File Manager → <code>application/views/_backup_assets_*/</code> → recopier le(s) fichier(s) en cause à leur place <b>(rollback)</b></td></tr>
+<tr><td>Chiffres dry-run ≠ 63/226</td><td>Ne PAS appliquer → m'envoyer le rapport</td></tr>
+<tr><td>Un élément visuel disparaît</td><td>Screenshot + rollback de ce seul fichier (voir sauvegardes)</td></tr>
+</table>
+
+<div class="box warn">
+<b>Après la session :</b> m'envoyer les tableaux §1 et §3 + le nombre de requêtes fantômes
+avant/après — je documente le résultat dans AGENTS.md et j'ajuste si besoin.
+</div>
+
+<h2>Annexe — ce que fait le patch (rappel)</h2>
+<div class="box small">
+Les vues référençaient <code>style.css</code>, <code>../favicon.ico</code> et
+<code>dist/css/skins/_all-skins.min.css</code> en chemins RELATIFS : sous
+<code>/sanivan/aujourdhui/1/{date}</code>, le navigateur demandait
+<code>/sanivan/aujourdhui/1/style.css</code> → <b>routé vers <code>showToday(1,'style.css')</code></b>
+→ tout le pipeline de cédule (~118 requêtes BD) s'exécutait pour un fichier <b>inexistant</b> —
+3-4 fois par chargement. Les fichiers n'ont jamais existé au webroot : aucun ne s'est
+jamais chargé → la suppression n'a <b>aucun effet visuel</b>.
+</div>
+
+</body>
+</html>
