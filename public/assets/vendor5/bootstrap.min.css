@@ -988,3 +988,10 @@ a.label:hover { color: #fff; text-decoration: none; }
 .nav > li { position: relative; display: block; }
 .nav > li > a { position: relative; display: block; padding: 10px 15px; }
 .nav > li > a:hover, .nav > li > a:focus { text-decoration: none; background: #eee; }
+
+@media (min-width: 768px) {
+  .navbar .navbar-toggler { display: none; }
+}
+.navbar .dropdown-menu { position: absolute; }
+.navbar-nav .dropdown-menu { position: absolute; }
+.navbar .navbar-nav > li > .dropdown-menu { position: absolute; }

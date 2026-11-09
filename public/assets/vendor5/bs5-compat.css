@@ -151,3 +151,15 @@ a.label:hover { color: #fff; text-decoration: none; }
 .nav > li { position: relative; display: block; }
 .nav > li > a { position: relative; display: block; padding: 10px 15px; }
 .nav > li > a:hover, .nav > li > a:focus { text-decoration: none; background: #eee; }
+
+/* toggler mobile : BS3 le masquait >=768px */
+@media (min-width: 768px) {
+  .navbar .navbar-toggler { display: none; }
+}
+
+/* dropdowns de navbar : BS5 les laisse en position:static sans
+   .navbar-expand (mobile-first) -> le sous-menu poussait la barre.
+   Retour a l'affichage flottant. */
+.navbar .dropdown-menu { position: absolute; }
+.navbar-nav .dropdown-menu { position: absolute; }
+.navbar .navbar-nav > li > .dropdown-menu { position: absolute; }
