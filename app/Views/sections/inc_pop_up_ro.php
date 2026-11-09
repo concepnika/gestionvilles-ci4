@@ -9,7 +9,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title" id="plTitreMsg_1" style="color:white;text-align:center;">Commande pour CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsg_2" style="color:white;text-align:center;">Sélection du chauffeur&nbsp;!</h4>
                 
@@ -20,14 +20,14 @@
                     <div class="form-group">
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Type de Resources humaines</label> <br />
                             <select class="form-control" onchange="SetChauffeursFromType(this.value)" name="selRollOffTypeRH" id="selRollOffTypeRH" style="width:200px;" required>
                                 <option value="0">Choisir</option>
                                 <?php echo ($typerh ?? '') ; ?>
                             </select>
                         </div> 
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <select class="form-control"  name="selRollOffRH" id="selRollOffRH" style="width:400px;font-size:large; font-weight:bold;line-height:30px" required>
                                 <?php echo ($chauffeurs ?? '') ; ?>
@@ -40,9 +40,9 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="PostRollOffRH()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-        <button type="button" onclick="RemoveRollOffRH()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="PostRollOffRH()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" onclick="RemoveRollOffRH()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title" id="plTitreMsgCam_1" style="color:white;text-align:center;">Commande pour CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsgCam_2" style="color:white;text-align:center;">Sélection du Camion&nbsp;!</h4>
                 
@@ -64,7 +64,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Camions RollOff</label> <br />
                             <select class="form-control"  name="selCamionRO" id="selCamionRO" required>
                                 <option value="">Choisir</option>
@@ -78,9 +78,9 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="PostRollOffCam()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-        <button type="button" onclick="RemoveRollOffCam()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="PostRollOffCam()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" onclick="RemoveRollOffCam()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>
@@ -91,7 +91,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title" id="plTitreMsgBoite_1" style="color:white;text-align:center;">Commande pour CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsgBoite_2" style="color:white;text-align:center;">Sélection de la boîte&nbsp;!</h4>
                 
@@ -102,7 +102,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Boîtes RollOff</label> <br />
                             <select class="form-control" name="selBoiteRO" id="selBoiteRO" required>
                                 <option value="">Choisir</option>
@@ -116,9 +116,9 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="PostRollOffBoite()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-        <button type="button" onclick="RemoveRollOffBoite()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="PostRollOffBoite()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" onclick="RemoveRollOffBoite()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>
@@ -128,7 +128,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title" id="plTitreMsgBoite_1EnPlace" style="color:white;text-align:center;">Commande pour CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsgBoite_2EnPlace" style="color:white;text-align:center;">Sélection de la boîte&nbsp;!</h4>
                 
@@ -139,7 +139,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Boîtes RollOff</label> <br />
                             <select class="form-control" name="selBoiteROEnPlace" id="selBoiteROEnPlace" required>
                                 <option value="">Choisir</option>
@@ -153,9 +153,9 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="PostRollOffBoiteEnPlace()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-        <button type="button" onclick="RemoveRollOffBoiteEnPlace()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="PostRollOffBoiteEnPlace()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" onclick="RemoveRollOffBoiteEnPlace()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>        
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
     <div class="modal-dialog" style="min-height:80%;width:1000px;">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsgUpd" style="color:white;text-align:center;">Edition du camion:&nbsp;</h3>
                 
 			</div>
@@ -216,8 +216,8 @@
       </section>
       </div>
 			<div class="modal-footer">
-            <button type="button" id="btnUpdCamion" onclick="sendRHInfo()" class="btn-primary btn"  style="margin:4px 5px 0 0;" data-dismiss="modal"> Enregistrer </button>
-            <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
+            <button type="button" id="btnUpdCamion" onclick="sendRHInfo()" class="btn-primary btn"  style="margin:4px 5px 0 0;" data-bs-dismiss="modal"> Enregistrer </button>
+            <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
       </div>
         </div>
     </div>
@@ -229,7 +229,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title" id="plTitreTypeCam_1" style="color:white;text-align:center;">Commande pour CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsgCam_2" style="color:white;text-align:center;">Sélection du type de Camion&nbsp;!</h4>
                 
@@ -241,7 +241,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Type de Camions RollOff</label> <br />
                             <select class="form-control" name="selTypeCamionRO" id="selTypeCamionRO" required>
                                 <option value="0">10 roues</option>
@@ -255,8 +255,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="PostRollOffTypeCam()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>        
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="PostRollOffTypeCam()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>        
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>
@@ -268,7 +268,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title" id="plTitreMsgDate_1" style="color:white;text-align:center;">Commande pour CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsgCam_2" style="color:white;text-align:center;">Modification de la date de livraison&nbsp;!</h4>
                 
@@ -280,7 +280,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <input type="hidden" id="edtNewDate" value="" />
                           <label id="lblDateChange" style="font-weight: bold; ">
                           </label>
@@ -292,18 +292,18 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="PostRollOffChangeDate()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>        
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="PostRollOffChangeDate()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>        
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>
 </div>
 
-   <div class="modal fade" id="modalTransBoMat" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+   <div class="modal fade" id="modalTransBoMat" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title" style="color:white;text-align:center;">Type de Déchet pour TRANS_BO</h3>
                 <input type="hidden" id="infoTrans" value="" />
 			</div>
@@ -314,7 +314,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
 
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <select class="form-control" id="selTransbo_in">
                                <option value="">Choisir</option>
                                <option value="amiante_Amiante">Amiante</option>
@@ -343,17 +343,17 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" id="btnTRB_1" onclick="sendBoiteToTRB()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;display:block">Enregistrer</button>
-        <button type="button" id="btnTRB_2" onclick="updBoiteToTRB()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;display:none">Enregistrer</button>
+        <button type="button" id="btnTRB_1" onclick="sendBoiteToTRB()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;display:block">Enregistrer</button>
+        <button type="button" id="btnTRB_2" onclick="updBoiteToTRB()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;display:none">Enregistrer</button>
       </div>
         </div>
     </div>
 </div>
-   <div class="modal fade" id="modalUpdTransBoMat" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+   <div class="modal fade" id="modalUpdTransBoMat" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title"  style="color:white;text-align:center;">Type de Déchet pour TRANS_BO</h3>
                 <input type="hidden" id="infoTrans" value="" />
 			</div>
@@ -364,7 +364,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
 
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <select class="form-control" id="selUpdTransbo_in">
                             <option value="0">Choisir</option>
                               <?php 
@@ -380,18 +380,18 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" id="btnTRB_2" onclick="updBoiteToTRB()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+        <button type="button" id="btnTRB_2" onclick="updBoiteToTRB()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
       </div>
         </div>
     </div>
 </div>
  
 
- <div class="modal fade" id="modalEditTrans" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+ <div class="modal fade" id="modalEditTrans" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h3 class="modal-title"  style="color:white;text-align:center;">Informations pour TRANS_BO</h3>
                 <input type="hidden" id="infoTrans" value="" />
 			</div>
@@ -445,7 +445,7 @@
                     <div class="form-group">
                       <div style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
 
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <table  class="table table-bordered">
                              <thead>
                                <tr><th colspan="4" style="text-align:center;">
@@ -498,12 +498,12 @@
                 </span>&nbsp;avec matériel avant de pouvoir la supprimer
               </div>
               <button type="button" id="btnModalDelTransBo"  onclick="delTransBO()" class="btn btn-danger" 
-                      data-dismiss="modal" disabled style="margin:4px 5px 0 0;">Supprimer</button>
-              <button type="button"  class="btn btn-warning" onclick="Reload()" data-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>                          
+                      data-bs-dismiss="modal" disabled style="margin:4px 5px 0 0;">Supprimer</button>
+              <button type="button"  class="btn btn-warning" onclick="Reload()" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>                          
             </div>
                             
          </div>
-        <!--<button type="button"  onclick="upInfoToTRB()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>-->
+        <!--<button type="button"  onclick="upInfoToTRB()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>-->
 
       </div>
         </div>

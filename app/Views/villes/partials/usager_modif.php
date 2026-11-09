@@ -35,39 +35,39 @@
               <!-- Identification -->
 
               <div class="form-group B10">
-                <div class="col-sm-4 col-xs-12"></div>
-                <div class="col-sm-7 col-xs-12 titre">
+                <div class="col-sm-4 col-12"></div>
+                <div class="col-sm-7 col-12 titre">
                   <?php echo ci3lang('inscription_identification');?>
                 </div>
               </div>
 
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_adresse_courriel');?>
                 </div>
-                <div class="col-sm-7 col-xs-12 input-group champ-acces">
-                  <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">@</span>
+                <div class="col-sm-7 col-12 input-group champ-acces">
+                  <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">@</span>
                   <input type="email" class="form-control" name="email" id="email" value="<?php echo ($emailmodif ?? '');?>" placeholder="<?php echo ci3lang('inscription_adresse_courriel');?>" disabled />
                   <div class="help-block with-errors"></div>
                 </div>
 
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_creer_passw');?>
                 </div>
-                <div class="col-sm-7 col-xs-12 input-group champ-acces">
-                  <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">?</span>
+                <div class="col-sm-7 col-12 input-group champ-acces">
+                  <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">?</span>
                   <input type="password" class="form-control" name="pass" id="pass" value="" placeholder="<?php echo ci3lang('inscription_creer_passw');?>" />
                   <div class="help-block with-errors"></div>
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_valide_passw');?>
                 </div>
-                <div class="col-sm-7 col-xs-12 input-group champ-acces">
-                  <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">!</span>
+                <div class="col-sm-7 col-12 input-group champ-acces">
+                  <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">!</span>
                   <input type="password" class="form-control" name="passconf" id="passconf" placeholder="<?php echo ci3lang('inscription_valide_passw');?>" data-match="#pass" data-match-error="<?php echo ci3lang('inscription_erreur_passw');?>" autocomplete="off" 
                           onfocus="this.removeAttribute('readonly');" />
                   <div class="help-block with-errors"></div>
@@ -80,16 +80,16 @@
               <!-- Information personnelle -->
 
               <div class="form-group T40 B20">
-                <div class="col-sm-4 col-xs-12"></div>
-                <div class="col-sm-7 col-xs-12 titre">
+                <div class="col-sm-4 col-12"></div>
+                <div class="col-sm-7 col-12 titre">
                   <?php echo ci3lang('inscription_info_perso');?>
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   Privilège
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <select class="form-control" name="privilege" id="privilege" required>
                       <option value="0">Choisir</option>
                       <?php echo ($privilege ?? ''); ?>          
@@ -97,25 +97,25 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_prenom');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" value="<?php echo ($prenommodif ?? '');?>" name="prenom" id="prenom" required />
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_nom');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="nom" value="<?php echo ($nommodif ?? '');?>" id="nom" required />
                 </div>
               </div>
 
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12"></div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-4 col-12"></div>
+                <div class="col-sm-7 col-12">
                   <button type="button" class="btn btn-warning" onclick="document.location='/admin/liste_usagers'">
                     Retour à la liste
                   </button>

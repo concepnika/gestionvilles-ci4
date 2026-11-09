@@ -5,12 +5,12 @@
 <div class="collapse navbar-collapse"  id="myNavbar">
   <ul class="nav navbar-nav" style="margin-top:5px">
     <li>
-      <a href="/admin" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Accueil" data-content="Aller à l'Accueil">
+      <a href="/admin" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Accueil" data-bs-content="Aller à l'Accueil">
         <i class="fa fa-home" style="font-size:18px;color:whitesmoke;margin-top: -5px;"></i>
       </a>
     </li>
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="width:100px">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="width:100px">
         <span>
           <i class='fa fa-eye-slash' style='font-size:18px;margin-top: -5px;color:whitesmoke;'>&nbsp;Menu</i>
         </span>
@@ -23,15 +23,15 @@
     </li>
     <li>
       <div class="form-group">
-        <a href="#" onclick="loadToday('-1')" id="divShowHideEmp" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journ&eacute;e pr&eacute;c&eacute;dente" data-content="Affiche la c&eacute;dule de la journ&eacute;e pr&eacute;c&eacute;dente">
+        <a href="#" onclick="loadToday('-1')" id="divShowHideEmp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journ&eacute;e pr&eacute;c&eacute;dente" data-bs-content="Affiche la c&eacute;dule de la journ&eacute;e pr&eacute;c&eacute;dente">
           <img src="/assets/img/fleche_left.png" width="30" />&nbsp;
         </a>
-        <input type="date" style="height:28px" onchange="loadToday('0')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActivePage1" />
+        <input type="date" style="height:28px" onchange="loadToday('0')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActivePage1" />
 
-        <a href="#" onclick="loadToday('1')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journ&eacute;e suivante" data-content="Affiche la c&eacute;dule de la journ&eacute;e suivante">
+        <a href="#" onclick="loadToday('1')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journ&eacute;e suivante" data-bs-content="Affiche la c&eacute;dule de la journ&eacute;e suivante">
           <img src="/assets/img/fleche_right.png" width="30" />&nbsp;
         </a>
-        <a href="#" onclick="toExcel()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Jour actif" data-content="Afficher la journ&eacute;e active">
+        <a href="#" onclick="toExcel()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Jour actif" data-bs-content="Afficher la journ&eacute;e active">
           <img src="/assets/img/excel.png" width="30" />
         </a>
       </div>
@@ -94,7 +94,7 @@
   </ul>
   <ul class="nav navbar-nav">
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="width:100px">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="width:100px">
         <span>
           <i class="glyphicon glyphicon-level-up" style="color:lightyellow;margin-top:-5px;font-size:18px;">Requ&ecirc;tes</i>
         </span>
@@ -115,9 +115,9 @@
     
   </ul>
 
-  <ul class="nav navbar-nav pull-right">
+  <ul class="nav navbar-nav float-end">
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="width:100px">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="width:100px">
         <span>
           <i class="glyphicon glyphicon-user" style="color:lawngreen;margin-top:-5px;font-size:18px;">&nbsp;<span style="color:white">Bienvenue!</span></i>
         </span>
@@ -128,7 +128,7 @@
           <a href="#"><img src="/assets/img/add_user.jpg" width="50" alt="User Image" /><b> Votre Profil</b></a>
         </li>
         <li>
-          <a  style="margin-top:5px;width:40px;" href="/admin/quitter" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Quitter l'application" data-content="Cliquer pour quitter de fa&ccedil;on s&eacute;curitaire.">
+          <a  style="margin-top:5px;width:40px;" href="/admin/quitter" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Quitter l'application" data-bs-content="Cliquer pour quitter de fa&ccedil;on s&eacute;curitaire.">
 
             <i class="glyphicon glyphicon-user" style="color:red;margin-top:-5px;font-size:18px;">&nbsp;Quitter</i>
           </a>

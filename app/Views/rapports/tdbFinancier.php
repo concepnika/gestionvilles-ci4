@@ -14,7 +14,7 @@
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -97,15 +97,15 @@
   <script>
     var base_url = "<?php echo ci3_url(); ?>";
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
   <!-- Header Navbar -->
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -138,37 +138,37 @@
 
     <!-- ========== KPI Cards (Graphique 6) ========== -->
     <div class="row">
-      <div class="col-md-2 col-sm-4 col-xs-6">
+      <div class="col-md-2 col-sm-4 col-6">
         <div class="kpi-card blue">
           <div class="kpi-value"><?php echo number_format($kpiRevenus, 2, ',', ' '); ?> $</div>
           <div class="kpi-label">Revenus totaux</div>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4 col-xs-6">
+      <div class="col-md-2 col-sm-4 col-6">
         <div class="kpi-card red">
           <div class="kpi-value"><?php echo number_format($kpiDepenses, 2, ',', ' '); ?> $</div>
           <div class="kpi-label">Dépenses totales</div>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4 col-xs-6">
+      <div class="col-md-2 col-sm-4 col-6">
         <div class="kpi-card <?php echo ($kpiProfitNet >= 0) ? 'green' : 'red'; ?>">
           <div class="kpi-value"><?php echo number_format($kpiProfitNet, 2, ',', ' '); ?> $</div>
           <div class="kpi-label">Profit net</div>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4 col-xs-6">
+      <div class="col-md-2 col-sm-4 col-6">
         <div class="kpi-card yellow">
           <div class="kpi-value"><?php echo number_format($kpiTonnage, 2, ',', ' '); ?></div>
           <div class="kpi-label">Tonnage total</div>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4 col-xs-6">
+      <div class="col-md-2 col-sm-4 col-6">
         <div class="kpi-card red">
           <div class="kpi-value"><?php echo number_format($kpiCoutParTonne, 2, ',', ' '); ?> $</div>
           <div class="kpi-label">Coût / tonne</div>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4 col-xs-6">
+      <div class="col-md-2 col-sm-4 col-6">
         <div class="kpi-card blue">
           <div class="kpi-value"><?php echo number_format($kpiRevenuParTonne, 2, ',', ' '); ?> $</div>
           <div class="kpi-label">Revenu / tonne</div>
@@ -224,7 +224,7 @@
 
     <!-- ========== Graphique 6 : Coût par tonne (radialBar) ========== -->
     <div class="row">
-      <div class="col-md-4 col-md-offset-4">
+      <div class="col-md-4 offset-md-4">
         <div class="chart-box">
           <h4><i class="fa fa-dashboard"></i> Performance globale</h4>
           <div id="chartRadial"></div>

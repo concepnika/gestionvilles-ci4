@@ -75,7 +75,7 @@
     var base_url = "<?php echo ci3_url() ?>";
     var ActiveDate = "<?php echo date('Y-m-d') ?>";
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="popover"]').popover();
     });
     var titrediscution = <?php echo ($titreNB ?? '') ?>
 
@@ -133,7 +133,7 @@
         </section>
       </div>
     </div>
-    <div class="modal fade" id="confirmeChangeDte" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmeChangeDte" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
@@ -171,7 +171,7 @@
 
           <!-- Modal footer -->
           <div class="modal-footer" style="background-color:Window;">
-            <button type="button" id="btnConfirme" class="btn btn-default" onclick="closePrintRep()" data-dismiss="modal">Terminer</button>
+            <button type="button" id="btnConfirme" class="btn btn-outline-secondary" onclick="closePrintRep()" data-bs-dismiss="modal">Terminer</button>
           </div>
 
         </div>

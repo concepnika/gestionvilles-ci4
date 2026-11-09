@@ -5,19 +5,19 @@
 <div class="collapse navbar-collapse" id="myNavbar">
   <ul class="nav navbar-nav">
     <li style="display:<?php echo ($visible ?? ''); ?>">
-      <a href="/admin" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Accueil" data-content="Aller à l'Accueil">
+      <a href="/admin" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Accueil" data-bs-content="Aller à l'Accueil">
         <i class="fa fa-home" style="font-size:28px;color:white"></i>
       </a>
     </li>
 
     <li style="display:<?php echo ($visible ?? ''); ?>" class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:white">
         <i class='	fas fa-truck-pickup' style='font-size:24px;color:white'></i>&nbsp;ROLL OFF
       </a>
 
       <ul class="dropdown-menu">
         <li>
-          <a href="/rolloff/aujourdhui/1/<?php echo date("Y-m-d"); ?>" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Jour actif" data-content="Afficher la journée active">
+          <a href="/rolloff/aujourdhui/1/<?php echo date("Y-m-d"); ?>" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Jour actif" data-bs-content="Afficher la journée active">
             <i class='fas fa-calendar-check' style='font-size:24px;'></i>&nbsp;&nbsp;Aujourd'hui
           </a>
         </li>
@@ -37,13 +37,13 @@
         </li>
         <li class="divider"></li>
         <li>
-          <a href="/rapport/dayro/none/1/0" target="_blank" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Validation RollOff" data-content="Afficher la page de validation pour les employés, les camions et les commandes.">
+          <a href="/rapport/dayro/none/1/0" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Validation RollOff" data-bs-content="Afficher la page de validation pour les employés, les camions et les commandes.">
             <i class='fas fa-tasks' style='font-size:24px;'></i>&nbsp;&nbsp;Vérification des revenus et dépenses
           </a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Validation RollOff" data-content="Afficher la page de rapport.">
+          <a href="#" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Validation RollOff" data-bs-content="Afficher la page de rapport.">
             <i class='fas fa-tasks' style='font-size:24px;'></i>&nbsp;&nbsp;Tableau de bord des ROLL OFF
           </a>
         </li>
@@ -96,7 +96,7 @@
     </li>
 
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:white">
         <i class='fa fa-users' style='font-size:24px;color:white'></i>&nbsp;Afficher les Chauffeurs
       </a>
 
@@ -107,7 +107,7 @@
     </li>
     <li>
       <div class="input-group input-group-sm" style="width:200px;margin-top:12px;">
-        <input type="text" class="form-control" style="width:240px;height:35px;" id="edtFindGen" onkeyup="EnterearchSite(this.value, event)" placeholder="Rechercher" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Cliquer pour rechercher dans le site" />
+        <input type="text" class="form-control" style="width:240px;height:35px;" id="edtFindGen" onkeyup="EnterearchSite(this.value, event)" placeholder="Rechercher" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Cliquer pour rechercher dans le site" />
         <div class="input-group-btn">
           <button class="btn btn-info" onclick="searchInSite()" style="height:35px" type="button">
             <i class="glyphicon glyphicon-search"></i>
@@ -118,7 +118,7 @@
   </ul>
   <ul class="nav navbar-nav">
     <li style="display:<?php echo ($visible ?? ''); ?>">
-      <a style="color:white;float:right" href="/admin/quitter" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Quitter l'application" data-content="Cliquer pour quitter de façon sécuritaire.">
+      <a style="color:white;float:right" href="/admin/quitter" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Quitter l'application" data-bs-content="Cliquer pour quitter de façon sécuritaire.">
 
         <i class="fas fa-user-alt-slash" style="font-size:24px; color:red"></i>
       </a>

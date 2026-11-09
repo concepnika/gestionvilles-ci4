@@ -1,0 +1,664 @@
+/*
+
+font-family: 'Open Sans Condensed', sans-serif;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Montserrat', sans-serif;
+
+Bleu1 : #0c2e6e;
+Bleu2 : #0f5fa4;
+Orange : #f1a905;
+
+@media (min-width: 992px) and (max-width: 1199px)  {}
+@media (min-width: 768px) and (max-width: 991px)  {}
+@media (max-width: 967px) {}
+@media (min-width: 451px) and (max-width: 967px)  {}
+@media (max-width: 450px) {}
+
+*/
+
+
+
+
+
+
+/*******************************************************************************************************/
+/*                                                                                                     */
+/*      BASE                                                                                           */
+/*                                                                                                     */
+/*******************************************************************************************************/
+
+
+html {
+	overflow-x:hidden;
+	padding: 0 !important;
+	margin:0px !important;
+}
+
+body {padding:0; font-size:16px;}
+
+a:hover,
+a:active, 
+a:focus {outline:none;}
+*:focus {outline: none;}
+
+.slick-slide {display: none; float: left; height: 100%; min-height: 1px; margin:auto;}
+
+.btn-form {color: #fff; background-color: #de6126; width:125px;}
+.btn-form:hover,
+.btn-form:focus,
+.btn-form.focus,
+.btn-form:active,
+.btn-form.active,
+.open > .dropdown-toggle.btn-form {color: #fff; background-color: #337ab7; text-decoration:none;}
+
+.btn-theme {color: #fff; background-color: #f1a905; width:125px;}
+.btn-theme:hover,
+.btn-theme:focus,
+.btn-theme.focus,
+.btn-theme:active,
+.btn-theme.active,
+.open > .dropdown-toggle.btn-theme {color: #fff; background-color: #de6126; text-decoration:none;}
+
+.tooltip {z-index: 999;}
+.tooltip.in {filter: alpha(opacity=100); opacity: 1;}
+.tooltip.bottom {padding: 11px 0 0 10px; margin-top: 6px;}
+.tooltip.top {padding: 14px 0; margin-top: -25px;}
+.tooltip-inner {padding: 6px 24px; color: #fff; text-align: center; text-decoration: none; border-radius: 3px;}
+.tooltip-arrow {position: absolute; width: 0; height: 0; border-color: transparent; border-style: solid;}
+.tooltip.bottom .tooltip-arrow {top: -3px; left: 50%; margin-left: 20px; border-width: 0 5px 5px; border-bottom-color: #000;}
+.tooltip.top .tooltip-arrow {bottom: 5px; left: 50%; margin-left: -5px; border-width: 5px 5px 0; border-top-color: #000;}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -170px;
+    visibility: hidden;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.T10 {padding-top:10px;}
+.T20 {padding-top:20px;}
+.T30 {padding-top:30px;}
+.T40 {padding-top:40px;}
+.T50 {padding-top:50px;}
+.T60 {padding-top:60px;}
+.T70 {padding-top:70px;}
+.B10 {padding-bottom:10px;}
+.B20 {padding-bottom:20px;}
+.B30 {padding-bottom:30px;}
+.B40 {padding-bottom:40px;}
+.B50 {padding-bottom:50px;}
+.B60 {padding-bottom:60px;}
+
+@font-face {font-family: 'slick'; font-weight: normal; font-style: normal; src: url('fonts/slick.eot'); src: url('fonts/slick.eot?#iefix') format('embedded-opentype'), url('fonts/slick.woff') format('woff'), url('fonts/slick.ttf') format('truetype'), url('fonts/slick.svg#slick') format('svg');}
+
+
+@media (max-width: 967px) {
+	.tooltip {visibility: hidden;}
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+	body {cursor:pointer;}
+	.tooltip {visibility: hidden;}
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+	body {cursor:pointer;}
+	.tooltip {visibility: hidden;}
+}
+
+@media only screen and (max-device-width: 414px) and (max-device-height: 736px) {
+	body {cursor:pointer;}
+	.tooltip {visibility: hidden;}
+}
+
+
+.paiementtitre{
+	font-weight:bold;
+}
+.total {
+	font-size: 32px;
+	padding-top: 20px;
+	color: darkred;
+}
+
+
+/*******************************************************************************************************/
+/*                                                                                                     */
+/*      MENU                                                                                           */
+/*                                                                                                     */
+/*******************************************************************************************************/
+
+
+nav.navbar {height:70px; background-color:#fff; padding:0;}
+nav.navbar-inverse {border: none;}
+
+nav.navbar .logo {padding:9px 0 0 0;}
+nav.navbar .logo img {width:180px; height:auto; opacity: 1;}
+
+nav.navbar .menu {padding:27px 0 0 0;}
+nav.navbar .menu .nav {float:right}
+nav.navbar .menu .nav li a {position: relative; display: block; color:#0f5fa4; font-size:16px; font-weight:bold; font-family: 'Open Sans Condensed', sans-serif; cursor:pointer; padding:0 0 0 25px;}
+nav.navbar .menu .nav li a:focus,
+nav.navbar .menu .nav li a:hover {background-color: transparent; color: #de6126; text-decoration: none;}
+
+nav.navbar .menu .nav li.contact .caret {color:#f1a905; margin-left:5px;}
+nav.navbar .menu .nav li.contact .dropdown {margin-top:-1px;}
+nav.navbar .menu .nav li.contact .dropdown .dropdown-menu {padding:10px 0 12px 0; left:-30px; top:40px;}
+nav.navbar .menu .nav li.contact .dropdown .dropdown-menu li a {padding:5px 0 5px 17px; font-size:14px;}
+
+.nav .open > a, 
+.nav .open > a:focus, 
+.nav .open > a:hover {background-color: transparent; text-decoration: none;}
+
+nav.navbar.shrink {height: 51px; opacity: 1;}
+nav.navbar-inverse.shrink {box-shadow: 0px 0px 5px 0px #555;}
+nav.navbar.shrink .logo {padding:8px 0 0 30px;}
+nav.navbar.shrink .logo img {width:120px; height:auto;}
+nav.navbar.shrink .menu {padding:15px 0 0 0;}
+
+
+@media (min-width: 992px) and (max-width: 1199px) {
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	nav.navbar .logo {padding:18px 0 0 0;}
+	nav.navbar .logo img {width:140px; height:auto;}
+	nav.navbar .menu {xpadding:28px 0 0 0;}
+	nav.navbar .menu .nav li a {padding:0 0 0 15px;}
+	nav.navbar .menu .nav li.contact .dropdown .dropdown-menu {left:-50px;}
+}
+
+@media (max-width: 967px) {
+	.bande-top {background-color:#fff; margin-top:0; height:65px}
+	.bande-top .logo {padding:8px 15px 0 15px;}
+	.bande-top .logo img {width:170px; height:auto;}
+
+	.section-menu {border-bottom: 1px solid #000; background-color:#fff;}
+
+	.navbar-header {display:table; padding: 18px 5px 0 0; text-align:right;}
+	.navbar-header .hamburger {display: table-cell; float: none; vertical-align: middle; }
+	.navbar-header .assist {display: table-cell; float: none; vertical-align: middle; text-align:left; width:52px; font-size:13px; padding-top:2px;}
+	.navbar-header .assist a {color: #f1a905; text-decoration:none; cursor:pointer; padding-left:7px;}
+	.navbar-header .navbar-toggle {float:right; margin:1px 0 0 0; padding: 0px; background-color: transparent; border: 0px solid transparent; border-radius: 0; z-index:1000;}
+	.navbar-header .navbar-toggle:hover, .navbar-header .navbar-toggle:focus {background-color: transparent;}
+	.navbar-header .navbar-toggle .icon-bar {width:35px; padding:2px; margin:5px auto; background-color: #092f6d;}
+	.navbar-collapse {margin: auto; border:none;}
+
+	.navbar-default {background-color: transparent; border-color: transparent;}
+	.collapse.navbar-collapse {max-height:1000px; z-index:100;}
+
+	 ul.dropdown-menu li {padding-left: 30px;}
+	 li h4 {padding-left: 30px;}
+
+	.menu {margin: 15px 0 15px 0; padding:0; width:auto; min-height:inherit; position: inherit;}
+	.menu #accordion {margin: 0; padding: 0; }
+	.menu #accordion dt,
+	.menu #accordion .solo {padding: 15px 10px 15px 0px; font-size:18px; font-family: Arial, Helvetica, sans-serif; color: #333; font-weight: bold; border-top:#777 solid 1px; cursor: pointer; text-align:left;}
+	.menu #accordion dt a,
+	.menu #accordion .solo a {cursor: pointer; color: #333; text-decoration:none; padding: 15px 10px 15px 0px; }
+	.menu #accordion dt .glyphicon {top:5px; color: #f1a905; float:right;}
+	.menu #accordion dd {text-align:left; font-size:16px; padding-left:15px;}
+	.menu #accordion dd li {padding-bottom:15px;}
+	.menu #accordion dd li a {color: #0f5fa4; font-weight:bold; line-height:25px;}
+	.menu #accordion dd li a:hover {text-decoration:none;}
+}
+
+
+
+
+
+
+/*******************************************************************************************************/
+/*                                                                                                     */
+/*      HOMEPAGE                                                                                       */
+/*                                                                                                     */
+/*******************************************************************************************************/
+
+
+#home .intro {height:100vh; overflow:hidden; background-image:url(/assets/00_images/background-intro.jpg); background-size:cover; background-repeat:no-repeat; background-position:center;}
+#home .intro h1 {text-align:center; color: #fff; font-size:75px; font-family: 'Open Sans Condensed', sans-serif; margin:0 auto;}
+#home .intro h3 {text-align:center; color: #fff; font-size:24px; font-family: 'Open Sans Condensed', sans-serif; margin:160px auto 20px auto; width:50%; padding:20px; font-weight:bold; letter-spacing:0.05em; text-transform:uppercase; border:2px solid #FFF; border-radius:5px;}
+#home .intro h3 a {color: #fff; text-decoration:none;}
+#home .intro h3 a:hover {color: #fff; text-decoration:none;}
+#home .intro .logo {text-align:center; margin:60px auto 0 auto;}
+#home .intro .logo img {width:180px;}
+
+#home .intro .details {position:absolute; top:88vh; left:50%; margin-left:-42px; text-align:center;}
+#home .intro .details .part1 {padding-bottom:20px;}
+#home .intro .details .part1 a {font-size:30px; font-family: 'Open Sans Condensed', sans-serif; font-weight:bold; color:#FFF; text-decoration:none;}
+#home .intro .details .part2 .fa {font-size:55px; line-height:0; color: #FFF;}
+
+#home .theme a#details {display: block; position: relative; top: -30px; visibility: hidden;}
+#home .theme .paiement,
+#home .theme .contact,
+#home .theme .apropos,
+#home .theme .carrieres,
+#home .theme .excavation,
+#home .theme .conteneurs,
+#home .theme .dechets {height:800px; background-size:cover; background-repeat:no-repeat; background-position:center; background-attachment:fixed; border-top:20px solid #FFF;}
+#home .theme .excavation {background-image:url(/assets/00_images/background-excavation-B.jpg);}
+#home .theme .conteneurs {background-image:url(/assets/00_images/background-conteneurs-B.jpg);}
+#home .theme .dechets {background-image:url(/assets/00_images/background-dechets-B.jpg);}
+#home .theme .apropos {background-image:url(/assets/00_images/background-apropos-B.jpg);}
+#home .theme .carrieres {background-image:url(/assets/00_images/background-carriere-B.jpg);}
+#home .theme .dechets {background-image:url(/assets/00_images/background-dechets-B.jpg);}
+#home .theme .paiement {background-image:url(/assets/00_images/background-paiement-B.jpg);}
+#home .theme .contact {background-image:url(/assets/00_images/background-contact-B.jpg);}
+
+			#home .theme .titre {position:absolute; top:60px;}
+#home .theme .excavation .titre {right:50px;}
+#home .theme .conteneurs .titre {left:50px;}
+   #home .theme .dechets .titre {right:50px}
+
+			#home .theme .box {position:absolute; top:200px; width:550px; height:auto;}
+#home .theme .excavation .box {right:50px; text-align:right;}
+#home .theme .conteneurs .box {left:55px; text-align:left;}
+#home .theme .apropos .box {left:55px; text-align:left;}
+#home .theme .carriere .box {left:55px; text-align:left;}
+#home .theme .paiement .box {left:55px; text-align:left;}
+#home .theme .contact .box {left:55px; text-align:left;}
+
+   #home .theme .dechets .box {right:50px; text-align:right;}
+			#home .theme .box .resume {font-family: 'Open Sans Condensed', sans-serif; font-size:29px; line-height:44px; color:#fff;}
+			#home .theme .box .bouton {margin-top:50px;}
+			#home .theme .box .bouton .btn {font-family: 'Open Sans Condensed', sans-serif; font-size:15px; font-weight:bold; color:#fff;}
+
+
+@media (min-width: 992px) and (max-width: 1199px)  {
+	#home .intro h3 {font-size:24px; width:50%;}
+}
+
+@media (min-width: 768px) and (max-width: 991px)  {
+	#home .intro h3 {font-size:24px; width:70%;}
+}
+
+@media (max-width: 967px) {
+	#home .intro {height:87vh;}
+	#home .intro h1 {font-size:50px; margin:0 auto;}
+	#home .intro h3 {font-size:18px; margin:50px auto 20px auto; width:100%; padding:10px; border:2px solid #FFF; border-radius:5px;}
+	#home .intro .details {top:72vh; left:50%; margin-left:-32px; text-align:center;}
+	#home .intro .details .part1 {padding-bottom:10px;}
+	#home .intro .details .part1 a {font-size:20px;}
+	#home .intro .details .part2 .fa {font-size:35px;}
+	#home .theme a#details {top: 20px;}
+
+	#home .theme .paiement,
+	#home .theme .contact,
+	#home .theme .apropos,
+	#home .theme .carrieres,
+	#home .theme .excavation,
+	#home .theme .conteneurs,
+	#home .theme .dechets {
+		height: auto;
+		padding-bottom: 30px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		xbackground-position: center;
+		background-attachment: inherit;
+		border-top: 20px solid #FFF;
+	}
+	#home .theme .dechets {background-position:center;}
+	#home .theme .conteneurs {background-position:center;}
+	#home .theme .excavation {background-position:center;}
+	#home .theme .apropos {background-position:center;}
+	#home .theme .carrieres {background-position:center;}	
+	#home .theme .paiement {background-position:center;}
+	#home .theme .contact {background-position:center;}
+
+	#home .theme .titre-xs {padding:50px 0 30px 15px}
+	#home .theme .titre-xs img {max-width:100%; max-height:52px;}
+	#home .theme .box-xs {width:auto; height:auto; padding:0 15px 50px 15px;}
+	#home .theme .box-xs .resume {font-family: 'Open Sans Condensed', sans-serif; font-size:24px; line-height:34px; color:#fff;}
+	#home .theme .box-xs .bouton {margin-top:50px;}
+	#home .theme .box-xs .bouton .btn {font-family: 'Open Sans Condensed', sans-serif; font-size:15px; font-weight:bold; color:#fff;}
+}
+
+
+
+
+
+
+
+/*******************************************************************************************************/
+/*                                                                                                     */
+/*      PAGES SECONDAIRES                                                                              */
+/*                                                                                                     */
+/*******************************************************************************************************/
+
+
+		   #page .theme {height:auto; background-size:cover; background-repeat:no-repeat; background-attachment:fixed; border-bottom:2px solid #FFF; margin-bottom:20px;}
+   #page.dechets .theme {background-image:url(/assets/00_images/background-dechets-B.jpg); background-position:center -320px;}
+#page.conteneurs .theme {background-image:url(/assets/00_images/background-conteneurs-B.jpg); background-position:center -200px;}
+#page.excavation .theme {background-image:url(/assets/00_images/background-excavation-B.jpg); background-position:center -250px;}
+#page.apropos .theme {background-image:url(/assets/00_images/background-apropos-B.jpg); background-position:center -200px;}
+#page.carrieres .theme {background-image:url(/assets/00_images/background-carriere-B.jpg); background-position:center -250px;}
+#page.paiement .theme {background-image:url(/assets/00_images/background-paiement-B.jpg); background-position:center -200px;}
+#page.contact .theme {background-image:url(/assets/00_images/background-contact-B.jpg); background-position:center -250px;}
+
+#page .theme h1 {font-size:44px; color:#fff; text-align:center; text-transform:uppercase; font-family: 'Open Sans Condensed', sans-serif; margin:15px auto 0 auto;}
+#page .theme .intro {font-size:32px; color:#fff; text-align:center; font-family: 'Open Sans Condensed', sans-serif; margin:15px auto 0 auto; width:750px; padding-bottom:75px;}
+
+#page.dechets .theme .titre {padding:140px 0 0 0px; text-align:center}
+#page.conteneurs .theme .titre {padding:150px 0 0 0px; text-align:center}
+#page.excavation .theme .titre {padding:150px 0 0 0px; text-align:center}
+#page.apropos .theme .titre {padding:150px 0 0 0px; text-align:center}
+#page.carrieres .theme .titre {padding:150px 0 0 0px; text-align:center}
+#page.paiement .theme .titre {padding:150px 0 0 0px; text-align:center}
+#page.contact .theme .titre {padding:150px 0 0 0px; text-align:center}
+
+#page .grille {text-align: center; padding:0; margin-top:100px; xbackground-color:#FC0;}
+#page .grille ul {padding: 0px;}
+#page .grille li {padding: 0px 15px 50px 15px; display: inline-block; vertical-align: top; list-style: none;}
+#page .grille .item {position: relative; width:550px; height:400px; padding:0 15px; text-align:left; background:#f8f8f5; border-radius:10px;}
+#page.alternatif .grille .item {position: relative; width:550px; height:auto; padding:0 15px; text-align:left; background:#f8f8f5; border-radius:10px;}
+#page .grille .item .photo {padding-top:30px;}
+#page .grille .item .photo img {width:100%; border-radius:100%; height: auto; opacity: 1; -webkit-transition: opacity 1.5s ease-in-out; -moz-transition: opacity 1.5s ease-in-out; transition: opacity 1.5s ease-in-out;}
+#page .grille .item .photo img:hover {opacity: 0.4; -webkit-transition: opacity .5s ease-in-out; -moz-transition: opacity .5s ease-in-out; transition: opacity .5s ease-in-out;}
+#page .grille .item .photo .fa {position:absolute; font-size:30px; top:130px; right:34px; color: #111;}
+#page .grille .item .description {font-size:14px; color:#666; line-height: 24px; padding:0 30px 10px 10px;}
+#page .grille .item .description h2 {font-size:16px; color:#666; line-height: 24px;}
+#page .grille .item .description .avantages {font-weight:bold; color: color: #000; border-top:1px solid #333; margin:15px 0; padding:15px 0 15px 0;}
+#page .grille .item .description .avantages .mot {font-weight:bold; color:#C00;}
+
+
+#page .grille .modal .table {border:1px solid #333;}
+#page .grille .modal .table th {height:40px; text-align:center; vertical-align:middle; background-color:#069; color:#FFF;}
+#page .grille .modal .table .impair {height:40px; text-align:center; background:#fff;}
+#page .grille .modal .table .pair {height:40px; text-align:center; background:#eee;}
+
+
+
+
+		   #page .outro {height:400px; background-position:center; background-size:cover; background-repeat:no-repeat; background-attachment:fixed;}
+   #page.dechets .outro {background-image:url(/assets/00_images/background-dechets-O.jpg);}
+#page.conteneurs .outro {background-image:url(/assets/00_images/background-conteneurs-O.jpg);}
+#page.excavation .outro {background-image:url(/assets/00_images/background-excavation-O.jpg);}
+#page.apropos .outro {background-image:url(/assets/00_images/background-apropos-O.jpg);}
+#page.carrieres .outro {background-image:url(/assets/00_images/background-carriere-O.jpg);}
+#page.paiement .outro {background-image:url(/assets/00_images/background-paiement-O.jpg);}
+#page.contact .outro {background-image:url(/assets/00_images/background-contact-O.jpg);}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	#page .grille li {padding: 0px 15px 50px 15px;}
+	#page .grille .item {width:450px; height:450px;}
+	#page.alternatif .grille .item {width:450px; height:auto;}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	#page .theme .intro {font-size:28px; margin:15px auto 0 auto; width:625px; padding-bottom:75px;}
+	#page .grille .item {width:500px; height:auto;}
+}
+
+@media (max-width: 967px) {
+	#page .theme {height:auto; background-size:cover; background-repeat:no-repeat; background-attachment: inherit;}
+	#page .outro {height:400px; background-size:cover; background-repeat:no-repeat; background-attachment:inherit;}
+	#page.dechets .theme {background-position:center;}
+	#page.conteneurs .theme {background-position:center;}
+	#page.excavation .theme {background-position:center;}
+	#page.apropos .theme {background-position:center;}
+	#page.carrieres .theme {background-position:center;}
+	#page.paiement .theme {background-position:center;}
+	#page.contact .theme {background-position:center;}
+
+	#page.dechets .theme .titre {padding:40px 0 0 0px;}
+	#page.conteneurs .theme .titre {padding:50px 0 0 0px;}
+	#page.excavation .theme .titre {padding:50px 0 0 0px;}
+	#page.apropos .theme .titre {padding:50px 0 0 0px;}
+	#page.carrieres .theme .titre {padding:50px 0 0 0px;}
+	#page.paiement .theme .titre {padding:50px 0 0 0px;}
+	#page.contact .theme .titre {padding:50px 0 0 0px;}
+
+	#page .theme .titre img {width:100%;}
+	#page .theme h1 {font-size:34px; margin:15px auto 0 auto;}
+	#page .theme .intro {font-size:22px; margin:15px auto 0 auto; width:auto; padding-bottom:50px;}
+	#page .grille .item {width:auto; max-width:500px; height:auto;}
+	#page .table {font-size:11px;}
+	#page .table th {font-size:11px;}
+	#page .outro { display:none}
+}
+
+/*******************************************************************************************************/
+/*                                                                                                     */
+/*      ACHATS - PAIEMENT                                                                              */
+/*                                                                                                     */
+/*******************************************************************************************************/
+
+
+#achat.caisse.transaction .paiement-montant {
+	margin-bottom: 25px;
+	margin-top: 0px;
+}
+
+	#achat.caisse.transaction .paiement-montant .cadre {
+		background-color: #009ddc;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		font-weight: bold;
+		color: #fff;
+		text-align: center;
+		padding: 7px 0;
+	}
+
+	#achat.caisse.transaction .paiement-montant .total {
+		font-size: 32px;
+		text-align: center;
+		padding-top: 20px;
+		color: #222;
+	}
+
+#achat.caisse.transaction .paiement-info {
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+	#achat.caisse.transaction .paiement-info .cadre {
+		background-color: #009ddc;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		font-weight: bold;
+		color: #fff;
+		text-align: center;
+		padding: 7px 0;
+	}
+
+	#achat.caisse.transaction .paiement-info .info {
+		font-size: 12px;
+		padding: 12px;
+	}
+
+	#achat.caisse.transaction .paiement-info .cartes img {
+		width: 200px;
+	}
+
+	#achat.caisse.transaction .paiement-info .info .espace {
+		margin-top: 12px;
+	}
+
+	#achat.caisse.transaction .paiement-info .info .label {
+		font-size: 12px;
+		padding-top: 6px;
+		color: #777;
+		text-align: right;
+	}
+
+		#achat.caisse.transaction .paiement-info .info .label.carte {
+			padding-top: 6px;
+		}
+
+		#achat.caisse.transaction .paiement-info .info .label.exp {
+			padding-top: 3px;
+		}
+
+		#achat.caisse.transaction .paiement-info .info .label.pin {
+			padding-top: 6px;
+		}
+
+	#achat.caisse.transaction .paiement-info .info .alerte {
+		text-align: center;
+		font-size: 12px;
+		line-height: 14px;
+		font-weight: bold;
+		background-color: #C00;
+		color: #FFF;
+		padding: 7px 10px;
+		margin: 20px 20px;
+		border-radius: 5px;
+	}
+
+	#achat.caisse.transaction .paiement-info .info .message {
+		font-size: 12px;
+		color: #555;
+		text-align: center;
+		padding-left: 30px;
+		margin-top: 20px;
+	}
+
+		#achat.caisse.transaction .paiement-info .info .message a {
+			color: #555;
+			text-decoration: underline;
+		}
+
+#achat.caisse.transaction .choix {
+	text-align: center;
+	margin-top: 30px;
+}
+
+	#achat.caisse.transaction .choix .btn {
+		width: 175px;
+	}
+
+		#achat.caisse.transaction .choix .btn.retour {
+			margin-right: 5px;
+		}
+
+#achat.caisse.transaction .message {
+	text-align: center;
+	margin-top: 35px;
+	font-size: 12px;
+}
+
+	#achat.caisse.transaction .message img {
+		height: 40px;
+		padding-bottom: 5px;
+	}
+
+
+
+@media (min-width: 768px) and (max-width: 991px)  {
+	#page .grille {text-align: center;}
+	#page .grille li {padding: 0px 15px 60px 15px;}
+	#page .grille .item img {width:152px;}
+}
+
+@media (max-width: 967px) {
+	#page .grille {text-align: center; margin-top:75px; margin-bottom:50px;}
+	#page .grille li {padding: 10px 12px 40px 12px;}
+	#page .grille .item img {width:152px;}
+	#page .grille .item img {opacity: 1; -webkit-transition: none; -moz-transition: none; transition: none;}
+	#page .grille .item img:hover {opacity: 1; -webkit-transition: none; -moz-transition: none; transition: none;}
+}
+
+@media (max-width: 401px) {
+	#page .grille .item img {width:200px;}
+}
+
+
+
+
+
+
+/*******************************************************************************************************/
+/*                                                                                                     */
+/*      FOOTER                                                                                         */
+/*                                                                                                     */
+/*******************************************************************************************************/
+
+
+footer {height: auto; background-color:#f8f8f5; border-top:20px solid #f1a905; padding:75px 0 75px 0; font-family: 'Open Sans Condensed', sans-serif;
+xbackground-image:url(/assets/00_images/background-footer3.png); background-size:cover; background-repeat:no-repeat; background-position:center;}
+
+footer .menu {font-size:19px; line-height:30px; text-align:left; padding:15px 0 0 80px;}
+footer .menu a {}
+
+footer .logos {text-align:center; xbackground-color:#FC0}
+footer .logos .logo img {width:250px; height:auto;}
+footer .logos .depuis {padding-top:30px;}
+footer .logos .depuis img {width:175px; height:auto;}
+footer .logos .autres {padding-top:30px;}
+footer .logos .autres .RBQ {text-align:right; padding:18px 0 0 0; xbackground-color:#FC0}
+footer .logos .autres .RBQ img {height:40px; width:auto;}
+footer .logos .autres .check {text-align:center; padding:0 0 0 10px; xbackground-color:#eee}
+footer .logos .autres .check img {height:75px; width:auto;}
+footer .logos .autres .complywork {text-align:left; padding:12px 0 0 12px; xbackground-color:#FC0}
+footer .logos .autres .complywork img {height:42px; width:auto;}
+
+footer .coordonnees {text-align:right; padding:0 80px 0 0;}
+footer .coordonnees h2 {color:#444; font-size:24px; font-weight:bold; margin-top:10px; margin-bottom:30px;}
+footer .coordonnees h4 {color:#444; font-size:18px; font-weight:bold; line-height:24px; margin-top:30px;}
+
+footer h3 {color:#337ab7; font-size:24px; font-weight: bold;}
+footer h5 {line-height: 23px; color:#999; font-size:16px;}
+
+
+@media (min-width: 992px) and (max-width: 1199px) { }
+
+@media (min-width: 768px) and (max-width: 991px) {
+	footer .menu {padding:15px 0 0 20px;}
+	footer .coordonnees {padding:0 20px 0 0;}
+}
+
+@media (max-width: 967px) {
+	footer .logos .autres {padding-top:10px;}
+	footer .logos .autres .RBQ {text-align:center; padding:0 5px 0 0;}
+	footer .logos .autres .check {text-align:center; padding:20px 0 10px 0;}
+	footer .logos .autres .complywork {text-align:center; padding:0 0 20px 5px;}
+	footer .coordonnees {text-align:center; padding:35px 0 0 0;}
+}
+
+
+
+/*******************************************************************************************************/
+/*                                                                                                     */
+/*      MODALS                                                                                         */
+/*                                                                                                     */
+/*******************************************************************************************************/
+
+
+.modal-open[style] {overflow: visible; padding-right: 0px !important;}
+.modal-dialog {position: relative; margin: 30px auto;}
+.modal {z-index:2000;}
+.modal-dialog {width: 757px; margin: 30px auto;}
+
+@media (max-width: 967px) {
+	.modal-dialog {position: relative; width: auto; xmargin: 0px -15px 0 0;}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	presentationG {
+		padding: 20px 40px 20px 7px;
+	}
+
+	footer .presentationD {
+		padding: 11px 60px 20px 40px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	presentationG {
+		padding: 20px 30px 20px 12px;
+	}
+
+	presentationD {
+		padding: 10px 40px 20px 30px;
+	}
+}

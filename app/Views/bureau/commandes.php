@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -66,7 +66,7 @@
 
 
 <link rel="stylesheet" href="/assets/pronto/css/custom.css" />
-    <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -167,9 +167,9 @@
 <body class="hold-transition skin-blue"
 
       <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -191,21 +191,21 @@
 
   <div class="container-fluid" style="position:absolute;left: 0px;top: 160px;max-height: 1000px; width: 300px">
 
-      <div class="col-lg-2  box box-info pull-left">
+      <div class="col-lg-2  box box-info float-start">
 		    <section class="panel panel-featured-left panel-featured-primary">
 			    <div class="panel-body">
 				    <section class="card">
                 <h2>Clients</h2>
               <div class="input-group">
-                            <input type="text" class="form-control" style="width:180px;" id="edtFind" onkeyup="EnterearchTable(this.value, event)"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Cliquer pour rechercher le client">
+                            <input type="text" class="form-control" style="width:180px;" id="edtFind" onkeyup="EnterearchTable(this.value, event)"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Cliquer pour rechercher le client">
                             <div class="input-group-btn">
                               <button class="btn btn-info" onclick="searchInTable()" style="height:35px" type="button">
                                 <i class="glyphicon glyphicon-search"></i>
                               </button>
-                              <button class="btn btn-danger" onclick="ClearsearchTableCom()" style="height:35px" type="button"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="R&eacute;initialiser" data-content="Cliquer pour r&eacute;initialiser la recherche">
+                              <button class="btn btn-danger" onclick="ClearsearchTableCom()" style="height:35px" type="button"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="R&eacute;initialiser" data-bs-content="Cliquer pour r&eacute;initialiser la recherche">
                                 <i class="glyphicon glyphicon-remove"></i>
                               </button>
-                              <button class="btn btn-success" onclick="AddNewClient()" style="height:35px" type="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour cr&eacute;er un nouveau client">
+                              <button class="btn btn-success" onclick="AddNewClient()" style="height:35px" type="button" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour cr&eacute;er un nouveau client">
                                 <i class="glyphicon glyphicon-plus"></i>
                               </button>
                             </div>
@@ -222,7 +222,7 @@
 
               	<div class="card-body" style="width:100%;min-width:300px;max-height:500px;margin-top:10px;">
                   <table id="tblcommandes" class="table  table-hover" width="90%">
-                    <tr><th><a type="button" style="height:50px;width:270px;font-size:larger;color:red;font-weight:bold" class="btn btn-default" href="javascript:AfficheListeComplete()">
+                    <tr><th><a type="button" style="height:50px;width:270px;font-size:larger;color:red;font-weight:bold" class="btn btn-outline-secondary" href="javascript:AfficheListeComplete()">
                       
               <i class='fas fa-stream' style='font-size:24px;color:red;'></i>&nbsp;Afficher les commandes
             </a></th></tr>
@@ -233,16 +233,16 @@
                           <span class="input-group-btn">
                             <input type="text" id="edtFind" class="form-control" onkeyup="ReturnsearchTable(this.value, event)" placeholder="" value="50" style="width:50px;height:30px">
                             
-                            <button type="button" class="btn btn-default btn-flat" id="search" onclick="searchTable()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la cédule selon le critère.">
+                            <button type="button" class="btn btn-outline-secondary btn-flat" id="search" onclick="searchTable()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la cédule selon le critère.">
                               <i class='fa fa-angle-double-left' style='font-size:24px;'></i>&nbsp;
                             </button>
-                            <button type="button" class="btn btn-default btn-flat" id="search" onclick="ClearsearchTable()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                            <button type="button" class="btn btn-outline-secondary btn-flat" id="search" onclick="ClearsearchTable()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                               <i class='fa fa-angle-left' style='font-size:24px;'></i>&nbsp;
                             </button>
-                            <button type="button" class="btn btn-default btn-flat" id="search" onclick="searchTable()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la cédule selon le critère.">
+                            <button type="button" class="btn btn-outline-secondary btn-flat" id="search" onclick="searchTable()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la cédule selon le critère.">
                               <i class='fa fa-angle-right' style='font-size:24px;'></i>&nbsp;
                             </button>
-                            <button type="button" class="btn btn-default btn-flat" id="search" onclick="ClearsearchTable()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                            <button type="button" class="btn btn-outline-secondary btn-flat" id="search" onclick="ClearsearchTable()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                               <i class='fa fa-angle-double-right' style='font-size:24px;'></i>&nbsp;
                             </button>
                           </span>
@@ -282,7 +282,7 @@
 				    <section class="card">
 
 						    <div class="card-body" style="width:100%;">
-                  <div class="col-xs-12 table-responsive">
+                  <div class="col-12 table-responsive">
                     <table class="table table-striped">
                       <thead>
                       <tr>
@@ -295,57 +295,57 @@
             <label >&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </li>
           <li>
-            <button type="button" onclick="AddNew()" id="btnAddCom" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour cr&eacute;er une nouvelle commande">
+            <button type="button" onclick="AddNew()" id="btnAddCom" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour cr&eacute;er une nouvelle commande">
                   <i class="glyphicon glyphicon-plus"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="EditCom()" id="btnEditCom" class="btn btn-default" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Edition" data-content="Cliquer pour &eacute;diter la commande">
+            <button type="button" onclick="EditCom()" id="btnEditCom" class="btn btn-outline-secondary" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Edition" data-bs-content="Cliquer pour &eacute;diter la commande">
                   <i class="glyphicon glyphicon-edit"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="DeleteCom()" id="btnDeleteCom" class="btn btn-danger" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Supprimer" data-content="Cliquer pour supprimer la commande">
+            <button type="button" onclick="DeleteCom()" id="btnDeleteCom" class="btn btn-danger" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Supprimer" data-bs-content="Cliquer pour supprimer la commande">
                   <i class="glyphicon glyphicon-trash"></i>
             </button>
           </li>
           <li>
-            <button type="button" class="btn btn-success" disabled  onclick="PostCom()" id="btnPostCom" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Enregistrer" data-content="Cliquer pour enregistrer la commande">
+            <button type="button" class="btn btn-success" disabled  onclick="PostCom()" id="btnPostCom" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Enregistrer" data-bs-content="Cliquer pour enregistrer la commande">
                  <i class="glyphicon glyphicon-ok"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="CancelCom()" id="btnCancelCom" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Annuler" data-content="Cliquer pour annuler les modifications de la commande">
+            <button type="button" onclick="CancelCom()" id="btnCancelCom" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Annuler" data-bs-content="Cliquer pour annuler les modifications de la commande">
                   <i class="glyphicon glyphicon-remove"></i>
             </button>
           </li>
           <!--<li>
-            <button type="button" onclick="" class="btn btn-default" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Envoi de Facture" data-content="Cliquer pour envoyer la facture au client.">
+            <button type="button" onclick="" class="btn btn-outline-secondary" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Envoi de Facture" data-bs-content="Cliquer pour envoyer la facture au client.">
                   <i class="glyphicon glyphicon-pencil"></i>
             </button>
           </li>-->
           <li>
-            <button type="button" class="btn btn-default"  onclick="SendFacture()" style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Courriel" data-content="Cliquer pour envoyer la commande par courriel.">
+            <button type="button" class="btn btn-outline-secondary"  onclick="SendFacture()" style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Courriel" data-bs-content="Cliquer pour envoyer la commande par courriel.">
                   <i class="glyphicon glyphicon-send"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="PrintCommande()"  class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Immprimer" data-content="Cliquer pour imprimer la commande">
+            <button type="button" onclick="PrintCommande()"  class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Immprimer" data-bs-content="Cliquer pour imprimer la commande">
                   <i class="glyphicon glyphicon-print"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="PrintFacture()"  class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Immprimer Facture" data-content="Cliquer pour imprimer la facture">
+            <button type="button" onclick="PrintFacture()"  class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Immprimer Facture" data-bs-content="Cliquer pour imprimer la facture">
                   <i class="glyphicon glyphicon-usd"></i>
             </button>
           </li>
           <li>
-            <a type="button" style="height:50px;width:250px;font-size:larger;margin-left: 25px;color:red;font-weight:bold" class="btn btn-default" href="javascript:AfficheBoitesForCom()">
+            <a type="button" style="height:50px;width:250px;font-size:larger;margin-left: 25px;color:red;font-weight:bold" class="btn btn-outline-secondary" href="javascript:AfficheBoitesForCom()">
                   <i class="fa fa-share-square"></i> Afficher les bo&icirc;tes
             </a>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:black">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:black">
               <i class='fas fa-stream' style='font-size:24px;color:black;'></i>&nbsp;Liste des Commandes
             </a>
 
@@ -852,7 +852,7 @@
 				    <section class="card">
 
 						    <div class="card-body" style="width:100%;">
-                  <div class="col-xs-12 table-responsive">
+                  <div class="col-12 table-responsive">
                     <table class="table table-striped  table-bordered">
                       <thead>
                       <tr>
@@ -866,23 +866,23 @@
                                 <label >&nbsp;&nbsp;&nbsp;&nbsp;</label>
                               </li>
                               <li>
-                                <button type="button" onclick="AddNewClient()" id="btnAddClient" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour cr&eacute;er un nouveau client">
+                                <button type="button" onclick="AddNewClient()" id="btnAddClient" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour cr&eacute;er un nouveau client">
                                       <i class="glyphicon glyphicon-plus"></i>
                                 </button>
                               </li>
                               <li>
-                                <button type="button" onclick="EditClient()" id="btnEditClient" class="btn btn-default" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Edition" data-content="Cliquer pour &eacute;diter le client">
+                                <button type="button" onclick="EditClient()" id="btnEditClient" class="btn btn-outline-secondary" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Edition" data-bs-content="Cliquer pour &eacute;diter le client">
                                       <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </li>
 
                               <li>
-                                <button type="button" class="btn btn-success" disabled  onclick="PostClient()" id="btnPostClient" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Enregistrer" data-content="Cliquer pour enregistrer le client">
+                                <button type="button" class="btn btn-success" disabled  onclick="PostClient()" id="btnPostClient" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Enregistrer" data-bs-content="Cliquer pour enregistrer le client">
                                      <i class="glyphicon glyphicon-ok"></i>
                                 </button>
                               </li>
                               <li>
-                                <button type="button" onclick="CancelClient()" id="btnCancelClient" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Annuler" data-content="Cliquer pour annuler les modifications du client">
+                                <button type="button" onclick="CancelClient()" id="btnCancelClient" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Annuler" data-bs-content="Cliquer pour annuler les modifications du client">
                                       <i class="glyphicon glyphicon-remove"></i>
                                 </button>
                               </li>
@@ -1031,7 +1031,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Suppression de commande</h3>
 
 			</div>
@@ -1040,8 +1040,8 @@
               <textarea rows="10" style="width:100%" id="txtNoteDeSuppression"></textarea>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostNoteSuppression()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostNoteSuppression()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -1051,7 +1051,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Hors-service&nbsp;!</h3>
 
 			</div>
@@ -1062,7 +1062,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">
 
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; "># Camions  </label> <br />
                             <select class="form-control" name="camionhs" id="camionhs" required>
                                 <option value="">Choisir</option>
@@ -1072,21 +1072,21 @@
                            <br /> <br />
 
 
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtestarths" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtestarths" />
                         </div>
                            <br /> <br />
 
 
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">Date retour pr&eacute;vu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteendhs" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteendhs" />
                         </div>
 
                            <br /> <br />
 
-                        <div class="col-sm-7 col-xs-12" >
+                        <div class="col-sm-7 col-12" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="7" cols="50" id="notehs" >
 
@@ -1097,8 +1097,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostSuivisCamHS()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisCamHS()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -1106,11 +1106,11 @@
 
 
 
-<div class="modal fade" id="modaltypedemande" tabindex="-1" role="dialog"  data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+<div class="modal fade" id="modaltypedemande" tabindex="-1" role="dialog"  data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" style="width:1400px;">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Selectionner la commande qui doit &ecirc;tre Termin&eacute;e ou Vid&eacute;e</h3>
 
 			      </div>
@@ -1124,7 +1124,7 @@
                             </select>
                     <div id="divHS" style="padding-bottom:10px;padding-top:10px;margin-top:10px;">
 
-                      <div id="divlistdem135" class="col-lg-7 col-xs-12" style="display:none;overflow:scroll;height:600px;width:1300px">
+                      <div id="divlistdem135" class="col-lg-7 col-12" style="display:none;overflow:scroll;height:600px;width:1300px">
                         <?php echo ($listdem135 ?? '') ; ?>
 
                       </div>
@@ -1136,12 +1136,12 @@
 					    </form>
             </div>
 			    <div class="modal-footer">
-            <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
           </div>
         </div>
     </div>
 </div>
-  <div class="modal" id="send_facture" role="dialog" data-backdrop="static">
+  <div class="modal" id="send_facture" role="dialog" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-body" style="height:120px;">
@@ -1176,7 +1176,7 @@
                 </div>
               </div>
     	<div class="modal-footer">
-        <button type="button"  class="btn btn-info" data-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
+        <button type="button"  class="btn btn-info" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
       </div>
 			</div>
 
@@ -1198,8 +1198,8 @@
                 </div>
               </div>
     	<div class="modal-footer">
-            <button type="button" onclick="setAdresse()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">S&eacute;lectionner</button>
-            <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button" onclick="setAdresse()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">S&eacute;lectionner</button>
+            <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
 			</div>
 

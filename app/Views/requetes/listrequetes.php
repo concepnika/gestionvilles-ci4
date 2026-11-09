@@ -74,7 +74,7 @@
     var base_url = "<?php echo ci3_url() ?>";
     var ActiveDate = "<?php echo date('Y-m-d') ?>";
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
@@ -168,7 +168,7 @@
 
           <!-- Modal footer -->
           <div class="modal-footer" style="background-color:Window;">
-            <button type="button" id="btnConfirme" class="btn btn-default" onclick="closePrintReq()" data-dismiss="modal">Terminer</button>
+            <button type="button" id="btnConfirme" class="btn btn-outline-secondary" onclick="closePrintReq()" data-bs-dismiss="modal">Terminer</button>
           </div>
 
         </div>

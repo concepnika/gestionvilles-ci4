@@ -11,7 +11,7 @@
   </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
-  <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
 
   <?php echo view('sections/heads');?>
   <?php echo view('sections/footers');?>
@@ -131,7 +131,7 @@
       </div>
       <!-- /.content-wrapper -->
       <footer class="main-footer">
-        <div class="pull-right hidden-xs">
+        <div class="float-end d-none d-sm-block">
           <b>Version</b> 1.0.00
         </div>
         <strong>

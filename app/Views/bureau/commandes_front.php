@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -52,7 +52,7 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
-    <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -134,9 +134,9 @@
 <body class="hold-transition skin-blue">
 
       <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -158,18 +158,18 @@
 
   <div class="container-fluid" style="position:absolute;left: 0px;top: 160px;max-height: 1000px; width: 300px">
 
-      <div class="col-lg-2  box box-info pull-left">
+      <div class="col-lg-2  box box-info float-start">
 		    <section class="panel panel-featured-left panel-featured-primary">
 			    <div class="panel-body">
 				    <section class="card">
                 <h2>Clients</h2>
               <div class="input-group">
-                            <input type="text" class="form-control" style="width:180px;" id="edtFind" onkeyup="EnterearchTable(this.value, event)" placeholder="Rechercher" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Cliquer pour rechercher le client">
+                            <input type="text" class="form-control" style="width:180px;" id="edtFind" onkeyup="EnterearchTable(this.value, event)" placeholder="Rechercher" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Cliquer pour rechercher le client">
                             <div class="input-group-btn">
                               <button class="btn btn-info" onclick="searchInTable()" style="height:35px" type="button">
                                 <i class="glyphicon glyphicon-search"></i>
                               </button>
-                              <button class="btn btn-danger" onclick="ClearsearchTableCom()" style="height:35px" type="button"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="R&eacute;initialiser" data-content="Cliquer pour r&eacute;initialiser la recherche">
+                              <button class="btn btn-danger" onclick="ClearsearchTableCom()" style="height:35px" type="button"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="R&eacute;initialiser" data-bs-content="Cliquer pour r&eacute;initialiser la recherche">
                                 <i class="glyphicon glyphicon-remove"></i>
                               </button>
                             </div>
@@ -207,7 +207,7 @@
 				    <section class="card">
 
 						    <div class="card-body" style="width:100%;">
-                  <div class="col-xs-12 table-responsive">
+                  <div class="col-12 table-responsive">
                     <table class="table table-striped">
                       <thead>
                       <tr>
@@ -220,47 +220,47 @@
             <label >&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </li>
           <li>
-            <button type="button" onclick="AddNew()" id="btnAddCom" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour cr&eacute;er une nouvelle commande">
+            <button type="button" onclick="AddNew()" id="btnAddCom" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour cr&eacute;er une nouvelle commande">
                   <i class="glyphicon glyphicon-plus"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="EditCom()" id="btnEditCom" class="btn btn-default" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Edition" data-content="Cliquer pour &eacute;diter la commande">
+            <button type="button" onclick="EditCom()" id="btnEditCom" class="btn btn-outline-secondary" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Edition" data-bs-content="Cliquer pour &eacute;diter la commande">
                   <i class="glyphicon glyphicon-edit"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="DeleteCom()" id="btnDeleteCom" class="btn btn-danger" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Supprimer" data-content="Cliquer pour supprimer la commande">
+            <button type="button" onclick="DeleteCom()" id="btnDeleteCom" class="btn btn-danger" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Supprimer" data-bs-content="Cliquer pour supprimer la commande">
                   <i class="glyphicon glyphicon-trash"></i>
             </button>
           </li>
           <li>
-            <button type="button" class="btn btn-success" disabled  onclick="PostCom()" id="btnPostCom" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Enregistrer" data-content="Cliquer pour enregistrer la commande">
+            <button type="button" class="btn btn-success" disabled  onclick="PostCom()" id="btnPostCom" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Enregistrer" data-bs-content="Cliquer pour enregistrer la commande">
                  <i class="glyphicon glyphicon-ok"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="CancelCom()" id="btnCancelCom" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Annuler" data-content="Cliquer pour annuler les modifications de la commande">
+            <button type="button" onclick="CancelCom()" id="btnCancelCom" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Annuler" data-bs-content="Cliquer pour annuler les modifications de la commande">
                   <i class="glyphicon glyphicon-remove"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="" class="btn btn-default" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Signature" data-content="Cliquer pour afficher la signature de la commande.">
+            <button type="button" onclick="" class="btn btn-outline-secondary" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Signature" data-bs-content="Cliquer pour afficher la signature de la commande.">
                   <i class="glyphicon glyphicon-pencil"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="" class="btn btn-default" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Courriel" data-content="Cliquer pour envoyer la commande par courriel.">
+            <button type="button" onclick="" class="btn btn-outline-secondary" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Courriel" data-bs-content="Cliquer pour envoyer la commande par courriel.">
                   <i class="glyphicon glyphicon-send"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="PrintCommande()"  class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Immprimer" data-content="Cliquer pour imprimer la commande">
+            <button type="button" onclick="PrintCommande()"  class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Immprimer" data-bs-content="Cliquer pour imprimer la commande">
                   <i class="glyphicon glyphicon-print"></i>
             </button>
           </li>
           <li>
-            <a type="button" style="height:50px;width:250px;font-size:larger;margin-left: 25px;color:red;font-weight:bold" class="btn btn-default" href="javascript:AfficheBoitesForCom()">
+            <a type="button" style="height:50px;width:250px;font-size:larger;margin-left: 25px;color:red;font-weight:bold" class="btn btn-outline-secondary" href="javascript:AfficheBoitesForCom()">
                   <i class="fa fa-share-square"></i> Afficher les bo&icirc;tes
             </a>
           </li>

@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -52,7 +52,7 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
-    <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -133,16 +133,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date("Y-m-d") ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
       <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -154,21 +154,21 @@
 
   <div class="container-fluid" style="position:absolute;left: 0px;top: 160px;max-height: 1000px; width: 300px">
     
-      <div class="col-lg-2  box box-info pull-left">
+      <div class="col-lg-2  box box-info float-start">
 		    <section class="panel panel-featured-left panel-featured-primary">
 			    <div class="panel-body">
 				    <section class="card">
                 <h2>Clients</h2>
               <div class="input-group">
-                            <input type="text" class="form-control" style="width:180px;" id="edtFind" onkeyup="EnterearchTable(this.value, event)" placeholder="Rechercher" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Cliquer pour rechercher le client">
+                            <input type="text" class="form-control" style="width:180px;" id="edtFind" onkeyup="EnterearchTable(this.value, event)" placeholder="Rechercher" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Cliquer pour rechercher le client">
                             <div class="input-group-btn">
                               <button class="btn btn-info" onclick="searchInTable()" style="height:35px" type="button">
                                 <i class="glyphicon glyphicon-search"></i>
                               </button>
-                              <button class="btn btn-danger" onclick="ClearsearchTableCom()" style="height:35px" type="button"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Réinitialiser" data-content="Cliquer pour réinitialiser la recherche">
+                              <button class="btn btn-danger" onclick="ClearsearchTableCom()" style="height:35px" type="button"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Réinitialiser" data-bs-content="Cliquer pour réinitialiser la recherche">
                                 <i class="glyphicon glyphicon-remove"></i>
                               </button>
-                              <button class="btn btn-success" onclick="AddClient()" style="height:35px" type="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour créer un nouveau client">
+                              <button class="btn btn-success" onclick="AddClient()" style="height:35px" type="button" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour créer un nouveau client">
                                 <i class="glyphicon glyphicon-plus"></i>
                               </button>
                             </div>
@@ -195,7 +195,7 @@
 				    <section class="card">
 
 						    <div class="card-body" style="width:100%;">
-                  <div class="col-xs-12 table-responsive">
+                  <div class="col-12 table-responsive">
                     <table class="table table-striped">
                       <thead>
                       <tr>
@@ -208,47 +208,47 @@
             <label >&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </li>
           <li>
-            <button type="button" onclick="AddNew()" id="btnAddCom" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour créer une nouvelle commande">
+            <button type="button" onclick="AddNew()" id="btnAddCom" class="btn btn-success" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour créer une nouvelle commande">
                   <i class="glyphicon glyphicon-plus"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="EditCom()" id="btnEditCom" class="btn btn-default" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Edition" data-content="Cliquer pour éditer la commande">
+            <button type="button" onclick="EditCom()" id="btnEditCom" class="btn btn-outline-secondary" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Edition" data-bs-content="Cliquer pour éditer la commande">
                   <i class="glyphicon glyphicon-edit"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="DeleteCom()" id="btnDeleteCom" class="btn btn-danger" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Supprimer" data-content="Cliquer pour supprimer la commande">
+            <button type="button" onclick="DeleteCom()" id="btnDeleteCom" class="btn btn-danger" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Supprimer" data-bs-content="Cliquer pour supprimer la commande">
                   <i class="glyphicon glyphicon-trash"></i>
             </button>
           </li>
           <li>
-            <button type="button" class="btn btn-success" disabled  onclick="PostCom()" id="btnPostCom" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Enregistrer" data-content="Cliquer pour enregistrer la commande">
+            <button type="button" class="btn btn-success" disabled  onclick="PostCom()" id="btnPostCom" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Enregistrer" data-bs-content="Cliquer pour enregistrer la commande">
                  <i class="glyphicon glyphicon-ok"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="CancelCom()" id="btnCancelCom" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Annuler" data-content="Cliquer pour annuler les modifications de la commande">
+            <button type="button" onclick="CancelCom()" id="btnCancelCom" class="btn btn-warning" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Annuler" data-bs-content="Cliquer pour annuler les modifications de la commande">
                   <i class="glyphicon glyphicon-remove"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="" class="btn btn-default" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Signature" data-content="Cliquer pour afficher la signature de la commande.">
+            <button type="button" onclick="" class="btn btn-outline-secondary" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Signature" data-bs-content="Cliquer pour afficher la signature de la commande.">
                   <i class="glyphicon glyphicon-pencil"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="" class="btn btn-default" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Courriel" data-content="Cliquer pour envoyer la commande par courriel.">
+            <button type="button" onclick="" class="btn btn-outline-secondary" disabled style="height:50px;width:50px;font-size:larger;margin-left:2px;"  data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Courriel" data-bs-content="Cliquer pour envoyer la commande par courriel.">
                   <i class="glyphicon glyphicon-send"></i>
             </button>
           </li>
           <li>
-            <button type="button" onclick="window.print()" disabled class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Immprimer" data-content="Cliquer pour imprimer la commande">
+            <button type="button" onclick="window.print()" disabled class="btn btn-primary" style="height:50px;width:50px;font-size:larger;margin-left: 2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Immprimer" data-bs-content="Cliquer pour imprimer la commande">
                   <i class="glyphicon glyphicon-print"></i> 
             </button>
           </li>
           <li>
-            <button type="button" style="height:50px;width:250px;font-size:larger;margin-left: 25px;color:red;font-weight:bold" class="btn btn-default"  onclick="AfficheBoites()">
+            <button type="button" style="height:50px;width:250px;font-size:larger;margin-left: 25px;color:red;font-weight:bold" class="btn btn-outline-secondary"  onclick="AfficheBoites()">
                   <i class="far fa-share-square"></i> Afficher les boîtes
             </button>
           </li>
@@ -522,7 +522,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitre" style="color:white;background-color:cornflowerblue">Proticlub, c'est social&nbsp;!</h3>
                 
 			</div>
@@ -530,7 +530,7 @@
                 <div class="container-fluid" >
                   <div class="form-group">
                     
-                    <div class="col-sm-7 col-xs-12">
+                    <div class="col-sm-7 col-12">
                        <label style="font-weight: bold; "> <input class="form-check-input" type="checkbox" id="chkStart" />&nbsp; &nbsp; A débuté </label>
                     </div>
                   </div>  
@@ -538,7 +538,7 @@
                          <br /> <br />
                             <label style="font-weight: bold; ">Types de produit  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="typeprod" id="typeprod" required>
                                 <option value="DECHETS">Choisir</option>
                                 <?php echo ($typededechet ?? '') ; ?>
@@ -548,7 +548,7 @@
                            <br /><br />
                            <label style="font-weight: bold; ">Chauffeurs  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="chauffeur" id="chauffeur" required>
                                 <option value="25">Choisir</option>
                                 <?php echo ($chauffeurs ?? '') ; ?>
@@ -557,7 +557,7 @@
                         <br /><br />
                            <label style="font-weight: bold; ">Aides  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="aide" id="aide" required>
                                 <option value="24">Choisir</option>
                                 <?php echo ($aides ?? '') ; ?>
@@ -568,7 +568,7 @@
                     
                            <label style="font-weight: bold; "># Camions  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="camion" id="camion" required>
                                 <option value="Cam: 1">Choisir</option>
                                 <?php echo ($camions ?? '') ; ?>
@@ -577,8 +577,8 @@
 				</div>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostCedule()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostCedule()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -589,7 +589,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Avec Matériel&nbsp;!</h3>
                 
 			</div>
@@ -600,33 +600,33 @@
 
                       <div div="divMat" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; "># Camions  </label> <br />
                             <select class="form-control" name="camionmat" id="camionmat" required>
                                 <option value="">Choisir</option>
                                 <?php echo ($camions ?? '') ; ?>
                             </select>
                         </div>     
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%;">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%;">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtestartmat" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtestartmat" />
                         </div>  
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteendmat" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteendmat" />
                         </div>    
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Type de matériel</label> <br />
                             <select class="form-control" name="typemat" id="typemat" required>
                                 <option value="">Choisir</option>
                                 <?php echo ($typededechet ?? '') ; ?>
                             </select>
                         </div> 
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                            <label style="font-weight: bold; ">Quantité</label> <br />
                            <input type="number" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" placeholder="Entrer le tonnage" value="" id="qtemat" />
                         </div>  
-                        <div class="col-sm-7 col-xs-12"  style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12"  style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="7" cols="50" id="notemat" > 
 
@@ -637,8 +637,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostSuivisCamMat()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisCamMat()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -648,7 +648,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Hors-service&nbsp;!</h3>
                 
 			</div>
@@ -659,7 +659,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; "># Camions  </label> <br />
                             <select class="form-control" name="camionhs" id="camionhs" required>
                                 <option value="">Choisir</option>
@@ -669,21 +669,21 @@
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtestarths" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtestarths" />
                         </div>    
                            <br /> <br />
                           
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteendhs" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteendhs" />
                         </div>    
    
                            <br /> <br />    
                         
-                        <div class="col-sm-7 col-xs-12" >
+                        <div class="col-sm-7 col-12" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="7" cols="50" id="notehs" > 
 
@@ -694,8 +694,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostSuivisCamHS()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisCamHS()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -705,7 +705,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Absence Ressource Humaine&nbsp;!</h3>
                 
 			</div>
@@ -716,7 +716,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <select class="form-control" name="selRH" id="selRH" required>
                                 <option value="">Choisir</option>
@@ -726,19 +726,19 @@
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtestartrh" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtestartrh" />
                         </div>    
                            <br /> <br />
                           
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteendrh" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteendrh" />
                         </div>    
                            <br /> <br />
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Type d'absence</label> <br />
                             <select class="form-control"  id="selRHabsence" required>
                                 <option value="">Choisir</option>
@@ -747,7 +747,7 @@
                         </div> 
                            <br /> <br />  
                         
-                        <div class="col-sm-7 col-xs-12" >
+                        <div class="col-sm-7 col-12" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="7" cols="50" id="noterh" > 
 
@@ -758,8 +758,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostSuivisRH()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisRH()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>

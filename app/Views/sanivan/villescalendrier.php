@@ -23,7 +23,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -36,7 +36,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -156,7 +156,7 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-		$('[data-toggle="popover"]').popover();  
+		$('[data-bs-toggle="popover"]').popover();  
 		var getPosition = function (e, ui) {
        // var value = (ui.item.index() + 1).toString();
        // var arrData = ui.item.context.id.split('_');
@@ -211,9 +211,9 @@
 
 
       <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -242,7 +242,7 @@
 			        </li>
               <li>
                 <div class="input-group input-group-sm"  style="width:250px">
-                  <div class="input-group-addon"><b>VILLES</b></div>
+                  <div class="input-group-text"><b>VILLES</b></div>
                   <select class="form-control" name="optVilles" id="optVilles" onchange="getVille(this.value)">
                       <option value="">Choisir</option>
                       <?php echo ($optvilles ?? '') ; ?>
@@ -267,13 +267,13 @@
                 </div>
                 <div class="form-group">
                 <div class="input-group input-group-sm"  style="width:250px;">
-                  <div class="input-group-addon"><b>Nb REAR END</b></div>
+                  <div class="input-group-text"><b>Nb REAR END</b></div>
                     <input type="number" class="form-control" name="nbRearEnd" id="nbRearEnd" disabled />
                   </div>
                 </div>
                 <div class="form-group" style="margin-left:10px;">
                 <div class="input-group input-group-sm"  style="width:250px">
-                  <div class="input-group-addon"><b>Nb ROBOT</b></div>
+                  <div class="input-group-text"><b>Nb ROBOT</b></div>
                     <input type="number" class="form-control" name="nbRobot" id="nbRobot" disabled />
                   </div>
                 </div>
@@ -289,9 +289,9 @@
                 </div>
                 <div class="form-group" style="margin-left:10px;">
                   <div class="input-group input-group-sm"  style="width:350px">
-                    <div class="input-group-addon"><b>Déploiement Débutant le </b></div>
+                    <div class="input-group-text"><b>Déploiement Débutant le </b></div>
                     <input type="date" class="form-control" name="dteDeploie" id="dteDeploie" disabled/>
-                    <div class="input-group-addon"><b><button type="button" id="btnDeploie" onclick="deploieCalendrier()" style="height:18px" class="btn-link" disabled>Déployer tout</button></b></div>
+                    <div class="input-group-text"><b><button type="button" id="btnDeploie" onclick="deploieCalendrier()" style="height:18px" class="btn-link" disabled>Déployer tout</button></b></div>
                   </div>
                 </div>              
             </form>

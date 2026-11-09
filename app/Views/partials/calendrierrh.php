@@ -251,7 +251,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <label style='font-size:24px;'>Début&nbsp;&nbsp; </label>&nbsp;&nbsp;
           </li>
           <li>
-            <input type="date" class="form-control" onchange="LoadSuivisRH()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
+            <input type="date" class="form-control" onchange="LoadSuivisRH()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
           </li>
           <li> &nbsp;&nbsp;</li>
           <li>
@@ -306,7 +306,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header btn-primary"><h3 class="modal-title" id="plTitre" style="color:white">Activité&nbsp;!</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 
                 
 			</div>
@@ -335,9 +335,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="input-group">
                         <span class="input-group-btn">
                         <label class="form-control" style="font-size:medium;font-weight:bold;width:100px">Date début</label>
-                        <input type="date"  class="form-control" style="width:150px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteStart" />
+                        <input type="date"  class="form-control" style="width:150px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteStart" />
                         <label class="form-control" style="font-size:medium;font-weight:bold;width:100px">Date fin</label>
-                        <input type="date"  class="form-control" style="width:150px" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteEnd" />                        
+                        <input type="date"  class="form-control" style="width:150px" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteEnd" />                        
                         </span>
                       </div> 
                       <div id="divHeure">
@@ -376,9 +376,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="input-group">
                         <span class="input-group-btn">
                         <label class="form-control" style="font-size:medium;font-weight:bold;width:100px">Début</label>
-                        <input type="date"  class="form-control" style="width:180px" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteRepStart" />
+                        <input type="date"  class="form-control" style="width:180px" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteRepStart" />
                         <label class="form-control" style="font-size:medium;font-weight:bold;width:100px">Fin</label>
-                        <input type="date"  class="form-control" style="width:180px" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteRepEnd" />                        
+                        <input type="date"  class="form-control" style="width:180px" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteRepEnd" />                        
                         </span>
                       </div>                   
                   </div>
@@ -387,9 +387,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>                                            
 				</div>
 			  <div class="modal-footer">
-            <button type="button" onclick="PostEvent()" class="btn btn-primary" data-dismiss="modal" title="Enregistrer" style="margin:4px 5px 0 0;">Enregistrer</button>
-            <button type="button" class="btn btn-warning" data-dismiss="modal" title="Annuler"  style="margin:4px 5px 0 0;">Annuler</button>
-          <button type="button" class="btn btn-danger" onclick="" title="Supprimer cette Ligne" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>
+            <button type="button" onclick="PostEvent()" class="btn btn-primary" data-bs-dismiss="modal" title="Enregistrer" style="margin:4px 5px 0 0;">Enregistrer</button>
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal" title="Annuler"  style="margin:4px 5px 0 0;">Annuler</button>
+          <button type="button" class="btn btn-danger" onclick="" title="Supprimer cette Ligne" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>
         </div>
             </div>
 

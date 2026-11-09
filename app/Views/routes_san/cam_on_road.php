@@ -237,7 +237,7 @@
         <div id="myNavbar" style="margin-top:35px;">
         <ul class="nav navbar-nav form-inline">
           <li>
-            <a href="/admin" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Accueil" data-content="Aller à l'Accueil">
+            <a href="/admin" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Accueil" data-bs-content="Aller à l'Accueil">
               <i class="fa fa-home" style="font-size:22px;margin-top: -17px;"></i>
             </a>
           </li>

@@ -12,10 +12,10 @@
   <title>Robert Daoust</title>
 
   <!-- Font Awesome & Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+  <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" 
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
         crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" 
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
         crossorigin="anonymous">
 
@@ -26,7 +26,7 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" 
           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" 
           crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+  <script src="/assets/vendor5/bootstrap.bundle.min.js" 
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
           crossorigin="anonymous"></script>
   <script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
@@ -158,7 +158,7 @@
   <input type="hidden" id="NewZoom" value="8" />
   <input type="hidden" id="idville" value="<?php echo (int) (ci3sess('idville') ?? 0); ?>" />
 
-  <div class="modal fade" id="modalFindAdr" data-backdrop="static" role="dialog">
+  <div class="modal fade" id="modalFindAdr" data-bs-backdrop="static" role="dialog">
     <div class="modal-dialog modal-block-md">
       <div class="modal-content">
         <div class="modal-header btn-info">
@@ -175,7 +175,7 @@
               <h4>Adresse recherchée (no civique rue, ville)</h4>
               <div class="input-group" id="divFind">
                 <input type="text" class="form-control" id="edtFind" placeholder="numéro rue, ville" value="" />
-                <span class="input-group-addon">
+                <span class="input-group-text">
                   <a href="#" onclick="findAdresse()" style="width:35px;height:33px">
                     <i class="fa fa-search" style="font-weight:bold;font-size:18px"></i>
                   </a>
@@ -189,8 +189,8 @@
           </div> 
         </div>
         <div class="modal-footer btn-info">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Rechercher</button>
-          <button type="button" class="btn btn-warning" data-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Rechercher</button>
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fermer</button>
         </div>
       </div>
     </div>

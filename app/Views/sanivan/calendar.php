@@ -19,7 +19,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -30,7 +30,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-    <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -61,9 +61,9 @@
 
 
 <div class="wrapper"> 
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -112,7 +112,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitre" style="color:white">&nbsp;!</h3>
                 
 			</div>
@@ -122,7 +122,7 @@
                          <br /> <br />
                             <label style="font-weight: bold; ">Types de produit  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="typeprod" id="typeprod" required>
                                 <option value="DECHETS">Choisir</option>
                                 <?php echo ($typededechet ?? '') ; ?>
@@ -132,7 +132,7 @@
                            <br /><br />
                            <label style="font-weight: bold; ">Chauffeurs  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" onchange="changeChauffeur()" name="chauffeur" id="chauffeur" required>
                                 <option value="25">Choisir</option>
                                 <?php echo ($chauffeurs ?? '') ; ?>
@@ -141,7 +141,7 @@
                         <br /><br />
                            <label style="font-weight: bold; ">Aides  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="aide" id="aide" required>
                                 <option value="24">Choisir</option>
                                 <?php echo ($aides ?? '') ; ?>
@@ -152,7 +152,7 @@
                     
                            <label style="font-weight: bold; "># Camions  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="camion" id="camion" required>
                                 <option value="Cam_choisir">Choisir</option>
                                 <?php echo ($camions ?? '') ; ?>
@@ -161,9 +161,9 @@
 				</div>
             </div>
 			  <div class="modal-footer">
-            <button type="button" onclick="PostEvent()" class="btn btn-default" data-dismiss="modal" title="Enregistrer" style="margin:4px 5px 0 0;"><i class="fa fa-save fa-2x btn-primary" style="font-weight:bold;"></i></button>
-            <button type="button" class="btn btn-default" onclick="DeleteLigneCedule()" title="Supprimer cette Ligne" data-dismiss="modal" style="margin:4px 5px 0 0;"><i  class="fa fa-trash fa-2x btn-danger" style="font-weight:bold;" aria-hidden='true'></i></button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" title="Annuler"  style="margin:4px 5px 0 0;"><i class='fa fa-remove fa-2x btn-warning' aria-hidden='true' style="font-weight:bold;" ></i></button>
+            <button type="button" onclick="PostEvent()" class="btn btn-outline-secondary" data-bs-dismiss="modal" title="Enregistrer" style="margin:4px 5px 0 0;"><i class="fa fa-save fa-2x btn-primary" style="font-weight:bold;"></i></button>
+            <button type="button" class="btn btn-outline-secondary" onclick="DeleteLigneCedule()" title="Supprimer cette Ligne" data-bs-dismiss="modal" style="margin:4px 5px 0 0;"><i  class="fa fa-trash fa-2x btn-danger" style="font-weight:bold;" aria-hidden='true'></i></button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" title="Annuler"  style="margin:4px 5px 0 0;"><i class='fa fa-remove fa-2x btn-warning' aria-hidden='true' style="font-weight:bold;" ></i></button>
         </div>
         </div>
     </div>

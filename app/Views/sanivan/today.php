@@ -24,7 +24,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
 
@@ -36,7 +36,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -58,7 +58,7 @@
   <link rel="stylesheet" href="/assets/pronto/vendor/pnotify/pnotify.custom.css" /> 
     <link rel="stylesheet" href="/assets/select2/css/select2.min.css">
   <link rel="stylesheet" href="/assets/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-  <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+  <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
   <script src="/assets/datatables/jquery.dataTables.js"></script>
   <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
   <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -94,7 +94,7 @@
         visibility: visible;
       }
 
-        .filtre .navbar-toggle {
+        .filtre .navbar-toggler {
           float: none;
           padding: 9px 10px;
           margin-top: 0px;
@@ -121,11 +121,11 @@
               cursor: pointer;
             }
 
-        .filtre .navbar-toggle:focus {
+        .filtre .navbar-toggler:focus {
           outline: 0;
         }
 
-        .filtre .navbar-toggle:hover {
+        .filtre .navbar-toggler:hover {
           background-color: #999;
         }
 
@@ -321,10 +321,10 @@
       $("#chk_" + Route).css("background-color", "#80FF9F");
     }
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="popover"]').popover();
     });
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="popover"]').popover();
 
     });
     /* Get the documentElement (<html>) to display the page in fullscreen */
@@ -355,9 +355,9 @@
   </head>
   <body class="hold-transition skin-blue" onresize="ChangeSizeOfDiv(this)">
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
       <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -365,7 +365,7 @@
       <?php
       switch ($from) {
       case 3:
-      echo '<form class="navbar-form navbar-left" action="/action_page.php">
+      echo '<form class="navbar-form me-auto" action="/action_page.php">
       <div class="form-group">
       <label style="margin-top:5px; font-weight: bold;font-size:16px;color:white">Robert DaoustS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&Eacute;DULES REAR-END ET ROBOT DU</label>
       <label id="lblDate" style="margin-top:5px; font-weight: bold;font-size:16px;color: white">' . $ActiveDate . '</label>
@@ -395,17 +395,17 @@
           <div>
 
             <div class="input-group">
-              <input type="date" style="margin-left: 25px;height: 28px;margin-top:3px;" onchange="LoadRHhres()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteRH" />
+              <input type="date" style="margin-left: 25px;height: 28px;margin-top:3px;" onchange="LoadRHhres()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteRH" />
               <span class="input-group-btn">
                 <input type="text" id="edtFind" class="form-control" onkeyup="EntersearchTableRHhres(this.value, event)" placeholder="Rechercher" style="width:100px;height: 28px;margin-left: 10px;margin-top:0px" />
 
-                <button type="button" style="height: 28px;font-weight:blod;" class="btn btn-info btn-flat" id="search" onclick="searchInTableRHhres()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la c&eacute;dule selon le crit&egrave;re.">
+                <button type="button" style="height: 28px;font-weight:blod;" class="btn btn-info btn-flat" id="search" onclick="searchInTableRHhres()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la c&eacute;dule selon le crit&egrave;re.">
                   <i class='fa fa-search'></i>&nbsp;
                 </button>
-                <button type="button" style="height: 28px;" class="btn btn-danger btn-flat" onclick="ClearsearchTableRHhres()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                <button type="button" style="height: 28px;" class="btn btn-danger btn-flat" onclick="ClearsearchTableRHhres()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                   <i class='fa fa-remove'></i>&nbsp;
                 </button>
-                <button type="button" style="height: 28px;" class="btn btn-default btn-flat" onclick="ShowDivDrop()">Cr&eacute;ation</button>
+                <button type="button" style="height: 28px;" class="btn btn-outline-secondary btn-flat" onclick="ShowDivDrop()">Cr&eacute;ation</button>
               </span>
 
             </div>
@@ -418,10 +418,10 @@
           <button type="button" onclick="PrintHresAides()" class="btn btn-primary">
             <i class="fa fa-download"></i> Imprimer
           </button>
-          <a href="#" onclick="HrestoExcel()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Heures des Aides" data-content="Exporter vers EXCEL les heures de la journée active.">
+          <a href="#" onclick="HrestoExcel()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Heures des Aides" data-bs-content="Exporter vers EXCEL les heures de la journée active.">
             <img src="/assets/img/excel.png" width="30" />
           </a>
-          <a href="#" onclick="ShowPageHres()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Jour actif" data-content="Afficher la journ&eacute;e active">
+          <a href="#" onclick="ShowPageHres()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Jour actif" data-bs-content="Afficher la journ&eacute;e active">
             <img src="/assets/img/find2.jpg" width="30" />
           </a>
           <table id="tblhresaides" class="display responsive nowrap" style="width: 450px;border-width: 2px;border-color: black;border:thin;" width="500">
@@ -455,7 +455,7 @@
             <button type="button" id="btnShowRouteCD" class="btn btn-info btn-flat" onclick="ShowHideRouteToday('divVilles')">
               Afficher Villes
             </button>
-            <button type="button" class="btn btn-default btn-flat" onclick="ShowHresAides()">Hres Aides</button>
+            <button type="button" class="btn btn-outline-secondary btn-flat" onclick="ShowHresAides()">Hres Aides</button>
           </div>
         </div>
       </div>
@@ -516,7 +516,7 @@
         <div id="divRH" style="display: none;">
           <div class="box-header with-border">
             <div class="checkbox">
-              <label class="btn btn-default" id="chkShowAllRH" style="font-size: medium;font-weight:bold;width:180px;text-align:center;">
+              <label class="btn btn-outline-secondary" id="chkShowAllRH" style="font-size: medium;font-weight:bold;width:180px;text-align:center;">
                 <input type="checkbox" onchange="ShowAllRH()" id="chkShowConge" /> Afficher en cong&eacute;
               </label>
 
@@ -581,7 +581,7 @@
 
     </div>-->
     <!--//---------------------------------------------------------------------MODAL-->
-    <div class="modal fade" id="modalRequete" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalRequete" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header btn-primary">
@@ -593,7 +593,7 @@
             <div class="container-fluid">
               <label style="font-weight: bold; ">R-<span id="spReq"></span> </label><br />
               <input type="hidden" id="IdRequete" value="" />
-              <div class="col-sm-7 col-xs-12">
+              <div class="col-sm-7 col-12">
                 <select class="form-control" name="selTypeReq" id="selTypeReq" required>
                   <option value="0">Choisir</option>
 
@@ -601,13 +601,13 @@
               </div>
               <br /><br />
               <!--nom, adresse, fichier, description, matiere, statut-->
-              <div class="col-sm-7 col-xs-12">
+              <div class="col-sm-7 col-12">
                 <label style="font-weight: bold; ">Matières </label><br />
                 <select class="form-control" onchange="getChauffeur(this.value)" name="selMateriel" id="selMateriel" required>
                 </select>
               </div><br /><br />
 
-              <div class="col-sm-7 col-xs-12">
+              <div class="col-sm-7 col-12">
                 <label id="lblAides" style="font-weight: bold; ">Aides <span id="spAide" style="color: darkblue;font-weight:bold;"></span></label><br />
                 <select class="form-control" name="aides" id="aides" required>
                   <option value="0">Choisir</option>
@@ -618,7 +618,7 @@
                 <br /><br />
 
 
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <label style="font-weight: bold; ">Secteurs  </label><br />
                   <select class="form-control" name="secteur" id="secteur" required>
                     <option value="">Choisir</option>
@@ -629,7 +629,7 @@
               <div class="form-group box-solid">
                 <br /><br />
 
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <label style="font-weight: bold; ">Note d'envoi et confirmation par courriel </label><br />
                   <textarea class="form-control" name="noteenvoi" id="noteenvoi" rows="3"></textarea>
                   <button type="button" onclick="sendConfirm(2)" class="btn btn-info" style="margin:4px 5px 0 0;width:285px"><i class="glyphicon glyphicon-send" style="color:lightyellow;margin-top:-5px;font-size:18px;"></i>&nbsp;&nbsp;Envoyer maintenant</button>
@@ -643,16 +643,16 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" onclick="PostCedule()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-            <button type="button" onclick="ShowRemoveLigne()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer cette ligne</button>
-            <button type="button" onclick="CloseModalCedule()" class="btn btn-default" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button" onclick="PostCedule()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+            <button type="button" onclick="ShowRemoveLigne()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer cette ligne</button>
+            <button type="button" onclick="CloseModalCedule()" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
           </div>
         </div>
 
       </div>
     </div>
 
-    <div class="modal fade" id="modalCedule" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalCedule" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header btn-primary">
@@ -664,7 +664,7 @@
             <div class="container-fluid">
               <label style="font-weight: bold; "># Camions  </label><br />
               <input type="hidden" id="activeIdCedule" />
-              <div class="col-sm-7 col-xs-12">
+              <div class="col-sm-7 col-12">
 
 
                 <select class="form-control" name="camionligne" id="camionligne" required>
@@ -674,7 +674,7 @@
               </div>
               <br /><br />
 
-              <div class="col-sm-7 col-xs-12">
+              <div class="col-sm-7 col-12">
                 <label style="font-weight: bold; ">Chauffeurs <span id="spChauffeur" style="color: darkblue;font-weight:bold;"></span></label><br />
                 <select class="form-control" onchange="getChauffeur(this.value)" name="typechaufModal" id="typechaufModal" required>
                   <option value="chauf">Chauffeurs</option>
@@ -683,7 +683,7 @@
               </div><br /><br />
               <br /><br />
 
-              <div class="col-sm-7 col-xs-12">
+              <div class="col-sm-7 col-12">
                 <label id="lblAides" style="font-weight: bold; ">Aides <span id="spAide" style="color: darkblue;font-weight:bold;"></span></label><br />
                 <select class="form-control" style="height:270px" multiple name="aide" id="aide" required>
                   
@@ -694,7 +694,7 @@
                 <br /><br />
 
 
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <label style="font-weight: bold; ">Secteurs  </label><br />
                   <select class="form-control" name="secteur" id="secteur" required>
                     <option value="">Choisir</option>
@@ -705,7 +705,7 @@
               <div class="form-group box-solid">
                 <br /><br />
 
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <label style="font-weight: bold; ">Note d'envoi et confirmation par courriel </label><br />
                   <textarea class="form-control" name="noteenvoi" id="noteenvoi" rows="3"></textarea>
                   <button type="button" onclick="sendConfirm(2)" class="btn btn-info" style="margin:4px 5px 0 0;width:285px"><i class="glyphicon glyphicon-send" style="color:lightyellow;margin-top:-5px;font-size:18px;"></i>&nbsp;&nbsp;Envoyer maintenant</button>
@@ -719,20 +719,20 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" onclick="PostCedule()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-            <button type="button" onclick="ShowRemoveLigne()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer cette ligne</button>
-            <button type="button" onclick="CloseModalCedule()" class="btn btn-default" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button" onclick="PostCedule()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+            <button type="button" onclick="ShowRemoveLigne()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer cette ligne</button>
+            <button type="button" onclick="CloseModalCedule()" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
           </div>
         </div>
 
       </div>
     </div>
 
-    <div class="modal fade" id="modalRemoveLigneCedule" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalRemoveLigneCedule" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header btn-danger">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">ATTENTION&nbsp;</h3>
 
           </div>
@@ -749,18 +749,18 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" onclick="RemoveLigneCedule()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button" onclick="RemoveLigneCedule()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal fade" id="modalRemoveVille" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalRemoveVille" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header btn-danger">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">ATTENTION&nbsp;</h3>
 
           </div>
@@ -778,19 +778,19 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" onclick="DeleteVilleCreate()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button" onclick="DeleteVilleCreate()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Supprimer</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
           </div>
         </div>
       </div>
     </div>
 
 
-    <div class="modal fade" id="modalShowNewHS" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalShowNewHS" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog  modal-lg">
         <div class="modal-content">
           <div class="modal-header btn-danger">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title" style="color:white;text-align:center;">CAMIONS HORS SERVICE&nbsp;</h3>
 
           </div>
@@ -821,16 +821,16 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" onclick="setMessageView()" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
+            <button type="button" onclick="setMessageView()" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="modalShowDrop" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalShowDrop" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header btn-danger">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title" id="titreShowDrop" style="color:white;text-align:center;">CAMIONS HORS SERVICE&nbsp;</h3>
             <input type="hidden" id="edtCeduleDrop" />
             <input type="hidden" id="edtVilleDrop" />
@@ -851,17 +851,17 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" onclick="setNewVille()" class="btn btn-success" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button" onclick="setNewVille()" class="btn btn-success" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="modalShowSend" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalShowSend" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header btn-danger">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title" id="titreShowDrop" style="color:white;text-align:center;">ENVOI DE CONFIRMATION&nbsp;</h3>
             <input type="hidden" id="edtCeduletoSend" />
           </div>
@@ -874,17 +874,17 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" onclick="sendConfirm(1)" class="btn btn-success" data-dismiss="modal" style="margin:4px 5px 0 0;"><i class="glyphicon glyphicon-send"></i>&nbsp;ENVOYER</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+            <button type="button" onclick="sendConfirm(1)" class="btn btn-success" data-bs-dismiss="modal" style="margin:4px 5px 0 0;"><i class="glyphicon glyphicon-send"></i>&nbsp;ENVOYER</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="modalShowHres" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade" id="modalShowHres" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header btn-danger">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title" id="titreShowAidesHres" style="color:white;text-align:center;">Heures des Aides du &nbsp;</h3>
             <input type="hidden" id="edtCeduletoSend" />
           </div>
@@ -893,7 +893,7 @@
               <button type="button" onclick="PrintHresAides()" class="btn btn-primary">
                 <i class="fa fa-download"></i> Imprimer
               </button>
-              <a href="#" onclick="HrestoExcel()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Heures des Aides" data-content="Exporter vers EXCEL les heures de la journée active.">
+              <a href="#" onclick="HrestoExcel()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Heures des Aides" data-bs-content="Exporter vers EXCEL les heures de la journée active.">
                 <img src="/assets/img/excel.png" width="30" />
               </a>
               <table id="tblmodalhresaides" class="display responsive nowrap" style="width: 450px;border-width: 2px;border-color: black;border:thin;" width="400">
@@ -912,7 +912,7 @@
           </div>
           <div class="modal-footer">
 
-            <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
           </div>
         </div>
       </div>
@@ -1214,7 +1214,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h4 class="modal-title" style="color:white;">
                     <i class="fa fa-route"></i> Gestion des parcours
                 </h4>
@@ -1245,11 +1245,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" 
+                <button type="button" class="btn btn-danger float-start" 
                         onclick="clearAllPolylines()">
                     <i class="fa fa-trash"></i> Tout supprimer
                 </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     Fermer
                 </button>
             </div>
@@ -1261,7 +1261,7 @@
     <div class="modal-dialog modal-lg" style="width: 90%; max-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" style="color:white;">
@@ -1272,7 +1272,7 @@
                 <div id="polylineMapCedule" style="height: 600px; width: 100%;"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>

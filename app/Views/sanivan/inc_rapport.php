@@ -10,12 +10,12 @@
 
 
                     <div class="input-group">
-                      <div class="input-group-addon">
+                      <div class="input-group-text">
                         <label>Date</label>
-                        <input type="date" class="form-control pull-right" title="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? ''); ?>" id="dteCalcul" />
+                        <input type="date" class="form-control float-end" title="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? ''); ?>" id="dteCalcul" />
                       </div>
-                      <div class="input-group-addon">
-                        <button type="button" class="btn btn-primary pull-right" onclick="CalculJour()" style="margin: 6px;">
+                      <div class="input-group-text">
+                        <button type="button" class="btn btn-primary float-end" onclick="CalculJour()" style="margin: 6px;">
                           <i class="fa fa-refresh"></i>Calculer
                         </button>
                       </div>

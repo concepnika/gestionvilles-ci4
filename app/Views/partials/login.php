@@ -20,7 +20,7 @@
                                         <div class="form-group"><input class="form-control form-control-user" type="password"id="password" placeholder="<?php echo ci3lang('login_password');?>" name="password"></div>
                                         <div class="form-group">
 
-                                        </div><button class="btn btn-primary btn-block text-white btn-user" onclick="Login()" type="button"><?php echo ci3lang('login_connect');?></button>
+                                        </div><button class="btn btn-primary d-block w-100 text-white btn-user" onclick="Login()" type="button"><?php echo ci3lang('login_connect');?></button>
                                         
                                         <hr>
                                     </form>

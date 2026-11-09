@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" />
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css" />
   
-  <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+  <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -83,16 +83,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date("Y-m-d") ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -180,14 +180,14 @@
             </div>
 </div>
  
-  <div class="modal fade" id="modal_invitation" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modal_invitation" tabindex="-1" data-bs-backdrop="static" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header btn-info">
           <input type="hidden" id="empl_poste" />
           <h2 class="card-title"><img src="/assets/img/logo.png" width="200" />&nbsp;&nbsp;Information des villes</h2>
 
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -207,7 +207,7 @@
                 <div class="input-group" style="width:215px;margin-top:25px">
                   <label class="form-control" style="width:180px">Envoyer l'information</label>
                   <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" onclick="sendPostMail(1)" data-dismiss="modal" style="margin:0 0 0 0;height:33px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Envoi de l'information" data-content="Cliquer pour envoyer l'information de connexion."><i class="glyphicon glyphicon-send"></i></button>
+                    <button type="button" class="btn btn-success" onclick="sendPostMail(1)" data-bs-dismiss="modal" style="margin:0 0 0 0;height:33px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Envoi de l'information" data-bs-content="Cliquer pour envoyer l'information de connexion."><i class="glyphicon glyphicon-send"></i></button>
                   </span>
                 </div>
               </div>
@@ -225,7 +225,7 @@
                 <div class="input-group" style="width:215px;margin-top:25px">
                     <label class="form-control" style="width:180px" >Envoyer l'information</label>
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-success" onclick="sendPostMail(2)" data-dismiss="modal" style="margin:0 0 0 0;height:33px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Envoi de l'information" data-content="Cliquer pour envoyer l'information de connexion."><i class="glyphicon glyphicon-send"></i></button>
+                      <button type="button" class="btn btn-success" onclick="sendPostMail(2)" data-bs-dismiss="modal" style="margin:0 0 0 0;height:33px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Envoi de l'information" data-bs-content="Cliquer pour envoyer l'information de connexion."><i class="glyphicon glyphicon-send"></i></button>
                     </span>
                 </div>
               </div>
@@ -243,7 +243,7 @@
                 <div class="input-group" style="width:215px;margin-top:25px">
                   <label class="form-control" style="width:180px">Envoyer l'information</label>
                   <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" onclick="sendPostMail(3)" data-dismiss="modal" style="margin:0 0 0 0;height:33px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Envoi de l'information" data-content="Cliquer pour envoyer l'information de connexion."><i class="glyphicon glyphicon-send"></i></button>
+                    <button type="button" class="btn btn-success" onclick="sendPostMail(3)" data-bs-dismiss="modal" style="margin:0 0 0 0;height:33px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Envoi de l'information" data-bs-content="Cliquer pour envoyer l'information de connexion."><i class="glyphicon glyphicon-send"></i></button>
                   </span>
                 </div>
               </div>
@@ -269,9 +269,9 @@
           </div>          
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" onclick="postAllVilleMail()" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer tout</button>
-          <button type="button" class="btn btn-primary" onclick="sendAllAccess()" data-dismiss="modal" style="margin:4px 5px 0 0;" data-toggle="popover" data-trigger="hover" data-placement="top" title="Envoi de l'information" data-content="Cliquer pour envoyer l'information de connexion.">Envoyer tout</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+          <button type="button" class="btn btn-success" onclick="postAllVilleMail()" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer tout</button>
+          <button type="button" class="btn btn-primary" onclick="sendAllAccess()" data-bs-dismiss="modal" style="margin:4px 5px 0 0;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="top" title="Envoi de l'information" data-bs-content="Cliquer pour envoyer l'information de connexion.">Envoyer tout</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
 
         </div>
       </div>

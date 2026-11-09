@@ -21,12 +21,12 @@ if (isset($boites)) {
   <meta name="description" lang="fr" content=" ">
   <title>Robert Daoust</title>
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="/assets/vendor5/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
@@ -98,7 +98,7 @@ if (isset($boites)) {
       <label style="width:210px;font-size:18px;font-weight:bold">Rechercher une adresse</label>
       <div class="input-group" id="divFindBox">
         <input type="text" class="form-control" id="edtFindBox" placeholder="no, rue, ville" value="" />
-        <span class="input-group-addon">
+        <span class="input-group-text">
           <a href="#" onclick="findLocation()" style="width:35px;height:33px">
             <i class="fa fa-search" style="font-weight:bold;font-size:18px"></i>
           </a>
@@ -332,7 +332,7 @@ if (isset($boites)) {
                     + (b.track_time ? '<div><b>MAJ:</b> ' + b.track_time + '</div>' : '')
                     + (b.date_retour ? '<div><b>Date retour:</b> ' + b.date_retour + '</div>' : '')
                     + '</div>'
-                    + '<div style="margin-top:8px;"><button class="btn btn-xs btn-primary"'
+                    + '<div style="margin-top:8px;"><button class="btn btn-sm btn-primary"'
                   + ' onclick="showCommande(\'' + String(b.NoBoite).replace(/\'/g, "\\'") + '\')">Voir commande</button></div>'
                   + '</div>';
           marker.bindPopup(titre + info).addTo(layerGroup);

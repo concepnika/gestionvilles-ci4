@@ -260,9 +260,9 @@
 </style>
 </head>
 <body id="page">
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
     <!-- Sidebar toggle button-->
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -298,14 +298,14 @@
             <label style='font-size:24px;'>DE&nbsp;&nbsp; </label>&nbsp;&nbsp;
           </li>
           <li>
-            <input type="date" class="form-control" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
+            <input type="date" class="form-control" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
           </li>
           <li>&nbsp;&nbsp;</li>
           <li>
             <label style='font-size:24px;'>À&nbsp;&nbsp;</label>&nbsp;
           </li>
           <li>
-            <input type="date" class="form-control" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($dateend ?? '') ; ?>" id="dtefin" />
+            <input type="date" class="form-control" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($dateend ?? '') ; ?>" id="dtefin" />
           </li>
           <li>
             <div class="input-group">
@@ -335,10 +335,10 @@
               <span class="input-group-btn">
                 <input type="text" id="edtFind" class="form-control" onkeyup="EntersearchTableCalendrierRH(this.value, event)" placeholder="Rechercher" style="width:100px;" />
 
-                <!--<button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchInTableCalendrierRH()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la liste selon le critère.">
+                <!--<button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchInTableCalendrierRH()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la liste selon le critère.">
                   <i class='fa fa-search' style='font-size:18px;'></i>&nbsp;
                 </button>-->
-                <!--<button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableCalendrierRH()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                <!--<button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableCalendrierRH()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                   <i class='fa fa-remove' style='font-size:18px;'></i>&nbsp;
                 </button>-->
               </span>
@@ -369,10 +369,10 @@
               <span class="input-group-btn">
                 <input type="text" id="edtFindDrop" onkeyup="EntersearchTableCalendrierDropRH(this.value, event)" class="form-control"  placeholder="Rechercher" style="width:150px;" />
 
-                <button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchCalendrierRHCal()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la liste selon le critère.">
+                <button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchCalendrierRHCal()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la liste selon le critère.">
                   <i class='fa fa-search' style='font-size:18px;'></i>&nbsp;
                 </button>
-                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchCalendrierRHCal()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchCalendrierRHCal()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                   <i class='fa fa-remove' style='font-size:18px;'></i>&nbsp;
                 </button>
               </span>
@@ -390,7 +390,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Absence Ressource Humaine&nbsp;!</h3>
                 
 			</div>
@@ -401,7 +401,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <select class="form-control" name="selRHCal"Cal id="selRHCal" required>
                                 <option value="">Choisir</option>
@@ -412,17 +412,17 @@
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date début de l'absence </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value=""name="dtestartrhCal" id="dtestartrhCal" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value=""name="dtestartrhCal" id="dtestartrhCal" />
                         </div>      
                            <br /> <br />
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dteendrhCal" id="dteendrhCal" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dteendrhCal" id="dteendrhCal" />
                         </div>   
                            <br /> <br />
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Type d'absence</label> <br />
                             <select class="form-control" name="selRHabsenceCal" id="selRHabsenceCal" required>
                                 <option value="">Choisir</option>
@@ -431,17 +431,17 @@
                         </div>     
                            <br /> <br />  
                         
-                        <div class="col-sm-7 col-xs-12" style="margin-top:10px" >
+                        <div class="col-sm-7 col-12" style="margin-top:10px" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="3" cols="50" id="noterhCal" ></textarea>
                         </div> 
                       <br /> <br />
-                      <div class="col-sm-7 col-xs-12">
+                      <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">&nbsp;&nbsp;&nbsp; </label> <br />
                            
                         </div> 
                       <br /> <br />
-                        <div class="col-sm-12 col-xs-12" >
+                        <div class="col-sm-12 col-12" >
                           <label style="font-weight: bold; ">Avis pour retour</label>
                         <br />
                           <div class="btn-group"><label style="font-weight: bold;color:darkred; ">
@@ -453,9 +453,9 @@
 					  </form>
             </div>
 			      <div class="modal-footer">
-                <button type="button" onclick="UpdRetourRHCal()" id="btnEndRHCal" class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
-                <button type="button" onclick="PostSuivisRHCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="UpdRetourRHCal()" id="btnEndRHCal" class="btn btn-success" data-bs-content="" data-bs-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
+                <button type="button" onclick="PostSuivisRHCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -464,7 +464,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Absence Ressource Humaine&nbsp;!</h3>
                 
 			</div>
@@ -475,7 +475,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <input type="text" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"   value=""name="nomCal" id="nomCal" disabled />
                             <input id="idrhnew" type="hidden" value=""/>
@@ -484,17 +484,17 @@
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date début de l'absence </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value=""name="dtestartrhnewCal" id="dtestartrhnewCal" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value=""name="dtestartrhnewCal" id="dtestartrhnewCal" />
                         </div>      
                            <br /> <br />
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dteendrhnewCal" id="dteendrhnewCal" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dteendrhnewCal" id="dteendrhnewCal" />
                         </div>   
                            <br /> <br />
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Type d'absence</label> <br />
                             <select class="form-control" name="selnewRHabsenceCal" id="selnewRHabsenceCal" required>
                                 <option value="">Choisir</option>
@@ -503,17 +503,17 @@
                         </div>     
                            <br /> <br />  
                         
-                        <div class="col-sm-7 col-xs-12" style="margin-top:10px" >
+                        <div class="col-sm-7 col-12" style="margin-top:10px" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="3" cols="50" id="noterhnewCal" ></textarea>
                         </div> 
                       <br /> <br />
-                      <div class="col-sm-7 col-xs-12">
+                      <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">&nbsp;&nbsp;&nbsp; </label> <br />
                            
                         </div> 
                       <br /> <br />
-                        <div class="col-sm-12 col-xs-12" >
+                        <div class="col-sm-12 col-12" >
                           <label style="font-weight: bold; ">Avis pour retour</label>
                         <br />
                           <div class="btn-group"><label style="font-weight: bold;color:darkred; ">
@@ -525,8 +525,8 @@
 					  </form>
             </div>
 			      <div class="modal-footer">
-                <button type="button" onclick="PostSuivisnewRHCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisnewRHCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -534,10 +534,10 @@
 <div class="modal fade" id="printCalendrier" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header btn-default">
+      <div class="modal-header btn-outline-secondary">
        <input type="hidden" id="empl_poste" />
         <h3 class="modal-title" id="plTitreMsg" style="color:black;text-align:center;"><img src="/assets/img/logo.png" width="200" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impression du calendrier</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
 
@@ -548,14 +548,14 @@
           <tr>
             <td style="width: 150px;" align="left">
               <h4>Date du</h4>
-              <input type="date"  class="form-control" style="width:200px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtePrintFrom" />
+              <input type="date"  class="form-control" style="width:200px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtePrintFrom" />
 
 
             </td>
 
             <td style="width: 150px;" align="left">
               <h4>Date au</h4>
-              <input type="date"  class="form-control" style="width:200px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtePrintTo" />
+              <input type="date"  class="form-control" style="width:200px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtePrintTo" />
  
             </td>
           </tr>
@@ -570,8 +570,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" onclick="printCal()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;Exécuter</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="printCal()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;Exécuter</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
     </div>
   </div>

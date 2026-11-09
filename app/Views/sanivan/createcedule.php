@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -93,7 +93,7 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-		$('[data-toggle="popover"]').popover();  
+		$('[data-bs-toggle="popover"]').popover();  
 		var getPosition = function (e, ui) {
        // var value = (ui.item.index() + 1).toString();
        // var arrData = ui.item.context.id.split('_');
@@ -148,9 +148,9 @@
 
 
       <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -171,33 +171,33 @@
 			            <li id="liPageRobot" <?php echo (($typecedule == 2)? 'class="active"' : ''); ?>>
 				            <a href="javascript:ShowROBOT()">ROBOT</a>
 			            </li>
-           <li class="pull-left">
-            <a  href="#" id="divShowHide"  onclick="ShowHideCreate('divVilles')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Villes" data-content="Afficher la liste des villes et des secteurs">
+           <li class="float-start">
+            <a  href="#" id="divShowHide"  onclick="ShowHideCreate('divVilles')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Villes" data-bs-content="Afficher la liste des villes et des secteurs">
               <i class='fa fa-building' style='font-size:24px;'></i>&nbsp;Villes
             </a>
 
           </li>
-          <li class="pull-left">
-            <a  href="#" id="divShowHideEmp" onclick="ShowHideCreateEmp('divChauffeurs')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Emloyés" data-content="Afficher la liste des employés">
+          <li class="float-start">
+            <a  href="#" id="divShowHideEmp" onclick="ShowHideCreateEmp('divChauffeurs')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Emloyés" data-bs-content="Afficher la liste des employés">
               <i class='fas fa-user-check' style='font-size:24px;'></i>&nbsp;Employés
             </a>
 
           </li>
-          <li class="pull-left">
+          <li class="float-start">
               <form class="form-inline" style="padding-top:10px">
                <div class="form-group">
-                  <a  href="javascript:LoadCreateCedule(<?php echo ($typecedule ?? ''); ?>, '-1')" id="divShowHideEmp" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journée précédente" data-content="Affiche la cédule de la journée précédente">
+                  <a  href="javascript:LoadCreateCedule(<?php echo ($typecedule ?? ''); ?>, '-1')" id="divShowHideEmp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journée précédente" data-bs-content="Affiche la cédule de la journée précédente">
                     <i class='fas fa-arrow-alt-circle-left' style='font-size:24px;'></i>&nbsp;
                   </a>
-                  <input type="date"  onchange="LoadCreateCedule(<?php echo ($typecedule ?? ''); ?>, '0')" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActive" />
+                  <input type="date"  onchange="LoadCreateCedule(<?php echo ($typecedule ?? ''); ?>, '0')" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActive" />
                 </div>
-                  <a  href="javascript:LoadCreateCedule(<?php echo ($typecedule ?? ''); ?>, '1')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journée suivante" data-content="Affiche la cédule de la journée suivante">
+                  <a  href="javascript:LoadCreateCedule(<?php echo ($typecedule ?? ''); ?>, '1')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journée suivante" data-bs-content="Affiche la cédule de la journée suivante">
                     <i class='fas fa-arrow-alt-circle-right' style='font-size:24px;'></i>&nbsp;
                   </a>
              </form>
           </li>
-          <li class="pull-left">
-            <a  href="#" id="divShowCeduleJour" onclick="ShowCeduleInNewWin()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Cédule" data-content="Afficher la cédule de la journée sélectionnée">
+          <li class="float-start">
+            <a  href="#" id="divShowCeduleJour" onclick="ShowCeduleInNewWin()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Cédule" data-bs-content="Afficher la cédule de la journée sélectionnée">
               <i class='far fa-list-alt' style='font-size:24px;'></i>&nbsp;Cédule du jour
             </a>
 
@@ -294,7 +294,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitre" style="color:white;">Proticlub, c'est social&nbsp;!</h3>
                 
 			</div>
@@ -302,7 +302,7 @@
                 <div class="container-fluid" >
                   <div class="form-group">
                     
-                    <div class="col-sm-7 col-xs-12">
+                    <div class="col-sm-7 col-12">
                        <label style="font-weight: bold; "> <input class="form-check-input" type="checkbox" id="chkStart" />&nbsp; &nbsp; A débuté </label>
                     </div>
                   </div>  
@@ -310,7 +310,7 @@
                          <br /> <br />
                             <label style="font-weight: bold; ">Types de produit  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="typeprod" id="typeprod" required>
                                 <option value="DECHETS">Choisir</option>
                                 <?php echo ($typededechet ?? '') ; ?>
@@ -320,7 +320,7 @@
                            <br /><br />
                            <label style="font-weight: bold; ">Chauffeurs  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="chauffeur" id="chauffeur" required>
                                 <option value="25">Choisir</option>
                                 <?php echo ($chauffeurs ?? '') ; ?>
@@ -329,7 +329,7 @@
                         <br /><br />
                            <label style="font-weight: bold; ">Aides  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="aide" id="aide" required>
                                 <option value="24">Choisir</option>
                                 <?php echo ($aides ?? '') ; ?>
@@ -340,7 +340,7 @@
                     
                            <label style="font-weight: bold; "># Camions  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="camion" id="camion" required>
                                 <option value="Cam: 1">Choisir</option>
                                 <?php echo ($camions ?? '') ; ?>
@@ -349,8 +349,8 @@
 				</div>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostLigneCedule()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostLigneCedule()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -361,7 +361,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Avec Matériel&nbsp;!</h3>
                 
 			</div>
@@ -372,33 +372,33 @@
 
                       <div div="divMat" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; "># Camions  </label> <br />
                             <select class="form-control" name="camionmat" id="camionmat" required>
                                 <option value="">Choisir</option>
                                 <?php echo ($camions ?? '') ; ?>
                             </select>
                         </div>     
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtestartmat" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtestartmat" />
                         </div>  
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteendmat" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteendmat" />
                         </div>    
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Type de matériel</label> <br />
                             <select class="form-control" name="typemat" id="typemat" required>
                                 <option value="">Choisir</option>
                                 <?php echo ($typededechet ?? '') ; ?>
                             </select>
                         </div> 
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                            <label style="font-weight: bold; ">Quantité</label> <br />
                            <input type="number" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" placeholder="Entrer le tonnage" value="" id="qtemat" />
                         </div>  
-                        <div class="col-sm-7 col-xs-12"  style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12"  style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="7" cols="50" id="notemat" > 
 
@@ -409,8 +409,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostSuivisCamMat()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisCamMat()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -420,7 +420,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Hors-service&nbsp;!</h3>
                 
 			</div>
@@ -431,7 +431,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; "># Camions  </label> <br />
                             <select class="form-control" name="camionhs" id="camionhs" required>
                                 <option value="">Choisir</option>
@@ -441,21 +441,21 @@
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtestarths" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtestarths" />
                         </div>    
                            <br /> <br />
                           
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteendhs" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteendhs" />
                         </div>    
    
                            <br /> <br />    
                         
-                        <div class="col-sm-7 col-xs-12" >
+                        <div class="col-sm-7 col-12" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="7" cols="50" id="notehs" > 
 
@@ -466,8 +466,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostSuivisCamHS()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisCamHS()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -477,7 +477,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Absence Ressource Humaine&nbsp;!</h3>
                 
 			</div>
@@ -488,7 +488,7 @@
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Resources humaines</label> <br />
                             <select class="form-control" name="selRH" id="selRH" required>
                                 <option value="">Choisir</option>
@@ -498,19 +498,19 @@
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtestartrh" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtestartrh" />
                         </div>    
                            <br /> <br />
                           
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dteendrh" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dteendrh" />
                         </div>    
                            <br /> <br />
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Type d'absence</label> <br />
                             <select class="form-control"  id="selRHabsence" required>
                                 <option value="">Choisir</option>
@@ -519,7 +519,7 @@
                         </div> 
                            <br /> <br />  
                         
-                        <div class="col-sm-7 col-xs-12" >
+                        <div class="col-sm-7 col-12" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="7" cols="50" id="noterh" > 
 
@@ -530,8 +530,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="PostSuivisRH()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="PostSuivisRH()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>

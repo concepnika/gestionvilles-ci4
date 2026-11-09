@@ -31,10 +31,10 @@
   <main>
     <section class="container-fluid theme">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <div class="container">
             <div class="row">
-              <div class="col-xs-12">
+              <div class="col-12">
                 <div class="titre wow fadeInDown" data-wow-delay="500ms" data-wow-duration="2000ms">
                   <img src="/assets/00_images/<?php  echo ($titre_img ?? '');?>" />
                 </div>

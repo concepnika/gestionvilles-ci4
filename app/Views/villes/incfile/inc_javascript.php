@@ -74,11 +74,11 @@
 
 	
 	$(function () {
-	$('[data-toggle="tooltip"]').tooltip()
+	$('[data-bs-toggle="tooltip"]').tooltip()
 	})
 	
 	$(document).ready(function () {
-	$('[data-toggle="popover"]').popover();
+	$('[data-bs-toggle="popover"]').popover();
 	});
 
 	$(document).ready(function() {

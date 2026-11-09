@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -71,12 +71,12 @@
     @media (max-width: 967px) {
 	    .titre-grille {border-bottom: none; border-top: none; margin:5px 0;}
 	    .filtre {visibility:visible;}
-	    .filtre .navbar-toggle {float: none; padding: 9px 10px; margin-top:0px; margin-bottom: 8px; background-color: #009ddc; border-radius: 4px;}
+	    .filtre .navbar-toggler {float: none; padding: 9px 10px; margin-top:0px; margin-bottom: 8px; background-color: #009ddc; border-radius: 4px;}
 	    .filtre .navbar-header {padding: 5px 0px 10px 0px;}
 	    .filtre .navbar-header a {font-size:11px; font-weight:bold; color:#ca006c; cursor:pointer; text-decoration:none;}
 	    .filtre .navbar-header a .fa {font-size:24px; color:#ca006c; cursor:pointer;}
-	    .filtre .navbar-toggle:focus {outline: 0;}
-	    .filtre .navbar-toggle:hover {background-color: #999;}
+	    .filtre .navbar-toggler:focus {outline: 0;}
+	    .filtre .navbar-toggler:hover {background-color: #999;}
 	    .filtre .navbar-collapse {padding-right: 0px; padding-left: 0px;  border-bottom:thin solid #999}
 	    .filtre .navbar-collapse li {border-top:thin solid #999}
 	    .filtre .nav > li > a {padding: 10px 0px;}
@@ -100,10 +100,10 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="popover"]').popover();
 
     });
 

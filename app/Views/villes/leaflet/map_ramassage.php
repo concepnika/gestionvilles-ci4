@@ -123,7 +123,7 @@
   <input type="hidden" id="nocamion" value="" />
   <input type="hidden" id="NewZoom" value="8" />
 
-  <div class="modal fade" id="modalFindAdr" data-backdrop="static" role="dialog">
+  <div class="modal fade" id="modalFindAdr" data-bs-backdrop="static" role="dialog">
     <div class="modal-dialog modal-block-md">
       <div class="modal-content">
         <div class="modal-header btn-info">
@@ -141,7 +141,7 @@
               <h4>Adresse recherchée (no civique rue, ville)</h4>
               <div class="input-group" id="divFind">
                 <input type="text" class="form-control" id="edtFind" placeholder="numéro rue, ville" value="" />
-                <span class="input-group-addon">
+                <span class="input-group-text">
                   <a href="#" onclick="findAdresse()" style="width:35px;height:33px">
                     <i class="fa fa-search" style="font-weight:bold;font-size:18px"></i>
                   </a>
@@ -155,8 +155,8 @@
           </div> 
         </div>
         <div class="modal-footer btn-info">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Rechercher</button>
-          <button type="button" class="btn btn-warning" data-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Rechercher</button>
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fermer</button>
         </div>
       </div>
     </div>

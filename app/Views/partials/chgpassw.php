@@ -21,7 +21,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="/assets/css/nikaadmin.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -84,7 +84,7 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
@@ -100,24 +100,24 @@
       <form  method="post">
         <div class="form-group  has-feedback"></div>
         <div style="display:<?php echo (($from == 2)? 'none' : 'block');?>"  class="form-group">
-          <div class="col-sm-4 col-xs-12 control-label">
+          <div class="col-sm-4 col-12 control-label">
             <?php echo ci3lang('inscription_adresse_courriel');?>
           </div>
-          <div class="col-sm-7 col-xs-12 input-group champ-acces">
-            <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">@</span>
+          <div class="col-sm-7 col-12 input-group champ-acces">
+            <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">@</span>
             <input type="email" class="form-control" name="email" id="email" value="<?php echo ($email ?? '');?>" placeholder="<?php echo ci3lang('inscription_adresse_courriel');?>" />
           </div>
 
         </div>
         <div style="display:<?php echo (($from == 2)? 'none' : 'block');?>" class="form-group">
-          <div class="col-sm-4 col-xs-12 control-label">
+          <div class="col-sm-4 col-12 control-label">
             <?php echo ci3lang('changepass_passw_now');?>
           </div>
-          <div class="col-sm-7 col-xs-12 input-group champ-acces">
-            <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">?</span>
+          <div class="col-sm-7 col-12 input-group champ-acces">
+            <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">?</span>
             <input type="password" class="form-control" name="passchange" onblur="ValidOldPassW()" id="passchange" value="" placeholder="<?php echo ci3lang('changepass_passw_now');?>" autocomplete="new-password" />
-            <div class="col-sm-4 col-xs-12 control-label"></div>
-            <div class="col-sm-7 col-xs-12 input-group">
+            <div class="col-sm-4 col-12 control-label"></div>
+            <div class="col-sm-7 col-12 input-group">
 
               <div id="divValidOld" style="display:none;">
                 <p style="font-size:small;color:red; ">
@@ -129,16 +129,16 @@
 
         </div>
         <div class="form-group">
-          <div class="col-sm-4 col-xs-12 control-label">
+          <div class="col-sm-4 col-12 control-label">
             <?php echo ci3lang('changepass_passw_new');?>
           </div>
-          <div class="col-sm-7 col-xs-12 input-group champ-acces">
-            <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">?</span>
+          <div class="col-sm-7 col-12 input-group champ-acces">
+            <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">?</span>
             <input type="password" class="form-control" name="passnew" id="passnew" onblur="ValidStrongPassW()" value="" placeholder="<?php echo ci3lang('changepass_passw_new');?>" autocomplete="new-password" />
             <div class="help-block with-errors"></div>
           </div>
-          <div class="col-sm-4 col-xs-12 control-label"></div>
-          <div class="col-sm-7 col-xs-12 input-group">
+          <div class="col-sm-4 col-12 control-label"></div>
+          <div class="col-sm-7 col-12 input-group">
 
             <div id="divValidStrong" style="display:none;">
               <p style="font-size:small;color:red; ">
@@ -148,15 +148,15 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-4 col-xs-12 control-label">
+          <div class="col-sm-4 col-12 control-label">
             <?php echo ci3lang('inscription_valide_passw');?>
           </div>
-          <div class="col-sm-7 col-xs-12 input-group champ-acces">
-            <span class="input-group-addon" style="width:50px; background-color:#009ddc; color:#FFF;">!</span>
+          <div class="col-sm-7 col-12 input-group champ-acces">
+            <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">!</span>
             <input type="password" class="form-control" name="passconf" id="passconf" placeholder="<?php echo ci3lang('inscription_valide_passw');?>" onblur="VerifIsSame()" data-match="#passnew" data-match-error="<?php echo ci3lang('inscription_erreur_passw');?>" autocomplete="new-password" />
           </div>
-          <div class="col-sm-4 col-xs-12 control-label"></div>
-          <div class="col-sm-7 col-xs-12 input-group">
+          <div class="col-sm-4 col-12 control-label"></div>
+          <div class="col-sm-7 col-12 input-group">
 
             <div id="divValidSame" style="display:none;">
               <p style="font-size:small;color:red; ">
@@ -166,10 +166,10 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-4 col-xs-12 control-label"></div>
-          <div class="col-sm-7 col-xs-12 input-group champ-acces">
+          <div class="col-sm-4 col-12 control-label"></div>
+          <div class="col-sm-7 col-12 input-group champ-acces">
 
-            <button type="button" id="btnSubmit" onclick="SubmitChangePass()" class="btn btn-primary btn-block btn-flat" style="width:300px;" disabled>
+            <button type="button" id="btnSubmit" onclick="SubmitChangePass()" class="btn btn-primary d-block w-100 btn-flat" style="width:300px;" disabled>
               <?php echo ci3lang('changepass_send');?>
             </button>
           </div>
@@ -184,7 +184,7 @@
   <!-- jQuery 3 -->
   <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/assets/vendor5/bootstrap.bundle.min.js"></script>
   <!-- iCheck -->
   <script src="/assets/plugins/iCheck/icheck.min.js"></script>
   <script>

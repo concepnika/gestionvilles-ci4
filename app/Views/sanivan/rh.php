@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -55,7 +55,7 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" />
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css" />
-  <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+  <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -86,16 +86,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date("Y-m-d") ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -130,10 +130,10 @@
               <span class="input-group-btn">
               <input type="text" id="edtFind" class="form-control" onkeyup="EntersearchTableRH(this.value, event)" placeholder="Rechercher" style="width:100px;">
               
-                <button type="button" class="btn btn-info btn-flat" id="search" onclick="searchInTableRH()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la cédule selon le critère.">
+                <button type="button" class="btn btn-info btn-flat" id="search" onclick="searchInTableRH()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la cédule selon le critère.">
                   <i class='fa fa-search' style='font-size:18px;'></i>&nbsp;
                 </button>
-                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableRH()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableRH()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                   <i class='fa fa-remove' style='font-size:18px;'></i>&nbsp;
                 </button> 
               </span>
@@ -285,7 +285,7 @@
     <div class="modal-dialog" style="min-height:80%;width:1000px;">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsgUpd" style="color:white;text-align:center;">Edition du camion:&nbsp;</h3>
                 
 			</div>
@@ -369,8 +369,8 @@
       </section>
       </div>
 			<div class="modal-footer">
-            <button type="button" id="btnUpdCamion" onclick="sendRHInfo()" class="btn-primary btn"  style="margin:4px 5px 0 0;" data-dismiss="modal"> Enregistrer </button>
-            <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
+            <button type="button" id="btnUpdCamion" onclick="sendRHInfo()" class="btn-primary btn"  style="margin:4px 5px 0 0;" data-bs-dismiss="modal"> Enregistrer </button>
+            <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Fermer</button>
       </div>
         </div>
     </div>

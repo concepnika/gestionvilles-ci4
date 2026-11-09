@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -74,16 +74,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date("Y-m-d") ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -102,7 +102,7 @@
             <label style='font-size:24px;'>DE&nbsp;&nbsp; </label>&nbsp;&nbsp;
           </li>
           <li>
-            <input type="date" class="form-control" onchange="LoadSuivisCam()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($datestart ?? '') ; ?>" id="dtedeb" />
+            <input type="date" class="form-control" onchange="LoadSuivisCam()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($datestart ?? '') ; ?>" id="dtedeb" />
           </li>
           <li>&nbsp;&nbsp;</li><li>&nbsp;&nbsp;</li>
           <li>
@@ -110,7 +110,7 @@
           </li>
           <li>&nbsp;&nbsp;</li>
           <li>
-            <input type="date" class="form-control" onchange="LoadSuivisCam()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($dateend ?? '') ; ?>" id="dtefin" />
+            <input type="date" class="form-control" onchange="LoadSuivisCam()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($dateend ?? '') ; ?>" id="dtefin" />
           </li>
           <li> &nbsp;&nbsp;</li>
           <li>
@@ -146,10 +146,10 @@
               <span class="input-group-btn">
                 <input type="text" id="edtFind" class="form-control" onkeyup="EntersearchTableSuivisCam(this.value, event)" placeholder="Rechercher" style="width:200px;" />
 
-                <button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchInTableSuivisCam()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la liste selon le critère.">
+                <button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchInTableSuivisCam()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la liste selon le critère.">
                   <i class='fa fa-search' style='font-size:18px;'></i>&nbsp;
                 </button>
-                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableSuivisCam()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableSuivisCam()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                   <i class='fa fa-remove' style='font-size:18px;'></i>&nbsp;
                 </button>
               </span>

@@ -19,7 +19,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -31,7 +31,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -49,7 +49,7 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
-    <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -102,14 +102,14 @@
     <!-- title row -->
     <div class="row rowborder">
 
-      <div class="col-sm-4 pull-left">
+      <div class="col-sm-4 float-start">
          <span class="titre"> COMMANDE #</span><span class="commande"> 10149</span><br /><br />
           <span class="Entete">
           SERVICES SANITAIRES</span> <br />
           <span class="Entete">SANITARY SERVICES</span><br>
        <span class="AdresseTop"> Émail: info@robertdaoustetfils.com</span><br />
       </div>
-      <div class="col-xs-4">
+      <div class="col-4">
 
           <img src="/assets/img/logo.png" width="250" /><br />
          <span class="AdresseTop">93, rue Cameron, Hudson,<br /> Québec J0P 1H0
@@ -161,7 +161,7 @@
 
     <!-- Table row -->
     <div class="row">
-      <div class="col-xs-12 table-responsive">
+      <div class="col-12 table-responsive">
         <table class="table table-striped">
           <thead>
           <tr>
@@ -210,7 +210,7 @@
 
     <div class="row">
       <!-- accepted payments column -->
-      <div class="col-xs-6">
+      <div class="col-6">
         <p class="lead">Payment Methods:</p>
         <img src="../../dist/img/credit/visa.png" alt="Visa">
         <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
@@ -223,7 +223,7 @@
         </p>
       </div>
       <!-- /.col -->
-      <div class="col-xs-6">
+      <div class="col-6">
         <p class="lead">Amount Due 2/22/2014</p>
 
         <div class="table-responsive">

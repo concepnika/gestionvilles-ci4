@@ -33,7 +33,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -152,7 +152,7 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-		$('[data-toggle="popover"]').popover();  
+		$('[data-bs-toggle="popover"]').popover();  
 		
     });
 
@@ -164,9 +164,9 @@
 
 
       <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -181,7 +181,7 @@
 		        <ul class="nav nav-pills">
               <li>
                 <div class="input-group input-group-sm"  style="width:250px">
-                  <div class="input-group-addon" style="height:42px"><b>VILLES</b></div>
+                  <div class="input-group-text" style="height:42px"><b>VILLES</b></div>
                   <select class="form-control" style="height:42px" name="optVilles" id="optVilles" onchange="getVille(this.value)">
                       <option value="0">Choisir</option>
                       <?php echo ($optvilles ?? ''); ?>
@@ -194,7 +194,7 @@
 			        </li> 
               <li>
                 <div class="input-group input-group-sm"  style="width:250px">
-                  <div class="input-group-addon" style="height:42px"><b>RAMASSAGES</b></div>
+                  <div class="input-group-text" style="height:42px"><b>RAMASSAGES</b></div>
                   <select class="form-control" style="height:42px" name="optRamassages" id="optRamassages">
                       <option value="">Choisir</option>
                       <?php echo ($optramassages ?? ''); ?>
@@ -236,9 +236,9 @@
               <li >
                 <div class="form-group" style="margin-left:0px;">
                   <div class="input-group input-group-sm"  style="width:350px">
-                    <div class="input-group-addon" style="width:42px;height:42px;margin-top:0px"><b>Du</b></div>
+                    <div class="input-group-text" style="width:42px;height:42px;margin-top:0px"><b>Du</b></div>
                     <input type="date" class="form-control" style="width: 130px; height: 42px;" name="dteDu" id="dteStartDeploie" />
-                    <div class="input-group-addon" style="width:42px;height:42px;margin-top:0px"><b>Au</b></div>
+                    <div class="input-group-text" style="width:42px;height:42px;margin-top:0px"><b>Au</b></div>
                     <input type="date" class="form-control" style="width: 130px; height: 42px;" name="dteDu" id="dteEndDeploie" />
                     
                   </div>
@@ -260,7 +260,7 @@
               <li >
                 <div class="form-group">
                   <div class="input-group input-group-sm" style="width:293px">
-                    <div class="input-group-addon" style="width:92px;height:42px;max-height:20px;margin-top:0px"><b>Secteurs</b></div>
+                    <div class="input-group-text" style="width:92px;height:42px;max-height:20px;margin-top:0px"><b>Secteurs</b></div>
                       <select class="form-control" style="height:42px;width:200px" name="optFrequences" id="optFrequences">
                           <option value="0">Choisir</option>
                         <?php echo ($secteurs ?? ''); ?>
@@ -273,7 +273,7 @@
               <li >
                 <div class="form-group">
                   <div class="input-group input-group-sm" style="width:293px">
-                    <div class="input-group-addon" style="width:92px;height:42px;max-height:20px;margin-top:0px"><b>Fréquence</b></div>
+                    <div class="input-group-text" style="width:92px;height:42px;max-height:20px;margin-top:0px"><b>Fréquence</b></div>
                       <select class="form-control" style="height:42px;width:200px" name="optFrequences" id="optFrequences">
                           <option value="">Choisir</option>
                           <option value="1">Toutes les semaines</option>
@@ -321,7 +321,7 @@
           <li>
             <div class="input-group input-group-sm"  style="width:230px">
                <span class="input-group-btn">
-              <button type="button" id="btnPrevMois" class="btn btn-info btn-flat" onclick="ChangeMois('prev')" data-toggle="popover" >
+              <button type="button" id="btnPrevMois" class="btn btn-info btn-flat" onclick="ChangeMois('prev')" data-bs-toggle="popover" >
                   <i class='fa fa-angle-left' style='font-size:24px;'></i>&nbsp;
               </button>
               </span>
@@ -341,7 +341,7 @@
 				    <button class="btn btn-info" type="button"  id="btnDeploie" style="margin-top:0px"  >MOIS</button>
 			    </li> 
             <li >
-				    <button type="button" id="btnCancel" onclick="gotoAnnee()" class="btn btn-default" style="margin-top:0px">ANNÉE</button>
+				    <button type="button" id="btnCancel" onclick="gotoAnnee()" class="btn btn-outline-secondary" style="margin-top:0px">ANNÉE</button>
 			    </li>    
           <li >
 				    <?php echo ($nomenclature ?? ''); ?>
@@ -369,11 +369,11 @@
       </div>
 </div>
   
-<div class="modal fade" id="modalDeploie" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static" aria-hidden="true">
+<div class="modal fade" id="modalDeploie" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitre" style="color:white;">Informations de déploiement</h3>
                 
 			</div>
@@ -381,13 +381,13 @@
                 <div class="container-fluid" >
                     <div class="form-group" style="margin-left:10px;">
                       <div class="input-group input-group-sm"  style="width:350px">
-                        <div class="input-group-addon"><b>Déploiement Débutant le </b></div>
+                        <div class="input-group-text"><b>Déploiement Débutant le </b></div>
                         <input type="date" class="form-control" name="dteDeploieDeb" id="dteDeploieDeb" />
                       </div>
                     </div>  
                     <div class="form-group" style="margin-left:10px;">
                       <div class="input-group input-group-sm"  style="width:350px">
-                        <div class="input-group-addon"><b>Déploiement se terminant le</b></div>
+                        <div class="input-group-text"><b>Déploiement se terminant le</b></div>
                         <input type="date" class="form-control" name="dteDeploieFin" id="dteDeploieFin" />
                       </div>
                     </div>  
@@ -395,7 +395,7 @@
                          <br /> <br />
                             <label style="font-weight: bold; ">Types de déploiement  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="typeprod" id="typeprod" required>
                                 <option value="0">Choisir</option>
                                 <option value="1">Remassage Actif pour la ville active</option>
@@ -407,7 +407,7 @@
                            <br /><br />
                            <label style="font-weight: bold; ">Chauffeurs  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="chauffeur" id="chauffeur" required>
                                 <option value="25">Choisir</option>
                                 <?php echo ($chauffeurs ?? '') ; ?>
@@ -416,7 +416,7 @@
                         <br /><br />
                            <label style="font-weight: bold; ">Aides  </label> <br />
                        
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="aide" id="aide" required>
                                 <option value="24">Choisir</option>
                                 <?php echo ($aides ?? '') ; ?>
@@ -427,7 +427,7 @@
                     
                            <label style="font-weight: bold; "># Camions  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="camion" id="camion" required>
                                 <option value="Cam: 1">Choisir</option>
                                 <?php echo ($camions ?? '') ; ?>
@@ -436,8 +436,8 @@
 				</div>
             </div>
 			<div class="modal-footer">
-                <button type="button" onclick="excDeploiement()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Déployer</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+                <button type="button" onclick="excDeploiement()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Déployer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>

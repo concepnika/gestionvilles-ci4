@@ -1,0 +1,135 @@
+/* ==========================================================================
+   BS3 -> BS5 compatibility shim (GestionVilles)
+   Reproduit les styles BS3 pour les classes legacy conservees dans les
+   vues (panels, wells, close, form-group, pagination BS3, etc.) afin que
+   les ~100 vues AdminLTE 2 gardent un rendu correct sous Bootstrap 5.
+   ========================================================================== */
+
+/* ---- panels -> cards ---- */
+.panel { display: block; margin-bottom: 20px; background: #fff; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+.panel-heading { padding: 10px 15px; border-bottom: 1px solid #ddd; border-top-left-radius: 3px; border-top-right-radius: 3px; background: #f5f5f5; }
+.panel-title { margin-top: 0; margin-bottom: 0; font-size: 16px; color: inherit; }
+.panel-body { padding: 15px; }
+.panel-footer { padding: 10px 15px; background: #f5f5f5; border-top: 1px solid #ddd; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; }
+.panel-group { margin-bottom: 20px; }
+.panel-group .panel { margin-bottom: 0; border-radius: 4px; }
+.panel-group .panel + .panel { margin-top: 5px; }
+.panel-default { border-color: #ddd; }
+.panel-primary { border-color: #337ab7; }
+.panel-primary > .panel-heading { background: #337ab7; color: #fff; border-color: #337ab7; }
+.panel-success { border-color: #d6e9c6; }
+.panel-success > .panel-heading { background: #dff0d8; color: #3c763d; border-color: #d6e9c6; }
+.panel-info { border-color: #bce8f1; }
+.panel-info > .panel-heading { background: #d9edf7; color: #31708f; border-color: #bce8f1; }
+.panel-warning { border-color: #faebcc; }
+.panel-warning > .panel-heading { background: #fcf8e3; color: #8a6d3b; border-color: #faebcc; }
+.panel-danger { border-color: #ebccd1; }
+.panel-danger > .panel-heading { background: #f2dede; color: #a94442; border-color: #ebccd1; }
+.panel-collapse.collapse:not(.show) { display: none; }
+
+/* ---- wells ---- */
+.well { min-height: 20px; padding: 19px; margin-bottom: 20px; background: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 4px; box-shadow: inset 0 1px 1px rgba(0,0,0,.05); }
+.well-lg { padding: 24px; border-radius: 6px; }
+.well-sm { padding: 9px; border-radius: 3px; }
+
+/* ---- close button (modal/alerts) ---- */
+.close { float: right; font-size: 1.4rem; font-weight: 700; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; opacity: .5; background: none; border: 0; padding: 0; cursor: pointer; margin-top: -2px; }
+.close:hover, .close:focus { color: #000; opacity: .75; text-decoration: none; }
+.modal-header .close { margin-top: -2px; }
+
+/* ---- caret / divider dropdown ---- */
+.caret { display: inline-block; width: 0; height: 0; margin-left: 2px; vertical-align: middle; border-top: 4px dashed; border-top: 4px solid\9; border-right: 4px solid transparent; border-left: 4px solid transparent; }
+.dropdown-menu .divider { height: 1px; margin: .5rem 0; overflow: hidden; background: #e5e5e5; }
+
+/* ---- forms ---- */
+.form-group { margin-bottom: 15px; }
+.control-label { padding-top: calc(.375rem + 1px); margin-bottom: 0; font-weight: 700; text-align: right; }
+.help-block { display: block; margin-top: 5px; margin-bottom: 10px; color: #737373; font-size: .875em; }
+.form-inline { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.form-inline .form-group { margin-bottom: 0; }
+.form-horizontal .form-group { display: flex; flex-wrap: wrap; margin-left: -.75rem; margin-right: -.75rem; }
+.form-horizontal .form-group > [class*="col-"] { padding-left: .75rem; padding-right: .75rem; }
+.has-error .control-label, .has-error .help-block { color: #a94442; }
+.has-error .form-control { border-color: #a94442; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
+.has-warning .control-label, .has-warning .help-block { color: #8a6d3b; }
+.has-warning .form-control { border-color: #8a6d3b; }
+.has-success .control-label, .has-success .help-block { color: #3c763d; }
+.has-success .form-control { border-color: #3c763d; }
+.has-feedback { position: relative; }
+.form-control-feedback { position: absolute; top: 0; right: 0; z-index: 2; display: block; width: 34px; height: 34px; line-height: 34px; text-align: center; pointer-events: none; }
+.checkbox, .radio { position: relative; display: block; margin-top: 10px; margin-bottom: 10px; }
+.checkbox label, .radio label { min-height: 20px; padding-left: 20px; margin-bottom: 0; font-weight: 400; cursor: pointer; }
+.checkbox input[type="checkbox"], .radio input[type="radio"] { position: absolute; margin-left: -20px; margin-top: 4px; }
+.checkbox-inline, .radio-inline { position: relative; display: inline-block; padding-left: 20px; margin-bottom: 0; font-weight: 400; vertical-align: middle; cursor: pointer; }
+.checkbox-inline input[type="checkbox"], .radio-inline input[type="radio"] { position: absolute; margin-left: -20px; margin-top: 4px; }
+
+/* ---- input-group BS3 ---- */
+.input-group .input-group-btn { display: contents; }
+
+/* ---- labels/badges BS3 nus ---- */
+.label { display: inline; padding: .2em .6em .3em; font-size: 75%; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; background: #777; }
+.badge { background: #777; }
+a.label:hover { color: #fff; text-decoration: none; }
+
+/* ---- pagination BS3 (li > a sans page-item/page-link) ---- */
+.pagination > li { display: inline-block; }
+.pagination > li > a, .pagination > li > span { position: relative; display: block; padding: .375rem .75rem; margin-left: -1px; line-height: 1.25; color: var(--bs-link-color, #0d6efd); text-decoration: none; background: #fff; border: 1px solid #ddd; }
+.pagination > li:first-child > a, .pagination > li:first-child > span { border-top-left-radius: .25rem; border-bottom-left-radius: .25rem; }
+.pagination > li:last-child > a, .pagination > li:last-child > span { border-top-right-radius: .25rem; border-bottom-right-radius: .25rem; }
+.pagination > li > a:hover, .pagination > li > a:focus { color: var(--bs-link-hover-color, #0a58ca); background: #eee; border-color: #ddd; }
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > a:focus { z-index: 3; color: #fff; background: #337ab7; border-color: #337ab7; cursor: default; }
+.pagination > .disabled > a, .pagination > .disabled > span { color: #777; background: #fff; border-color: #ddd; cursor: not-allowed; }
+.pager { padding-left: 0; margin: 20px 0; text-align: center; list-style: none; }
+.pager li { display: inline; }
+.pager li > a { display: inline-block; padding: 5px 14px; background: #fff; border: 1px solid #ddd; border-radius: 15px; }
+.pager .previous > a { float: left; }
+.pager .next > a { float: right; }
+
+/* ---- nav BS3 (active sur li) ---- */
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus { color: #555; background: #fff; border: 1px solid #ddd; border-bottom-color: transparent; cursor: default; }
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { color: #fff; background: #337ab7; }
+.nav > li.disabled > a { color: #777; }
+
+/* ---- media objects ---- */
+.media { display: flex; align-items: flex-start; margin-top: 15px; }
+.media:first-child { margin-top: 0; }
+.media-object { display: block; }
+.media-body { flex: 1; }
+.media-heading { margin-top: 0; margin-bottom: 5px; }
+.media-left { padding-right: 10px; }
+.media-right { padding-left: 10px; }
+.media-list { padding-left: 0; list-style: none; }
+
+/* ---- thumbnail ---- */
+.thumbnail { display: block; padding: 4px; margin-bottom: 20px; line-height: 1.42857143; background: #fff; border: 1px solid #ddd; border-radius: 4px; }
+.thumbnail .caption { padding: 9px; color: #333; }
+
+/* ---- jumbotron ---- */
+.jumbotron { padding: 2rem 1rem; margin-bottom: 2rem; background: #eee; border-radius: .3rem; }
+
+/* ---- divers ---- */
+.dl-horizontal dt { float: left; width: 160px; clear: left; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl-horizontal dd { margin-left: 180px; }
+.pre-scrollable { max-height: 340px; overflow-y: scroll; }
+.center-block { display: block; margin-left: auto; margin-right: auto; }
+.text-hide { font: 0/0 a; color: transparent; text-shadow: none; background: transparent; border: 0; }
+.hide, .hidden { display: none !important; }
+.invisible { visibility: hidden !important; }
+.blockquote-reverse, blockquote.pull-right { padding-right: 15px; padding-left: 0; text-align: right; border-right: 5px solid #eee; border-left: 0; }
+.list-inline { padding-left: 0; margin-left: -5px; list-style: none; }
+.list-inline > li { display: inline-block; padding-right: 5px; padding-left: 5px; }
+.btn-group-justified { display: flex; width: 100%; table-layout: fixed; }
+.btn-group-justified > .btn, .btn-group-justified > .btn-group { flex: 1; }
+.btn-toolbar { margin-left: -5px; }
+.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group { float: left; margin-left: 5px; }
+.btn-group-xs > .btn { padding: .1rem .35rem; font-size: .75rem; border-radius: .2rem; }
+.icon-bar { display: block; width: 22px; height: 2px; border-radius: 1px; background: #fff; }
+.navbar-toggle .icon-bar + .icon-bar { margin-top: 4px; }
+.navbar-btn { margin-top: .5rem; margin-bottom: .5rem; }
+
+/* dropdown ouvert a la BS3 (classe .open sur le parent) */
+.open > .dropdown-menu { display: block; }
+
+/* alerts BS3 */
+.alert .alert-link { font-weight: 700; }
+.alert-dismissable .close, .alert-dismissible .close { position: relative; top: -2px; right: -21px; color: inherit; }

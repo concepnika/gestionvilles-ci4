@@ -29,7 +29,7 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -42,7 +42,7 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -81,7 +81,7 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
@@ -112,12 +112,12 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
         <div class="row" style="margin-top:10px;">
 
           <!-- /.col -->
-          <div class="col-xs-4 pull-right">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">
+          <div class="col-4 float-end">
+            <button type="submit" class="btn btn-primary d-block w-100 btn-flat">
               <?= esc(ci3lang('login_connect')) ?>
             </button>
           </div>
-          <div class="col-xs-12 pull-left">
+          <div class="col-12 float-start">
             <button type="button" onclick="getEmail()">
               <?= esc(ci3lang('login_forget')) ?>
             </button>
@@ -136,7 +136,7 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
           <h3 class="modal-title" id="mytitre">
@@ -153,10 +153,10 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
 
         <!-- Modal footer -->
         <div class="modal-footer" style="background-color:Window;">
-          <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" onclick="SendInfo()" data-dismiss="modal">
+          <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" onclick="SendInfo()" data-bs-dismiss="modal">
             <?= ($siteLang === 'fr' ? "Confirmer l'envoi" : 'Confirm shipment') ?>
           </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
         </div>
 
       </div>
@@ -165,7 +165,7 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
   <!-- jQuery 3 -->
   <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/assets/vendor5/bootstrap.bundle.min.js"></script>
   <!-- iCheck -->
   <script src="/assets/plugins/iCheck/icheck.min.js"></script>
   <script>

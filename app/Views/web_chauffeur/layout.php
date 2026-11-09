@@ -16,7 +16,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- Bootstrap 3 -->
-    <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css">
     <!-- AdminLTE -->
@@ -517,14 +517,14 @@ $_pageId  = isset($page_id) ? $page_id : '';
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background:DarkRed;color:#fff;border-radius:6px 6px 0 0;">
-                <button type="button" class="close" data-dismiss="modal" style="color:#fff;opacity:.9;">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal" style="color:#fff;opacity:.9;">&times;</button>
                 <h4 class="modal-title"><i class="fa fa-tags"></i> Tags actifs</h4>
             </div>
             <div class="modal-body" id="saniTagsModalBody" style="max-height:650px;overflow-y:auto;padding:10px;">
                 <div class="text-center"><i class="fa fa-spinner fa-spin"></i> Chargement...</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>

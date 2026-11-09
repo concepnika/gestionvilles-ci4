@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -52,7 +52,7 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
-    <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -96,16 +96,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date('Y-m-d') ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();   
+        $('[data-bs-toggle="popover"]').popover();   
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -162,12 +162,12 @@
                               </li>
 
                               <li>
-                                <button type="button" class="btn btn-success" onclick="PostClient()" id="btnPostClient" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Enregistrer" data-content="Cliquer pour enregistrer le client">
+                                <button type="button" class="btn btn-success" onclick="PostClient()" id="btnPostClient" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Enregistrer" data-bs-content="Cliquer pour enregistrer le client">
                                   <i class="glyphicon glyphicon-ok"></i>
                                 </button>
                               </li>
                               <li>
-                                <button type="button" onclick="CancelClient()" id="btnCancelClient" class="btn btn-warning" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Annuler" data-content="Cliquer pour annuler les modifications du client">
+                                <button type="button" onclick="CancelClient()" id="btnCancelClient" class="btn btn-warning" style="height:50px;width:50px;font-size:larger;margin-left:2px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Annuler" data-bs-content="Cliquer pour annuler les modifications du client">
                                   <i class="glyphicon glyphicon-remove"></i>
                                 </button>
                               </li>

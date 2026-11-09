@@ -1,0 +1,28 @@
+/* Origine de la réponse: Ville vs RDF/Tablette */
+tr.resp-v {
+  border-left: 6px solid #1976d2; /* bleu */
+}
+tr.resp-rdf {
+  border-left: 6px solid #ef6c00; /* orange */
+}
+/* Surlignage pour les réponses non vues côté Ville */
+tr.resp-unseen {
+  background-color: #ffe4e1; /* léger rose */
+}
+
+/* Badges d’origine (optionnel si vous utilisez ceux Bootstrap) */
+.badge-origin {
+  display: inline-block;
+  padding: 0.35em 0.6em;
+  font-size: 0.85em;
+  border-radius: 0.25rem;
+}
+.badge-origin.ville {
+  color: #fff;
+  background-color: #1976d2;
+}
+.badge-origin.rdf {
+  color: #212529;
+  background-color: #ffca28; /* jaune */
+  border: 1px solid #d0a000;
+}

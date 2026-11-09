@@ -17,7 +17,7 @@
 <nav class="navbar navbar-static-top" style="max-height:50px">
     <!-- Sidebar toggle button
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="visually-hidden">Toggle navigation</span>
     </a> 
  -->
     <ul class="nav navbar-nav">

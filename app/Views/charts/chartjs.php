@@ -28,7 +28,7 @@
             <div class="box-header with-border">
               <h3 class="box-title">Area Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -48,7 +48,7 @@
             <div class="box-header with-border">
               <h3 class="box-title">Donut Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -69,7 +69,7 @@
             <div class="box-header with-border">
               <h3 class="box-title">Line Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -89,7 +89,7 @@
             <div class="box-header with-border">
               <h3 class="box-title">Bar Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>

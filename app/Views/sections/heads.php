@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="/assets/bower_components/select2/dist/css/select2.min.css" />
 <!-- Bootstrap time Picker -->
 <link rel="stylesheet" href="/assets/plugins/timepicker/bootstrap-timepicker.min.css" />
-<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/vendor5/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/nika.js"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

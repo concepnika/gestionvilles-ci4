@@ -268,9 +268,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </style>
 </head>
 <body id="page">
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
     <!-- Sidebar toggle button-->
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -306,14 +306,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <label style='font-size:24px;'>DE&nbsp;&nbsp; </label>&nbsp;&nbsp;
           </li>
           <li>
-            <input type="date" class="form-control" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
+            <input type="date" class="form-control" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
           </li>
           <li>&nbsp;&nbsp;</li>
           <li>
             <label style='font-size:24px;'>À&nbsp;&nbsp;</label>&nbsp;
           </li>
           <li>
-            <input type="date" class="form-control" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($dateend ?? '') ; ?>" id="dtefin" />
+            <input type="date" class="form-control" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($dateend ?? '') ; ?>" id="dtefin" />
           </li>
           <li> &nbsp;&nbsp;</li>
           <li>
@@ -392,10 +392,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="modal fade" id="printCalendrier" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header btn-default">
+      <div class="modal-header btn-outline-secondary">
        <input type="hidden" id="empl_poste" />
         <h3 class="modal-title" id="plTitreMsg" style="color:black;text-align:center;"><img src="/assets/img/logo.png" width="200" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impression du calendrier</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
 
@@ -406,14 +406,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <tr>
             <td style="width: 150px;" align="left">
               <h4>Date du</h4>
-              <input type="date"  class="form-control" style="width:200px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtePrintFrom" />
+              <input type="date"  class="form-control" style="width:200px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtePrintFrom" />
 
 
             </td>
 
             <td style="width: 150px;" align="left">
               <h4>Date au</h4>
-              <input type="date"  class="form-control" style="width:200px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" id="dtePrintTo" />
+              <input type="date"  class="form-control" style="width:200px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" id="dtePrintTo" />
  
             </td>
           </tr>
@@ -428,8 +428,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       </div>
       <div class="modal-footer">
-        <button type="button" onclick="printCal()" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;Exécuter</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="printCal()" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;Exécuter</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
     </div>
   </div>
@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Avec Matériel&nbsp;!</h3>
                 
 			</div>
@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                       <div div="divMat" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; "># Camions  </label> <br />
 														<h3 id="titrecam"></h3>
                           <select class="form-control" onchange="getTypeCamPopupCal(this.value, 2)" id="selTypeCamMat">
@@ -462,18 +462,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             </select>
                             <input id="idsuiviscam" type="hidden" />
                         </div>     
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Date avec matériel </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dtestart" id="dtestart" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dtestart" id="dtestart" />
                         </div>   
-                        <div class="col-sm-7 col-xs-12" style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12" style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Type de matériel</label> <br />
                             <select class="form-control" name="typemat" id="typemat" required>
                                 <option value="">Choisir</option>
                                 <?php echo ($typededechet ?? '') ; ?>
                             </select>
                         </div>
-                        <div class="col-sm-7 col-xs-12"  style="margin-bottom:1%">
+                        <div class="col-sm-7 col-12"  style="margin-bottom:1%">
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="4" cols="50"  id="notemat"></textarea>
                         </div>    
@@ -482,9 +482,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="UpdViderMatCal()" id="btnEndMat" class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;"></button>
-                <button type="button" onclick="PostSuivisCamMatCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="UpdViderMatCal()" id="btnEndMat" class="btn btn-success" data-bs-content="" data-bs-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;"></button>
+                <button type="button" onclick="PostSuivisCamMatCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Hors-service&nbsp;!</h3>
                 
 			</div>
@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; "># Camions  </label> <br />
                            <select class="form-control" onchange="getTypeCamPopupCal(this.value, 1)" id="selTypeCamHS">
                             <option value="1" selected >REAR END</option>
@@ -518,13 +518,13 @@ document.addEventListener('DOMContentLoaded', function() {
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date hors service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dtestarths" id="dtestarths" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dtestarths" id="dtestarths" />
                         </div>     
                            <br /> <br />    
                         
-                        <div class="col-sm-7 col-xs-12" >
+                        <div class="col-sm-7 col-12" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="4" cols="50" id="notehs" > 
 
@@ -535,9 +535,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="UpdRetourCal()" id="btnEndHS" class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
-                <button type="button" onclick="PostSuivisCamHSCal()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="UpdRetourCal()" id="btnEndHS" class="btn btn-success" data-bs-content="" data-bs-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
+                <button type="button" onclick="PostSuivisCamHSCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>
@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="plTitreMsg" style="color:white;text-align:center;">Camion Bris de service&nbsp;!</h3>
                 
 			</div>
@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; "># Camions  </label> <br />
                            <select class="form-control" onchange="getTypeCamPopupCal(this.value, 1)" id="selTypeCamBris">
                               <option value="1" selected >FRONT LOAD</option>
@@ -572,18 +572,18 @@ document.addEventListener('DOMContentLoaded', function() {
                            <br /> <br />
                            
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date et heure en bris de service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dtestarBris" id="dtestartBris" />
-                           <input type="time" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="hrestartBris" id="hrestartBris" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dtestarBris" id="dtestartBris" />
+                           <input type="time" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="hrestartBris" id="hrestartBris" />
                         </div>     
                            <br /> <br />    
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                           <label style="font-weight: bold; ">Date et heure retour en service </label> <br />
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dteendBris" id="dteendBris" />
-                           <input type="time" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="hreendBris" id="hreendBris" />
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dteendBris" id="dteendBris" />
+                           <input type="time" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="hreendBris" id="hreendBris" />
                         </div>                            
-                        <div class="col-sm-7 col-xs-12" >
+                        <div class="col-sm-7 col-12" >
                           <label style="font-weight: bold; ">Notes</label> <br />
                             <textarea rows="4" cols="50" id="noteBris" > 
 
@@ -594,9 +594,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="UpdRetourHome()"  class="btn btn-success" data-content="" data-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
-                <button type="button" onclick="PostSuivisCamBris()" class="btn btn-primary" data-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
-                <button type="button"  class="btn btn-danger" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="UpdRetourHome()"  class="btn btn-success" data-bs-content="" data-bs-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
+                <button type="button" onclick="PostSuivisCamBris()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
     </div>

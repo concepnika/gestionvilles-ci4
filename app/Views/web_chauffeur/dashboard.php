@@ -30,7 +30,7 @@ ob_start();
 <!-- ═══ Badges cédules ═══ -->
 <?php if ( ! empty($cedules)): ?>
 <div class="row" style="margin-bottom:10px;">
-    <div class="col-xs-12">
+    <div class="col-12">
         <?php foreach (($cedules ?? []) as $i => $ced): ?>
             <a href="/web/changeCedule/<?php echo ($i ?? ''); ?>"
                class="badge-cedule"
@@ -65,33 +65,33 @@ ob_start();
                 </div>
                 <?php if (empty($broker)): ?>
                 <div style="text-align:center; margin-bottom:10px;">
-                    <button type="button" class="btn btn-default" id="btnChgCamion" style="background:transparent; border:none;">
+                    <button type="button" class="btn btn-outline-secondary" id="btnChgCamion" style="background:transparent; border:none;">
                         <img src="/assets/img/fleche.jpg" style="width:60px; height:60px;" alt="Changer" />
                     </button>
                 </div>
 
                 <!-- KM/DEBUT -->
                 <div class="form-group row sani-field">
-                    <label class="col-xs-5 control-label" style="font-size:22px; font-weight:bold;">KM/DEBUT</label>
-                    <div class="col-xs-7">
+                    <label class="col-5 control-label" style="font-size:22px; font-weight:bold;">KM/DEBUT</label>
+                    <div class="col-7">
                         <input type="number" step="0.01" class="form-control sani-input" id="KiloDeb"
                                value="<?php echo htmlspecialchars($camKiloDeb); ?>" data-field="KiloDeb" />
                     </div>
                 </div>
                 <!-- KM/FIN -->
                 <div class="form-group row sani-field">
-                    <label class="col-xs-5 control-label" style="font-size:22px; font-weight:bold;">KM/FIN</label>
-                    <div class="col-xs-7">
+                    <label class="col-5 control-label" style="font-size:22px; font-weight:bold;">KM/FIN</label>
+                    <div class="col-7">
                         <input type="number" step="0.01" class="form-control sani-input" id="KiloFin"
                                value="<?php echo htmlspecialchars($camKiloFin); ?>" data-field="KiloFin" />
                     </div>
                 </div>
                 <!-- FUEL -->
                 <div class="form-group row sani-field">
-                    <label class="col-xs-5 control-label">
+                    <label class="col-5 control-label">
                         <img src="/assets/img/fuel.png" style="width:100px; height:60px;" alt="Fuel" />
                     </label>
-                    <div class="col-xs-7">
+                    <div class="col-7">
                         <input type="number" step="0.01" class="form-control sani-input" id="Fuel"
                                value="<?php echo htmlspecialchars($camFuel); ?>" data-field="Fuel" />
                     </div>
@@ -99,16 +99,16 @@ ob_start();
                 <?php endif; ?>
                 <!-- HEURES / DEBUT -->
                 <div class="form-group row sani-field">
-                    <label class="col-xs-5 control-label" style="font-size:18px; font-weight:bold;">HEURES / DEBUT:</label>
-                    <div class="col-xs-7">
+                    <label class="col-5 control-label" style="font-size:18px; font-weight:bold;">HEURES / DEBUT:</label>
+                    <div class="col-7">
                         <input type="time" class="form-control sani-input" id="HreDeb_cam"
                                value="<?php echo ($camHreDeb ?? ''); ?>" data-field="HreDeb_cam" />
                     </div>
                 </div>
                 <!-- HEURES / FIN -->
                 <div class="form-group row sani-field">
-                    <label class="col-xs-5 control-label" style="font-size:18px; font-weight:bold;">HEURES / FIN:</label>
-                    <div class="col-xs-7">
+                    <label class="col-5 control-label" style="font-size:18px; font-weight:bold;">HEURES / FIN:</label>
+                    <div class="col-7">
                         <input type="time" class="form-control sani-input" id="HreFin_cam"
                                value="<?php echo ($camHreFin ?? ''); ?>" data-field="HreFin_cam" />
                     </div>
@@ -133,7 +133,7 @@ ob_start();
                     </span>
                 </div>
                 <div style="margin-bottom:10px;">
-                    <button type="button" class="btn btn-default" id="btnChgChauf" style="background:transparent; border:none;">
+                    <button type="button" class="btn btn-outline-secondary" id="btnChgChauf" style="background:transparent; border:none;">
                         <img src="/assets/img/fleche.jpg" style="width:60px; height:60px;" alt="Changer" />
                     </button>
                 </div>
@@ -292,7 +292,7 @@ $(function(){
         $.getJSON("/web/api_list_camions", function(d){
             if(!d.ok) return;
             var html = \'<div class="modal fade" id="camModal"><div class="modal-dialog"><div class="modal-content">\' +
-                \'<div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>\' +
+                \'<div class="modal-header"><button type="button" class="close" data-bs-dismiss="modal">&times;</button>\' +
                 \'<h4>Choisir un camion</h4></div><div class="modal-body sani-modal-list"><div class="list-group">\';
             $.each(d.data, function(i,c){
                 html += \'<a href="#" class="list-group-item cam-choice" data-cam="\'+c+\'">\'+c+\'</a>\';
@@ -325,7 +325,7 @@ $(function(){
         $.getJSON("/web/api_list_chauffeurs", function(d){
             if(!d.ok) return;
             var html = \'<div class="modal fade" id="chaufModal"><div class="modal-dialog"><div class="modal-content">\' +
-                \'<div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>\' +
+                \'<div class="modal-header"><button type="button" class="close" data-bs-dismiss="modal">&times;</button>\' +
                 \'<h4>Choisir un chauffeur</h4></div><div class="modal-body">\' +
                 \'<div class="form-group"><label>Code usager</label><input type="text" class="form-control" id="chgCode" /></div>\' +
                 \'<div class="form-group"><label>Mot de passe</label><input type="password" class="form-control" id="chgPass" /></div>\' +

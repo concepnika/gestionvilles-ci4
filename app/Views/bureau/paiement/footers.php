@@ -1,11 +1,11 @@
 
 <footer class="container-fluid">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <div class="container">
         <div class="row">
 
-          <div class="col-sm-3 menu hidden-xs">
+          <div class="col-sm-3 menu d-none d-sm-block">
             <div>
               <a href="index.html">Accueil</a>
             </div>
@@ -35,26 +35,26 @@
             </div>
           </div>
 
-          <div class="col-xs-12 col-sm-6 logos">
+          <div class="col-12 col-sm-6 logos">
             <div class="depuis">
               <img src="/assets/00_images/logos-footer/depuis-1966.png" />
             </div>
             <div class="autres">
               <div class="row">
-                <div class="col-xs-12 col-sm-5 RBQ">
+                <div class="col-12 col-sm-5 RBQ">
                   <img src="/assets/00_images/logos-footer/RBQ.png" />
                 </div>
-                <div class="col-xs-12 col-sm-2 check">
+                <div class="col-12 col-sm-2 check">
                   <img src="/assets/00_images/logos-footer/comply-check.png" />
                 </div>
-                <div class="col-xs-12 col-sm-5 complywork">
+                <div class="col-12 col-sm-5 complywork">
                   <img src="/assets/00_images/logos-footer/complywork.png" />
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col-xs-12 col-sm-3 coordonnees">
+          <div class="col-12 col-sm-3 coordonnees">
             <h2>(450) 458-4340</h2>
             <h4>VAUDREUL-DORION</h4>
             <div>

@@ -21,7 +21,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -33,7 +33,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
 
   <!-- Ionicons -->
@@ -165,10 +165,10 @@
     var ToShow = 4;
     var EndIsChecked = 0;
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover({ container: 'body' });
+      $('[data-bs-toggle="popover"]').popover({ container: 'body' });
     });
     $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-bs-toggle="tooltip"]').tooltip();
     });
     function DayCamChauf(trnb) {
       alert(trnb);
@@ -270,25 +270,25 @@
           <li>
             <div class="form-group">
 
-              <input type="date" class="form-control" onchange="LoadSaniRH('0')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
+              <input type="date" class="form-control" onchange="LoadSaniRH('0')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
 
             </div>
           </li>
           <li> &nbsp;&nbsp;</li>
           <li>
-            <button type="button" onclick="addChaufOnRoad()" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Cliquer pour ajouter un chauffeur" title="AJOUT" class="btn btn-success" style="height: 33px;width:33px">
+            <button type="button" onclick="addChaufOnRoad()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-content="Cliquer pour ajouter un chauffeur" title="AJOUT" class="btn btn-success" style="height: 33px;width:33px">
               <i class="fa fa-plus" style="margin-left: -5px"></i>
             </button>
           </li>
           <li>
 
-            <button type="button" onclick="PrintRapSani()" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Cliquer pour exporter dans EXCEL" title="EXCEL" class="btn btn-default" style="height: 34px; width: 34px">
+            <button type="button" onclick="PrintRapSani()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-content="Cliquer pour exporter dans EXCEL" title="EXCEL" class="btn btn-outline-secondary" style="height: 34px; width: 34px">
               <img src="/assets/img/excel.png" width="30" style="margin-left: -10px;margin-top:-5px" />
             </button>
           </li>
 
           <li id="liRapJour">
-            <button type="button" class="btn btn-default" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Cliquer pour afficher le module de Rapport" title="Module de RAPPORT" onclick="ShowHideDivRap('divRapJour', 'liRapJour')" style="height: 34px; width: 34px;">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-content="Cliquer pour afficher le module de Rapport" title="Module de RAPPORT" onclick="ShowHideDivRap('divRapJour', 'liRapJour')" style="height: 34px; width: 34px;">
               <i class="fa fa-bar-chart" style="margin-left: -5px"></i>
             </button>
           </li>
@@ -441,11 +441,11 @@
 
   </div>
   
-  <div class="modal fade" id="modalSelCode" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modalSelCode" data-bs-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <br />
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <br />
               <h3 class="modal-title" id="plTitreMsgBoite_1" style="color:white;text-align:center;">CODE CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsgBoite_2" style="color:white;text-align:center;">Sélection du code!</h4>
                 
@@ -456,7 +456,7 @@
                       <input id="codeidcommande" type="hidden" value="" />
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                            <label style="font-weight: bold; ">Boîtes RollOff</label> <br />                       
-                        <div id="divBoiteROEP" class="col-sm-7 col-xs-12">
+                        <div id="divBoiteROEP" class="col-sm-7 col-12">
                             <select class="form-control" name="selCode" id="selCode" style="width:80px"  size="2" required>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -469,8 +469,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="setCodeClient()" id="btnPostEP" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>      
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="setCodeClient()" id="btnPostEP" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>      
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>

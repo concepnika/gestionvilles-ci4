@@ -6,8 +6,8 @@
   <a href="#">
     <i class="fa fa-user"></i>
     <span>Usagers</span>
-    <span class="pull-right-container">
-      <i class="fa fa-angle-left pull-right"></i>
+    <span class="float-end-container">
+      <i class="fa fa-angle-left float-end"></i>
     </span>
   </a>
   <ul class="treeview-menu">
@@ -23,8 +23,8 @@
     <a href="#">
       <i class="fa fa-table"></i>
       <span>Sanivan</span>
-      <span class="pull-right-container">
-        <i class="fa fa-angle-left pull-right"></i>
+      <span class="float-end-container">
+        <i class="fa fa-angle-left float-end"></i>
       </span>
     </a>
     <ul class="treeview-menu">
@@ -50,8 +50,8 @@
   <a href="#">
     <i class="fa fa-pie-chart"></i>
     <span>Métriques</span>
-    <span class="pull-right-container">
-      <i class="fa fa-angle-left pull-right"></i>
+    <span class="float-end-container">
+      <i class="fa fa-angle-left float-end"></i>
     </span>
   </a>
   <ul class="treeview-menu">

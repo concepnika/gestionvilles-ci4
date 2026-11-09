@@ -2,7 +2,7 @@
 <!------ MENU LG/MD/SM --------------------------------------------------------------------------------------------->
 
 
-<nav class="navbar navbar-inverse navbar-fixed-top hidden-xs">
+<nav class="navbar navbar-dark bg-dark fixed-top d-none d-sm-block">
   <div class="container">
     <div class="row">
       <div class="col-sm-2 logo">
@@ -23,40 +23,40 @@
 <!------ MENU XS --------------------------------------------------------------------------------------------------->
 
 
-<section class="container-fluid visible-xs">
+<section class="container-fluid d-block d-sm-none">
   <div class="row bande-top">
-    <div class="col-xs-12">
+    <div class="col-12">
       <div class="row">
-        <div class="col-xs-7 logo">
+        <div class="col-7 logo">
           <div>
             <a href="/accueil">
               <img src="/assets/00_images/logo.png" />
             </a>
           </div>
         </div>
-        <div class="col-xs-5 navbar-header">
+        <div class="col-5 navbar-header">
           <div class="hamburger">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+              <span class="visually-hidden">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
           </div>
           <div class="assist">
-            <a data-toggle="collapse" data-target=".navbar-collapse">Menu</a>
+            <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse">Menu</a>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="row section-menu">
-    <div class="col-xs-12">
+    <div class="col-12">
       <div class="navbar-default" role="navigation">
         <div class="collapse navbar-collapse">
-          <div class="col-xs-12" style="padding:0;">
+          <div class="col-12" style="padding:0;">
             <div class="row menu">
-              <div class="col-xs-12" style="padding:0;">
+              <div class="col-12" style="padding:0;">
                 <dl id="accordion">
                   <div class="solo">
                     <a href="/daoust/apropos">À propos</a>

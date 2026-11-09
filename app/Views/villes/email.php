@@ -52,7 +52,7 @@
         width: 100% !important;
       }
 
-      table[class=body] .img-responsive {
+      table[class=body] .img-fluid {
         height: auto !important;
         max-width: 100% !important;
         width: auto !important;

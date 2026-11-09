@@ -11,7 +11,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title" id="mytitre"><?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmation' : 'Confirmation');?></h3>
             </div>
 
@@ -25,8 +25,8 @@
 
             <!-- Modal footer -->
             <div class="modal-footer" style="background-color:Window;">
-                <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" style="display: none;" onclick="SendInfo()" data-dismiss="modal"><?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmer l\'envoi' : 'Confirm shipment');?></button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" style="display: none;" onclick="SendInfo()" data-bs-dismiss="modal"><?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmer l\'envoi' : 'Confirm shipment');?></button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
             </div>
 
         </div>

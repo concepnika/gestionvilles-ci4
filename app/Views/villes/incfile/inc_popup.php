@@ -2,7 +2,7 @@
 
 
 ?>
-  <div class="modal fade" id="repAjoutModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal fade" id="repAjoutModal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
 

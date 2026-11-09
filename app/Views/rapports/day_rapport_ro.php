@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -34,7 +34,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
 
   <!-- Ionicons -->
@@ -53,7 +53,7 @@
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
-    <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -160,10 +160,10 @@
     var ToShow = 4;
     var EndIsChecked = 0;
     $(document).ready(function () {
-      $('[data-toggle="popover"]').popover({ container: 'body' });
+      $('[data-bs-toggle="popover"]').popover({ container: 'body' });
     });
     $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-bs-toggle="tooltip"]').tooltip();
     });
     function DayCamChauf(trnb) {
 	    var urlName = "/rapport/postchauf?camion=" + $('#lb_cam_' + trnb).html() + '&idrh=' + $('#idrh_' + trnb).val() +
@@ -186,9 +186,9 @@
 <body class="hold-transition skin-blue">
 
   <!-- Header Navbar: style can be found in header.less -->
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
     <!-- Sidebar toggle button-->
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+  <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>                        
@@ -208,17 +208,17 @@
           </li>
           <li>
             <div class="form-group">
-              <a href="#" onclick="LoadHeuresRH('-1')" id="divShowHideEmp" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journ&eacute;e pr&eacute;c&eacute;dente" data-content="Affiche la c&eacute;dule de la journ&eacute;e pr&eacute;c&eacute;dente">
+              <a href="#" onclick="LoadHeuresRH('-1')" id="divShowHideEmp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journ&eacute;e pr&eacute;c&eacute;dente" data-bs-content="Affiche la c&eacute;dule de la journ&eacute;e pr&eacute;c&eacute;dente">
                 <img src="/assets/img/fleche_left.png" width="30" />&nbsp;
               </a>
-              <input type="date" class="form-control" onchange="LoadHeuresRH('0')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
+              <input type="date" class="form-control" onchange="LoadHeuresRH('0')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ; ?>" id="dtedeb" />
 
-              <a href="#" onclick="LoadHeuresRH('1')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journ&eacute;e suivante" data-content="Affiche la c&eacute;dule de la journ&eacute;e suivante">
+              <a href="#" onclick="LoadHeuresRH('1')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journ&eacute;e suivante" data-bs-content="Affiche la c&eacute;dule de la journ&eacute;e suivante">
                 <img src="/assets/img/fleche_right.png" width="30" />&nbsp;
               </a>
             </div>
           </li>
-          <li> <button type="button" id="btnAddDayRap" onclick="AddDayRap()" class="btn btn-success" style="display:<?php echo (($IsLoaded == 0)? 'block' : 'none') ; ?>;width:40px;height:35px" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter la journée" data-content="Cliquer pour ajouter la validation des commandes">
+          <li> <button type="button" id="btnAddDayRap" onclick="AddDayRap()" class="btn btn-success" style="display:<?php echo (($IsLoaded == 0)? 'block' : 'none') ; ?>;width:40px;height:35px" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter la journée" data-bs-content="Cliquer pour ajouter la validation des commandes">
   <i class="fa fa-plus" style='font-size:18px;'></i>
 </button></li>
           <li> &nbsp;&nbsp;</li>
@@ -227,10 +227,10 @@
               <span class="input-group-btn">
                 <input type="text" id="edtFind" class="form-control" onkeyup="EntersearchTableSuivis(this.value, event)" placeholder="Rechercher" style="width:200px;" />
 
-                <button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchInTableSuivis()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la liste selon le critère.">
+                <button type="button" class="btn btn-info btn-flat" id="sr" onclick="searchInTableSuivis()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la liste selon le critère.">
                   <i class='fa fa-search' style='font-size:18px;'></i>&nbsp;
                 </button>
-                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableSuivis()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                <button type="button" class="btn btn-danger btn-flat" onclick="ClearsearchTableSuivis()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                   <i class='fa fa-remove' style='font-size:18px;'></i>&nbsp;
                 </button>
               </span>
@@ -280,7 +280,7 @@
             <th>HRE FIN</th>
             <th align="center">HRES TRAV.</th>
             <th>
-              <!--<button type="button" class="btn btn-primary" onclick="addSuivis()" data-toggle="popover" data-trigger="hover" data-placement="left" title="Confirmer" data-content="Cliquer pour confirmer la journée et créer le rapport du jour.">
+              <!--<button type="button" class="btn btn-primary" onclick="addSuivis()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="left" title="Confirmer" data-bs-content="Cliquer pour confirmer la journée et créer le rapport du jour.">
                 <i class='fa fa-save' style='font-size:18px;'></i>&nbsp;
               </button>-->
             </th>
@@ -367,11 +367,11 @@
 
   </div>
   
-  <div class="modal fade" id="modalSelCode" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modalSelCode" data-bs-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-primary">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <br />
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <br />
               <h3 class="modal-title" id="plTitreMsgBoite_1" style="color:white;text-align:center;">CODE CLIENT</h3>
                 <h4 class="modal-title" id="plTitreMsgBoite_2" style="color:white;text-align:center;">Sélection du code!</h4>
                 
@@ -382,7 +382,7 @@
                       <input id="codeidcommande" type="hidden" value="" />
                       <div id="divHS" style="padding-left: 10%;padding-bottom:10px;padding-top:10px;margin-top:10px;">    
                            <label style="font-weight: bold; ">Boîtes RollOff</label> <br />                       
-                        <div id="divBoiteROEP" class="col-sm-7 col-xs-12">
+                        <div id="divBoiteROEP" class="col-sm-7 col-12">
                             <select class="form-control" name="selCode" id="selCode" style="width:80px"  size="2" required>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -395,8 +395,8 @@
 					  </form>
             </div>
 			<div class="modal-footer">
-        <button type="button" onclick="setCodeClient()" id="btnPostEP" class="btn btn-primary" data-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>      
-        <button type="button"  class="btn btn-warning" data-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
+        <button type="button" onclick="setCodeClient()" id="btnPostEP" class="btn btn-primary" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Enregistrer</button>      
+        <button type="button"  class="btn btn-warning" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
       </div>
         </div>
     </div>

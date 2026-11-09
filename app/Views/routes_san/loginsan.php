@@ -21,7 +21,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -73,7 +73,7 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
@@ -93,7 +93,7 @@
       <form action="/tablettes_san/routes?from=0" method="post" id="frmLogin">
         <div class="form-group  has-feedback">
           <div class="input-group">
-            <div class="input-group-addon"><label>Camion:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div>
+            <div class="input-group-text"><label>Camion:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div>
             <select class="form-control" onchange="getCamSani()" id="edtcamion" name="edtcamion" style="font-size:medium;font-weight:bold;width:90%;">
               <option value="">Choisir</option><?php echo ($camion ?? '');?>
             </select>
@@ -101,7 +101,7 @@
         </div>
         <div class="form-group has-feedback">
           <div class="input-group">
-            <div class="input-group-addon"><label>KM de D&eacute;part:&nbsp;&nbsp;</label></div>
+            <div class="input-group-text"><label>KM de D&eacute;part:&nbsp;&nbsp;</label></div>
             <input type="text" class="form-control" onb id="edtkmDepart" placeholder="Km d&eacute;part" name="edtkmDepart" onblur="VerifKM(this.value)" style="font-size:medium;font-weight:bold;width:90%;" />
             <input type="hidden" class="form-control" id="edtKMFin" placeholder="Km d&eacute;part" name="edtKMFin" />
             <input type="hidden" class="form-control" id="edtCarburant" placeholder="Km d&eacute;part" name="edtCarburant" />
@@ -109,7 +109,7 @@
         </div>
         <div class="form-group has-feedback">
           <div class="input-group">
-            <div class="input-group-addon"><label>Code usager:&nbsp;&nbsp;</label></div>
+            <div class="input-group-text"><label>Code usager:&nbsp;&nbsp;</label></div>
             <!--<input type="text" class="form-control" id="code" placeholder="Code usager" name="code" style="font-size:medium;font-weight:bold;width:90%;" />-->
             <select class="form-control" id="code" name="code" style="font-size:medium;font-weight:bold;width:90%;">
               
@@ -119,15 +119,15 @@
         </div>
         <div class="form-group has-feedback">
           <div class="input-group">
-            <div class="input-group-addon"><label><?php echo ci3lang('login_password');?>:&nbsp;&nbsp;</label></div>
+            <div class="input-group-text"><label><?php echo ci3lang('login_password');?>:&nbsp;&nbsp;</label></div>
             <input type="password" class="form-control" id="password" name="password" autocomplete="off" style="font-size:medium;font-weight:bold;width:90%;" />
           </div>
         </div>
         <div class="row">
 
           <!-- /.col -->
-          <div class="col-xs-4 pull-right">
-            <button id="btnLogin" type="submit" class="btn btn-primary btn-block btn-flat" >
+          <div class="col-4 float-end">
+            <button id="btnLogin" type="submit" class="btn btn-primary d-block w-100 btn-flat" >
               <?php echo ci3lang('login_connect');?>
             </button>
           </div>
@@ -144,7 +144,7 @@
   <!-- jQuery 3 -->
   <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/assets/vendor5/bootstrap.bundle.min.js"></script>
   <!-- iCheck -->
   <script src="/assets/plugins/iCheck/icheck.min.js"></script>
     <!-- keyboard widget css & script (required) -->

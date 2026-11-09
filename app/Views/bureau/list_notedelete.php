@@ -18,7 +18,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -70,16 +70,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date('Y-m-d') ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();   
+        $('[data-bs-toggle="popover"]').popover();   
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -98,7 +98,7 @@
                 <li>
                   <div class="input-group input-group-sm" style="width:400px; ">
                     <span class="input-group-btn">
-                      <a class="btn btn-info btn-flat" href="javascript:ListRemoveCom('-1')" id="divShowHideEmp" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journée précédente" data-content="Affiche la cédule de la journée précédente">
+                      <a class="btn btn-info btn-flat" href="javascript:ListRemoveCom('-1')" id="divShowHideEmp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journée précédente" data-bs-content="Affiche la cédule de la journée précédente">
                         <i class='fa fa-angle-left' style='font-size:24px;'></i>
                         &nbsp;
                       </a>
@@ -106,10 +106,10 @@
 
 
                     </span>
-                    <input type="date" class="form-control" onchange="ListRemoveCom('0')" data-toggle="popover" style="width:130px;margin-top:3px" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActive" />
+                    <input type="date" class="form-control" onchange="ListRemoveCom('0')" data-bs-toggle="popover" style="width:130px;margin-top:3px" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActive" />
 
                     <span class="input-group-btn">
-                      <a class="btn btn-info btn-flat" href="javascript:ListRemoveCom('1')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journée suivante" data-content="Affiche la cédule de la journée suivante">
+                      <a class="btn btn-info btn-flat" href="javascript:ListRemoveCom('1')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journée suivante" data-bs-content="Affiche la cédule de la journée suivante">
                         <i class='fa fa-angle-right' style='font-size:24px;'></i>
                         &nbsp;
                       </a>

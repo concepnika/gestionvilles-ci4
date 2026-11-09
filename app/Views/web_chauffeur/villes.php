@@ -62,7 +62,7 @@ ob_start();
                     </button>
                 </td>
                 <td style="width:80px;">
-                    <input type="time" class="form-control input-sm ville-field"
+                    <input type="time" class="form-control form-control-sm ville-field"
                            data-id="<?php echo ($ville['Id'] ?? ''); ?>" data-champ="HreDeb"
                            value="<?php echo ! empty($ville['HreDeb']) ? substr($ville['HreDeb'], 0, 5) : ''; ?>"
                            style="background:#ff0; font-weight:bold;">
@@ -74,14 +74,14 @@ ob_start();
                     </button>
                 </td>
                 <td style="width:80px;">
-                    <input type="time" class="form-control input-sm ville-field"
+                    <input type="time" class="form-control form-control-sm ville-field"
                            data-id="<?php echo ($ville['Id'] ?? ''); ?>" data-champ="HreFin"
                            value="<?php echo ! empty($ville['HreFin']) ? substr($ville['HreFin'], 0, 5) : ''; ?>"
                            style="background:#ff0; font-weight:bold;">
                 </td>
                 <td style="width:80px; text-align:center; vertical-align:middle;">Bacs</td>
                 <td style="width:80px;">
-                    <input type="number" class="form-control input-sm ville-field"
+                    <input type="number" class="form-control form-control-sm ville-field"
                            data-id="<?php echo ($ville['Id'] ?? ''); ?>" data-champ="nbBac"
                            value="<?php echo ($ville['nbBac'] ?? '') ?? '0'; ?>" min="0"
                            style="background:#ff0; font-weight:bold; width:70px;">
@@ -93,7 +93,7 @@ ob_start();
                 <tr class="row-depot" data-iddepot="<?php echo ($dep['Id'] ?? ''); ?>" data-idville="<?php echo ($ville['Id'] ?? ''); ?>">
                     <!-- Col 0 : Picker dépotoire -->
                     <td style="width:200px;">
-                        <select class="form-control input-sm depot-picker"
+                        <select class="form-control form-control-sm depot-picker"
                                 data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-idville="<?php echo ($ville['Id'] ?? ''); ?>">
                             <option value="">-- Dépotoire --</option>
                             <?php foreach (($depotoires ?? []) as $d): ?>
@@ -108,7 +108,7 @@ ob_start();
                     <td style="width:80px; text-align:center; vertical-align:middle;">H/deb</td>
                     <!-- Col 2 : TimePicker debut -->
                     <td style="width:80px;">
-                        <input type="time" class="form-control input-sm depot-field"
+                        <input type="time" class="form-control form-control-sm depot-field"
                                data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="debut"
                                data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                value="<?php echo ! empty($dep['HreDeb']) ? substr($dep['HreDeb'], 0, 5) : ''; ?>"
@@ -118,7 +118,7 @@ ob_start();
                     <td style="width:80px; text-align:center; vertical-align:middle;">H/fin</td>
                     <!-- Col 4 : TimePicker fin -->
                     <td style="width:80px;">
-                        <input type="time" class="form-control input-sm depot-field"
+                        <input type="time" class="form-control form-control-sm depot-field"
                                data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="fin"
                                data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                value="<?php echo ! empty($dep['HreFin']) ? substr($dep['HreFin'], 0, 5) : ''; ?>"
@@ -128,7 +128,7 @@ ob_start();
                     <td style="width:80px; text-align:center; vertical-align:middle;">Ton.</td>
                     <!-- Col 6 : Entry Tonnage -->
                     <td style="width:80px;">
-                        <input type="number" step="0.01" class="form-control input-sm depot-field tonnage-field"
+                        <input type="number" step="0.01" class="form-control form-control-sm depot-field tonnage-field"
                                data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="Tonnage"
                                data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                value="<?php echo ($dep['Tonnage'] ?? '') ?? ''; ?>"
@@ -139,11 +139,11 @@ ob_start();
                         <?php if ( ! empty($dep['Ticket'])): ?>
                             <?php $isPdf = (strtolower(pathinfo($dep['Ticket'], PATHINFO_EXTENSION)) === 'pdf'); ?>
                             <a href="<?php echo htmlspecialchars($dep['Ticket']); ?>" target="_blank"
-                               class="btn btn-xs btn-success" title="Voir ticket<?php echo ($isPdf ?? '') ? ' PDF' : ''; ?>">
+                               class="btn btn-sm btn-success" title="Voir ticket<?php echo ($isPdf ?? '') ? ' PDF' : ''; ?>">
                                 <i class="fa <?php echo ($isPdf ?? '') ? 'fa-file-pdf-o' : 'fa-file-image-o'; ?>"></i>
                             </a>
                         <?php else: ?>
-                            <button class="btn btn-xs btn-default btn-upload-ticket"
+                            <button class="btn btn-sm btn-outline-secondary btn-upload-ticket"
                                     data-iddepot="<?php echo ($dep['Id'] ?? ''); ?>"
                                     data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                     title="Scanner / Photo">
@@ -157,7 +157,7 @@ ob_start();
                     <td style="width:80px; text-align:center; vertical-align:middle;">Boîte</td>
                     <!-- Col 10 : Entry Boîte -->
                     <td style="width:80px;">
-                        <input type="text" class="form-control input-sm depot-field"
+                        <input type="text" class="form-control form-control-sm depot-field"
                                data-id="<?php echo ($dep['Id'] ?? ''); ?>" data-champ="boite"
                                data-idville="<?php echo ($ville['Id'] ?? ''); ?>"
                                value="<?php echo htmlspecialchars($dep['Boite'] ?? ''); ?>"
@@ -293,28 +293,28 @@ $(function(){
             + '<td style="width:80px; text-align:center; vertical-align:middle;">'
             +   '<button class="btn btn-sm btn-start" data-id="' + villeId + '" title="Start" style="background:transparent; border:none;">'
             +     '<img src="/assets/img/start.png" style="height:30px;"></button></td>'
-            + '<td style="width:80px;"><input type="time" class="form-control input-sm ville-field" data-id="' + villeId + '" data-champ="HreDeb" value="" style="background:#ff0; font-weight:bold;"></td>'
+            + '<td style="width:80px;"><input type="time" class="form-control form-control-sm ville-field" data-id="' + villeId + '" data-champ="HreDeb" value="" style="background:#ff0; font-weight:bold;"></td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;">'
             +   '<button class="btn btn-sm btn-stop" data-id="' + villeId + '" title="Stop" style="background:transparent; border:none;">'
             +     '<img src="/assets/img/stop.png" style="height:30px;"></button></td>'
-            + '<td style="width:80px;"><input type="time" class="form-control input-sm ville-field" data-id="' + villeId + '" data-champ="HreFin" value="" style="background:#ff0; font-weight:bold;"></td>'
+            + '<td style="width:80px;"><input type="time" class="form-control form-control-sm ville-field" data-id="' + villeId + '" data-champ="HreFin" value="" style="background:#ff0; font-weight:bold;"></td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;">Bacs</td>'
-            + '<td style="width:80px;"><input type="number" class="form-control input-sm ville-field" data-id="' + villeId + '" data-champ="nbBac" value="0" min="0" style="background:#ff0; font-weight:bold; width:70px;"></td>'
+            + '<td style="width:80px;"><input type="number" class="form-control form-control-sm ville-field" data-id="' + villeId + '" data-champ="nbBac" value="0" min="0" style="background:#ff0; font-weight:bold; width:70px;"></td>'
             + '</tr>';
 
         var depotRow = '<tr class="row-depot" data-iddepot="' + depId + '" data-idville="' + villeId + '">'
-            + '<td style="width:200px;"><select class="form-control input-sm depot-picker" data-id="' + depId + '" data-idville="' + villeId + '">' + optionsHtml + '</select></td>'
+            + '<td style="width:200px;"><select class="form-control form-control-sm depot-picker" data-id="' + depId + '" data-idville="' + villeId + '">' + optionsHtml + '</select></td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;">H/deb</td>'
-            + '<td style="width:80px;"><input type="time" class="form-control input-sm depot-field" data-id="' + depId + '" data-champ="debut" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold;"></td>'
+            + '<td style="width:80px;"><input type="time" class="form-control form-control-sm depot-field" data-id="' + depId + '" data-champ="debut" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold;"></td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;">H/fin</td>'
-            + '<td style="width:80px;"><input type="time" class="form-control input-sm depot-field" data-id="' + depId + '" data-champ="fin" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold;"></td>'
+            + '<td style="width:80px;"><input type="time" class="form-control form-control-sm depot-field" data-id="' + depId + '" data-champ="fin" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold;"></td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;">Ton.</td>'
-            + '<td style="width:80px;"><input type="number" step="0.01" class="form-control input-sm depot-field tonnage-field" data-id="' + depId + '" data-champ="Tonnage" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold; width:75px;"></td>'
+            + '<td style="width:80px;"><input type="number" step="0.01" class="form-control form-control-sm depot-field tonnage-field" data-id="' + depId + '" data-champ="Tonnage" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold; width:75px;"></td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;">'
-            +   '<button class="btn btn-xs btn-default btn-upload-ticket" data-iddepot="' + depId + '" data-idville="' + villeId + '" title="Scanner / Photo"><i class="fa fa-camera"></i></button></td>'
+            +   '<button class="btn btn-sm btn-outline-secondary btn-upload-ticket" data-iddepot="' + depId + '" data-idville="' + villeId + '" title="Scanner / Photo"><i class="fa fa-camera"></i></button></td>'
             + '<td style="width:45px;"></td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;">Boîte</td>'
-            + '<td style="width:80px;"><input type="text" class="form-control input-sm depot-field" data-id="' + depId + '" data-champ="boite" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold; width:75px;"></td>'
+            + '<td style="width:80px;"><input type="text" class="form-control form-control-sm depot-field" data-id="' + depId + '" data-champ="boite" data-idville="' + villeId + '" value="" style="background:#ff0; font-weight:bold; width:75px;"></td>'
             + '<td style="width:45px; text-align:center; vertical-align:middle; font-size:12px;">TrBo</td>'
             + '<td style="width:80px; text-align:center; vertical-align:middle;"><input type="checkbox" class="depot-check" data-id="' + depId + '" data-champ="IsTransBo" data-idville="' + villeId + '"></td>'
             + '<td style="width:45px; text-align:center; vertical-align:middle; font-size:12px;">Mat.</td>'
@@ -522,7 +522,7 @@ $(function(){
                     var isPdf = (resp.ticket || '').toLowerCase().indexOf('.pdf') !== -1;
                     var icon  = isPdf ? 'fa-file-pdf-o' : 'fa-file-image-o';
                     uploadBtnRef.replaceWith(
-                        '<a href="' + resp.ticket + '" target="_blank" class="btn btn-xs btn-success" title="Voir ticket">' +
+                        '<a href="' + resp.ticket + '" target="_blank" class="btn btn-sm btn-success" title="Voir ticket">' +
                         '<i class="fa ' + icon + '"></i></a>'
                     );
                 }

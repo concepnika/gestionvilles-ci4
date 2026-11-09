@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -52,7 +52,7 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
-    <script src="/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="/assets/datatables/dataTables.bootstrap5.min.js"></script>
 <script src="/assets/datatables/jquery.dataTables.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
 <script src="/assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
@@ -96,16 +96,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date('Y-m-d') ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();   
+        $('[data-bs-toggle="popover"]').popover();   
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -156,13 +156,13 @@
                   <li>
                     <div class="input-group input-group-sm" style="width:200px; ">
                       <span class="input-group-btn">
-                        <a class="btn btn-info btn-flat" href="javascript:LoadTodayListCommande('-1')" id="divShowHideEmp" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journée précédente" data-content="Affiche la cédule de la journée précédente">
+                        <a class="btn btn-info btn-flat" href="javascript:LoadTodayListCommande('-1')" id="divShowHideEmp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journée précédente" data-bs-content="Affiche la cédule de la journée précédente">
                           <i class='fa fa-angle-left' style='font-size:24px;'></i>&nbsp;
                         </a>
                       </span>
-                      <input type="date" class="form-control" onchange="LoadTodayListCommande('0')" data-toggle="popover" style="width:130px;" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActive" />
+                      <input type="date" class="form-control" onchange="LoadTodayListCommande('0')" data-bs-toggle="popover" style="width:130px;" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="<?php echo ($ActiveDate ?? '') ?>" id="dteActive" />
                       <span class="input-group-btn">
-                        <a class="btn btn-info btn-flat" href="javascript:LoadTodayListCommande('1')" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="journée suivante" data-content="Affiche la cédule de la journée suivante">
+                        <a class="btn btn-info btn-flat" href="javascript:LoadTodayListCommande('1')" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="journée suivante" data-bs-content="Affiche la cédule de la journée suivante">
                           <i class='fa fa-angle-right' style='font-size:24px;'></i>&nbsp;
                         </a>
                       </span>
@@ -174,10 +174,10 @@
                     <div class="input-group input-group-sm" style="width:230px">
                       <input type="text" id="edtFind" class="form-control" onkeyup="ReturnsearchTable(this.value, event)" placeholder="Rechercher" style="width:200px;" />
                       <span class="input-group-btn">
-                        <button type="button" class="btn btn-info btn-flat" id="search" onclick="searchTable()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affiche la cédule selon le critère.">
+                        <button type="button" class="btn btn-info btn-flat" id="search" onclick="searchTable()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affiche la cédule selon le critère.">
                           <i class='fa fa-search' style='font-size:24px;'></i>&nbsp;
                         </button>
-                        <button type="button" class="btn btn-danger btn-flat" id="search" onclick="ClearsearchTable()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Rechercher" data-content="Affacer la recherche.">
+                        <button type="button" class="btn btn-danger btn-flat" id="search" onclick="ClearsearchTable()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Rechercher" data-bs-content="Affacer la recherche.">
                           <i class='fa fa-remove' style='font-size:24px;'></i>&nbsp;
                         </button>
                       </span>

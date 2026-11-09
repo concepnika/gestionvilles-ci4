@@ -186,7 +186,7 @@
         <div id="myNavbar" style="margin-top:75px;">
         <ul class="nav navbar-nav form-inline">
           <li>
-            <a href="/admin" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Accueil" data-content="Aller à l'Accueil">
+            <a href="/admin" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Accueil" data-bs-content="Aller à l'Accueil">
               <i class="fa fa-home" style="font-size:22px;margin-top: -17px;"></i>
             </a>
           </li>
@@ -203,7 +203,7 @@
           </li>
           <li> &nbsp;&nbsp;</li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" style='font-size:24px;margin-top:-6px;' data-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" style='font-size:24px;margin-top:-6px;' data-bs-toggle="dropdown">
               <i class='fa fa-users' style='font-size:24px;'></i>&nbsp;Afficher les Chauffeurs
             </a>
 

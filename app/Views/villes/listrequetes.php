@@ -103,13 +103,13 @@
 
         <!-- Modal footer -->
         <div class="modal-footer" style="background-color:Window;">
-          <button type="button" id="btnConfirme" class="btn btn-default" onclick="closePrintReq()" data-dismiss="modal">Terminer</button>
+          <button type="button" id="btnConfirme" class="btn btn-outline-secondary" onclick="closePrintReq()" data-bs-dismiss="modal">Terminer</button>
         </div>
 
       </div>
     </div>
   </div>
-  	  <div class="modal fade" id="newActionModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  	  <div class="modal fade" id="newActionModal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 

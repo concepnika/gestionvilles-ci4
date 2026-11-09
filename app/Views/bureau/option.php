@@ -22,7 +22,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -71,16 +71,16 @@
     var base_url = "<?php echo ci3_url()?>";
     var ActiveDate = "<?php echo date("Y-m-d") ?>";
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
 <body class="hold-transition skin-blue">
 
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
         <!-- Sidebar toggle button-->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
@@ -104,7 +104,7 @@
             </h2>
 
             <div class="row">
-              <div class="col-xs-12" style="text-align:center; margin:0px 0 50px 0;">
+              <div class="col-12" style="text-align:center; margin:0px 0 50px 0;">
                 <h1>
                   <?php echo ci3lang('inscription_adhesion');?>
                 </h1>
@@ -115,24 +115,24 @@
               <!-- Identification -->
 
               <div class="form-group B10">
-                <div class="col-sm-4 col-xs-12"></div>
-                <div class="col-sm-7 col-xs-12 titre">
+                <div class="col-sm-4 col-12"></div>
+                <div class="col-sm-7 col-12 titre">
                   <?php echo ci3lang('inscription_identification');?>
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_cie');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="cie" id="cie" value="<?php echo ($Cie ?? '');?>" required />
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_adresse_courriel');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="email" class="form-control"  name="email" id="email" placeholder="<?php echo ci3lang('inscription_adresse_courriel');?>"  autocomplete="off" readonly
             onfocus="this.removeAttribute('readonly');" />
                   <div class="help-block with-errors"></div>
@@ -140,13 +140,13 @@
 
               </div>
                <!--<div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_logo');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="file" name="logo"  size="33" />
                 </div>
-                 <div class="col-sm-7 col-xs-12">
+                 <div class="col-sm-7 col-12">
                   <img src="<?php echo ($Logo ?? '');?>" width="200" />
                 </div>
               </div>-->             
@@ -156,72 +156,72 @@
               <!-- Information personnelle -->
 
               <div class="form-group T40 B20">
-                <div class="col-sm-4 col-xs-12"></div>
-                <div class="col-sm-7 col-xs-12 titre">
+                <div class="col-sm-4 col-12"></div>
+                <div class="col-sm-7 col-12 titre">
                   <?php echo ci3lang('inscription_info_perso');?>
                 </div>
               </div>
 
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_adresse');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="Adresse" id="Adresse"  value="<?php echo ($Adresse ?? '');?>" />
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_ville');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="ville" id="ville"   value="<?php echo ($Ville ?? '');?>" />
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('inscription_province');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="province" id="province"   value="<?php echo ($Province ?? '');?>" />
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_tps');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="number" class="form-control" style="width:100px;" name="TPS" id="TPS"   value="<?php echo ($TPS ?? '');?>" />
                 </div>
               </div>              
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_tvq');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="number" class="form-control" style="width:100px;" name="TVQ" id="TVQ"   value="<?php echo ($TVQ ?? '');?>" />
                 </div>
               </div>           
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_notps');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" style="width:200px;" name="NoTPS" id="NoTPS"   value="<?php echo ($NoTPS ?? '');?>" />
                 </div>
               </div>           
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_notvq');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" style="width:200px;" name="NoTVQ" id="NoTVQ"   value="<?php echo ($NoTVQ ?? '');?>" />
                 </div>
               </div>    
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <table id="tblfrais"  class="table table-bordered table-striped" style="width: 500px;">
                             <thead>
                                 <tr align="center">
@@ -367,16 +367,16 @@
               </div>
               <!-- Fin information personnelle -->
               <div class="form-group T40 B20">
-                <div class="col-sm-4 col-xs-12"></div>
-                <div class="col-sm-7 col-xs-12 titre">
+                <div class="col-sm-4 col-12"></div>
+                <div class="col-sm-7 col-12 titre">
                   <?php echo ci3lang('option_syst_info_envoi');?>
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_typeenvoi');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <select class="form-control" style="width:200px" name="autosend" id="autosend" >
                       <option value="0">Choisir</option>
                       <option <?php echo (($autosend == 1)? ' selected ' : '' ) ;?> value="1"><?php echo ci3lang('envoi_auto');?></option>     
@@ -385,18 +385,18 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_heureenvoi');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <input type="time" class="form-control" style="width:200px" value="<?php echo ($timetosend ?? '') ;?>" name="timetosend" id="timetosend" />
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                   <?php echo ci3lang('option_syst_confirmation');?>
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <select class="form-control" style="width:200px" name="NeedConfirm" id="NeedConfirm" >
                       <option value="0">Choisir</option>
                       <option <?php echo (($NeedConfirm == 1)? ' selected ' : '' ) ;?> value="1"><?php echo ci3lang('option_syst_confirm_rh');?></option>     
@@ -405,9 +405,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12 control-label">
+                <div class="col-sm-4 col-12 control-label">
                 </div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-7 col-12">
                   <table id="tblproduits"  class="table table-bordered table-striped" style="width: 400px;">
                             <thead>
                                 <tr align="center">
@@ -470,8 +470,8 @@
 
               </div>
               <div class="form-group">
-                <div class="col-sm-4 col-xs-12"></div>
-                <div class="col-sm-7 col-xs-12">
+                <div class="col-sm-4 col-12"></div>
+                <div class="col-sm-7 col-12">
                   <button type="button" onclick="SubmitForm()" class="btn btn-success" style="outline:none">
                     <?php echo ci3lang('enregister');?>
                   </button>

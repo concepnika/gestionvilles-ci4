@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SaniVan Web – Connexion</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css">
     <style>
         body {

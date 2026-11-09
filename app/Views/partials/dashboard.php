@@ -65,7 +65,7 @@
 								<div class="col">
 									<div class="progress progress-sm">
 										<div class="progress-bar bg-info" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-											<span class="sr-only">50%</span>
+											<span class="visually-hidden">50%</span>
 										</div>
 									</div>
 								</div>
@@ -105,10 +105,10 @@
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<h6 class="text-primary font-weight-bold m-0">Earnings Overview</h6>
 					<div class="dropdown no-arrow">
-						<button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">
+						<button class="btn btn-link btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" type="button">
 							<i class="fas fa-ellipsis-v text-gray-400"></i>
 						</button>
-						<div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
+						<div class="dropdown-menu shadow dropdown-menu-end animated--fade-in"
 							role="menu">
 							<p class="text-center dropdown-header">dropdown header:</p>
 							<a class="dropdown-item" role="presentation" href="#">&nbsp;Action</a>
@@ -130,10 +130,10 @@
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<h6 class="text-primary font-weight-bold m-0">Revenue Sources</h6>
 					<div class="dropdown no-arrow">
-						<button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">
+						<button class="btn btn-link btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" type="button">
 							<i class="fas fa-ellipsis-v text-gray-400"></i>
 						</button>
-						<div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
+						<div class="dropdown-menu shadow dropdown-menu-end animated--fade-in"
 							role="menu">
 							<p class="text-center dropdown-header">dropdown header:</p>
 							<a class="dropdown-item" role="presentation" href="#">&nbsp;Action</a>
@@ -177,7 +177,7 @@
 					</h4>
 					<div class="progress mb-4">
 						<div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
-							<span class="sr-only">20%</span>
+							<span class="visually-hidden">20%</span>
 						</div>
 					</div>
 					<h4 class="small font-weight-bold">
@@ -186,7 +186,7 @@
 					</h4>
 					<div class="progress mb-4">
 						<div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
-							<span class="sr-only">40%</span>
+							<span class="visually-hidden">40%</span>
 						</div>
 					</div>
 					<h4 class="small font-weight-bold">
@@ -195,7 +195,7 @@
 					</h4>
 					<div class="progress mb-4">
 						<div class="progress-bar bg-primary" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-							<span class="sr-only">60%</span>
+							<span class="visually-hidden">60%</span>
 						</div>
 					</div>
 					<h4 class="small font-weight-bold">
@@ -204,7 +204,7 @@
 					</h4>
 					<div class="progress mb-4">
 						<div class="progress-bar bg-info" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-							<span class="sr-only">80%</span>
+							<span class="visually-hidden">80%</span>
 						</div>
 					</div>
 					<h4 class="small font-weight-bold">
@@ -213,7 +213,7 @@
 					</h4>
 					<div class="progress mb-4">
 						<div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-							<span class="sr-only">100%</span>
+							<span class="visually-hidden">100%</span>
 						</div>
 					</div>
 				</div>

@@ -68,7 +68,7 @@
       var base_url = "<?php echo ci3_url() ?>";
       var ActiveDate = "<?php echo date("Y-m-d") ?>";
       $(document).ready(function () {
-          $('[data-toggle="popover"]').popover();
+          $('[data-bs-toggle="popover"]').popover();
       });
   </script>
   </head>
@@ -100,7 +100,7 @@
                 </li>
                 <li> &nbsp;&nbsp;&nbsp;&nbsp;</li>
                 <li style="display:<?php echo (($idrh == 27 or $idrh == 23 or $idrh == 76) ? 'block' : 'none'); ?>">
-                  <a href="/sanivan/aujourdhui/1/<?php echo date("Y-m-d")?>" target="_blank" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Cédule" data-content="Affiche la gestion des cédules.">
+                  <a href="/sanivan/aujourdhui/1/<?php echo date("Y-m-d")?>" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Cédule" data-bs-content="Affiche la gestion des cédules.">
                     <i class='fa fa-tasks' style='font-size:24px;'></i>&nbsp;&nbsp;Cédule
                   </a>
                   
@@ -186,7 +186,7 @@
                               <input type="time" class="form-control form-control-modern" id="HreFin_cam" onchange="postTextSani(this.value, this.id)" value="<?php echo ($HreFin_cam ?? ''); ?>" style="width: 100px; background-color: yellow; color: blue; font-weight: bold; " required />
                             </span>
                             <button type='button'
-                              class='btn btn-default btn-sm' style='font-size:18px;' xclass='btn-primary btn'
+                              class='btn btn-outline-secondary btn-sm' style='font-size:18px;' xclass='btn-primary btn'
                               onclick="postCamSani()" title='Enregistrer'>
                               <i class='fa fa-check  btn btn-success' aria-hidden='true'></i>
                             </button>
@@ -213,7 +213,7 @@
                             </span>
 
                             <button type='button'
-                              class='btn btn-default btn-sm' style='font-size:18px;' xclass='btn-primary btn'
+                              class='btn btn-outline-secondary btn-sm' style='font-size:18px;' xclass='btn-primary btn'
                               onclick="PostChaufSani()" title='Enregistrer'>
                               <i class='fa fa-check  btn btn-success' aria-hidden='true'></i>
                             </button>
@@ -234,7 +234,7 @@
                             </span>
 
                             <button type='button'
-                              class='btn btn-default btn-sm' style='font-size:18px;' xclass='btn-primary btn'
+                              class='btn btn-outline-secondary btn-sm' style='font-size:18px;' xclass='btn-primary btn'
                               onclick="PostChaufExtra()" title='Enregistrer'>
                               <i class='fa fa-check  btn btn-success' aria-hidden='true'></i>
                             </button>
@@ -310,7 +310,7 @@
     <!-- end: page -->
   </section>
 
-  <div class="modal fade" id="chgCamModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal fade" id="chgCamModal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -344,7 +344,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="chgChaufModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+  <div class="modal fade" id="chgChaufModal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
 

@@ -5,19 +5,19 @@
 <div class="collapse navbar-collapse" id="myNavbar">
   <ul class="nav navbar-nav">
     <li>
-      <a href="/admin" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Accueil" data-content="Aller &agrave; l'Accueil">
+      <a href="/admin" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Accueil" data-bs-content="Aller &agrave; l'Accueil">
         <i class="fa fa-home" style="font-size:28px;color:white"></i>
       </a>
     </li>
 
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:white">
         <i class='	fas fa-truck-pickup' style='font-size:24px;color:white'></i>&nbsp;ROLL OFF
       </a>
 
       <ul class="dropdown-menu">
         <li>
-          <a href="/rolloff/aujourdhui/1/<?php echo date("Y-m-d") ; ?>" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Jour actif" data-content="Afficher la journ&eacute;e active">
+          <a href="/rolloff/aujourdhui/1/<?php echo date("Y-m-d") ; ?>" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Jour actif" data-bs-content="Afficher la journ&eacute;e active">
             <i class='fas fa-calendar-check' style='font-size:24px;'></i>&nbsp;&nbsp;Aujourd'hui
           </a>
         </li>
@@ -30,13 +30,13 @@
         </li>
         <li class="divider"></li>
         <li>
-          <a href="/sanivan/validation" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Validation Sanivan" data-content="Afficher la page de validation pour les employ&eacute;s et les camions.">
+          <a href="/sanivan/validation" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Validation Sanivan" data-bs-content="Afficher la page de validation pour les employ&eacute;s et les camions.">
             <i class='fas fa-tasks' style='font-size:24px;'></i>&nbsp;&nbsp;V&eacute;rification des revenus et d&eacute;penses
           </a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="/sanivan/validation" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Validation Sanivan" data-content="Afficher la page de validation pour les employ&eacute;s et les camions.">
+          <a href="/sanivan/validation" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Validation Sanivan" data-bs-content="Afficher la page de validation pour les employ&eacute;s et les camions.">
             <i class='fas fa-tasks' style='font-size:24px;'></i>&nbsp;&nbsp;Tableau de bord des ROLL OFF
           </a>
         </li>
@@ -83,7 +83,7 @@
     </li>
 
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:white">
         <i class='fas fa-users' style='font-size:24px;color:white'></i>&nbsp;Afficher les Chauffeurs
       </a>
 
@@ -95,7 +95,7 @@
   </ul>
   <ul class="nav navbar-nav">
     <li>
-      <a style="color:white;float:right" href="/admin/quitter" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Quitter l'application" data-content="Cliquer pour quitter de fa&ccedil;on s&eacute;curitaire.">
+      <a style="color:white;float:right" href="/admin/quitter" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Quitter l'application" data-bs-content="Cliquer pour quitter de fa&ccedil;on s&eacute;curitaire.">
 
         <i class="fas fa-user-alt-slash" style="font-size:24px; color:red"></i>
       </a>

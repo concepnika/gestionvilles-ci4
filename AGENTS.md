@@ -440,7 +440,45 @@ L'app est servie à la **racine** du sous-domaine (pas de `/ci4/`) et
 tourne en **mode autonome** — aucun lien HTTP ou applicatif vers CI3 :
 le but est de prouver que CI4 est complet avant le retrait de CI3.
 
-Trois adaptations versionnées rendent le même code compatible :
+### Assets : copie épurée + migration Bootstrap 5 (2026-11-09)
+
+`public/assets/` contient **uniquement les ~390 fichiers réellement
+référencés** (~138 Mo) au lieu des 5 Go de CI3 (`bower_components`
+1,7 Go et `pronto` 1,4 Go éliminés — seuls les fichiers utilisés sont
+copiés, incl. dépendances `url()` des CSS : fonts, images).
+`assets/img/boites/` (189 Mo, icônes dynamiques) n'est PAS committé —
+à copier dans `ci3files/assets/img/boites/` sur le serveur.
+`icon_boites/` (203 Mo) : non référencé, abandonné.
+
+**Migration BS3 → BS5** des 63+ vues AdminLTE (pronto/vendor était
+déjà BS 5.2.3 — ses 19 vues sont inchangées) :
+
+- `public/assets/vendor5/bootstrap.min.css` = bootstrap 5.2.3 +
+  `glyphicons.css` (font + 262 icônes extraites de BS3) +
+  `bs5-compat.css` (shim de styles : panel, well, close, form-group,
+  pagination BS3, nav>li.active, label/badge nus, icon-bar…).
+  `vendor5/bootstrap.bundle.min.js` = bundle + `bs5-jquery-bridge.js`
+  (réexpose `$.fn.modal/popover/dropdown/…` via les classes BS5 —
+  les scripts legacy incl. AdminLTE `app.js` fonctionnent).
+- Refs `/assets/{bower_components/bootstrap,bootstrap}/...` →
+  `vendor5` ; `dataTables.bootstrap.js` → `dataTables.bootstrap5.min.js`.
+- `tools/bs5_transform.php` : renommage mécanique des 118 vues
+  (~2814 subs) — `data-toggle|dismiss|target|placement|trigger|
+  content|backdrop` → `data-bs-*` (valeurs Bootstrap seulement ;
+  `push-menu`/`control-sidebar` AdminLTE conservés), `col-xs-*` →
+  `col-*`, `btn-default` → `btn-outline-secondary`, `label label-*`
+  → `badge bg-*`, `hidden-*` → `d-*`, etc. Mêmes règles appliquées
+  aux JS copiés + fixes `theme.js`/`theme.init.js` (sélecteurs
+  `[data-bs-toggle=…]`, `data-bs-target` avec fallback).
+- Refs CDN bootstrap 3.3.x des vues vivantes (confirme, map_nav_*)
+  → vendor5 ; refs mortes connues laissées mortes (parité CI3).
+
+**Vhost local** : l'`Alias /assets` → docroot CI3 est **retiré**
+(il masquait `public/assets` ; le fichier statique est désormais servi
+depuis public/ puis `serveWebrootFile` → ci3.webroot en fallback).
+Idem `Alias /uploads` et le bypass `RewriteRule` associé.
+
+Adaptations déploiement :
 
 - **`public/.htaccess`** : bloc `RewriteCond %{HTTP_HOST}
   ^dev\.robert-daoust\.ca$` réécrit vers `/index.php/$1` en absolu
@@ -487,16 +525,11 @@ samsara.baseUrl = 'https://api.samsara.com'
 cPanel : copie serveur→serveur depuis le docroot CI3 prod, instantané —
 ou zip+extraction) :
 
-- `assets/` → `ci3files/assets/` — les vues référencent :
-  bower_components, datatables, pronto, plugins, js, fullcalendar,
-  css, bootstrap, font-awesome, Ionicons, jquery-ui, vendor, moment,
-  jquery-slimscroll, fastclick, keyboard, 00_images, dist, summernote,
-  select2, img (dir CI3 ≈ 5 Go : bower_components 1,7 Go + pronto/
-  vendor 1,3 Go + img/boites+icon_boites ~400 Mo de photos — la copie
-  complète marche, la version élaguée est un nice-to-have)
+- `assets/img/boites/` → `ci3files/assets/img/boites/` (189 Mo,
+  icônes camion de `map_nav_ro` — le seul gros dossier dynamique non
+  commité ; tout le reste de `assets/` est dans `public/assets/`)
 - `upload/`, `uploads/`, `userfiles/` → mêmes noms sous `ci3files/`
   (fichiers utilisateurs : réponses, tickets, gpx, xlsx générés)
-- `icons/` seulement si des URLs `/icons/…` sont observées en 404
 
 Ne PAS copier : `application/`, `system/`, `vendor/`, `cron/`, `sql/`,
 `tools/`, `docs/`, `api_proxy/`, `ci_sessions/` (app CI3 — jamais

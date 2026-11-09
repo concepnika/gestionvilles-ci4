@@ -238,7 +238,7 @@
       </div>
     </div>
         </section>
-	  <div class="modal fade" id="newActionModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+	  <div class="modal fade" id="newActionModal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 

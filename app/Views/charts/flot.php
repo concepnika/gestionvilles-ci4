@@ -44,7 +44,7 @@
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="visually-hidden">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -54,9 +54,9 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
+              <span class="badge bg-success">4</span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">You have 4 messages</li>
@@ -65,8 +65,8 @@
                 <ul class="menu">
                   <li><!-- start message -->
                     <a href="#">
-                      <div class="pull-left">
-                        <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                      <div class="float-start">
+                        <img src="../../dist/img/user2-160x160.jpg" class="rounded-circle" alt="User Image">
                       </div>
                       <h4>
                         Support Team
@@ -78,8 +78,8 @@
                   <!-- end message -->
                   <li>
                     <a href="#">
-                      <div class="pull-left">
-                        <img src="../../dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                      <div class="float-start">
+                        <img src="../../dist/img/user3-128x128.jpg" class="rounded-circle" alt="User Image">
                       </div>
                       <h4>
                         AdminLTE Design Team
@@ -90,8 +90,8 @@
                   </li>
                   <li>
                     <a href="#">
-                      <div class="pull-left">
-                        <img src="../../dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                      <div class="float-start">
+                        <img src="../../dist/img/user4-128x128.jpg" class="rounded-circle" alt="User Image">
                       </div>
                       <h4>
                         Developers
@@ -102,8 +102,8 @@
                   </li>
                   <li>
                     <a href="#">
-                      <div class="pull-left">
-                        <img src="../../dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                      <div class="float-start">
+                        <img src="../../dist/img/user3-128x128.jpg" class="rounded-circle" alt="User Image">
                       </div>
                       <h4>
                         Sales Department
@@ -114,8 +114,8 @@
                   </li>
                   <li>
                     <a href="#">
-                      <div class="pull-left">
-                        <img src="../../dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                      <div class="float-start">
+                        <img src="../../dist/img/user4-128x128.jpg" class="rounded-circle" alt="User Image">
                       </div>
                       <h4>
                         Reviewers
@@ -131,9 +131,9 @@
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
+              <span class="badge bg-warning">10</span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">You have 10 notifications</li>
@@ -174,9 +174,9 @@
           </li>
           <!-- Tasks: style can be found in dropdown.less -->
           <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
               <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
+              <span class="badge bg-danger">9</span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">You have 9 tasks</li>
@@ -187,12 +187,12 @@
                     <a href="#">
                       <h3>
                         Design some buttons
-                        <small class="pull-right">20%</small>
+                        <small class="float-end">20%</small>
                       </h3>
                       <div class="progress xs">
                         <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
                              aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
+                          <span class="visually-hidden">20% Complete</span>
                         </div>
                       </div>
                     </a>
@@ -202,12 +202,12 @@
                     <a href="#">
                       <h3>
                         Create a nice theme
-                        <small class="pull-right">40%</small>
+                        <small class="float-end">40%</small>
                       </h3>
                       <div class="progress xs">
                         <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
                              aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">40% Complete</span>
+                          <span class="visually-hidden">40% Complete</span>
                         </div>
                       </div>
                     </a>
@@ -217,12 +217,12 @@
                     <a href="#">
                       <h3>
                         Some task I need to do
-                        <small class="pull-right">60%</small>
+                        <small class="float-end">60%</small>
                       </h3>
                       <div class="progress xs">
                         <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
                              aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">60% Complete</span>
+                          <span class="visually-hidden">60% Complete</span>
                         </div>
                       </div>
                     </a>
@@ -232,12 +232,12 @@
                     <a href="#">
                       <h3>
                         Make beautiful transitions
-                        <small class="pull-right">80%</small>
+                        <small class="float-end">80%</small>
                       </h3>
                       <div class="progress xs">
                         <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
                              aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">80% Complete</span>
+                          <span class="visually-hidden">80% Complete</span>
                         </div>
                       </div>
                     </a>
@@ -252,14 +252,14 @@
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
               <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="d-none d-sm-block">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="../../dist/img/user2-160x160.jpg" class="rounded-circle" alt="User Image">
 
                 <p>
                   Alexander Pierce - Web Developer
@@ -269,13 +269,13 @@
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
-                  <div class="col-xs-4 text-center">
+                  <div class="col-4 text-center">
                     <a href="#">Followers</a>
                   </div>
-                  <div class="col-xs-4 text-center">
+                  <div class="col-4 text-center">
                     <a href="#">Sales</a>
                   </div>
-                  <div class="col-xs-4 text-center">
+                  <div class="col-4 text-center">
                     <a href="#">Friends</a>
                   </div>
                 </div>
@@ -283,11 +283,11 @@
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                <div class="float-start">
+                  <a href="#" class="btn btn-outline-secondary btn-flat">Profile</a>
                 </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                <div class="float-end">
+                  <a href="#" class="btn btn-outline-secondary btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -306,10 +306,10 @@
     <section class="sidebar">
       <!-- Sidebar user panel -->
       <div class="user-panel">
-        <div class="pull-left image">
-          <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        <div class="float-start image">
+          <img src="../../dist/img/user2-160x160.jpg" class="rounded-circle" alt="User Image">
         </div>
-        <div class="pull-left info">
+        <div class="float-start info">
           <p>Alexander Pierce</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -331,8 +331,8 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <span class="float-end-container">
+              <i class="fa fa-angle-left float-end"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -344,8 +344,8 @@
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Layout Options</span>
-            <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
+            <span class="float-end-container">
+              <span class="badge bg-primary float-end">4</span>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -358,8 +358,8 @@
         <li>
           <a href="../widgets.html">
             <i class="fa fa-th"></i> <span>Widgets</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
+            <span class="float-end-container">
+              <small class="label float-end bg-green">new</small>
             </span>
           </a>
         </li>
@@ -367,8 +367,8 @@
           <a href="#">
             <i class="fa fa-pie-chart"></i>
             <span>Charts</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <span class="float-end-container">
+              <i class="fa fa-angle-left float-end"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -382,8 +382,8 @@
           <a href="#">
             <i class="fa fa-laptop"></i>
             <span>UI Elements</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <span class="float-end-container">
+              <i class="fa fa-angle-left float-end"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -398,8 +398,8 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-edit"></i> <span>Forms</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <span class="float-end-container">
+              <i class="fa fa-angle-left float-end"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -411,8 +411,8 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Tables</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <span class="float-end-container">
+              <i class="fa fa-angle-left float-end"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -423,27 +423,27 @@
         <li>
           <a href="../calendar.html">
             <i class="fa fa-calendar"></i> <span>Calendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
+            <span class="float-end-container">
+              <small class="label float-end bg-red">3</small>
+              <small class="label float-end bg-blue">17</small>
             </span>
           </a>
         </li>
         <li>
           <a href="../mailbox/mailbox.html">
             <i class="fa fa-envelope"></i> <span>Mailbox</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-yellow">12</small>
-              <small class="label pull-right bg-green">16</small>
-              <small class="label pull-right bg-red">5</small>
+            <span class="float-end-container">
+              <small class="label float-end bg-yellow">12</small>
+              <small class="label float-end bg-green">16</small>
+              <small class="label float-end bg-red">5</small>
             </span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-folder"></i> <span>Examples</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <span class="float-end-container">
+              <i class="fa fa-angle-left float-end"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -461,24 +461,24 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-share"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <span class="float-end-container">
+              <i class="fa fa-angle-left float-end"></i>
             </span>
           </a>
           <ul class="treeview-menu">
             <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
             <li class="treeview">
               <a href="#"><i class="fa fa-circle-o"></i> Level One
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
+                <span class="float-end-container">
+                  <i class="fa fa-angle-left float-end"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
                 <li class="treeview">
                   <a href="#"><i class="fa fa-circle-o"></i> Level Two
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
+                    <span class="float-end-container">
+                      <i class="fa fa-angle-left float-end"></i>
                     </span>
                   </a>
                   <ul class="treeview-menu">
@@ -519,7 +519,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <!-- interactive chart -->
           <div class="box box-primary">
             <div class="box-header with-border">
@@ -527,11 +527,11 @@
 
               <h3 class="box-title">Interactive Area Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 Real time
                 <div class="btn-group" id="realtime" data-toggle="btn-toggle">
-                  <button type="button" class="btn btn-default btn-xs active" data-toggle="on">On</button>
-                  <button type="button" class="btn btn-default btn-xs" data-toggle="off">Off</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm active" data-toggle="on">On</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="off">Off</button>
                 </div>
               </div>
             </div>
@@ -556,7 +556,7 @@
 
               <h3 class="box-title">Line Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -576,7 +576,7 @@
 
               <h3 class="box-title">Full Width Area Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -600,7 +600,7 @@
 
               <h3 class="box-title">Bar Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -620,7 +620,7 @@
 
               <h3 class="box-title">Donut Chart</h3>
 
-              <div class="box-tools pull-right">
+              <div class="box-tools float-end">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -642,7 +642,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <div class="pull-right hidden-xs">
+    <div class="float-end d-none d-sm-block">
       <b>Version</b> 2.4.18
     </div>
     <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
@@ -652,9 +652,9 @@
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    <ul class="nav nav-tabs nav-fill control-sidebar-tabs">
+      <li><a href="#control-sidebar-home-tab" data-bs-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-bs-toggle="tab"><i class="fa fa-gears"></i></a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -715,7 +715,7 @@
             <a href="javascript:void(0)">
               <h4 class="control-sidebar-subheading">
                 Custom Template Design
-                <span class="label label-danger pull-right">70%</span>
+                <span class="badge bg-danger float-end">70%</span>
               </h4>
 
               <div class="progress progress-xxs">
@@ -727,7 +727,7 @@
             <a href="javascript:void(0)">
               <h4 class="control-sidebar-subheading">
                 Update Resume
-                <span class="label label-success pull-right">95%</span>
+                <span class="badge bg-success float-end">95%</span>
               </h4>
 
               <div class="progress progress-xxs">
@@ -739,7 +739,7 @@
             <a href="javascript:void(0)">
               <h4 class="control-sidebar-subheading">
                 Laravel Integration
-                <span class="label label-warning pull-right">50%</span>
+                <span class="badge bg-warning float-end">50%</span>
               </h4>
 
               <div class="progress progress-xxs">
@@ -751,7 +751,7 @@
             <a href="javascript:void(0)">
               <h4 class="control-sidebar-subheading">
                 Back End Framework
-                <span class="label label-primary pull-right">68%</span>
+                <span class="badge bg-primary float-end">68%</span>
               </h4>
 
               <div class="progress progress-xxs">
@@ -775,7 +775,7 @@
           <div class="form-group">
             <label class="control-sidebar-subheading">
               Report panel usage
-              <input type="checkbox" class="pull-right" checked>
+              <input type="checkbox" class="float-end" checked>
             </label>
 
             <p>
@@ -787,7 +787,7 @@
           <div class="form-group">
             <label class="control-sidebar-subheading">
               Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
+              <input type="checkbox" class="float-end" checked>
             </label>
 
             <p>
@@ -799,7 +799,7 @@
           <div class="form-group">
             <label class="control-sidebar-subheading">
               Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
+              <input type="checkbox" class="float-end" checked>
             </label>
 
             <p>
@@ -813,7 +813,7 @@
           <div class="form-group">
             <label class="control-sidebar-subheading">
               Show me as online
-              <input type="checkbox" class="pull-right" checked>
+              <input type="checkbox" class="float-end" checked>
             </label>
           </div>
           <!-- /.form-group -->
@@ -821,7 +821,7 @@
           <div class="form-group">
             <label class="control-sidebar-subheading">
               Turn off notifications
-              <input type="checkbox" class="pull-right">
+              <input type="checkbox" class="float-end">
             </label>
           </div>
           <!-- /.form-group -->
@@ -829,7 +829,7 @@
           <div class="form-group">
             <label class="control-sidebar-subheading">
               Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+              <a href="javascript:void(0)" class="text-red float-end"><i class="fa fa-trash-o"></i></a>
             </label>
           </div>
           <!-- /.form-group -->

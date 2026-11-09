@@ -21,7 +21,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -71,7 +71,7 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();   
+        $('[data-bs-toggle="popover"]').popover();   
     });
   </script>
 </head>
@@ -82,33 +82,33 @@
     <header class="main-header  navbar-dark bg-primary fixed-top" style="position: fixed;top: 0; width: 100%;height:auto">
 
       <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-static-top pull-right">
+      <nav class="navbar navbar-static-top float-end">
         <!-- Sidebar toggle button-->
 
         <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <li>
-              <a href="/admin"  data-toggle="popover"  data-trigger="hover" data-placement="bottom" class="btn-primary" title="Accueil" data-content="Aller à l'Accueil">
+              <a href="/admin"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom" class="btn-primary" title="Accueil" data-bs-content="Aller à l'Accueil">
                <i class="fa fa-home" style="font-size:28px;color:black"></i>
               </a>
           </li>
           <li >
-            <a  class="btn-primary" href="/sanivan/calendrier"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Afficher le calendrier des villes"><i class='fa fa-calendar' style='font-size:24px'></i>&nbsp;Villes</a>
+            <a  class="btn-primary" href="/sanivan/calendrier"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Afficher le calendrier des villes"><i class='fa fa-calendar' style='font-size:24px'></i>&nbsp;Villes</a>
               
         </li>
                   <li>
-          <a class="btn-primary"  href="/sanivan/validation"  data-toggle="popover"  data-trigger="hover" data-placement="bottom" title="Validation Sanivan" data-content="Afficher la page de validation pour les employés et les camions." ><i class='fa fa-check-square-o' style='font-size:24px;'></i>&nbsp;Vérif</a>
+          <a class="btn-primary"  href="/sanivan/validation"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom" title="Validation Sanivan" data-bs-content="Afficher la page de validation pour les employés et les camions." ><i class='fa fa-check-square-o' style='font-size:24px;'></i>&nbsp;Vérif</a>
         </li>
         <li >
-            <a  class="btn-primary" href="/sanivan/camions"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Camion H-S et Avec Matériel" data-content="Afficher la page pour la gestion des camions Sanivans et RollOff"><i class='fa fa-truck' style='font-size:24px'></i></a>
+            <a  class="btn-primary" href="/sanivan/camions"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Camion H-S et Avec Matériel" data-bs-content="Afficher la page pour la gestion des camions Sanivans et RollOff"><i class='fa fa-truck' style='font-size:24px'></i></a>
               
         </li>
                   <li>
-          <a class="btn-primary"  href="/sanivan/validation"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Chauffeurs et Aides" data-content="Afficher la page pour la gestion des Chauffeurs et des Aides" ><i class='fa fa-user' style='font-size:24px'></i></a>
+          <a class="btn-primary"  href="/sanivan/validation"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Chauffeurs et Aides" data-bs-content="Afficher la page pour la gestion des Chauffeurs et des Aides" ><i class='fa fa-user' style='font-size:24px'></i></a>
         </li>
 
           <li>
-            <a href="#" onclick="ReLoadToday()" type="button"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Rafraichir" data-content="Rafraichir la page Aujourd'hui" class="btn btn-link"><img width="35" src="/assets/img/redo-solid.png" /></a>
+            <a href="#" onclick="ReLoadToday()" type="button"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Rafraichir" data-bs-content="Rafraichir la page Aujourd'hui" class="btn btn-link"><img width="35" src="/assets/img/redo-solid.png" /></a>
           </li>
         </ul>
       </div>
@@ -124,7 +124,7 @@
                 <div class="container-fluid" >
                   <div class="form-group">
                     
-                    <div class="col-sm-7 col-xs-12">
+                    <div class="col-sm-7 col-12">
                        <label style="font-weight: bold; "> <input class="form-check-input" type="checkbox" id="chkStart" />&nbsp; &nbsp; A débuté </label>
                     </div>
                   </div>  
@@ -132,7 +132,7 @@
      <br /> <br />
                            <label style="font-weight: bold; "># Camions  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <select class="form-control" name="camion" id="camion" required>
                                 <option value="">Choisir</option>
                                 <?php echo ($camions ?? '') ; ?>
@@ -141,19 +141,19 @@
                            <br /> <br />
                            <label style="font-weight: bold; ">Date hors service </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dtestart" />
+                        <div class="col-sm-7 col-12">
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px"  data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dtestart" />
                         </div>    
                            <br /> <br />
                            <label style="font-weight: bold; ">Date retour prévu </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
-                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-toggle="popover"  data-trigger="hover" data-placement="bottom"title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="" name="dteend" />
+                        <div class="col-sm-7 col-12">
+                           <input type="date" class="form-control" style="font-size:medium;font-weight:bold;height:40px;margin-top:5px" data-bs-toggle="popover"  data-bs-trigger="hover" data-bs-placement="bottom"title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="" name="dteend" />
                         </div>    
                            <br /> <br />
                            <label style="font-weight: bold; "># Camions  </label> <br />
                         
-                        <div class="col-sm-7 col-xs-12">
+                        <div class="col-sm-7 col-12">
                             <textarea rows="7" cols="50" > 
 
                             </textarea>

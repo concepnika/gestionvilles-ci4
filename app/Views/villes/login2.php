@@ -21,7 +21,7 @@
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="/assets/css/AdminLTE.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />
   <!-- Ionicons -->
@@ -73,7 +73,7 @@
         $("#chk_" + Route).css("background-color","#80FF9F");
     }
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-bs-toggle="popover"]').popover();
     });
   </script>
 </head>
@@ -105,12 +105,12 @@
         <div class="row" style="margin-top:10px;">
 
           <!-- /.col -->
-          <div class="col-xs-4 pull-right">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">
+          <div class="col-4 float-end">
+            <button type="submit" class="btn btn-primary d-block w-100 btn-flat">
               <?php echo ci3lang('login_connect');?>
             </button>
           </div>
-          <div class="col-xs-12 pull-left">
+          <div class="col-12 float-start">
             <button type="button" onclick="$('#modalgetEmailVille').modal('show');">
               <?php echo ci3lang('login_forget');?>
             </button>
@@ -129,7 +129,7 @@
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
           <h3 class="modal-title" id="mytitre">
@@ -146,10 +146,10 @@
 
         <!-- Modal footer -->
         <div class="modal-footer" style="background-color:Window;">
-          <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" onclick="SendInfoVille()" data-dismiss="modal">
+          <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" onclick="SendInfoVille()" data-bs-dismiss="modal">
             <?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmer l\'envoi' : 'Confirm shipment');?>
           </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
         </div>
 
       </div>
