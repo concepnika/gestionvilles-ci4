@@ -15,7 +15,10 @@ use CodeIgniter\Router\RouteCollection;
  *
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+// Parite CI3 : default_controller = Co_ville (/ -> 307 villes/requetes).
+// La page de statut de la migration reste disponible sur /status.
+$routes->get('/', 'Ville::index');
+$routes->get('status', 'Home::index');
 $routes->get('whoami', 'Home::whoami', ['filter' => 'ci3auth']);
 $routes->get('cedules/(:segment)', 'Cedules::day/$1', ['filter' => 'ci3auth']);
 
