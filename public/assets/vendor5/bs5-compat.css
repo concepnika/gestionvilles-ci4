@@ -133,3 +133,21 @@ a.label:hover { color: #fff; text-decoration: none; }
 /* alerts BS3 */
 .alert .alert-link { font-weight: 700; }
 .alert-dismissable .close, .alert-dismissible .close { position: relative; top: -2px; right: -21px; color: inherit; }
+
+/* ---- navbar BS3 (AdminLTE 2) ---- */
+/* .collapse.navbar-collapse est masque par BS5 (.collapse:not(.show))
+   alors que BS3 l'affichait via .navbar-collapse ; on le reaffiche sur
+   desktop, le toggler BS5 gere le mobile. */
+@media (min-width: 768px) {
+  .navbar .navbar-collapse.collapse { display: flex !important; height: auto !important; }
+}
+/* BS5 met .navbar-nav en flex-column : le menu horizontal AdminLTE
+   s'empile verticalement. Retour au comportement float de BS3. */
+.navbar-nav { display: block; float: left; margin: 0; padding-left: 0; }
+.navbar-nav > li { float: left; display: block; position: relative; }
+.navbar-nav > li > a { position: relative; display: block; padding: 15px; line-height: 20px; }
+/* nav generique BS3 : .nav est flex en BS5 ; les li directs doivent
+   rester des blocs, pas des items flex */
+.nav > li { position: relative; display: block; }
+.nav > li > a { position: relative; display: block; padding: 10px 15px; }
+.nav > li > a:hover, .nav > li > a:focus { text-decoration: none; background: #eee; }

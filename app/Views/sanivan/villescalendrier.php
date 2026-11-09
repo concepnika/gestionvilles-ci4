@@ -18,8 +18,8 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.0/fullcalendar.min.js "></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.0/lang-all.js "></script>  
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+  <script type="text/javascript" src="/assets/vendor5/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/vendor5/bootstrap.min.css" />
   <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
   <!-- Bootstrap 3.3.7 -->

@@ -3,7 +3,7 @@
 
 ?>
 <link rel="stylesheet"
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  href="/assets/vendor5/bootstrap.min.css" />
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="/assets/bower_components/font-awesome/css/font-awesome.min.css" />

@@ -540,7 +540,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
 
 <!-- Scripts -->
 <script src="/assets/pronto/vendor/jquery/jquery.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/assets/vendor5/bootstrap.bundle.min.js"></script>
 <script>
 // ═══ Horloge – reproduit OnTimerTick (desktop + mobile) ═══
 (function(){

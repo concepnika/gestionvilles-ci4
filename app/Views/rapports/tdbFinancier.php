@@ -11,8 +11,8 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+  <script type="text/javascript" src="/assets/vendor5/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="/assets/vendor5/bootstrap.min.css" />
   <!-- Font Awesome -->

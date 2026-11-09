@@ -977,3 +977,14 @@ a.label:hover { color: #fff; text-decoration: none; }
 /* alerts BS3 */
 .alert .alert-link { font-weight: 700; }
 .alert-dismissable .close, .alert-dismissible .close { position: relative; top: -2px; right: -21px; color: inherit; }
+
+/* ---- navbar BS3 (AdminLTE 2) ---- */
+@media (min-width: 768px) {
+  .navbar .navbar-collapse.collapse { display: flex !important; height: auto !important; }
+}
+.navbar-nav { display: block; float: left; margin: 0; padding-left: 0; }
+.navbar-nav > li { float: left; display: block; position: relative; }
+.navbar-nav > li > a { position: relative; display: block; padding: 15px; line-height: 20px; }
+.nav > li { position: relative; display: block; }
+.nav > li > a { position: relative; display: block; padding: 10px 15px; }
+.nav > li > a:hover, .nav > li > a:focus { text-decoration: none; background: #eee; }
