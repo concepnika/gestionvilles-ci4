@@ -16,7 +16,9 @@ Options -Indexes
 	# http://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritebase
 	RewriteBase /ci4/
 
-	# Redirect Trailing Slashes...
+	# Redirect Trailing Slashes... (desactive sur dev. : RewriteBase
+	# /ci4/ produirait une redirection hors de l'app)
+	RewriteCond %{HTTP_HOST} !^dev\.robert-daoust\.ca$ [NC]
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_URI} (.+)/$
 	RewriteRule ^ %1 [L,R=301]
@@ -25,6 +27,15 @@ Options -Indexes
 	RewriteCond %{HTTPS} !=on
 	RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 	RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+
+	# dev.robert-daoust.ca : l'app est servie a la RACINE du vhost (pas
+	# de sous-dossier /ci4/). Cible /index.php absolue → RewriteBase
+	# /ci4/ ci-dessus ne s'applique pas. Doit preceder la regle
+	# generique.
+	RewriteCond %{HTTP_HOST} ^dev\.robert-daoust\.ca$ [NC]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^([\s\S]*)$ /index.php/$1 [L,NC,QSA]
 
 	# Checks to see if the user is attempting to access a valid file,
 	# such as an image or css document, if this isn't true it sends the

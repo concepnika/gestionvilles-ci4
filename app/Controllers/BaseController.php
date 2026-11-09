@@ -84,16 +84,45 @@ abstract class BaseController extends Controller
     protected function toCi3()
     {
         $uri = $this->request->getUri();
-        // 127.0.0.1 + Host: gestionvilles.local — l'IP source est
-        // TOUJOURS 127.0.0.1 : indispensable car CI3 a sess_match_ip
-        // = true (le hosts a a la fois ::1 et 127.0.0.1 ; en IPv6 la
-        // session serait invalidee a chaque bascule).
-        $target = 'http://127.0.0.1' . preg_replace('#^/index\.php#i', '', $uri->getPath());
+        // Cible du proxy :
+        // - local (ci3.proxyBase absent) : 127.0.0.1 + Host
+        //   gestionvilles.local — l'IP source est TOUJOURS 127.0.0.1,
+        //   indispensable car CI3 a sess_match_ip = true (le hosts a a
+        //   la fois ::1 et 127.0.0.1 ; en IPv6 la session serait
+        //   invalidee a chaque bascule).
+        // - dev/prod (ci3.proxyBase dans .env) : URL complete de l'app
+        //   CI3, ex. https://robert-daoust.ca — le Host est derive de
+        //   l'URL par cURL (sess_match_ip ne peut pas etre satisfait a
+        //   distance ; sans impact car seuls les assets publics et les
+        //   routes mortes passent par le proxy).
+        $proxyBase = rtrim((string) env('ci3.proxyBase'), '/');
+        $localMode = $proxyBase === '';
+        $ci3Host   = $localMode
+            ? 'gestionvilles.local'
+            : (parse_url($proxyBase, PHP_URL_HOST) ?: 'gestionvilles.local');
+        $ourHost   = $uri->getHost();
+
+        $target = ($localMode ? 'http://127.0.0.1' : $proxyBase)
+            . preg_replace('#^/index\.php#i', '', $uri->getPath());
         if (($query = $uri->getQuery()) !== '') {
             $target .= '?' . $query;
         }
 
-        $headers = ['Host' => 'gestionvilles.local'];
+        // Reecrit les URLs absolues generees par CI3 vers notre hote :
+        // www.x d'abord, puis x avec lookbehind pour ne pas retoucher
+        // les URLs deja sur notre hote (ex. dev.robert-daoust.ca).
+        $fixHost = static function (string $s) use ($ci3Host, $ourHost): string {
+            if ($ci3Host === $ourHost) {
+                return $s;
+            }
+            $s = str_replace('www.' . $ci3Host, $ourHost, $s);
+            return preg_replace('#(?<![\w.-])' . preg_quote($ci3Host, '#') . '#', $ourHost, $s);
+        };
+
+        $headers = [];
+        if ($localMode) {
+            $headers['Host'] = 'gestionvilles.local';
+        }
         foreach (['Cookie', 'Content-Type', 'Accept', 'Accept-Language',
                   'X-Requested-With', 'Referer', 'User-Agent'] as $h) {
             $header = $this->request->header($h);
@@ -140,7 +169,7 @@ abstract class BaseController extends Controller
                     // domain retire : le cookie s'applique a l'hote CI4
                     $response->appendHeader('Set-Cookie', preg_replace('/;\s*domain=[^;]*/i', '', $v));
                 } elseif ($ln === 'location') {
-                    $response->setHeader($name, str_replace('gestionvilles.local', 'gestionvillesci4.local', $v));
+                    $response->setHeader($name, $fixHost($v));
                 } elseif ($ln === 'content-type' || $ln === 'content-disposition') {
                     $response->setHeader($name, $v);
                 } else {
@@ -152,8 +181,8 @@ abstract class BaseController extends Controller
         $ctype = $response->getHeaderLine('Content-Type');
         if (preg_match('#text/html|application/json|text/#i', $ctype)) {
             // Garder la navigation sur l'hote CI4 : reecriture des URLs
-            // absolues generees par CI3 (base_url = gestionvilles.local).
-            $bodyOut = str_replace('gestionvilles.local', 'gestionvillesci4.local', $bodyOut);
+            // absolues generees par CI3 (base_url = hote CI3).
+            $bodyOut = $fixHost($bodyOut);
         }
         return $response->setBody($bodyOut);
     }

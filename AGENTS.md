@@ -434,6 +434,53 @@ en place, aucune modif de Routes.php nécessaire.
   `default_controller` (CI3 → `Co_ville`; CI4 garde `/` → `Home::index`,
   page statut).
 
+## Déploiement dev WHC (`dev.robert-daoust.ca`, 2026-11-09)
+
+L'app est servie à la **racine** du sous-domaine (pas de `/ci4/`).
+Deux adaptations versionnées rendent le même code compatible :
+
+- **`public/.htaccess`** : bloc `RewriteCond %{HTTP_HOST}
+  ^dev\.robert-daoust\.ca$` réécrit vers `/index.php/$1` en absolu
+  (ignore `RewriteBase /ci4/`, conservé pour la prod). La règle
+  « trailing slash » est désactivée sur ce vhost pour la même raison.
+- **`BaseController::toCi3()`** : cible du proxy pilotée par
+  `ci3.proxyBase` (.env). Absent → comportement local
+  (127.0.0.1 + Host `gestionvilles.local`). Défini → proxy vers l'URL
+  (ex. `https://robert-daoust.ca`) sans Host forcé ; les URLs de
+  l'hôte CI3 dans les corps/`Location` sont réécrites vers l'hôte
+  courant (regex lookbehind : `dev.robert-daoust.ca` n'est pas
+  re-préfixé, `www.` est absorbé).
+
+`.env` à créer sur le serveur (adapter identifiants/chemins WHC) :
+
+```ini
+CI_ENVIRONMENT = production
+app.baseURL = 'https://dev.robert-daoust.ca/'
+database.default.hostname = localhost
+database.default.database = '<cpanel>_gestionvilles'
+database.default.username = '<cpanel>_user'
+database.default.password = '***'
+database.default.DBDriver = MySQLi
+ci3.proxyBase = 'https://robert-daoust.ca'
+ci3.webroot = '/home/<cpanel>/public_html'          # docroot CI3 prod
+sanivan.uploadDir = '/home/<cpanel>/public_html/upload/sanivan'
+mapbox.accessToken = '<jeton pk.…>'
+samsara.apiKey = '<clé>'
+samsara.baseUrl = 'https://api.samsara.com'
+osrm.base = 'http://127.0.0.1:5000'                 # absent sur WHC
+                                                    # → snapping dégradé
+```
+
+Limites acceptées en mode distant : `sess_match_ip` CI3 ne peut pas
+être satisfait à travers le proxy distant (sessions sans effet sur les
+routes proxyées — sans impact : seuls assets publics et routes mortes
+y passent) ; OSRM local absent → `snap=1` dégrade en non-snappé si le
+code le prévoit ; uploads pointent le FS de la prod via `ci3.webroot`.
+
+⚠️ Utiliser une **copie** de la BD prod pour dev (dump + import dans
+une base `<cpanel>_gestionvilles_dev`) : les tests écrivent des
+cédules/sessions dans les mêmes tables que la prod sinon.
+
 ## Vérifications utiles
 
 ```bash
