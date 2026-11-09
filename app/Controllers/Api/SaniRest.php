@@ -818,7 +818,7 @@ class SaniRest extends BaseController
         // on ecrit donc dans le vrai dossier upload de CI3, pas dans public/.
         $urlName = rtrim((string) env('sanivan.uploadDir', ''), '/') . '/';
         if ($urlName === '/') {
-            $urlName = FCPATH . 'upload/sanivan/';
+            $urlName = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/upload/sanivan/';
         }
         if (! file_exists($urlName)) {
             mkdir($urlName, 0777, true);

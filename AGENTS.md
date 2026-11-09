@@ -436,46 +436,75 @@ en place, aucune modif de Routes.php nécessaire.
 
 ## Déploiement dev WHC (`dev.robert-daoust.ca`, 2026-11-09)
 
-L'app est servie à la **racine** du sous-domaine (pas de `/ci4/`).
-Deux adaptations versionnées rendent le même code compatible :
+L'app est servie à la **racine** du sous-domaine (pas de `/ci4/`) et
+tourne en **mode autonome** — aucun lien HTTP ou applicatif vers CI3 :
+le but est de prouver que CI4 est complet avant le retrait de CI3.
+
+Trois adaptations versionnées rendent le même code compatible :
 
 - **`public/.htaccess`** : bloc `RewriteCond %{HTTP_HOST}
   ^dev\.robert-daoust\.ca$` réécrit vers `/index.php/$1` en absolu
   (ignore `RewriteBase /ci4/`, conservé pour la prod). La règle
   « trailing slash » est désactivée sur ce vhost pour la même raison.
-- **`BaseController::toCi3()`** : cible du proxy pilotée par
-  `ci3.proxyBase` (.env). Absent → comportement local
-  (127.0.0.1 + Host `gestionvilles.local`). Défini → proxy vers l'URL
-  (ex. `https://robert-daoust.ca`) sans Host forcé ; les URLs de
-  l'hôte CI3 dans les corps/`Location` sont réécrites vers l'hôte
-  courant (regex lookbehind : `dev.robert-daoust.ca` n'est pas
-  re-préfixé, `www.` est absorbé).
+- **`ci3files/`** (racine projet, ~9 Mo commités) : arborescence
+  « webroot CI3 » embarquée — `application/controllers/pdf/` (fpdf,
+  librequete, libreceptions, requetespdf, calendrier **et**
+  `libcalendrier.php` = copie de calendrier : le fichier requis par
+  `makeCamPDF`/`makeRhPDF` n'existe plus dans CI3 → routes mortes en
+  prod, **ranimées** en CI4), `application/libraries/Sanivan/`,
+  `assets/img/logo.jpg`, `formulaires/*.xlsx`, et les dossiers
+  runtime `upload/`, `uploads/`, `userfiles/` (contenu ignoré par
+  git, structure via `.gitkeep`). `env('ci3.webroot')` a partout le
+  défaut `ROOTPATH . 'ci3files'` → sans la variable, tout résout dans
+  `ci3files/`.
+- **`BaseController::toCi3()`** : ordre de résolution = 1) fichier
+  statique sous `ci3.webroot` → servi depuis le **disque**
+  (`serveWebrootFile` : extensions en liste blanche — un `.php` n'est
+  jamais servi/executé — containment realpath) ; 2) `ci3.proxyBase`
+  = `off` → **404** (parité routes mortes) ; 3) URL → proxy distant ;
+  4) absent → proxy local historique (127.0.0.1 + Host
+  `gestionvilles.local`). En mode `off`/`URL`, les URLs de l'hôte CI3
+  dans corps/`Location` sont réécrites vers l'hôte courant.
 
-`.env` à créer sur le serveur (adapter identifiants/chemins WHC) :
+`.env` à créer sur le serveur (adapter identifiants) :
 
 ```ini
 CI_ENVIRONMENT = production
 app.baseURL = 'https://dev.robert-daoust.ca/'
 database.default.hostname = localhost
-database.default.database = '<cpanel>_gestionvilles'
+database.default.database = '<cpanel>_gestionvilles_dev'   # COPIE, pas prod
 database.default.username = '<cpanel>_user'
 database.default.password = '***'
 database.default.DBDriver = MySQLi
-ci3.proxyBase = 'https://robert-daoust.ca'
-ci3.webroot = '/home/<cpanel>/public_html'          # docroot CI3 prod
-sanivan.uploadDir = '/home/<cpanel>/public_html/upload/sanivan'
+ci3.proxyBase = 'off'          # CI4 autonome : aucun appel a CI3
+# ci3.webroot absent → <projet>/ci3files (defaut code)
 mapbox.accessToken = '<jeton pk.…>'
 samsara.apiKey = '<clé>'
 samsara.baseUrl = 'https://api.samsara.com'
-osrm.base = 'http://127.0.0.1:5000'                 # absent sur WHC
-                                                    # → snapping dégradé
 ```
 
-Limites acceptées en mode distant : `sess_match_ip` CI3 ne peut pas
-être satisfait à travers le proxy distant (sessions sans effet sur les
-routes proxyées — sans impact : seuls assets publics et routes mortes
-y passent) ; OSRM local absent → `snap=1` dégrade en non-snappé si le
-code le prévoit ; uploads pointent le FS de la prod via `ci3.webroot`.
+**Données à copier dans `ci3files/` sur le serveur** (File Manager
+cPanel : copie serveur→serveur depuis le docroot CI3 prod, instantané —
+ou zip+extraction) :
+
+- `assets/` → `ci3files/assets/` — les vues référencent :
+  bower_components, datatables, pronto, plugins, js, fullcalendar,
+  css, bootstrap, font-awesome, Ionicons, jquery-ui, vendor, moment,
+  jquery-slimscroll, fastclick, keyboard, 00_images, dist, summernote,
+  select2, img (dir CI3 ≈ 5 Go : bower_components 1,7 Go + pronto/
+  vendor 1,3 Go + img/boites+icon_boites ~400 Mo de photos — la copie
+  complète marche, la version élaguée est un nice-to-have)
+- `upload/`, `uploads/`, `userfiles/` → mêmes noms sous `ci3files/`
+  (fichiers utilisateurs : réponses, tickets, gpx, xlsx générés)
+- `icons/` seulement si des URLs `/icons/…` sont observées en 404
+
+Ne PAS copier : `application/`, `system/`, `vendor/`, `cron/`, `sql/`,
+`tools/`, `docs/`, `api_proxy/`, `ci_sessions/` (app CI3 — jamais
+servis : extensions servies en liste blanche).
+
+Limites acceptées en mode autonome : les routes CI3 mortes rendent
+404 comme en prod ; OSRM absent → `snap=1` dégradé ; les sessions
+`ci_sessions` de la copie de BD fonctionnent (IP non validée par CI4).
 
 ⚠️ Utiliser une **copie** de la BD prod pour dev (dump + import dans
 une base `<cpanel>_gestionvilles_dev`) : les tests écrivent des

@@ -50,7 +50,7 @@ class Sanivan extends BaseController
         // CI3 : FCPATH . "uploads/..." -> docroot CI3 en CI4.
         $year = date('Y');
         $month = date('m');
-        $webroot = rtrim((string) env('ci3.webroot'), '/\\');
+        $webroot = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\');
         $upload_dir = $webroot . "/uploads/pdf_tickets/{$year}/{$month}/";
 
         if (! is_dir($upload_dir)) {

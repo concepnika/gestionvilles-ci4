@@ -45,7 +45,7 @@ class Ci3Upload
         $this->clientName = $file->getClientName();
         $path = (string) ($this->config['upload_path'] ?? './upload');
         if (str_starts_with($path, './')) {
-            $webroot = env('ci3.webroot') ?: FCPATH;
+            $webroot = env('ci3.webroot', ROOTPATH . 'ci3files') ?: FCPATH;
             $path = rtrim($webroot, '/\\') . substr($path, 1);
         }
         if (! is_dir($path)) {
@@ -103,7 +103,7 @@ class Ci3Upload
         $raw = $ext !== '' ? preg_replace('/\.[^.]+$/', '', $this->file_name) : $this->file_name;
         $path = (string) ($this->config['upload_path'] ?? './upload');
         if (str_starts_with($path, './')) {
-            $webroot = env('ci3.webroot') ?: FCPATH;
+            $webroot = env('ci3.webroot', ROOTPATH . 'ci3files') ?: FCPATH;
             $path = rtrim($webroot, '/\\') . substr($path, 1);
         }
         $full = rtrim($path, '/\\') . '/' . $this->file_name;

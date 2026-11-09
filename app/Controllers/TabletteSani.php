@@ -221,7 +221,7 @@ class TabletteSani extends BaseController
         // ---- Génération du fichier ----
         $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
         $objWriter->setPreCalculateFormulas(false);
-        $filename = env('ci3.webroot') . '/upload/rapport_sani_' . $dateactive . '.xlsx';
+        $filename = env('ci3.webroot', ROOTPATH . 'ci3files') . '/upload/rapport_sani_' . $dateactive . '.xlsx';
         $objWriter->save($filename);
         force_download($filename, NULL);
         delete_files($filename);
@@ -285,7 +285,7 @@ class TabletteSani extends BaseController
     {
         $base = rtrim((string) env('sanivan.uploadDir', ''), '/');
         if ($base === '') {
-            $base = rtrim(FCPATH, '/') . '/upload/sanivan';
+            $base = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/upload/sanivan';
         }
         return $base . ($sub !== '' ? '/' . ltrim($sub, '/') : '');
     }
@@ -1905,7 +1905,7 @@ class TabletteSani extends BaseController
         $idsecteur = $this->esc($data['selSecteurModal'] ?? '');
         $titre = $this->esc($data['titre'] ?? '');
         // CI3 écrit dans ./upload/gpx (docroot CI3) — même destination via ci3.webroot
-        $uploadPath = rtrim((string) env('ci3.webroot', FCPATH), '/') . '/upload/gpx';
+        $uploadPath = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/') . '/upload/gpx';
         if (! is_dir($uploadPath)) {
             mkdir($uploadPath, 0777, true);
         }

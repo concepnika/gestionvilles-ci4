@@ -4478,7 +4478,7 @@ class Gestion extends BaseController
                         }
                         $data[] = array($row->nocamion, $row->startStr, $row->dateend, $statut, utf8_encode($row->note));
                     }
-                    chdir(rtrim((string) env('ci3.webroot'), '/\\')); require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
+                    chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
                     $pdf = new \PDF('L');
                     // Titres des colonnes
                     $header = array('Camions', utf8_decode('Début'), 'Fin', 'Statuts', 'Notes');
@@ -4620,7 +4620,7 @@ class Gestion extends BaseController
                     foreach ($cal->getResult() as $row) {
                         $data[] = array(utf8_decode($row->NomComplet), $row->datestart, $row->endStr, $row->absence, $row->note);
                     }
-                    chdir(rtrim((string) env('ci3.webroot'), '/\\')); require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
+                    chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
                     $pdf = new \PDF('L');
                     // Titres des colonnes
                     $header = array('Nom', utf8_decode('Début'), 'Fin', 'Absence', 'Notes');
@@ -4978,7 +4978,7 @@ class Gestion extends BaseController
 
     public function RequetesPDF()
     {    
-            chdir(rtrim((string) env('ci3.webroot'), '/\\')); require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/librequete.php';
+            chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/librequete.php';
             $pdf = new \PDF('L');
             $pdf->SetFont('Arial', '', 12);
             $returnval = '';
@@ -5151,7 +5151,7 @@ class Gestion extends BaseController
 
     public function ReponsesPDF($idrequete)
     {    
-            chdir(rtrim((string) env('ci3.webroot'), '/\\')); require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/libreceptions.php';
+            chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/libreceptions.php';
             $pdf = new \PDF('L');
             $pdf->SetFont('Arial', '', 12);
             $arrReq = $this->getDescriptionRequete($idrequete);
@@ -5214,7 +5214,7 @@ class Gestion extends BaseController
     public function RequetesEXCEL()
     {    
             $this->load->model("ExcelVille_model", "excel");
-            $this->excel->getListRequetes(env('ci3.webroot') . '/formulaires/liste_requetes.xlsx');
+            $this->excel->getListRequetes(env('ci3.webroot', ROOTPATH . 'ci3files') . '/formulaires/liste_requetes.xlsx');
     
             //-------------------------------------------------------------------
             $download = ' <a href="'.ci3_url('upload/liste_requetes.xlsx').'" target="_blank" download>
@@ -5661,7 +5661,7 @@ class Gestion extends BaseController
             $cal = $this->db->query($strSQL);
             $total = '';
             //-------------------------------------------------------------------------
-            chdir(rtrim((string) env('ci3.webroot'), '/\\')); require_once rtrim((string) env('ci3.webroot'), '/\\') . '/application/controllers/pdf/requetespdf.php';
+            chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/requetespdf.php';
             /** @var array $data */
             foreach ($cal->getResult() as $row) {
                 switch ($listtoprint) {

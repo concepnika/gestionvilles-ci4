@@ -176,10 +176,10 @@ class ExcelModel extends Ci3Model
     }
     $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
-    $filename = env('ci3.webroot') . "/upload/cedule_'.$activedate.xlsx";
+    $filename = env('ci3.webroot', ROOTPATH . 'ci3files') . "/upload/cedule_'.$activedate.xlsx";
     $objWriter->save($filename);
     force_download($filename, NULL);
-    delete_files(env('ci3.webroot') . "/upload/cedule_'.$activedate.xlsx");
+    delete_files(env('ci3.webroot', ROOTPATH . 'ci3files') . "/upload/cedule_'.$activedate.xlsx");
     //---------------------------------------------------------------------------------------------------------------------------------------
 	}
   /**
@@ -303,10 +303,10 @@ class ExcelModel extends Ci3Model
     }
     $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
-    $filename = env('ci3.webroot') . "/upload/cedule_'.$activedate.'xlsx";
+    $filename = env('ci3.webroot', ROOTPATH . 'ci3files') . "/upload/cedule_'.$activedate.'xlsx";
     $objWriter->save($filename);
     force_download($filename, NULL);
-    delete_files(env('ci3.webroot') . "/upload/cedule_'.$activedate.'xlsx");
+    delete_files(env('ci3.webroot', ROOTPATH . 'ci3files') . "/upload/cedule_'.$activedate.'xlsx");
     //---------------------------------------------------------------------------------------------------------------------------------------
 	}
   /**
@@ -521,10 +521,10 @@ class ExcelModel extends Ci3Model
     }
     $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
-    $filename = env('ci3.webroot') . "/upload/heures_aides_'.$dateactive.xlsx";
+    $filename = env('ci3.webroot', ROOTPATH . 'ci3files') . "/upload/heures_aides_'.$dateactive.xlsx";
     $objWriter->save($filename);
     force_download($filename, NULL);
-    delete_files(env('ci3.webroot') . "/upload/heures_aides_'.$dateactive.xlsx");
+    delete_files(env('ci3.webroot', ROOTPATH . 'ci3files') . "/upload/heures_aides_'.$dateactive.xlsx");
     //return $returnval;
   }
   //------------------------------------------------------------------- Fonction pour Pr�vision
@@ -564,7 +564,7 @@ class ExcelModel extends Ci3Model
     else if ( ( strpos(strtolower($filename),'.xls' ) == true ) ||
             ( strpos(strtolower($filename),'.xlsx' ) == true )   )
     {
-      $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load(env('ci3.webroot') . '/upload/'.$filename);
+      $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load(env('ci3.webroot', ROOTPATH . 'ci3files') . '/upload/'.$filename);
       $objPHPExcel->setActiveSheetIndexByName('2021');
       /** @var int $ACol */
 

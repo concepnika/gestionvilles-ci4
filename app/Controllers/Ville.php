@@ -111,7 +111,7 @@ class Ville extends BaseController
     /** Racine du docroot CI3 (uploads, userfiles). */
     private function docroot(): string
     {
-        return rtrim((string) env('ci3.webroot'), '/\\');
+        return rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\');
     }
 
     //=================================================================

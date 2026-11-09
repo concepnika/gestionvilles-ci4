@@ -1591,7 +1591,7 @@ class WebChauffeur extends BaseController
         }
 
         // Écriture dans le docroot CI3 (URLs /uploads/... servies par CI3)
-        $docroot    = rtrim((string) env('ci3.webroot'), '/\\');
+        $docroot    = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\');
         $uploadDir  = $docroot . '/uploads/tickets/';
         if (! is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
@@ -1724,7 +1724,7 @@ class WebChauffeur extends BaseController
         $pdf->SetFont('Arial', 'B', 18);
         $pdf->SetXY(10, 12);
         $pdf->Cell(65, 10, utf8_decode('Billet de dépotoir'), 0, 0, 'L');
-        $logoPath = rtrim((string) env('ci3.webroot'), '/\\') . '/assets/img/logo.jpg';
+        $logoPath = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/assets/img/logo.jpg';
         if (file_exists($logoPath)) {
             $pdf->Image($logoPath, 80, 8, 55);
         }

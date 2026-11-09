@@ -54,7 +54,7 @@ class UploadTicket extends BaseController
                 $targetRelDir = $baseRelDir . $noCamion . '/' . $dateDir . '/';
                 // CI3 : FCPATH . $targetRelDir -> docroot CI3 en CI4
             // (URLs servies par CI3 en prod, Alias /uploads localement).
-            $targetFsDir  = rtrim((string) env('ci3.webroot'), '/\\') . '/' . $targetRelDir;
+            $targetFsDir  = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/' . $targetRelDir;
     
                 if (!is_dir($targetFsDir) && !mkdir($targetFsDir, 0755, TRUE)) {
                     throw new \Exception('Impossible de créer le dossier de destination');
@@ -158,7 +158,7 @@ class UploadTicket extends BaseController
                 // Répertoire PDF public: uploads/pdf_tickets/YYYY/MM/
                 $pdfRelDir  = 'uploads/pdf_tickets/' . $annee . '/' . $moisNum . '/';
                 // CI3 : FCPATH . $pdfRelDir -> docroot CI3 en CI4
-            $pdfFsDir   = rtrim((string) env('ci3.webroot'), '/\\') . '/' . $pdfRelDir;
+            $pdfFsDir   = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/' . $pdfRelDir;
                 if (!is_dir($pdfFsDir) && !mkdir($pdfFsDir, 0755, TRUE)) {
                     throw new \Exception('Impossible de créer le dossier PDF');
                 }
@@ -233,7 +233,7 @@ class UploadTicket extends BaseController
                 $depotInfo = array();
             }
     
-            require_once env('ci3.webroot') . '/application/' . 'controllers/pdf/fpdf.php';
+            require_once env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'controllers/pdf/fpdf.php';
     
             $pdf = new \FPDF('P', 'mm', 'Letter');
             $pdf->SetAutoPageBreak(true, 20);
