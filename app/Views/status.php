@@ -25,11 +25,11 @@
 <body>
     <div class="card">
         <h1>GestionVilles — CI4</h1>
-        <div class="sub">Migration strangler — l'app CI4 cohabite avec CI3 pendant le portage.</div>
+        <div class="sub">Migration strangler — l'app CI4 cohabite avec Legacy pendant le portage.</div>
 
         <?php if ($loggedIn) : ?>
             <div class="session">
-                <span class="ok">Connecté</span> (session au format CI3)
+                <span class="ok">Connecté</span> (session au format Legacy)
                 <?php if ($nom !== '') : ?>
                     <p class="user"><b><?= esc($nom) ?></b><?php if ($email !== '') : ?> — <?= esc($email) ?><?php endif; ?></p>
                 <?php endif; ?>
@@ -40,7 +40,7 @@
             <p><a class="btn" href="/admin/quitter">Déconnexion</a></p>
         <?php else : ?>
             <div class="session">
-                <span class="ko">Non connecté</span> — session CI3 absente ou expirée.
+                <span class="ko">Non connecté</span> — session Legacy absente ou expirée.
             </div>
             <p><a href="/admin/connexion">Se connecter</a></p>
         <?php endif; ?>
@@ -54,8 +54,8 @@
         </ul>
 
         <div class="note">
-            L'essentiel de co_gestion est porté mécaniquement (adaptateurs CI3 : db, input, session,
-            load, output — voir AGENTS.md) ; les méthodes non portées restent relayées à CI3 par le
+            L'essentiel de co_gestion est porté mécaniquement (adaptateurs Legacy : db, input, session,
+            load, output — voir AGENTS.md) ; les méthodes non portées restent relayées à Legacy par le
             proxy interne. Modules portés : tableau de bord admin, portail villes, portail chauffeurs
             web, tablettes Sanivan, API tablettes.
         </div>

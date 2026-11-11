@@ -5,13 +5,13 @@ namespace App\Controllers;
 use App\Libraries\SamsaraClient;
 
 /**
- * Port CI3 -> CI4 de Co_samsara_ifta : rapport IFTA (kilométrage
+ * Port Legacy -> CI4 de Co_samsara_ifta : rapport IFTA (kilométrage
  * Ontario/Québec par camion via l'API Samsara).
  *
  * index + getData portés nativement (SamsaraClient::getKmByCamion —
  * port de SamsaraLib). exportExcel porté nativement sur
  * PhpSpreadsheet (PHPExcel est incompatible PHP 8, la route
- * plantait en 500 côté CI3 sous PHP >= 8).
+ * plantait en 500 côté Legacy sous PHP >= 8).
  */
 class SamsaraIfta extends BaseController
 {
@@ -20,7 +20,7 @@ class SamsaraIfta extends BaseController
         $data = [];
         $data['iftaYear'] = date('Y');
         $data['iftaMonth'] = (int) date('n');
-        // CI3 : $this->config->item('apiKey', 'samsara')
+        // Legacy : $this->config->item('apiKey', 'samsara')
         $data['isConfigured'] = ! empty(env('samsara.apiKey'));
         echo view('samsara/ontario_km', $data);
     }

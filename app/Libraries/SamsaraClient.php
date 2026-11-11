@@ -3,7 +3,7 @@
 namespace App\Libraries;
 
 /**
- * Port CI4 de application/libraries/SamsaraLib.php (CI3).
+ * Port CI4 de application/libraries/SamsaraLib.php (Legacy).
  *
  * Phase 1 (Co_Rest_Sani) : listVehicles + findVehicleIdByName.
  * Port web chauffeur : stats GPS (position, historique, batch multi
@@ -251,7 +251,7 @@ class SamsaraClient
     }
 
     /**
-     * Port de SamsaraLib::getIftaVehicleReport (CI3) : rapport IFTA
+     * Port de SamsaraLib::getIftaVehicleReport (Legacy) : rapport IFTA
      * par véhicule, paginé mois par mois (endpoint
      * /fleet/reports/ifta/vehicle).
      */
@@ -297,7 +297,7 @@ class SamsaraClient
     }
 
     /**
-     * Port de SamsaraLib::getKmByCamion (CI3) : agrège le rapport IFTA
+     * Port de SamsaraLib::getKmByCamion (Legacy) : agrège le rapport IFTA
      * et lie chaque véhicule Samsara à son NoCamion de la BD.
      */
     public function getKmByCamion($startDate, $endDate, $jurisdiction = 'ON')
@@ -307,7 +307,7 @@ class SamsaraClient
             return $reports;
         }
 
-        // Récupérer les camions de la BD (CI3 : get_instance()->db)
+        // Récupérer les camions de la BD (Legacy : get_instance()->db)
         $camions = \Config\Database::connect()
             ->query("SELECT NoCamion FROM camions WHERE isdeleted = 0")->getResult();
         $camionNames = array();

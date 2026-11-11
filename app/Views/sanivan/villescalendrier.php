@@ -147,7 +147,7 @@
   <script src="/assets/js/jquery-ui.multidatespicker.js"></script>
   <script src="/assets/css/fontawesome/all.css"></script>
   <script type='text/javascript'>
-    var base_url = "<?php echo ci3_url()?>";
+    var base_url = "<?php echo gv_url()?>";
     var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
     var ActiveDrop = "<?php echo ($ActiveDrop ?? '') ?>";
     function ConfirmeLoad(Route)
@@ -163,7 +163,7 @@
 	      //var idproduit = arrData[1];
        // var oldrang = arrData[2];
        // var tableid = arrData[3];
-       // document.location = '<?php //echo ci3_url(); ?>/*/gestion/rang/' + idproduit + '/' + oldrang + '/' + value + '/' + tableid;*/
+       // document.location = '<?php //echo gv_url(); ?>/*/gestion/rang/' + idproduit + '/' + oldrang + '/' + value + '/' + tableid;*/
       };
 			$("#body_1").sortable({
         beforeStop: getPosition,

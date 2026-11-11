@@ -5,13 +5,13 @@ namespace App\Controllers;
 use App\Models\PdfTicketModel;
 
 /**
- * Port CI3 -> CI4 de co_sanivan : SEULE la methode routee
+ * Port Legacy -> CI4 de co_sanivan : SEULE la methode routee
  * upload_pdf_ticket est portee (sanivan/upload_pdf_ticket, POST) —
  * les autres methodes de co_sanivan ne sont routées nulle part en
- * CI3 (supplantées par co_gestion / co_tablette_sani).
+ * Legacy (supplantées par co_gestion / co_tablette_sani).
  *
  * Les PDF sont ecrits dans uploads/pdf_tickets/YYYY/MM/ du docroot
- * CI3 (env ci3.webroot) — URLs /uploads/... servies par CI3 en prod
+ * Legacy (env legacy.webroot) — URLs /uploads/... servies par Legacy en prod
  * (Alias vhost /uploads localement), meme convention que les autres
  * uploads du port.
  */
@@ -47,10 +47,10 @@ class Sanivan extends BaseController
 
         // --- Préparer le dossier de destination ---
         // Structure : uploads/pdf_tickets/YYYY/MM/
-        // CI3 : FCPATH . "uploads/..." -> docroot CI3 en CI4.
+        // Legacy : FCPATH . "uploads/..." -> docroot Legacy en CI4.
         $year = date('Y');
         $month = date('m');
-        $webroot = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\');
+        $webroot = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\');
         $upload_dir = $webroot . "/uploads/pdf_tickets/{$year}/{$month}/";
 
         if (! is_dir($upload_dir)) {
@@ -71,8 +71,8 @@ class Sanivan extends BaseController
             'file_name' => $safeName, // ← nom nettoyé de l'app
         ];
 
-        // CI3 : $this->load->library('upload', $config)
-        $this->upload = new \App\Libraries\Ci3Upload($config);
+        // Legacy : $this->load->library('upload', $config)
+        $this->upload = new \App\Libraries\CompatUpload($config);
 
         if (! $this->upload->do_upload('pdf')) {
             $error = strip_tags($this->upload->display_errors());
@@ -87,7 +87,7 @@ class Sanivan extends BaseController
         $pdf_relative = "uploads/pdf_tickets/{$year}/{$month}/{$pdf_filename}";
 
         // --- Insertion en base de données ---
-        // CI3 : load->model('Pdf_ticket_model') sans alias -> instance directe.
+        // Legacy : load->model('Pdf_ticket_model') sans alias -> instance directe.
         $pdfTicketModel = new PdfTicketModel();
 
         $insert_data = [
@@ -111,7 +111,7 @@ class Sanivan extends BaseController
         }
 
         // --- Réponse succès ---
-        $pdf_url = ci3_url($pdf_relative);
+        $pdf_url = gv_url($pdf_relative);
 
         log_message('info', "[upload_pdf_ticket] OK id={$inserted_id} camion={$nocamion} fichier={$pdf_filename}");
 

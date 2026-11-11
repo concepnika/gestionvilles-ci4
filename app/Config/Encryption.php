@@ -78,7 +78,7 @@ class Encryption extends BaseConfig
      * Whether the cipher-text should be raw. If set to false, then it will be base64 encoded.
      * This setting is only used by OpenSSLHandler.
      *
-     * Set to false for CI3 Encryption compatibility.
+     * Set to false for Legacy Encryption compatibility.
      */
     public bool $rawData = true;
 
@@ -86,7 +86,7 @@ class Encryption extends BaseConfig
      * Encryption key info.
      * This setting is only used by OpenSSLHandler.
      *
-     * Set to 'encryption' for CI3 Encryption compatibility.
+     * Set to 'encryption' for Legacy Encryption compatibility.
      */
     public string $encryptKeyInfo = '';
 
@@ -94,7 +94,7 @@ class Encryption extends BaseConfig
      * Authentication key info.
      * This setting is only used by OpenSSLHandler.
      *
-     * Set to 'authentication' for CI3 Encryption compatibility.
+     * Set to 'authentication' for Legacy Encryption compatibility.
      */
     public string $authKeyInfo = '';
 
@@ -103,7 +103,7 @@ class Encryption extends BaseConfig
      * This setting is only used by OpenSSLHandler.
      *
      * Set to 'AES-128-CBC' to decrypt encrypted data that encrypted
-     * by CI3 Encryption default configuration.
+     * by Legacy Encryption default configuration.
      */
     public string $cipher = 'AES-256-CTR';
 }

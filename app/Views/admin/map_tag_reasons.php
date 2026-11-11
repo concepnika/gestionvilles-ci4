@@ -19,7 +19,7 @@
   <h2>Raisons des tags (Map)</h2>
 
   <h3>Ajouter / Modifier</h3>
-  <form method="post" action="<?php echo ci3_url('admin/tags/reasons/save'); ?>">
+  <form method="post" action="<?php echo gv_url('admin/tags/reasons/save'); ?>">
     <div class="row">
       <input type="hidden" name="id" value="0" />
       <label>Français<br><input type="text" name="label_fr" required></label>
@@ -56,7 +56,7 @@
         <td><?php echo (int)$r['sort_order']; ?></td>
         <td><?php echo ((int)$r['is_active'] === 1 ? 'Oui' : 'Non'); ?></td>
         <td>
-          <form class="inline" method="post" action="<?php echo ci3_url('admin/tags/reasons/save'); ?>">
+          <form class="inline" method="post" action="<?php echo gv_url('admin/tags/reasons/save'); ?>">
             <input type="hidden" name="id" value="<?php echo (int)$r['id']; ?>">
             <input type="text" name="label_fr" value="<?php echo htmlspecialchars($r['label_fr'], ENT_QUOTES); ?>">
             <input type="text" name="label_en" value="<?php echo htmlspecialchars($r['label_en'], ENT_QUOTES); ?>">
@@ -67,7 +67,7 @@
             </select>
             <button type="submit">Mettre à jour</button>
           </form>
-          <form class="inline" method="post" action="<?php echo ci3_url('admin/tags/reasons/delete/'.(int)$r['id']); ?>" onsubmit="return confirm('Supprimer cette raison ?');">
+          <form class="inline" method="post" action="<?php echo gv_url('admin/tags/reasons/delete/'.(int)$r['id']); ?>" onsubmit="return confirm('Supprimer cette raison ?');">
             <button type="submit" style="color:#b00">Supprimer</button>
           </form>
         </td>

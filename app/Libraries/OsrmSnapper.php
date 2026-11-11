@@ -4,7 +4,7 @@ namespace App\Libraries;
 
 /**
  * Port CI4 de la chaîne de snapping OSRM extraite de
- * application/controllers/Co_tablette_sani.php (CI3).
+ * application/controllers/Co_tablette_sani.php (Legacy).
  *
  * snapSegments() == Co_tablette_sani::snapLocationsWithOsrmPrecise()
  * Format segment : "lat,lng, timespan: ..., chauffeur: ..., adresse: ..._"

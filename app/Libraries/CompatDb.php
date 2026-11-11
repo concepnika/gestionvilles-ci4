@@ -7,20 +7,20 @@ use CodeIgniter\Database\BaseConnection;
 use Config\Database;
 
 /**
- * Adaptateur $this->db CI3 : conserve les acces directs (query(),
+ * Adaptateur $this->db Legacy : conserve les acces directs (query(),
  * escape(), table(), trans_*, ...) et simule la file de clauses du
- * Query Builder CI3 — $this->db->where() sans table accumule la
+ * Query Builder Legacy — $this->db->where() sans table accumule la
  * clause jusqu'a l'appel terminal get()/insert()/update()/delete()/
- * count_all_results(), exactement comme CI3.
+ * count_all_results(), exactement comme Legacy.
  */
-class Ci3Db
+class CompatDb
 {
     private BaseConnection $conn;
 
     /** @var array<array{0:string,1:array}> clauses en file (where, select, join...) */
     private array $queue = [];
 
-    /** methodes de clauses QB (snake_case CI3 -> camel CI4) */
+    /** methodes de clauses QB (snake_case Legacy -> camel CI4) */
     private const CLAUSES = [
         'select' => 'select', 'select_max' => 'selectMax', 'select_min' => 'selectMin',
         'select_avg' => 'selectAvg', 'select_sum' => 'selectSum', 'select_count' => 'selectCount',
@@ -55,9 +55,9 @@ class Ci3Db
         try {
             return $this->conn->query($sql, ...$args);
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-            // CI3 avec db_debug=false : retourne false au lieu de
+            // Legacy avec db_debug=false : retourne false au lieu de
             // lancer ; l'erreur reste visible via ->error() et le log.
-            log_message('error', 'Ci3Db::query ' . $e->getMessage());
+            log_message('error', 'CompatDb::query ' . $e->getMessage());
             return false;
         }
     }
@@ -85,7 +85,7 @@ class Ci3Db
             // BaseBuilder::get() : $offset est int non-nullable (defaut 0).
             return $b->get($limit, $offset ?? 0);
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-            log_message('error', 'Ci3Db::get ' . $e->getMessage());
+            log_message('error', 'CompatDb::get ' . $e->getMessage());
             return false;
         }
     }
@@ -97,7 +97,7 @@ class Ci3Db
         try {
             return $b->getWhere($where, $limit, $offset);
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-            log_message('error', 'Ci3Db::get_where ' . $e->getMessage());
+            log_message('error', 'CompatDb::get_where ' . $e->getMessage());
             return false;
         }
     }
@@ -109,7 +109,7 @@ class Ci3Db
         try {
             return $b->countAllResults();
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-            log_message('error', 'Ci3Db::count_all_results ' . $e->getMessage());
+            log_message('error', 'CompatDb::count_all_results ' . $e->getMessage());
             return 0;
         }
     }
@@ -139,7 +139,7 @@ class Ci3Db
             try {
                 return $b->{self::TERMINALS_TABLE_FIRST[$m]}(...$a);
             } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-                log_message('error', 'Ci3Db::' . $m . ' ' . $e->getMessage());
+                log_message('error', 'CompatDb::' . $m . ' ' . $e->getMessage());
                 return false;
             }
         }

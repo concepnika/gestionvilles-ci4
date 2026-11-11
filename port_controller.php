@@ -1,14 +1,14 @@
 <?php
 /**
- * Convertisseur mecanique de controleurs CI3 -> CI4.
+ * Convertisseur mecanique de controleurs Legacy -> CI4.
  *
  * Usage : php port_controller.php <co_xxx.php> <Cible.php>
  * Source : E:/Serveur Cloud/GestionVilles/application/controllers/
  * Cible  : app/Controllers/<Cible>.php
  *
- * Pour chaque methode du controleur CI3 :
+ * Pour chaque methode du controleur Legacy :
  *  - si la cible a un stub `public function x(...$args) { return
- *    $this->toCi3(); }`  -> remplace par la version convertie
+ *    $this->toCompat(); }`  -> remplace par la version convertie
  *  - si la methode existe deja avec un vrai corps -> conservee
  *  - sinon -> ajoutee avant la derniere accolade (helpers prives)
  *
@@ -39,20 +39,20 @@ $rules = [
     ['/return\s+\$this->load->view\(\s*(.*?)\s*\);/s'
         => 'return view($1);'],
     // assignation : $x = $this->load->view(v, d); -> $x = view(v, d);
-    // (en CI3 le retour est vide sans TRUE — l'intention est la
+    // (en Legacy le retour est vide sans TRUE — l'intention est la
     // capture, view() CI4 la fournit)
     ['/=\s*\$this->load->view\(([^;]*?)\);/' => '= view($1);'],
     // statement nu : $this->load->view(v[,d]); -> echo view(...)
     ['/\$this->load->view\(([^;]*?)\);/' => 'echo view($1);'],
     // helper
     ['/\$this->load->helper\(([^;]*?)\);/' => 'helper($1);'],
-    // redirect — CI3 fait exit : il faut `return` en CI4
+    // redirect — Legacy fait exit : il faut `return` en CI4
     ['/(?<![\w:>\$])redirect\(([^;]*?)\);/' => 'return redirect()->to($1);'],
     // url helpers
-    ['/(?<![\w:>\$])site_url\(/' => 'ci3_url('],
-    ['/(?<![\w:>\$])base_url\(/' => 'ci3_url('],
+    ['/(?<![\w:>\$])site_url\(/' => 'gv_url('],
+    ['/(?<![\w:>\$])base_url\(/' => 'gv_url('],
     // lang
-    ['/\$this->lang->line\(/' => 'ci3lang('],
+    ['/\$this->lang->line\(/' => 'gv_lang('],
     // show_404 / show_error
     ['/(?<![\w>\$])show_404\(\s*\)/' => 'throw new \\CodeIgniter\\Exceptions\\PageNotFoundException()'],
     ['/(?<![\w>\$])show_error\(([^;]*?)\);/' => 'throw new \\RuntimeException($1);'],
@@ -79,9 +79,9 @@ $rules = [
     ['/\$this->db->where\(([^;]+)\)->update\(\s*[\'"](\w+)[\'"]\s*,\s*/' => '$this->db->table(\'$2\')->where($1)->update('],
     ['/\$this->db->get_where\(\s*([\'"]\w+[\'"])\s*,\s*/' => '$this->db->table($1)->getWhere('],
     ['/\$this->db->where\(([^;]+)\);\s*\$this->db->delete\(\s*[\'"](\w+)[\'"]\s*\)/' => '$this->db->table(\'$2\')->where($1)->delete()'],
-    // includes relatifs au dossier controllers CI3 (pdf/...)
+    // includes relatifs au dossier controllers Legacy (pdf/...)
     ['/(require_once|include_once|require|include)\s*\(?\s*[\'"](pdf\/[^\'"]+)[\'"]\s*\)?/'
-        => '$1 rtrim((string) env(\'ci3.webroot\'), \'/\\\\\') . \'/application/controllers/$2\''],
+        => '$1 rtrim((string) env(\'legacy.webroot\'), \'/\\\\\') . \'/application/controllers/$2\''],
     // $_SESSION direct -> pont ci_sessions
     ['/isset\(\s*\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\]\s*\)/' => '($this->session->userdata(\'$1\') !== null)'],
     ['/\$_SESSION\[\s*[\'"]([^\'"]+)[\'"]\s*\]/' => '$this->session->userdata(\'$1\')'],
@@ -90,8 +90,8 @@ $rules = [
     ['/\$this->uri->segment_array\(\)/' => 'service(\'uri\')->getSegments()'],
     // classes globales en namespace
     ['/new\s+(?!\\\\)(stdClass|DateTime|Datetime|DateInterval|DatePeriod|Exception|DOMDocument|SimpleXMLElement|ZipArchive|PDF|FPDF|ClassCedule|ClassConnect)\b/' => 'new \\\\$1'],
-    // APPPATH CI3 (application/) -> racine de l'app CI3 via env
-    ['/\bAPPPATH\b/' => 'env(\'ci3.webroot\') . \'/application/\''],
+    // APPPATH Legacy (application/) -> racine de l'app Legacy via env
+    ['/\bAPPPATH\b/' => 'env(\'legacy.webroot\') . \'/application/\''],
     // classes PHPExcel (globales legacy) en namespace App\Controllers
     ['/\bnew\s+(?!\\\\)(PHPExcel\w*)\b/' => 'new \\\\$1'],
     ['/(?<![\\\\\w])(PHPExcel\w*)::/' => '\\\\$1::'],
@@ -179,7 +179,7 @@ function convertBody(string $body, array $rules): string
 $srcPath = $argv[1] ?? '';
 $dstPath = $argv[2] ?? '';
 if (! is_file($srcPath) || ! is_file($dstPath)) {
-    fwrite(STDERR, "Usage: php port_controller.php <src_ci3.php> <dst_ci4.php>\n");
+    fwrite(STDERR, "Usage: php port_controller.php <src_legacy.php> <dst_ci4.php>\n");
     exit(1);
 }
 
@@ -202,7 +202,7 @@ foreach ($meth as $name => $m) {
 
     // stub existant ?
     $stubRe = '/    public function ' . preg_quote($name, '/')
-        . '\((?:\.\.\$args)?[^)]*\)\s*\{\s*return \$this->toCi3\(\);\s*\}/';
+        . '\((?:\.\.\$args)?[^)]*\)\s*\{\s*return \$this->toCompat\(\);\s*\}/';
     if (preg_match($stubRe, $out)) {
         $out = preg_replace_callback(
             $stubRe, static fn () => $newMeth, $out, 1);

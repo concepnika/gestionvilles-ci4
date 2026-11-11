@@ -156,7 +156,7 @@
   <input type="hidden" id="idchauffeur" value="0" />
   <input type="hidden" id="nocamion" value="" />
   <input type="hidden" id="NewZoom" value="8" />
-  <input type="hidden" id="idville" value="<?php echo (int) (ci3sess('idville') ?? 0); ?>" />
+  <input type="hidden" id="idville" value="<?php echo (int) (gv_sess('idville') ?? 0); ?>" />
 
   <div class="modal fade" id="modalFindAdr" data-bs-backdrop="static" role="dialog">
     <div class="modal-dialog modal-block-md">
@@ -197,7 +197,7 @@
   </div>
 
   <script>
-    function baseUrl(p){ return '<?php echo rtrim(ci3_url(), "/"); ?>' + '/' + String(p||'').replace(/^\/+/, ''); }
+    function baseUrl(p){ return '<?php echo rtrim(gv_url(), "/"); ?>' + '/' + String(p||'').replace(/^\/+/, ''); }
 
     // ===================== GESTION OVERLAY IMAGE =====================
     (function(){

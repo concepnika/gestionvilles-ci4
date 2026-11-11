@@ -7,19 +7,19 @@ use Config\Database;
 /**
  * Pont vers les sessions CodeIgniter 3.
  *
- * L'application CI3 est configuree avec sess_driver = 'database' :
+ * L'application Legacy est configuree avec sess_driver = 'database' :
  * la session est une ligne dans gestionvilles.ci_sessions et le
  * cookie 'ci_session' ne contient que l'id de session. Cette classe
  * relit cette ligne et decode les donnees (format
  * session.serialize_handler = php) pour identifier l'usager connecte
- * dans l'application CI3 — aucun re-login necessaire tant que les
+ * dans l'application Legacy — aucun re-login necessaire tant que les
  * deux apps partagent le meme hote.
  */
-class Ci3Session
+class CompatSession
 {
     private const COOKIE_NAME = 'ci_session';
     private const TABLE = 'ci_sessions';
-    private const MAX_AGE = 7200; // sess_expiration de la config CI3
+    private const MAX_AGE = 7200; // sess_expiration de la config Legacy
 
     private static ?array $data = null;
     private static bool $loaded = false;
@@ -27,7 +27,7 @@ class Ci3Session
     private static string $ipAddress = '';
 
     /**
-     * Donnees de session CI3 decodees (email, nom, privilege, ...) ou
+     * Donnees de session Legacy decodees (email, nom, privilege, ...) ou
      * null si le cookie est absent / session expiree.
      */
     public function user(): ?array
@@ -37,7 +37,7 @@ class Ci3Session
     }
 
     /**
-     * Lit une cle de la session CI3 (equivalent userdata()/magic getter).
+     * Lit une cle de la session Legacy (equivalent userdata()/magic getter).
      */
     public function get(string $key, $default = null)
     {
@@ -59,26 +59,26 @@ class Ci3Session
     }
 
     /**
-     * Cree une session CI3 : insere la ligne ci_sessions et pose le
+     * Cree une session Legacy : insere la ligne ci_sessions et pose le
      * cookie 'ci_session' sur l'hote courant. Necessaire quand l'app
-     * CI4 vit sur son propre vhost (le cookie pose par CI3 n'y est
+     * CI4 vit sur son propre vhost (le cookie pose par Legacy n'y est
      * jamais envoye) et qu'elle authentifie l'usager elle-meme.
      */
     public function create(array $data): void
     {
         self::$loaded = true;
-        // Format d'id CI3 : 32 caracteres [0-9a-v] (sid_bits=5) —
-        // un id 40-hex serait rejete par CI3 lors des appels proxies.
+        // Format d'id Legacy : 32 caracteres [0-9a-v] (sid_bits=5) —
+        // un id 40-hex serait rejete par Legacy lors des appels proxies.
         $alphabet = '0123456789abcdefghijklmnopqrstuv';
         self::$sessionId = '';
         for ($i = 0; $i < 32; $i++) {
             self::$sessionId .= $alphabet[random_int(0, 31)];
         }
-        // IP vue par CI3 via le proxy interne (sess_match_ip = true) :
+        // IP vue par Legacy via le proxy interne (sess_match_ip = true) :
         // toutes les requetes proxies partent de 127.0.0.1.
         self::$ipAddress = '127.0.0.1';
         self::$data = $data;
-        // CI3 stocke toujours session_id dans les userdata
+        // Legacy stocke toujours session_id dans les userdata
         // (co_gestion/login : set_userdata('session_id', session_id())).
         self::$data['session_id'] ??= self::$sessionId;
 
@@ -97,14 +97,14 @@ class Ci3Session
     }
 
     /**
-     * Ecrit une cle dans la session CI3 (equivalent set_userdata).
+     * Ecrit une cle dans la session Legacy (equivalent set_userdata).
      * Persiste dans la colonne data de ci_sessions.
      */
     public function set(string $key, $value): void
     {
         $this->load();
         if (self::$data === null || self::$sessionId === '') {
-            return; // pas de session CI3 active : rien a ecrire
+            return; // pas de session Legacy active : rien a ecrire
         }
         self::$data[$key] = $value;
         $this->save();
@@ -126,7 +126,7 @@ class Ci3Session
     }
 
     /**
-     * Detruit la session CI3 (equivalent sess_destroy) : vide les
+     * Detruit la session Legacy (equivalent sess_destroy) : vide les
      * donnees et supprime la ligne pour forcer une nouvelle session.
      */
     public function destroy(): void
@@ -174,7 +174,7 @@ class Ci3Session
 
     /**
      * Re-ecrit la ligne ci_sessions (format php : nom|serialize(valeur);)
-     * et rafraichit le timestamp comme le fait CI3 a chaque hit.
+     * et rafraichit le timestamp comme le fait Legacy a chaque hit.
      */
     private function save(): void
     {

@@ -2,20 +2,20 @@
 
 namespace App\Filters;
 
-use App\Libraries\Ci3Session;
+use App\Libraries\CompatSession;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
- * Exige une session bureau CI3 active (cookie ci_session).
+ * Exige une session bureau Legacy active (cookie ci_session).
  * Sinon, redirige vers /login?next=<uri>.
  *
  * Quelques chemins admin sont publics (formulaire / POST de connexion)
  * et quelques POST sanivan appartiennent a l'API tablette, pas au
  * calendrier bureau — ils sont ignores ici.
  */
-class Ci3AuthFilter implements FilterInterface
+class CompatAuthFilter implements FilterInterface
 {
     /** @var list<string> Chemins exacts ou prefixes a ne pas filtrer. */
     private array $skip = [
@@ -34,8 +34,8 @@ class Ci3AuthFilter implements FilterInterface
             return;
         }
 
-        $ci3 = new Ci3Session();
-        if (! $ci3->isLoggedIn()) {
+        $compatSession = new CompatSession();
+        if (! $compatSession->isLoggedIn()) {
             return redirect()->to('/login?next=' . urlencode('/' . $path));
         }
     }

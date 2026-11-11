@@ -3,13 +3,13 @@
 namespace App\Controllers;
 
 /**
- * Port CI3 -> CI4 de Sse : flux Server-Sent Events des positions GPS
+ * Port Legacy -> CI4 de Sse : flux Server-Sent Events des positions GPS
  * des camions (sanivan/star_sse). Port mecanique via
  * port_controller.php + divergences SSE documentees ci-dessous.
  */
 class Sse extends BaseController
 {
-    /** Miroir de $this->data (CI3) — rempli par GetCamOnRoad. */
+    /** Miroir de $this->data (Legacy) — rempli par GetCamOnRoad. */
     private $data = array();
 
     public function index()
@@ -18,9 +18,9 @@ class Sse extends BaseController
         header('Content-Type: text/event-stream');
         header('Cache-Control: no-cache');
         //-----------------------------------------------
-        // Divergences SSE vs CI3 (nécessaires en CI4) :
+        // Divergences SSE vs Legacy (nécessaires en CI4) :
         //  - set_time_limit(0) : la boucle infinie serait tuée par
-        //    max_execution_time (CI3 avait le même problème en prod) ;
+        //    max_execution_time (Legacy avait le même problème en prod) ;
         //  - vidange de TOUS les niveaux de buffer : CI4 bufferise la
         //    sortie, ob_flush() seul ne suffit pas pour streamer.
         @set_time_limit(0);

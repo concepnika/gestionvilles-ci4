@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-// Constantes de fichier de co_tvshow CI3 (utilisees par les methodes
+// Constantes de fichier de co_tvshow Legacy (utilisees par les methodes
 // secured_encrypt/secured_decrypt — legacy, jamais appelees en prod).
 const FIRSTKEY = 'm7ASkt7ZGNemL7YFYgedcYgp5YnWQIdkF1ev+3tQ1IE=';
 const SECONDKEY = 'o3jhqw6GOJaVUvYSvN8APpuIBjIfMZcwurNpZ+msLGhDUWcUmL4148LeUH9yonmQWTtiB3pasj6Fut4w9pxTIA==';
@@ -10,7 +10,7 @@ const CRYPT_TEXT = 'IJZoUzzS1Ec03Z9zvg==';
 const PLAIN_TEXT = 'tv_admin_nika';
 
 /**
- * Port CI3 -> CI4 de co_tvshow : affichage TV (robertdaoust,
+ * Port Legacy -> CI4 de co_tvshow : affichage TV (robertdaoust,
  * robertdaoust/tv). Pose une session "TV" puis rend la page du
  * jour (sanivan/today_tv) — port mecanique via port_controller.php.
  */

@@ -5,7 +5,7 @@ namespace App\Libraries;
 use CodeIgniter\Database\BaseConnection;
 
 /**
- * Port CI4 de application/libraries/LibSaniRest.php (CI3).
+ * Port CI4 de application/libraries/LibSaniRest.php (Legacy).
  *
  * Ne contient que les méthodes réellement appelées par le dispatcher
  * Co_Rest_Sani::index_get(). Toutes les méthodes échappent leurs

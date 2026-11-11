@@ -4,7 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?php echo ci3lang('commande_title');?><?= ($numero_commande ?? '') ?>
+<title><?php echo gv_lang('commande_title');?><?= ($numero_commande ?? '') ?>
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -78,7 +78,7 @@
           <?= ($date ?? '') ?>
         </div>
         <h4>
-          <?php echo ci3lang('facture_title');?>
+          <?php echo gv_lang('facture_title');?>
         </h4>
         <div class="details">
           <?= ($numero_commande ?? '') ?>
@@ -94,7 +94,7 @@
       </td>
       <td valign="top" align="right">
         <h3>
-          <?php echo ci3lang('facturation_title');?>
+          <?php echo gv_lang('facturation_title');?>
         </h3>
         <div class="client">
           <?= ($livraison_info ?? '') ?>

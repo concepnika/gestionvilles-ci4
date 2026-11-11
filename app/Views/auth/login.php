@@ -1,13 +1,13 @@
 <?php
-// Port de partials/login2.php (CI3). Necessite helper('ci3view').
+// Port de partials/login2.php (Legacy). Necessite helper('gv').
 // $error    : message d'erreur de connexion ('' si aucun)
 // $reset    : message apres reinitialisation du mot de passe ('' si aucun)
 // $activeDate : date du jour (Y-m-d)
-// $next     : cible post-login (champ ignore par CI3, conserve pour plus tard)
+// $next     : cible post-login (champ ignore par Legacy, conserve pour plus tard)
 $error      = $error ?? '';
 $reset      = $reset ?? '';
 $activeDate = $activeDate ?? date('Y-m-d');
-$siteLang   = ci3sess('site_lang') ?? 'fr';
+$siteLang   = gv_sess('site_lang') ?? 'fr';
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -97,11 +97,11 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
 
       <form action="/admin/tableau_de_bord?from=2" method="post">
         <div class="form-group has-feedback">
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?= esc(ci3lang('login_email')) ?>" name="email" />
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?= esc(gv_lang('login_email')) ?>" name="email" />
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input type="password" class="form-control" id="password" placeholder="<?= esc(ci3lang('login_password')) ?>" name="password" />
+          <input type="password" class="form-control" id="password" placeholder="<?= esc(gv_lang('login_password')) ?>" name="password" />
           <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <div style="border-color:red; border:double;padding-left:4px;display:<?= ($error !== '' ? 'block' : 'none') ?>;">
@@ -114,12 +114,12 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
           <!-- /.col -->
           <div class="col-4 float-end">
             <button type="submit" class="btn btn-primary d-block w-100 btn-flat">
-              <?= esc(ci3lang('login_connect')) ?>
+              <?= esc(gv_lang('login_connect')) ?>
             </button>
           </div>
           <div class="col-12 float-start">
             <button type="button" onclick="getEmail()">
-              <?= esc(ci3lang('login_forget')) ?>
+              <?= esc(gv_lang('login_forget')) ?>
             </button>
           </div>
           <!-- /.col -->
@@ -147,8 +147,8 @@ $siteLang   = ci3sess('site_lang') ?? 'fr';
         <!-- Modal body -->
         <div class="modal-body">
           <div class="card-text"></div>
-          <?= esc(ci3lang('inscription_adresse_courriel')) ?>
-          <input type="email" class="form-control" name="mailModal" id="mailModal" value="" placeholder=" <?= esc(ci3lang('inscription_adresse_courriel')) ?> " />
+          <?= esc(gv_lang('inscription_adresse_courriel')) ?>
+          <input type="email" class="form-control" name="mailModal" id="mailModal" value="" placeholder=" <?= esc(gv_lang('inscription_adresse_courriel')) ?> " />
         </div>
 
         <!-- Modal footer -->

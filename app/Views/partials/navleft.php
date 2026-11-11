@@ -71,7 +71,7 @@
       </a>
     </li>
     <li>
-      <a href="<?php echo ci3_url('samsara_ifta'); ?>">
+      <a href="<?php echo gv_url('samsara_ifta'); ?>">
         <i class="fa fa-circle-o"></i> Km Ontario (Samsara)
       </a>
     </li>

@@ -9,7 +9,7 @@ use Config\Database;
  *
  * Remplace les deux chemins paralleles Login::attempt et
  * Gestion::login / LoginModel::validate_user. Le hachage est celui
- * de CI3 : password_verify(hash_hmac('sha256', mdp, pepper), pass).
+ * de Legacy : password_verify(hash_hmac('sha256', mdp, pepper), pass).
  */
 class WebuserAuth
 {
@@ -48,13 +48,13 @@ class WebuserAuth
     }
 
     /**
-     * Ouvre une session CI3 (ligne ci_sessions + cookie) comme
+     * Ouvre une session Legacy (ligne ci_sessions + cookie) comme
      * co_gestion/login : email, nom, privilege, user_id, login_in, code.
      */
     public function createSession(object $user): void
     {
         $email = (string) ($user->email ?? '');
-        (new Ci3Session())->create([
+        (new CompatSession())->create([
             'email'      => $email,
             'nom'        => trim(($user->prenom ?? '') . ' ' . ($user->nom ?? '')),
             'privilege'  => $user->privilege ?? null,

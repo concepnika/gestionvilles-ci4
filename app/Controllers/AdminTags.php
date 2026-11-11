@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\MapTagsModel;
 
 /**
- * Port CI3 -> CI4 de Co_admin_tags : gestion des tags de carte et de
+ * Port Legacy -> CI4 de Co_admin_tags : gestion des tags de carte et de
  * leurs raisons (admin) — port mecanique via port_controller.php.
  */
 class AdminTags extends BaseController
@@ -16,7 +16,7 @@ class AdminTags extends BaseController
         \Psr\Log\LoggerInterface $logger
     ) {
         parent::initController($request, $response, $logger);
-        // CI3 __construct : load->model('Map_tags_model', 'tags')
+        // Legacy __construct : load->model('Map_tags_model', 'tags')
         $this->tags = new MapTagsModel();
     }
 
@@ -39,7 +39,7 @@ class AdminTags extends BaseController
             $id = (int) $this->input->post('id');
             if ($id <= 0) {
                 $this->session->set_flashdata('admin_tag_err', 'Tag invalide.');
-                return redirect()->to(ci3_url('admin/map-tags'));
+                return redirect()->to(gv_url('admin/map-tags'));
                 return;
             }
     
@@ -54,7 +54,7 @@ class AdminTags extends BaseController
                 $this->session->set_flashdata('admin_tag_err', "Impossible de supprimer le tag.");
             }
     
-            return redirect()->to(ci3_url('admin/map-tags'));
+            return redirect()->to(gv_url('admin/map-tags'));
     }
 
 
@@ -74,7 +74,7 @@ class AdminTags extends BaseController
             $isActive  = (int)$this->input->post('is_active', true);
     
             if ($labelFr === '' || $labelEn === '') {
-                return redirect()->to(ci3_url('admin/tags/reasons'));
+                return redirect()->to(gv_url('admin/tags/reasons'));
                 return;
             }
     
@@ -83,7 +83,7 @@ class AdminTags extends BaseController
             } else {
                 $this->tags->create_reason($labelFr, $labelEn, $sortOrder, $isActive);
             }
-            return redirect()->to(ci3_url('admin/tags/reasons'));
+            return redirect()->to(gv_url('admin/tags/reasons'));
     }
 
 
@@ -93,7 +93,7 @@ class AdminTags extends BaseController
             if ($id > 0) {
                 $this->tags->delete_reason($id);
             }
-            return redirect()->to(ci3_url('admin/tags/reasons'));
+            return redirect()->to(gv_url('admin/tags/reasons'));
     }
 
 

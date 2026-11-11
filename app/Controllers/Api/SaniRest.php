@@ -8,7 +8,7 @@ use App\Libraries\SamsaraClient;
 use App\Libraries\SaniRestService;
 
 /**
- * Port CI4 de application/controllers/Co_Rest_Sani.php (CI3).
+ * Port CI4 de application/controllers/Co_Rest_Sani.php (Legacy).
  *
  * API REST des tablettes camions Sanivan. Les clients appellent :
  *   GET  /sanivan/get?action=N&param=...   (indexGet — dispatcher)
@@ -19,7 +19,7 @@ use App\Libraries\SaniRestService;
  */
 class SaniRest extends BaseController
 {
-    // Actions (constantes CI3 — mêmes valeurs numériques)
+    // Actions (constantes Legacy — mêmes valeurs numériques)
     private const LIST_CAMIONS = 1;
     private const LIST_CHAUFFEUR = 2;
     private const GETMAXENDKILO = 3;
@@ -75,7 +75,7 @@ class SaniRest extends BaseController
     }
 
     /**
-     * Équivalent du $this->response($data, $code) du RestController CI3
+     * Équivalent du $this->response($data, $code) du RestController Legacy
      * (rest_default_format = 'json'). json_encode() appliqué à tout —
      * y compris les chaînes, que setJSON() enverrait sinon non-quotées.
      */
@@ -87,7 +87,7 @@ class SaniRest extends BaseController
             ->setBody(json_encode($data));
     }
 
-    /** post_get CI3 : POST d'abord, puis GET. */
+    /** post_get Legacy : POST d'abord, puis GET. */
     private function req(string $key)
     {
         return $this->request->getPostGet($key);
@@ -95,7 +95,7 @@ class SaniRest extends BaseController
 
     /**
      * GET /sanivan/get/login/{CodeUser}/{password}
-     * LoginDriver() n'existe pas dans CI3 (route morte en prod) — implémenté
+     * LoginDriver() n'existe pas dans Legacy (route morte en prod) — implémenté
      * ici avec la même logique que loginChauffeur (reshumaine + pepper).
      */
     public function login(string $CodeUser, string $password)
@@ -808,17 +808,17 @@ class SaniRest extends BaseController
 
     /**
      * POST /co_rest_sani/saveToFile — upload photo ticket.
-     * (pas de route dédiée dans CI3 — accès direct par nom de méthode)
+     * (pas de route dédiée dans Legacy — accès direct par nom de méthode)
      */
     public function saveToFile()
     {
         $post = $this->request->getPost();
         $filename = 'pic_' . date('YmdHis') . '.jpeg';
-        // L'URL retournee (/upload/sanivan/...) est servie par le docroot CI3 :
-        // on ecrit donc dans le vrai dossier upload de CI3, pas dans public/.
+        // L'URL retournee (/upload/sanivan/...) est servie par le docroot Legacy :
+        // on ecrit donc dans le vrai dossier upload de Legacy, pas dans public/.
         $urlName = rtrim((string) env('sanivan.uploadDir', ''), '/') . '/';
         if ($urlName === '/') {
-            $urlName = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/upload/sanivan/';
+            $urlName = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/upload/sanivan/';
         }
         if (! file_exists($urlName)) {
             mkdir($urlName, 0777, true);

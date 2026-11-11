@@ -5,17 +5,17 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Adaptateurs reproduisant l'environnement CI3 dans les controleurs
+ * Adaptateurs reproduisant l'environnement Legacy dans les controleurs
  * portes : $this->session, $this->input, $this->load, $this->output,
  * $this->email. Instancies par BaseController::initController().
  */
 
 /**
- * $this->load CI3 : model()/library() instancient et assignent une
+ * $this->load Legacy : model()/library() instancient et assignent une
  * propriete dynamique sur le controleur (AllowDynamicProperties sur
  * BaseController). view() delegue a view() CI4 (echo sauf $return).
  */
-class Ci3Loader
+class CompatLoader
 {
     private object $ctl;
 
@@ -37,11 +37,11 @@ class Ci3Loader
         $prop  = strtolower($name);
         $class = 'App\\Libraries\\' . $name;
         $map   = [
-            'email'          => Ci3Email::class,
-            'upload'         => Ci3Upload::class,
+            'email'          => CompatEmail::class,
+            'upload'         => CompatUpload::class,
             'libcalendrier'  => LibCalendrier::class,
             'libinscription' => LibInscription::class,
-            'session'        => Ci3SessionAdapter::class,
+            'session'        => CompatSessionAdapter::class,
         ];
         $cls = $map[$prop] ?? (class_exists($class) ? $class : null);
         if ($cls === null) {

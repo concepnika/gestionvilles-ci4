@@ -157,7 +157,7 @@
         var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
         chart.draw(data, options);
       }
-      var base_url = "<?php echo ci3_url()?>";
+      var base_url = "<?php echo gv_url()?>";
       var ActiveDate = "<?php echo date("Y-m-d") ?>";
       $(document).ready(function () {
           $('[data-bs-toggle="popover"]').popover();

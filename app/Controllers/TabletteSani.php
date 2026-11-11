@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Ci3Session;
+use App\Libraries\CompatSession;
 use App\Libraries\KalmanFilter;
 use App\Libraries\OsrmSnapper;
 use App\Libraries\TabletteHtml;
@@ -10,14 +10,14 @@ use App\Libraries\TabletteService;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
- * Port de Co_tablette_sani (CI3, ~4 960 lignes).
+ * Port de Co_tablette_sani (Legacy, ~4 960 lignes).
  *
- * Mêmes URIs que CI3 sous le préfixe /ci4/ — les tablettes ne changent
- * que la base URL. Session partagée CI3 via Ci3Session (lecture ET
+ * Mêmes URIs que Legacy sous le préfixe /ci4/ — les tablettes ne changent
+ * que la base URL. Session partagée Legacy via CompatSession (lecture ET
  * écriture : le flow login écrit camion/kmdepart/user_id en session).
  *
- * Non porté (reste sur CI3 — voir MIGRATION.md) :
- *  - getInfoCeduleRTE : code mort en CI3 (ne produit rien)
+ * Non porté (reste sur Legacy — voir MIGRATION.md) :
+ *  - getInfoCeduleRTE : code mort en Legacy (ne produit rien)
  *  - osrmMatchWithGeometry / osrmMatchChunk : remplacés par OsrmSnapper
  *
  * exportSaniExcel porté sur PhpSpreadsheet (2026-10-24) — PHPExcel est
@@ -26,25 +26,25 @@ use CodeIgniter\HTTP\ResponseInterface;
  */
 class TabletteSani extends BaseController
 {
-    private Ci3Session $ci3;
+    private CompatSession $compatSession;
     private TabletteService $svc;
     private TabletteHtml $html;
     private $latFilter;
     private $lonFilter;
 
-    /** Miroir de $this->data (CI3) — transmis par référence à TabletteHtml. */
+    /** Miroir de $this->data (Legacy) — transmis par référence à TabletteHtml. */
     private array $data = [];
 
     public function __construct()
     {
-        $this->ci3 = new Ci3Session();
+        $this->compatSession = new CompatSession();
         $this->svc = new TabletteService();
         $this->html = new TabletteHtml();
         $this->latFilter = new KalmanFilter(0.1, 0.01);
         $this->lonFilter = new KalmanFilter(0.1, 0.01);
 
-        if (! $this->ci3->has('site_lang')) {
-            $this->ci3->set('site_lang', 'fr');
+        if (! $this->compatSession->has('site_lang')) {
+            $this->compatSession->set('site_lang', 'fr');
         }
 
         $this->data = [
@@ -62,10 +62,10 @@ class TabletteSani extends BaseController
     }
 
     /**
-     * Port de exportSaniExcel (CI3) : validation Sanivan en Excel.
+     * Port de exportSaniExcel (Legacy) : validation Sanivan en Excel.
      * Adaptations PhpSpreadsheet : colonnes 0-based (PHPExcel) ->
      * 1-based ([col, row]), cles de style type/startcolor ->
-     * fillType/startColor, chemin ./upload -> webroot CI3.
+     * fillType/startColor, chemin ./upload -> webroot Legacy.
      */
     public function exportSaniExcel($dateactive)
     {
@@ -221,14 +221,14 @@ class TabletteSani extends BaseController
         // ---- Génération du fichier ----
         $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
         $objWriter->setPreCalculateFormulas(false);
-        $filename = env('ci3.webroot', ROOTPATH . 'ci3files') . '/upload/rapport_sani_' . $dateactive . '.xlsx';
+        $filename = env('legacy.webroot', ROOTPATH . 'appfiles') . '/upload/rapport_sani_' . $dateactive . '.xlsx';
         $objWriter->save($filename);
         force_download($filename, NULL);
         delete_files($filename);
     }
 
     /**
-     * Port de getSaniReport (CI3) : rapport Sanivan du jour. La
+     * Port de getSaniReport (Legacy) : rapport Sanivan du jour. La
      * machinerie CamDay est déjà portée (SanivanModel::getCamDay,
      * ~850 lignes) ainsi que la vue sanivan/rap_sani_jour — il
      * manquait seulement cette méthode de contrôleur.
@@ -285,7 +285,7 @@ class TabletteSani extends BaseController
     {
         $base = rtrim((string) env('sanivan.uploadDir', ''), '/');
         if ($base === '') {
-            $base = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/upload/sanivan';
+            $base = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/upload/sanivan';
         }
         return $base . ($sub !== '' ? '/' . ltrim($sub, '/') : '');
     }
@@ -329,15 +329,15 @@ class TabletteSani extends BaseController
         $fileName = 'pic_' . date('YmdHis') . '.jpeg';
         file_put_contents($folderPath . '/' . $fileName, $image_base64);
         $relUrl = '/upload/sanivan/' . ($post['nocamion'] ?? '') . '/' . ($post['dteactive'] ?? '') . '/' . ($post['idinfoville'] ?? '') . '/' . $fileName;
-        $this->ci3->set('urlTicket', $relUrl);
+        $this->compatSession->set('urlTicket', $relUrl);
         return $this->out(view('confirme/confirme', ['test' => '']));
     }
 
     public function DownloadFile($file_path = '')
     {
-        // CI3 : force_download(basename($file_path), NULL) — fichier vide
+        // Legacy : force_download(basename($file_path), NULL) — fichier vide
         // téléchargé sous le nom du ticket (le vrai fichier est récupéré
-        // par la tablette via l'URL /upload/sanivan/... servie par CI3).
+        // par la tablette via l'URL /upload/sanivan/... servie par Legacy).
         $name = basename((string) $file_path);
         return $this->response->download($name, '')->setFileName($name);
     }
@@ -348,7 +348,7 @@ class TabletteSani extends BaseController
             'idinfoville' => $idinfoville,
             'depotoire' => str_replace('%20', ' ', $deportoire),
             'iddepotoire' => $iddepotoire,
-            'nocamion' => $this->ci3->get('camion'),
+            'nocamion' => $this->compatSession->get('camion'),
             'dteActive' => $dteActive,
         ];
         return $this->out(view('routes_san/scanticket', $data));
@@ -356,7 +356,7 @@ class TabletteSani extends BaseController
 
     public function logout()
     {
-        $this->ci3->destroy();
+        $this->compatSession->destroy();
         $this->response
             ->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT')
             ->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
@@ -391,8 +391,8 @@ class TabletteSani extends BaseController
     {
         $date = $this->esc($this->postGet('dtetoadd'));
         $code = $this->postGet('code');
-        $this->ci3->set('camion', $this->postGet('edtcamion'));
-        $this->ci3->set('kmdepart', $this->postGet('edtkmDepart'));
+        $this->compatSession->set('camion', $this->postGet('edtcamion'));
+        $this->compatSession->set('kmdepart', $this->postGet('edtkmDepart'));
         $message_error = 'Mot de passe ou courriel erronn&eacute;.';
         $render = null;
 
@@ -423,11 +423,11 @@ class TabletteSani extends BaseController
                     if ($cedule->idremplace_chauf > 0) {
                         $chauf = $cedule->idremplace_chauf;
                     }
-                    $this->ci3->set('nom', $result->Prenom . ' ' . $result->Nom);
-                    $this->ci3->set('email', '');
-                    $this->ci3->set('user_id', $chauf);
-                    $this->ci3->set('login_in', true);
-                    $this->ci3->set('idchauffeur', $chauf);
+                    $this->compatSession->set('nom', $result->Prenom . ' ' . $result->Nom);
+                    $this->compatSession->set('email', '');
+                    $this->compatSession->set('user_id', $chauf);
+                    $this->compatSession->set('login_in', true);
+                    $this->compatSession->set('idchauffeur', $chauf);
                     return $this->validChauffeur($result->id, 2, (string) $this->postGet('dtetoadd'));
                 }
             }
@@ -444,8 +444,8 @@ class TabletteSani extends BaseController
     public function loginChauffeur()
     {
         $code = $this->postGet('code');
-        $this->ci3->set('camion', $this->postGet('edtcamion'));
-        $this->ci3->set('kmdepart', $this->postGet('edtkmDepart'));
+        $this->compatSession->set('camion', $this->postGet('edtcamion'));
+        $this->compatSession->set('kmdepart', $this->postGet('edtkmDepart'));
         $message_error = 'Mot de passe ou courriel erronn&eacute;.';
 
         if (isset($code)) {
@@ -483,11 +483,11 @@ class TabletteSani extends BaseController
                     if ($cedule->idremplace_chauf > 0) {
                         $chauf = $cedule->idremplace_chauf;
                     }
-                    $this->ci3->set('nom', $result->Prenom . ' ' . $result->Nom);
-                    $this->ci3->set('email', '');
-                    $this->ci3->set('user_id', $chauf);
-                    $this->ci3->set('login_in', true);
-                    $this->ci3->set('idchauffeur', $chauf);
+                    $this->compatSession->set('nom', $result->Prenom . ' ' . $result->Nom);
+                    $this->compatSession->set('email', '');
+                    $this->compatSession->set('user_id', $chauf);
+                    $this->compatSession->set('login_in', true);
+                    $this->compatSession->set('idchauffeur', $chauf);
                     if ($this->postGet('from') == 2) {
                         return $this->out(view('routes_san/location_sani', ['center' => '', 'parcours' => '']));
                     }
@@ -506,14 +506,14 @@ class TabletteSani extends BaseController
 
     public function showTabletteMap()
     {
-        // CI3 charge la vue sans données ($center vide → JS no-op)
+        // Legacy charge la vue sans données ($center vide → JS no-op)
         return $this->out(view('routes_san/location_sani', ['center' => '', 'parcours' => '']));
     }
 
     public function gotoPage()
     {
-        // chekSession n'existe plus en CI3 — on lit la session directement
-        return $this->validChauffeur((int) $this->ci3->get('user_id'));
+        // chekSession n'existe plus en Legacy — on lit la session directement
+        return $this->validChauffeur((int) $this->compatSession->get('user_id'));
     }
 
     public function validChauffeur($idchauffeur, $from = 0, $dteactive = '')
@@ -531,10 +531,10 @@ class TabletteSani extends BaseController
         $data['idinfoville'] = $this->data['idinfoville'] ?? '';
         $data['msgerror'] = '';
         $data['ActiveDate'] = ($dteactive != '') ? $dteactive : $date->format('Y-m-d');
-        $data['nom'] = $this->ci3->get('nom');
-        $data['email'] = $this->ci3->get('email');
-        $data['camion'] = $this->ci3->get('camion');
-        $data['kmdepart'] = $this->ci3->get('kmdepart');
+        $data['nom'] = $this->compatSession->get('nom');
+        $data['email'] = $this->compatSession->get('email');
+        $data['camion'] = $this->compatSession->get('camion');
+        $data['kmdepart'] = $this->compatSession->get('kmdepart');
         $data['typeextra'] = $this->html->getTypeExtra($this->data['TypeExtra'] ?? '');
         if ($from == '1') {
             return $this->out((string) $data['villes']);
@@ -552,11 +552,11 @@ class TabletteSani extends BaseController
                 WHERE cedules.DateJour = $dteesc AND cedules.idchauffeurs = $idchauffeur";
         $chauf = $this->db->query($strSQL)->getRow();
         if ($chauf) {
-            $this->ci3->set('nom', $chauf->Prenom . ' ' . $chauf->Nom);
-            $this->ci3->set('email', '');
-            $this->ci3->set('user_id', $chauf->idchauffeurs);
-            $this->ci3->set('login_in', true);
-            $this->ci3->set('idchauffeur', $chauf->idchauffeurs);
+            $this->compatSession->set('nom', $chauf->Prenom . ' ' . $chauf->Nom);
+            $this->compatSession->set('email', '');
+            $this->compatSession->set('user_id', $chauf->idchauffeurs);
+            $this->compatSession->set('login_in', true);
+            $this->compatSession->set('idchauffeur', $chauf->idchauffeurs);
             $camj = $this->db->query(
                 "SELECT * FROM camionjour WHERE DateJour = $dteesc AND idchauffeur = $idchauffeur AND idcedule = " . $chauf->ID
             )->getRow();
@@ -588,7 +588,7 @@ class TabletteSani extends BaseController
 
     public function getInfoCeduleRTE($idcedule)
     {
-        // Code mort en CI3 (la méthode requête puis n'affiche rien)
+        // Code mort en Legacy (la méthode requête puis n'affiche rien)
         $this->db->query(
             "SELECT cedules.ID FROM cedules INNER JOIN camionjour ON cedules.ID = camionjour.idcedule
              WHERE cedules.ID = " . (int) $idcedule . " GROUP BY cedules.ID ORDER BY cedules.NOCAMION, cedules.ID"
@@ -613,7 +613,7 @@ class TabletteSani extends BaseController
         if ($file !== null && $file->isValid() && ! $file->hasMoved()) {
             $file->move($dir, $filename);
             $rel = '/upload/sanivan/' . $sub . '/' . $filename;
-            $this->ci3->set('urlTicket', $rel);
+            $this->compatSession->set('urlTicket', $rel);
             return $this->out($rel);
         }
         return $this->out('');
@@ -647,7 +647,7 @@ class TabletteSani extends BaseController
     public function postInfoDepotoire($id, $Tonnage, $Depotoire, $boite, $istransbo, $IsAvecMat)
     {
         $id = $this->esc($id);
-        $Ticket = $this->esc($this->ci3->get('urlTicket'));
+        $Ticket = $this->esc($this->compatSession->get('urlTicket'));
         $Tonnage = str_replace(',', '.', $this->esc(urldecode($Tonnage)));
         $Depotoire = $this->esc(urldecode($Depotoire));
         $boite = ($boite == 'none') ? '' : ',boite=' . $this->esc(urldecode($boite));
@@ -666,7 +666,7 @@ class TabletteSani extends BaseController
             $dataResult['msgerr'] = "Vos changements ont &eacute;t&eacute; enregistr&eacute;s.";
         }
         $dataResult['ticket'] = '<span class="input-group-btn">
-                          <a href="' . $this->ci3->get('urlTicket') . '" target="_blank" class="form-control" style="font-size:16px;" download>
+                          <a href="' . $this->compatSession->get('urlTicket') . '" target="_blank" class="form-control" style="font-size:16px;" download>
                                         <i class="fa fa-download btn btn-success" style="font-size:16px;height:30px;">
                                   </i>&nbsp;&nbsp;Voir le BILLET</a>
                           </span>';
@@ -1162,7 +1162,7 @@ class TabletteSani extends BaseController
                 }
 
                 // Découper aux gaps (même procédure que GetCityPolylines
-                // et que GetCityPolylinesRaw CI3) pour éviter les lignes
+                // et que GetCityPolylinesRaw Legacy) pour éviter les lignes
                 // droites entre les trous GPS.
                 $chunks = $snap->splitByGapsPublic($pts, $timestamps, 200, 120, 160, 50);
                 if (empty($chunks)) {
@@ -1575,7 +1575,7 @@ class TabletteSani extends BaseController
 
     public function getCoordRtes($idchauffeur, $dateactive)
     {
-        $this->ci3->set('camion', '');
+        $this->compatSession->set('camion', '');
         $this->data['camchauf'] = trim((string) $this->postGet('camchauf'));
         $data = $this->html->getCamOnRoad($dateactive, $idchauffeur, $this->data);
         $data['script'] = '';
@@ -1595,7 +1595,7 @@ class TabletteSani extends BaseController
         )->getRow();
         $data['script'] = $this->html->getScriptRteAllMarker();
         $this->getValidChauffeurJour($dateactive, $idchauffeur);
-        // CI3 retourne le tableau (usage interne) — exposé en JSON via
+        // Legacy retourne le tableau (usage interne) — exposé en JSON via
         // le routage par défaut co_tablette_sani/getCoordRtes.
         return $this->outJson(array_merge($data, $this->data));
     }
@@ -1648,12 +1648,12 @@ class TabletteSani extends BaseController
 
     public function setLastView()
     {
-        $email = $this->ci3->get('email');
+        $email = $this->compatSession->get('email');
         if (isset($email) && $email !== '') {
             $result = $this->svc->validateUser((string) $email, (string) $this->postGet('pass'));
             if (! empty($result)) {
                 // GET_TABLETTE = 1
-                if ($this->ci3->get('LAST_PAGE') == 1) {
+                if ($this->compatSession->get('LAST_PAGE') == 1) {
                     return $this->out('/tablettes/acces');
                 }
             } else {
@@ -1670,8 +1670,8 @@ class TabletteSani extends BaseController
 
     public function getSuivisChauffeurs()
     {
-        $idchauffeur = $this->ci3->get('user_id');
-        return $this->out($this->svc->getSuivisChauffeur($idchauffeur, (string) $this->ci3->get('camion')));
+        $idchauffeur = $this->compatSession->get('user_id');
+        return $this->out($this->svc->getSuivisChauffeur($idchauffeur, (string) $this->compatSession->get('camion')));
     }
 
     public function PostCamionJour()
@@ -1708,7 +1708,7 @@ class TabletteSani extends BaseController
     {
         $cam = $this->esc($camion);
         $obj = $this->svc->getMaxKiloCamions($camion, (array) $this->request->getPost());
-        $oldcam = $this->esc($this->ci3->get('camion'));
+        $oldcam = $this->esc($this->compatSession->get('camion'));
         $this->db->query("UPDATE cedules SET remplace_cam = $cam
             WHERE DateJour = CURDATE() AND NOCAMION = $oldcam");
         return $this->outJson($obj);
@@ -1716,7 +1716,7 @@ class TabletteSani extends BaseController
 
     public function postNewChauffeur($idchauffeur)
     {
-        $chauffeur = (int) $this->ci3->get('user_id');
+        $chauffeur = (int) $this->compatSession->get('user_id');
         $idchauffeur = (int) $idchauffeur;
         $result = $this->db->query(
             "SELECT ID FROM cedules WHERE idchauffeurs = $chauffeur AND DateJour = CURDATE() ORDER BY ID DESC LIMIT 0, 1"
@@ -1726,13 +1726,13 @@ class TabletteSani extends BaseController
             VALUES ($idcedule, $idchauffeur, 0, CURDATE())");
         $this->db->query("UPDATE cedules SET idremplace_chauf = $idchauffeur
             WHERE DateJour = CURDATE() AND idchauffeurs = $chauffeur");
-        $this->ci3->set('user_id', $idchauffeur);
+        $this->compatSession->set('user_id', $idchauffeur);
         return $this->out('OK');
     }
 
     public function setValForSan($value, $field)
     {
-        $camion = $this->esc($this->ci3->get('camion'));
+        $camion = $this->esc($this->compatSession->get('camion'));
         $value = str_replace(',', '.', (string) $value);
         $idinfoville = $this->postGet('idinfoville');
         switch ($field) {
@@ -1753,7 +1753,7 @@ class TabletteSani extends BaseController
             case 'HreDeb_extra':
             case 'HreFin_extra':
                 $value = $this->esc($value);
-                $idrh = $this->esc($this->ci3->get('user_id'));
+                $idrh = $this->esc($this->compatSession->get('user_id'));
                 $this->db->query("UPDATE sanivan_rh SET $field = $value
                     WHERE idrh = $idrh AND DateJour = CURDATE() AND TypeRh = 0");
                 break;
@@ -1801,8 +1801,8 @@ class TabletteSani extends BaseController
     public function trackChauffeur()
     {
         $returnval = '';
-        $idchauffeur = $this->esc($this->ci3->get('user_id'));
-        $camion = $this->esc($this->ci3->get('camion'));
+        $idchauffeur = $this->esc($this->compatSession->get('user_id'));
+        $camion = $this->esc($this->compatSession->get('camion'));
         $lng = $this->esc($this->postGet('lng'));
         $lat = $this->esc($this->postGet('lat'));
         $gpstime = $this->db->query(
@@ -1904,8 +1904,8 @@ class TabletteSani extends BaseController
         $idville = $this->esc($data['selVilleModal'] ?? '');
         $idsecteur = $this->esc($data['selSecteurModal'] ?? '');
         $titre = $this->esc($data['titre'] ?? '');
-        // CI3 écrit dans ./upload/gpx (docroot CI3) — même destination via ci3.webroot
-        $uploadPath = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/') . '/upload/gpx';
+        // Legacy écrit dans ./upload/gpx (docroot Legacy) — même destination via legacy.webroot
+        $uploadPath = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/') . '/upload/gpx';
         if (! is_dir($uploadPath)) {
             mkdir($uploadPath, 0777, true);
         }
@@ -1928,14 +1928,14 @@ class TabletteSani extends BaseController
                     VALUES ($idville, $idsecteur, $titre, $locations, $url)");
             }
         }
-        // CI3 : redirect('/') — racine du site (CI3), pas /ci4/
+        // Legacy : redirect('/') — racine du site (Legacy), pas /ci4/
         return $this->response->setStatusCode(302)->setHeader('Location', '/');
     }
 
     public function PostPolyline($polyline)
     {
         $polyline = $this->esc($polyline);
-        // La table `polilyne` n'existe pas en prod : en CI3 l'insert
+        // La table `polilyne` n'existe pas en prod : en Legacy l'insert
         // échouait silencieusement. On reproduit ce comportement.
         try {
             $this->db->query("INSERT INTO polilyne (parcours) VALUES ($polyline)");
@@ -2048,7 +2048,7 @@ class TabletteSani extends BaseController
                 $this->html->getinfoAides($result, $this->data);
                 $iter++;
             }
-            $infoChauffeur = $this->html->getaide($row['ID'], $this->ci3->get('user_id'), 0, $this->esc($row['DateJour']));
+            $infoChauffeur = $this->html->getaide($row['ID'], $this->compatSession->get('user_id'), 0, $this->esc($row['DateJour']));
             $this->data['HreDeb'] = $infoChauffeur[0]['HreDeb'];
             $this->data['HreFin'] = $infoChauffeur[0]['HreFin'];
             $this->data['HreDeb_extra'] = $infoChauffeur[0]['HreDeb_extra'];
@@ -2057,7 +2057,7 @@ class TabletteSani extends BaseController
             $this->data['idsanivanrh'] = $infoChauffeur[0]['idsanivanrh'];
             $this->data['idrh'] = $infoChauffeur[0]['idrh'];
             $NOCAMION = (trim((string) $row['remplace_cam']) != '') ? $row['remplace_cam'] : $row['NOCAMION'];
-            $this->ci3->set('camion', $NOCAMION);
+            $this->compatSession->set('camion', $NOCAMION);
 
             $ESCcam = $this->esc($NOCAMION);
             $rest = $this->db->query(
@@ -2068,21 +2068,21 @@ class TabletteSani extends BaseController
             if ($rest->getNumRows() > 0) {
                 $this->data['idcamionjour'] = $camj->id;
                 $this->data['KiloDeb'] = str_replace('.', ',', (string) $camj->KiloDeb);
-                $this->ci3->set('kmdepart', $this->data['KiloDeb']);
+                $this->compatSession->set('kmdepart', $this->data['KiloDeb']);
                 $this->data['KiloFin'] = str_replace('.', ',', (string) $camj->KiloFin);
                 $this->data['Fuel'] = str_replace('.', ',', (string) $camj->Fuel);
                 $this->data['HreDeb_cam'] = str_replace('.', ',', (string) $camj->HreDeb);
                 $this->data['HreFin_cam'] = str_replace('.', ',', (string) $camj->HreFin);
             } else {
                 $idcedule = $this->data['idcedule'];
-                $KiloDeb = $this->esc($this->ci3->get('kmdepart'));
+                $KiloDeb = $this->esc($this->compatSession->get('kmdepart'));
                 $TypeProduit = $this->esc($this->data['TypeDeProduit']);
                 $chauf = $row['idchauffeurs'];
                 $this->db->query("INSERT INTO camionjour
                     (idchauffeur, NOCAMION, TypeProduit, KiloDeb, DateJour)
                     VALUES ($chauf, $ESCcam, $TypeProduit, $KiloDeb, $date)");
                 $this->data['idcamionjour'] = $this->db->insertID();
-                $this->data['KiloDeb'] = $this->ci3->get('kmdepart');
+                $this->data['KiloDeb'] = $this->compatSession->get('kmdepart');
                 $this->data['KiloFin'] = '';
                 $this->data['Fuel'] = '';
                 $this->data['HreDeb_cam'] = '';

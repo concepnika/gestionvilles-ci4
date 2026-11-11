@@ -59,7 +59,7 @@
       <div class="col-3"> </div>
       <div class="col-6 login-box-body" style="margin-left:300px;">
         <h2 class="login-box-msg" style="margin-left:20px;margin-top:40px;">
-          <?php echo ci3lang('changepass_reinitialise');?>
+          <?php echo gv_lang('changepass_reinitialise');?>
         </h2>
         <div class="login-logo" style="align-content:center">
           <img src="/assets/img/logo.png" width="400" />
@@ -69,32 +69,32 @@
           <div class="form-group  has-feedback"></div>
           <div style="display:<?php echo (($from == 2)? 'none' : 'block');?>" class="form-group">
             <div class="col-sm-4 col-12 control-label">
-              <?php echo ci3lang('inscription_adresse_courriel');?>
+              <?php echo gv_lang('inscription_adresse_courriel');?>
             </div>
             <div class="col-sm-7 col-12 input-group champ-acces">
               <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">
                 <i class="fa fa-at" style="font-size: 24px; margin-top: 10px; margin-left: 15px;"></i>
               </span>
-              <input type="email" class="form-control" name="email" id="email" value="<?php echo ($email ?? '');?>" placeholder="<?php echo ci3lang('inscription_adresse_courriel');?>" />
+              <input type="email" class="form-control" name="email" id="email" value="<?php echo ($email ?? '');?>" placeholder="<?php echo gv_lang('inscription_adresse_courriel');?>" />
             </div>
 
           </div>
           <div style="display:<?php echo (($from == 2)? 'none' : 'block');?>" class="form-group">
             <div class="col-sm-4 col-12 control-label">
-              <?php echo ci3lang('changepass_passw_now');?>
+              <?php echo gv_lang('changepass_passw_now');?>
             </div>
             <div class="col-sm-7 col-12 input-group champ-acces">
               <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">
                 <i class="fa fa-sign-in" style="font-size: 24px; margin-top: 10px; margin-left: 15px;"></i>
 
               </span>
-              <input type="password" class="form-control" name="passchange" onblur="ValidOldPassW()" id="passchange" value="" placeholder="<?php echo ci3lang('changepass_passw_now');?>" autocomplete="new-password" />
+              <input type="password" class="form-control" name="passchange" onblur="ValidOldPassW()" id="passchange" value="" placeholder="<?php echo gv_lang('changepass_passw_now');?>" autocomplete="new-password" />
               <div class="col-sm-4 col-12 control-label"></div>
               <div class="col-sm-7 col-12 input-group">
 
                 <div id="divValidOld" style="display:none;">
                   <p style="font-size:small;color:red; ">
-                    <?php echo ci3lang('changepass_infovalidoldpass');?>
+                    <?php echo gv_lang('changepass_infovalidoldpass');?>
                   </p>
                 </div>
               </div>
@@ -103,14 +103,14 @@
           </div>
           <div class="form-group">
             <div class="col-sm-4 col-12 control-label">
-              <?php echo ci3lang('changepass_passw_new');?>
+              <?php echo gv_lang('changepass_passw_new');?>
             </div>
             <div class="col-sm-7 col-12 input-group champ-acces">
               <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">
                 <i class="fa fa-question" style="font-size:24px;margin-top:10px;margin-left:15px;"></i>
 
               </span>
-              <input type="password" class="form-control" name="passnew" id="passnew" onblur="ValidStrongPassW()" value="" placeholder="<?php echo ci3lang('changepass_passw_new');?>" autocomplete="new-password" />
+              <input type="password" class="form-control" name="passnew" id="passnew" onblur="ValidStrongPassW()" value="" placeholder="<?php echo gv_lang('changepass_passw_new');?>" autocomplete="new-password" />
               <div class="help-block with-errors"></div>
             </div>
             <div class="col-sm-4 col-12 control-label"></div>
@@ -118,27 +118,27 @@
 
               <div id="divValidStrong" style="display:none;">
                 <p style="font-size:small;color:red; ">
-                  <?php echo ci3lang('changepass_infovalidpass');?>
+                  <?php echo gv_lang('changepass_infovalidpass');?>
                 </p>
               </div>
             </div>
           </div>
           <div class="form-group">
             <div class="col-sm-4 col-12 control-label">
-              <?php echo ci3lang('inscription_valide_passw');?>
+              <?php echo gv_lang('inscription_valide_passw');?>
             </div>
             <div class="col-sm-7 col-12 input-group champ-acces">
               <span class="input-group-text" style="width:50px; background-color:#009ddc; color:#FFF;">
                 <i class="fa fa-exclamation" style="font-size:24px;margin-top:10px;margin-left:15px;"></i>
               </span>
-              <input type="password" class="form-control" name="passconf" id="passconf" placeholder="<?php echo ci3lang('inscription_valide_passw');?>" onblur="VerifIsSame()" data-match="#passnew" data-match-error="<?php echo ci3lang('inscription_erreur_passw');?>" autocomplete="new-password" />
+              <input type="password" class="form-control" name="passconf" id="passconf" placeholder="<?php echo gv_lang('inscription_valide_passw');?>" onblur="VerifIsSame()" data-match="#passnew" data-match-error="<?php echo gv_lang('inscription_erreur_passw');?>" autocomplete="new-password" />
             </div>
             <div class="col-sm-4 col-12 control-label"></div>
             <div class="col-sm-7 col-12 input-group">
 
               <div id="divValidSame" style="display:none;">
                 <p style="font-size:small;color:red; ">
-                  <?php echo ci3lang('changepass_nonidentique');?>
+                  <?php echo gv_lang('changepass_nonidentique');?>
                 </p>
               </div>
             </div>
@@ -148,7 +148,7 @@
             <div class="col-sm-7 col-12 input-group champ-acces">
 
               <button type="button" id="btnSubmit" onclick="SubmitChangePass()" class="btn btn-primary d-block w-100 btn-flat" style="width:300px;" disabled>
-                <?php echo ci3lang('changepass_send');?>
+                <?php echo gv_lang('changepass_send');?>
               </button>
             </div>
           </div>

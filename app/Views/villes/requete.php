@@ -14,7 +14,7 @@
 	<?php echo ($menu ?? ''); ?>
 	<section role="main" class="content-body content-body-modern mt-0">
 		<header class="page-header page-header-left-inline-breadcrumb"  style="margin-top:40px;margin-bottom:20px">
-			<h2 class="font-weight-bold text-6"><?php echo ci3lang('mne_requete'); ?></h2>
+			<h2 class="font-weight-bold text-6"><?php echo gv_lang('mne_requete'); ?></h2>
 			<?php echo ($noreq ?? '') ?>
       <div id="msgErreur" class="btn btn-danger" style="padding-left:4px;display:none;">
 
@@ -29,7 +29,7 @@
               <div class="row">
                 <div class="col-lg-2-5 col-xl-1-5">
                   <i class="card-big-info-icon bx bx-camera"></i>
-                  <h2 class="card-big-info-title"><?php echo ci3lang('pgereq_upload'); ?></h2>
+                  <h2 class="card-big-info-title"><?php echo gv_lang('pgereq_upload'); ?></h2>
                 </div>
                 <div class="col-lg-3-5">
                   <div class="form-group row align-items-center">
@@ -58,14 +58,14 @@
               <div class="row">
                 <div class="col-lg-2-5 col-xl-1-5">
                   <i class="card-big-info-icon bx bx-slider"></i>
-                  <h2 class="card-big-info-title"><?php echo ci3lang('pgereq_detailreq'); ?></h2>
+                  <h2 class="card-big-info-title"><?php echo gv_lang('pgereq_detailreq'); ?></h2>
                   <p class="card-big-info-desc">
-                    <?php echo ci3lang('pgereq_explication'); ?>
+                    <?php echo gv_lang('pgereq_explication'); ?>
                   </p>
                 </div>
                 <div class="col-lg-3-5 col-xl-4-5">
                   <div class="form-group row align-items-center mb-3">
-                    <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo ci3lang('pgereq_titrereq'); ?></label>
+                    <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo gv_lang('pgereq_titrereq'); ?></label>
                     <div class="col-lg-7 col-xl-6">
                       <input type="text" class="form-control" name="nom" id="nom" value="" required />
                       <input type="hidden" name="id" id="id" value="<?php echo ($id ?? '') ?>" />
@@ -74,11 +74,11 @@
                     </div>
                   </div>
                   <div class="form-group row align-items-center mb-3">
-                    <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo ci3lang('pgereq_adresse'); ?></label>
+                    <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo gv_lang('pgereq_adresse'); ?></label>
 
                       <div class="input-group" style="width:550px;">
 
-                        <textarea name="adresse" placeholder="<?php echo ci3lang('pgereq_placeadre'); ?>" id="adresse" rows="3" cols="40" style="height:100%;" required></textarea>
+                        <textarea name="adresse" placeholder="<?php echo gv_lang('pgereq_placeadre'); ?>" id="adresse" rows="3" cols="40" style="height:100%;" required></textarea>
                         <a href="javascript:GoogleVille()" style="width:35px;height:35px;">
                           <img src="/assets/img/googlemap.png" height="35" />
                         </a>
@@ -86,11 +86,11 @@
 
                   </div>
                   <div class="form-group row align-items-center mb-3">
-                    <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo ci3lang('pgereq_matiere'); ?></label>
+                    <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo gv_lang('pgereq_matiere'); ?></label>
 
                     <div class="col-lg-7 col-xl-6">
                       <select class="form-control" name="matiere" id="matiere" style="width:200px" required>
-                        <option value=""><?php echo ci3lang('pgereq_choisir'); ?></option>
+                        <option value=""><?php echo gv_lang('pgereq_choisir'); ?></option>
                         <?php echo ($optMatiere ?? '') ?>
                       </select>
 
@@ -98,17 +98,17 @@
                   </div>
                   <div class="form-group row align-items-center mb-3">
                     <label class="col-lg-5 col-xl-3 border control-label font-weight-bold text-lg-center mb-0" style="font-size: 16px">
-                      <input class="checkbox-primary" type="checkbox" id="chkReparationBac" />&nbsp;<?php echo ci3lang('pgereq_rep_bac'); ?></label>
+                      <input class="checkbox-primary" type="checkbox" id="chkReparationBac" />&nbsp;<?php echo gv_lang('pgereq_rep_bac'); ?></label>
 
                     <div class="col-lg-7 col-xl-6">
-                      <select class="form-control" name="chkRepareBac" id="chkRepareBac" style="width: 100%"  multiple="multiple" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200, "nonSelectedText": "<?php echo ci3lang('pgereq_choisir'); ?>" }'>
+                      <select class="form-control" name="chkRepareBac" id="chkRepareBac" style="width: 100%"  multiple="multiple" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200, "nonSelectedText": "<?php echo gv_lang('pgereq_choisir'); ?>" }'>
 														<?php echo ($optMatiere ?? '') ?>
 											</select>
 
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-lg-5 col-xl-3  control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo ci3lang('pgereq_description'); ?></label>
+                    <label class="col-lg-5 col-xl-3  control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo gv_lang('pgereq_description'); ?></label>
 
                     <div class="col-lg-7 col-xl-6">
                       <textarea  name="description" id="description" rows="6" style="width: 100%" required></textarea>
@@ -125,11 +125,11 @@
         <div class="col-12 col-md-auto">
           <button type="submit" class="submit-button btn btn-primary btn-px-4 py-3 d-flex align-items-center font-weight-semibold line-height-1" data-loading-text="Loading...">
             <i class="bx bx-save text-4 me-2"></i>
-            <?php echo ci3lang('pgereq_enrreq'); ?>
+            <?php echo gv_lang('pgereq_enrreq'); ?>
           </button>
         </div>
         <div class="col-12 col-md-auto px-md-0 mt-3 mt-md-0">
-          <a href="/villes/accueil/<?php echo (ci3sess('site_lang') ?? ''); ?>" class="cancel-button btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3"><?php echo ci3lang('btn_annuler'); ?></a>
+          <a href="/villes/accueil/<?php echo (gv_sess('site_lang') ?? ''); ?>" class="cancel-button btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3"><?php echo gv_lang('btn_annuler'); ?></a>
 
         </div>
 

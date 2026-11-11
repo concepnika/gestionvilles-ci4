@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * Port mecanique de MyEncryption_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de MyEncryption_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
@@ -14,7 +14,7 @@ namespace App\Models;
  * @name: Encryption model
  * @author: Serge Dallaire
  */
-class MyEncryptionModel extends Ci3Model
+class MyEncryptionModel extends CompatModel
 {
   protected $keysha = 'niKa64982c4edeb0brdf23vf';
 	function __construct() {

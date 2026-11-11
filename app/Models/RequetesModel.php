@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Requetes_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Requetes_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
@@ -14,7 +14,7 @@ namespace App\Models;
  * @name: Login model
  * @author: Serge Dallaire
  */
-class RequetesModel extends Ci3Model
+class RequetesModel extends CompatModel
 {
 	/** @var array $data */
 	protected $data = array();
@@ -907,7 +907,7 @@ Iscomplete, isdeleted,(SELECT ville.Nom FROM ville WHERE ville.id = reponses.idv
     $config['file_ext_tolower'] = true;
     $config['remove_spaces'] = true;
 		//$config['encrypt_name'] = TRUE;
-		$this->upload = new \App\Libraries\Ci3Upload($config);
+		$this->upload = new \App\Libraries\CompatUpload($config);
 		if (!$this->upload->do_upload('fileRequete_1')) {
 			$error = array('error' => $this->upload->display_errors());
 			//Action, in case file upload failed
@@ -1055,7 +1055,7 @@ Iscomplete, isdeleted,(SELECT ville.Nom FROM ville WHERE ville.id = reponses.idv
       $config['file_ext_tolower'] = true;
       $config['remove_spaces'] = true;
       //$config['encrypt_name'] = TRUE;
-      $this->upload = new \App\Libraries\Ci3Upload($config);
+      $this->upload = new \App\Libraries\CompatUpload($config);
       if (!$this->upload->do_upload('fileRequete_1')) {
         $error = array('error' => $this->upload->display_errors());
         //Action, in case file upload failed

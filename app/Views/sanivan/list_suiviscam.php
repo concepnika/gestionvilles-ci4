@@ -55,7 +55,7 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" />
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css" />
-  <link rel="stylesheet" href="<?php echo ci3_url()?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+  <link rel="stylesheet" href="<?php echo gv_url()?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
   <style>
     .popover-title{
       background: darkblue;
@@ -71,7 +71,7 @@
   </style>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
-    var base_url = "<?php echo ci3_url()?>";
+    var base_url = "<?php echo gv_url()?>";
     var ActiveDate = "<?php echo date("Y-m-d") ?>";
     $(document).ready(function () {
         $('[data-bs-toggle="popover"]').popover();
@@ -241,11 +241,11 @@
     <script src="/assets/moment/moment.js"></script>
   <script src="/assets/plugins/iCheck/icheck.min.js"></script>
     <script src="/assets/js/nika.js"></script>
-  <script src="<?php echo ci3_url()?>assets/datatables/jquery.dataTables.js"></script>
-  <script src="<?php echo ci3_url()?>assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
-  <script src="<?php echo ci3_url()?>assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
-  <script src="<?php echo ci3_url()?>assets/datatables/extras/Buttons-1.6.1/js/buttons.html5.min.js"></script>
-  <script src="<?php echo ci3_url()?>assets/datatables/extras/Buttons-1.6.1/js/buttons.print.min.js"></script>
+  <script src="<?php echo gv_url()?>assets/datatables/jquery.dataTables.js"></script>
+  <script src="<?php echo gv_url()?>assets/datatables/extras/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
+  <script src="<?php echo gv_url()?>assets/datatables/extras/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
+  <script src="<?php echo gv_url()?>assets/datatables/extras/Buttons-1.6.1/js/buttons.html5.min.js"></script>
+  <script src="<?php echo gv_url()?>assets/datatables/extras/Buttons-1.6.1/js/buttons.print.min.js"></script>
 
   <script src="https://cdn.datatables.net/plug-ins/1.10.20/pagination/four_button.js"></script>
   <script>

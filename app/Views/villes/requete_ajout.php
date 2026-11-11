@@ -13,7 +13,7 @@
 	<?php echo ($menu ?? ''); ?>
   <section role="main" class="content-body content-body-modern mt-0">
     <header class="page-header page-header-left-inline-breadcrumb" style="margin-top:40px;margin-bottom:20px">
-      <h2 class="font-weight-bold text-6"><?php echo ci3lang('mne_requete'); ?></h2>
+      <h2 class="font-weight-bold text-6"><?php echo gv_lang('mne_requete'); ?></h2>
       <?php echo ($noreq ?? '') ?>
     </header>
 
@@ -33,7 +33,7 @@
           </header>
           <div class="card-body">
             <div style="scroll-margin-bottom:10px;">
-              <label class="control-label font-weight-bold" style="font-size: 16px"><?php echo ci3lang('pgereq_titrereq'); ?></label>
+              <label class="control-label font-weight-bold" style="font-size: 16px"><?php echo gv_lang('pgereq_titrereq'); ?></label>
               <div>
                 <input type="text" class="form-control" style="width:100%;" id="nom" value="<?php echo ($nom ?? '') ?>" disabled />
 
@@ -46,7 +46,7 @@
             <?php echo ($inforequete ?? '') ?>
             <div>
               <select class="form-control" name="matiere" id="matiere" style="width:100%" disabled>
-                <option value=""><?php echo ci3lang('pgereq_enrreq'); ?><?php echo ci3lang('pgereq_choisir'); ?></option>
+                <option value=""><?php echo gv_lang('pgereq_enrreq'); ?><?php echo gv_lang('pgereq_choisir'); ?></option>
                 <?php echo ($optMatiere ?? '') ?>
               </select>
 
@@ -77,7 +77,7 @@
               <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
             </div>
 
-            <h2 class="card-title"> <?php echo ci3lang('pgeajout_send'); ?>
+            <h2 class="card-title"> <?php echo gv_lang('pgeajout_send'); ?>
             </h2>
           </header>
           <div class="card-body">
@@ -89,7 +89,7 @@
                 <div>
                   <section class="card card-modern card-big-info">
                     <i class="card-big-info-icon bx bx-camera"></i>
-                    <h2 class="card-big-info-title"><?php echo ci3lang('pgereq_upload'); ?></h2>
+                    <h2 class="card-big-info-title"><?php echo gv_lang('pgereq_upload'); ?></h2>
                     <div class="card-body">
                       <div class="row">
                         <div class="col-lg-3-7">
@@ -120,7 +120,7 @@
 
                         <div>
                           <div style="display:<?php echo ($fileinclude ?? '') ?>">
-                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold mb-0" style="font-size: 16px;"><?php echo ci3lang('btn_telecharger'); ?></label>
+                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold mb-0" style="font-size: 16px;"><?php echo gv_lang('btn_telecharger'); ?></label>
                             <div class="col-lg-3-5">
                               <div>
 
@@ -133,11 +133,11 @@
 
 
                           <div>
-                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold mb-0" style="font-size: 16px;"><?php echo ci3lang('pgeajout_statut'); ?>label>
+                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold mb-0" style="font-size: 16px;"><?php echo gv_lang('pgeajout_statut'); ?>label>
 
                             <div>
                               <select class="form-control" name="statut" id="statut" style="width:100%" onchange="setInfoStatut(this.value)">
-                                <option value="0"><?php echo ci3lang('pgeajout_nochange'); ?></option>
+                                <option value="0"><?php echo gv_lang('pgeajout_nochange'); ?></option>
                                 <option value="4">Recéduler la requête</option>
                                 <option value="6">Annuler la requête</option>
                                 <option value="8">Adresse modifiée </option>
@@ -148,11 +148,11 @@
                             </div>
                           </div>
                           <div class="form-group row mb-6" id="divMat" style="display:none;margin-top:5px;">
-                            <br /><label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo ci3lang('pgeajout_mat'); ?></label>
+                            <br /><label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px"><?php echo gv_lang('pgeajout_mat'); ?></label>
 
                             <div class="col-lg-7 col-xl-6">
                               <select class="form-control" name="matiere" id="matiere" style="width:200px" required>
-                                <option value=""><?php echo ci3lang('pgereq_choisir'); ?></option>
+                                <option value=""><?php echo gv_lang('pgereq_choisir'); ?></option>
                                 <?php echo ($optMatiereStat ?? '') ?>
                               </select>
 
@@ -160,30 +160,30 @@
                           </div>
                           <div class="form-group row mb-6" id="divBac" style="display:none;margin-top:5px;">
                             <div class="input-group" style="width:700px;">
-                              <span class="form-control" style="width:150px;font-weight:bold;"><?php echo ci3lang('pgeajout_noserie'); ?></span>
+                              <span class="form-control" style="width:150px;font-weight:bold;"><?php echo gv_lang('pgeajout_noserie'); ?></span>
                               <input type="text" id="noSerie" name="noSerie" class="form-control"
-                                placeholder="<?php echo ci3lang('pgeajout_noserie'); ?>" style="width:150px" value="" />
-                              <span class="form-control" style="width:100px;font-weight:bold;"><?php echo ci3lang('pgeajout_grandeur'); ?> </span>
+                                placeholder="<?php echo gv_lang('pgeajout_noserie'); ?>" style="width:150px" value="" />
+                              <span class="form-control" style="width:100px;font-weight:bold;"><?php echo gv_lang('pgeajout_grandeur'); ?> </span>
                               <select class="form-control" name="grandeur" id="grandeur" style="width:80px">
-                                <option value=""><?php echo ci3lang('pgereq_choisir'); ?></option>
+                                <option value=""><?php echo gv_lang('pgereq_choisir'); ?></option>
                                 <option value="45">45</option>
                                 <option value="80">80</option>
                                 <option value="120">120</option>
                                 <option value="240">240</option>
                                 <option value="360">360</option>
                               </select>
-                              <span class="form-control" style="width:100px;font-weight:bold;"><?php echo ci3lang('pgeajout_couleur'); ?> </span>
+                              <span class="form-control" style="width:100px;font-weight:bold;"><?php echo gv_lang('pgeajout_couleur'); ?> </span>
                               <select class="form-control" name="couleur" id="couleur" style="width:80px">
-                                <option value=""><?php echo ci3lang('pgereq_choisir'); ?></option>
-                                <option value="VERT" style="color:forestgreen;font-weight:bold;"><?php echo ci3lang('pgeajout_vert'); ?>VERT</option>
-                                <option value="BLEU" style="color:blue;font-weight:bold;"><?php echo ci3lang('pgeajout_bleu'); ?>BLEU</option>
-                                <option value="NOIR" style="color:black;font-weight:bold;"><?php echo ci3lang('pgeajout_noir'); ?>NOIR</option>
-                                <option value="BRUN" style="color:saddlebrown;font-weight:bold;"><?php echo ci3lang('pgeajout_brun'); ?>BRUN</option>
+                                <option value=""><?php echo gv_lang('pgereq_choisir'); ?></option>
+                                <option value="VERT" style="color:forestgreen;font-weight:bold;"><?php echo gv_lang('pgeajout_vert'); ?>VERT</option>
+                                <option value="BLEU" style="color:blue;font-weight:bold;"><?php echo gv_lang('pgeajout_bleu'); ?>BLEU</option>
+                                <option value="NOIR" style="color:black;font-weight:bold;"><?php echo gv_lang('pgeajout_noir'); ?>NOIR</option>
+                                <option value="BRUN" style="color:saddlebrown;font-weight:bold;"><?php echo gv_lang('pgeajout_brun'); ?>BRUN</option>
                               </select>
                             </div>
                           </div>
                           <div class="form-group row mb-6" id="divAdr" style="display:none;margin-top:5px;">
-                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px;"><?php echo ci3lang('pgereq_adresse'); ?>Adresse</label>
+                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px;"><?php echo gv_lang('pgereq_adresse'); ?>Adresse</label>
                             <div class="input-group" style="width:550px;">
 
                               <textarea name="adresse" placeholder="Adresse: Adresse, Code postal" id="adresse" rows="3" cols="40" style="height:100%;"></textarea>
@@ -193,7 +193,7 @@
                             </div>
                           </div>
                           <div class="form-group row mb-3" id="divDte" style="display:none">
-                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px;text-align:left"><?php echo ci3lang('pgeajout_dtecedule'); ?></label>
+                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold text-lg-end mb-0" style="font-size: 16px;text-align:left"><?php echo gv_lang('pgeajout_dtecedule'); ?></label>
 
                             <div class="col-lg-7 col-xl-6">
                               <div class="input-group">
@@ -206,7 +206,7 @@
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold mb-0" style="font-size: 16px"><?php echo ci3lang('pgereq_description'); ?></label>
+                            <label class="col-lg-5 col-xl-3 control-label font-weight-bold mb-0" style="font-size: 16px"><?php echo gv_lang('pgereq_description'); ?></label>
 
                             <div>
                               <textarea class="summernote" name="description" id="description" rows="12" cols="50" style="height:100%;" required></textarea>
@@ -222,7 +222,7 @@
                 <div class="col-12">
                   <button type="submit" class="submit-button btn btn-primary btn-px-4 py-3 d-flex align-items-center font-weight-semibold line-height-1" data-loading-text="Loading...">
                     <i class="bx bx-save text-4 me-2"></i>
-                    <?php echo ci3lang('pgeajout_send_ajout'); ?>
+                    <?php echo gv_lang('pgeajout_send_ajout'); ?>
                   </button>
 
 

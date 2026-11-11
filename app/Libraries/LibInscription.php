@@ -5,8 +5,8 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Port CI3 -> CI4 de LibInscription : hachage password compatible
- * CI3 (hmac + pepper) et insertion webuser.
+ * Port Legacy -> CI4 de LibInscription : hachage password compatible
+ * Legacy (hmac + pepper) et insertion webuser.
  */
 class LibInscription
 {

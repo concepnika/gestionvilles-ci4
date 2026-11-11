@@ -3,7 +3,7 @@
 namespace App\Libraries;
 
 /**
- * Port de application/libraries/KalmanFilter.php (CI3) — filtre de
+ * Port de application/libraries/KalmanFilter.php (Legacy) — filtre de
  * Kalman simple pour lisser les coordonnées GPS.
  */
 class KalmanFilter

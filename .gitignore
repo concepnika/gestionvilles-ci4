@@ -24,17 +24,17 @@ $RECYCLE.BIN/
 *.user
 composer.phar
 
-# ci3files : contenu genere/utilisateurs — structure conservee via .gitkeep
-ci3files/upload/*
-ci3files/uploads/*
-ci3files/userfiles/*
-!ci3files/upload/gpx/
-!ci3files/upload/reponse/
-!ci3files/uploads/pdf_tickets/
-!ci3files/uploads/tickets/
-ci3files/upload/gpx/*
-ci3files/upload/reponse/*
-ci3files/uploads/pdf_tickets/*
-ci3files/uploads/tickets/*
+# appfiles : contenu genere/utilisateurs — structure conservee via .gitkeep
+appfiles/upload/*
+appfiles/uploads/*
+appfiles/userfiles/*
+!appfiles/upload/gpx/
+!appfiles/upload/reponse/
+!appfiles/uploads/pdf_tickets/
+!appfiles/uploads/tickets/
+appfiles/upload/gpx/*
+appfiles/upload/reponse/*
+appfiles/uploads/pdf_tickets/*
+appfiles/uploads/tickets/*
 !.gitkeep
 *.zip

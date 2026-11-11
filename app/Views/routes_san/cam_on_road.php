@@ -2,7 +2,7 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo ci3sess('site_lang');?>" xml:lang="<?php echo ci3sess('site_lang');?>" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="<?php echo gv_sess('site_lang');?>" xml:lang="<?php echo gv_sess('site_lang');?>" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -264,7 +264,7 @@
 </section>
 
   <div id="divimgtruck" style="display:none;">
-    <img id="ImgTruckSani" src="<?php echo ci3_url('/assets/00_images/truck2.png'); ?>" width="60" alt="" />
+    <img id="ImgTruckSani" src="<?php echo gv_url('/assets/00_images/truck2.png'); ?>" width="60" alt="" />
     <input type="hidden" id="allchauffeur" value="<?php echo ($allchauffeur ?? ''); ?>" />
   </div>
   <button type="button" class="btn-toggle-sidebar" id="btnToggleSidebar" title="Chauffeurs">
@@ -297,7 +297,7 @@
   <script>
     
     //----------------------------------
-    var base_url = '<?php echo ci3_url(); ?>';
+    var base_url = '<?php echo gv_url(); ?>';
 
     function chkrhexisteCal( idrh ) {
 	    //-----------------------------------------

@@ -95,7 +95,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <script>
-    var base_url = "<?php echo ci3_url(); ?>";
+    var base_url = "<?php echo gv_url(); ?>";
     $(document).ready(function () {
       $('[data-bs-toggle="popover"]').popover();
     });
@@ -121,7 +121,7 @@
 
     <!-- ========== Filtre par dates ========== -->
     <div class="date-filter-bar">
-      <form method="get" action="<?php echo ci3_url('rapport/financier'); ?>" class="form-inline">
+      <form method="get" action="<?php echo gv_url('rapport/financier'); ?>" class="form-inline">
         <div class="form-group">
           <label for="datedebut">Du&nbsp;</label>
           <input type="date" class="form-control" id="datedebut" name="datedebut" value="<?php echo ($datedebut ?? ''); ?>" />

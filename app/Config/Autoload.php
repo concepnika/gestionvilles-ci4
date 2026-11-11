@@ -88,5 +88,5 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $helpers = ['ci3view'];
+    public $helpers = ['gv'];
 }

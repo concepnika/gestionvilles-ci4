@@ -2,49 +2,49 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Ci3Session;
+use App\Libraries\CompatSession;
 use App\Libraries\VilleService;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
- * Port de Co_ville (CI3, ~2 900 lignes) — portail citoyen
+ * Port de Co_ville (Legacy, ~2 900 lignes) — portail citoyen
  * (requêtes citoyennes), zones et tags de carte.
  *
  * Authentification citoyenne : table villesrecipiendaire avec
  * AES_ENCRYPT/AES_DECRYPT MySQL (clé SHA2(Villes_model::$keysha,512))
  * — différente du pepper admin. Session : clés idville, ville, nom,
- * email, id, site_lang, last_page_{fr,en} en session CI3 partagée.
+ * email, id, site_lang, last_page_{fr,en} en session Legacy partagée.
  *
- * Divergences par rapport à CI3 :
+ * Divergences par rapport à Legacy :
  *  - set_tempdata('codemail') → clé de session normale (codemail) :
- *    Ci3Session n'a pas de mécanisme tempdata.
- *  - routes CI3 inexistantes reproduites telles quelles
+ *    CompatSession n'a pas de mécanisme tempdata.
+ *  - routes Legacy inexistantes reproduites telles quelles
  *    (resetPassword, mapTagChauffeurs, SlugUrl, current_idville
- *    ne sont routés ni en CI3 ni en CI4 — non portés).
- *  - les libellés $this->lang->line() s'affichaient vides en CI3
- *    (aucun fichier de langue) — reproduit via ci3lang().
+ *    ne sont routés ni en Legacy ni en CI4 — non portés).
+ *  - les libellés $this->lang->line() s'affichaient vides en Legacy
+ *    (aucun fichier de langue) — reproduit via gv_lang().
  *
- * Les uploads écrivent dans le docroot CI3 (env ci3.webroot) —
- * URLs /upload/... et /userfiles/... servies par CI3 en prod
+ * Les uploads écrivent dans le docroot Legacy (env legacy.webroot) —
+ * URLs /upload/... et /userfiles/... servies par Legacy en prod
  * (Alias vhost /uploads localement, voir AGENTS.md).
  */
 class Ville extends BaseController
 {
     private const KEYSHA = VilleService::KEYSHA;
 
-    private Ci3Session $ci3;
+    private CompatSession $compatSession;
     private VilleService $svc;
-    /** Miroir de $this->message_error (CI3). */
+    /** Miroir de $this->message_error (Legacy). */
     private string $messageError = '';
 
     public function __construct()
     {
         date_default_timezone_set('America/Toronto');
 
-        $this->ci3 = new Ci3Session();
+        $this->compatSession = new CompatSession();
         $this->svc = new VilleService();
 
-        // Détection de la langue (constructeur CI3) — NB : CI3 testait
+        // Détection de la langue (constructeur Legacy) — NB : Legacy testait
         // strpos('/fr/') avec '/fr/' (slash final) qui ne matche JAMAIS
         // les URLs se terminant par /fr (toutes les routes lang) et
         // comparait FALSE > -1 (toujours vrai) → forçait 'fr' en
@@ -55,7 +55,7 @@ class Ville extends BaseController
             $this->sessSet(['site_lang' => 'fr']);
         } elseif (strpos($test, '/en') !== false) {
             $this->sessSet(['site_lang' => 'en']);
-        } elseif (! $this->ci3->has('site_lang')) {
+        } elseif (! $this->compatSession->has('site_lang')) {
             $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'fr', 0, 2);
             $this->sessSet(['site_lang' => $lang]);
         }
@@ -67,28 +67,28 @@ class Ville extends BaseController
 
     private function sess(string $key)
     {
-        return $this->ci3->get($key);
+        return $this->compatSession->get($key);
     }
 
     private function hasSess(string $key): bool
     {
-        return $this->ci3->has($key);
+        return $this->compatSession->has($key);
     }
 
-    /** Garantit une session CI3 avant écriture. */
+    /** Garantit une session Legacy avant écriture. */
     private function sessSet(array $kvs): void
     {
-        if ($this->ci3->user() === null) {
-            $this->ci3->create([]);
+        if ($this->compatSession->user() === null) {
+            $this->compatSession->create([]);
         }
         foreach ($kvs as $k => $v) {
-            $this->ci3->set($k, $v);
+            $this->compatSession->set($k, $v);
         }
     }
 
     private function sessLang(): string
     {
-        return (string) ($this->ci3->get('site_lang') ?? 'fr');
+        return (string) ($this->compatSession->get('site_lang') ?? 'fr');
     }
 
     private function outPage(string $body): ResponseInterface
@@ -108,10 +108,10 @@ class Ville extends BaseController
         return $this->response->setStatusCode(200)->setContentType('text/plain', 'utf-8')->setBody($body);
     }
 
-    /** Racine du docroot CI3 (uploads, userfiles). */
+    /** Racine du docroot Legacy (uploads, userfiles). */
     private function docroot(): string
     {
-        return rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\');
+        return rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\');
     }
 
     //=================================================================
@@ -171,7 +171,7 @@ class Ville extends BaseController
                     return redirect()->to('/villes/login/change?email=' . urlencode((string) $email));
                 }
 
-                // CI3 : set_tempdata('codemail', email, 7200) → clé normale
+                // Legacy : set_tempdata('codemail', email, 7200) → clé normale
                 $this->sessSet(['codemail' => (string) $email]);
 
                 $nomcomplet = trim($result->prenom . ' ' . $result->nom);
@@ -215,7 +215,7 @@ class Ville extends BaseController
 
     public function logout()
     {
-        $this->ci3->destroy();
+        $this->compatSession->destroy();
         return $this->index();
     }
 
@@ -254,7 +254,7 @@ class Ville extends BaseController
                 ? "Vos changements ont &eacute;t&eacute; enregistr&eacute;s.<br />Connectez-vous."
                 : 'Your changes have been saved.<br />Log in.';
         }
-        // CI3 affichait le message puis redirigeait ; on porte le
+        // Legacy affichait le message puis redirigeait ; on porte le
         // message en sortie avant la redirection via le body du 302.
         return redirect()->to('/villes/requetes')->setBody($msg);
     }
@@ -498,7 +498,7 @@ class Ville extends BaseController
             }
             foreach ($requete->getResultArray() as $row) {
                 $data = $row;
-                $download = ' <a href="' . ci3_url((string) ($row['url'] ?? '')) . '" download>
+                $download = ' <a href="' . gv_url((string) ($row['url'] ?? '')) . '" download>
                     <i class="fa fa-download btn btn-success" style="font-size:16px;height:35px;"></i>&nbsp;&nbsp;Cliquer sur ce lien pour télécharger le fichier</a>';
                 $data['noreq'] = '<label class="col-lg-5 col-xl-3 font-weight-bold text-lg-end mb-0" style="font-size: 16px">
                     # Requête&nbsp;&nbsp;
@@ -522,7 +522,7 @@ class Ville extends BaseController
                 $data['nomville']       = $this->sess('ville');
                 $data['fichiers']       = $this->getFichiers($row['id'], 0);
                 $data['msgerror']       = $this->messageError;
-                $data['urlphoto']       = ci3_url('villes/summernoteUpload');
+                $data['urlphoto']       = gv_url('villes/summernoteUpload');
                 $data['menu']           = view('villes/inc_menu_2', $data);
                 $this->sessSet([
                     'last_page_fr' => '/villes/requete/fr',
@@ -540,7 +540,7 @@ class Ville extends BaseController
             'optMatiere' => $this->getOptDechets(),
             'optStatut'  => $this->getOptStatut(),
             'nomcomplet' => $this->sess('nom'),
-            'urlphoto'   => ci3_url('villes/summernoteUpload'),
+            'urlphoto'   => gv_url('villes/summernoteUpload'),
             'menu'       => view('villes/inc_menu_2', [
                 'nomville'   => $this->sess('ville'),
                 'nomcomplet' => $this->sess('nom'),
@@ -569,7 +569,7 @@ class Ville extends BaseController
         );
         $iter = 1;
         foreach ($query->getResult() as $row) {
-            $returnval .= '<option value="' . $row->id . '"><a class="dropdown-item" href="' . ci3_url($row->fichier) . '"  download >
+            $returnval .= '<option value="' . $row->id . '"><a class="dropdown-item" href="' . gv_url($row->fichier) . '"  download >
                     <i class="fa fa-download btn btn-success" style="font-size:16px;height:35px;"></i>fichier ' . $iter . '</a></option>';
             $iter++;
         }
@@ -881,7 +881,7 @@ class Ville extends BaseController
     private function getOptStatut()
     {
         $returnval = '';
-        // NB : CI3 ordonnait par `description` (colonne absente en
+        // NB : Legacy ordonnait par `description` (colonne absente en
         // local — bug latent reproduit avec description_fr).
         $query = $this->db->query("SELECT id, description_fr, description_en  FROM statutrequete ORDER BY description_fr");
         foreach ($query->getResult() as $row) {
@@ -955,8 +955,8 @@ class Ville extends BaseController
             $dataResult['id'] = $id;
         }
 
-        // Fichiers joints (fileRequete_1..3) — comme CI3 upload lib,
-        // stockés dans le docroot CI3 : upload/{idville}/{id}
+        // Fichiers joints (fileRequete_1..3) — comme Legacy upload lib,
+        // stockés dans le docroot Legacy : upload/{idville}/{id}
         $idville = (int) $this->sess('idville');
         $relDir  = 'upload/' . $idville . '/' . $dataResult['id'];
         $fsDir   = $this->docroot() . '/' . $relDir;
@@ -1067,7 +1067,7 @@ class Ville extends BaseController
             }
             $fname = str_replace(' ', '_', basename($_FILES[$field]['name']));
             if (move_uploaded_file($_FILES[$field]['tmp_name'], $fsDir . '/' . $fname)) {
-                // NB : createby = session user_id comme CI3 (null chez
+                // NB : createby = session user_id comme Legacy (null chez
                 // les citoyens — reproduit le comportement legacy).
                 $this->db->query(
                     "INSERT INTO reponse_files (idreponse, createby, fichier)
@@ -1123,7 +1123,7 @@ class Ville extends BaseController
         if (! empty($_FILES['image']['name']) && empty($_FILES['image']['error'])) {
             $destination = $this->docroot() . '/userfiles/' . basename($_FILES['image']['name']);
             move_uploaded_file($_FILES['image']['tmp_name'], $destination);
-            return $this->outText(ci3_url('userfiles/' . basename($_FILES['image']['name'])));
+            return $this->outText(gv_url('userfiles/' . basename($_FILES['image']['name'])));
         }
         return $this->response->setStatusCode(200)->setBody('');
     }
@@ -1748,7 +1748,7 @@ class Ville extends BaseController
         $rows = $this->svc->tableExists('map_tag_reasons') ? $this->svc->getReasons(true) : [];
 
         if (! empty($rows)) {
-            $lang = $this->ci3->has('site_lang') ? $this->sessLang() : 'fr';
+            $lang = $this->compatSession->has('site_lang') ? $this->sessLang() : 'fr';
             $isFr = (strtolower($lang) === 'fr');
             $list = array_map(function ($r) use ($isFr) {
                 return $isFr ? (string) $r['label_fr'] : (string) $r['label_en'];
@@ -1756,7 +1756,7 @@ class Ville extends BaseController
             return $this->outJson(['ok' => true, 'data' => $list]);
         }
 
-        // Fallback vers la config (application/config/map_tags.php CI3)
+        // Fallback vers la config (application/config/map_tags.php Legacy)
         $reasons = config('MapTags')->map_tag_reasons ?? null;
         if (! is_array($reasons)) {
             return $this->outJson(['ok' => false, 'error' => 'Raisons non disponibles']);
@@ -1857,7 +1857,7 @@ class Ville extends BaseController
             return $this->index();
         }
         $idville = (int) ($this->request->getGet('idville') ?? $this->sess('idville'));
-        $lang    = $this->ci3->has('site_lang') ? $this->sessLang() : 'fr';
+        $lang    = $this->compatSession->has('site_lang') ? $this->sessLang() : 'fr';
 
         $data = [
             'IdVille'    => $idville,

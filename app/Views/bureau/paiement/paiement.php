@@ -15,7 +15,7 @@
 <meta name="googlebot" content="noindex,nofollow" />
 
   <title>
-    <?php echo ci3lang('titre_site');?>
+    <?php echo gv_lang('titre_site');?>
   </title>
   <?php  echo ($heads ?? '');?>  
 	<style>
@@ -76,7 +76,7 @@
 <section id="secPaiement" class="container">
 
 	<div class="section_standard">
-		<form name="cardDataForm" id="cardDataForm" action="<?= ci3_url('daoust/send/paiement'); ?>" onsubmit="return validateForm()" method="POST" autocomplete="off">
+		<form name="cardDataForm" id="cardDataForm" action="<?= gv_url('daoust/send/paiement'); ?>" onsubmit="return validateForm()" method="POST" autocomplete="off">
 		<div class="row">
 			<div class="col-12 col-sm-12" style="margin-bottom: 30px;">
 				<div class="cadre"><span class="paiementtitre"><?php echo ($paiementpour ?? '');?></span></div>
@@ -86,7 +86,7 @@
 		<div class="row">
 			<div class="col-12 col-sm-12" style="margin-bottom: 30px;">
 				<div class="cadre"><span class="paiementtitre"><?php echo ($montant_total ?? '');?> <?php echo ($numero_commande ?? '');?></span></div>
-				<div class="total"><?php echo ((ci3sess('site_lang') == 'fr')? number_format($Total,2,'.',' ') .' $' : '$'.number_format($Total,2,'.',' ') ) ?></div>
+				<div class="total"><?php echo ((gv_sess('site_lang') == 'fr')? number_format($Total,2,'.',' ') .' $' : '$'.number_format($Total,2,'.',' ') ) ?></div>
 			</div>       
 		</div> 
 		<div class="row">
@@ -95,10 +95,10 @@
 			</div>
 			<div class="col-12 col-sm-12">
 				<div class="cadre"></div>
-				<div class="total"><?php //echo ((ci3sess('site_lang') == 'fr')? number_format($totalTTC,2,'.',' ') .' $' : '$'.number_format($totalTTC,2,'.',' ') ) ?></div>
+				<div class="total"><?php //echo ((gv_sess('site_lang') == 'fr')? number_format($totalTTC,2,'.',' ') .' $' : '$'.number_format($totalTTC,2,'.',' ') ) ?></div>
 			</div>
 			<div class="col-12 col-sm-12">
-				<div class="cadre paiementtitre" style="text-align:center;margin-bottom: 10px;"><?php echo ci3lang('paiement_information');?></div>
+				<div class="cadre paiementtitre" style="text-align:center;margin-bottom: 10px;"><?php echo gv_lang('paiement_information');?></div>
 				<div class="info">
                     <fieldset>
 											<input type="hidden" name="montant" id="montant" value="<?php echo ($Total ?? '');?>">
@@ -108,37 +108,37 @@
                             </div>
                         </div>
                         <div class="row espace">
-                            <div class="col-4 col-sm-5"><label for="card_name"><?php echo ci3lang('detenteur_carte');?></label></div>
+                            <div class="col-4 col-sm-5"><label for="card_name"><?php echo gv_lang('detenteur_carte');?></label></div>
 													<input type="hidden" name="codepaiement" id="codepaiement" value="<?php echo ($numero_commande ?? '');?>">
 													<input type="hidden" name="page_fr" id="page_fr" value="<?php echo ($page_fr ?? '');?>">
 													<input type="hidden" name="client_info" id="client_info" value="<?php echo ($client_info ?? '');?>">
                             <div class="col-8 col-sm-7" xstyle="background-color:#CF0"><input type="text" name="transaction[detenteur]" id="detenteur" value=""  required></div>
                         </div>
                         <div class="row espace">
-                            <div class="col-4 col-sm-5"><label for="cc_number"><?php echo ci3lang('paiement_numero_carte');?></label></div>
+                            <div class="col-4 col-sm-5"><label for="cc_number"><?php echo gv_lang('paiement_numero_carte');?></label></div>
                             <div class="col-8 col-sm-7" xstyle="background-color:#CF0"><input type="text" name="transaction[cc_number]" id="cc_number" value="" size="25"  minlength="15" required></div>
                         </div>
                         <div class="row espace">
-                            <div class="col-4 col-sm-5"><label for="cvd"><?php echo ci3lang('paiement_code_securite');?></label></div>
+                            <div class="col-4 col-sm-5"><label for="cvd"><?php echo gv_lang('paiement_code_securite');?></label></div>
                             <div class="col-8 col-sm-7"><input type="text" name="transaction[cvd]" id="cvd" value=""size="6" required></div>
                         </div>
                         <div class="row">
                             <input type="hidden" name="amount" value="0" id="amount"><br>
-                            <div class="col-4 col-sm-5"><label><?php echo ci3lang('paiement_date_expiration');?></label></div>
+                            <div class="col-4 col-sm-5"><label><?php echo gv_lang('paiement_date_expiration');?></label></div>
                             <div class="col-8 col-sm-7">
                                 <select name="transaction[expiry_month]" id="expiry_month">
-                                <option value="01">01 - <?php echo ci3lang('cal_january');?></option>
-                                <option value="02">02 - <?php echo ci3lang('cal_february');?></option>
-                                <option value="03">03 - <?php echo ci3lang('cal_march');?></option>
-                                <option value="04">04 - <?php echo ci3lang('cal_april');?></option>
-                                <option value="05">05 - <?php echo ci3lang('cal_mayl');?></option>
-                                <option value="06">06 - <?php echo ci3lang('cal_june');?></option>
-                                <option value="07">07 - <?php echo ci3lang('cal_july');?></option>
-                                <option value="08">08 - <?php echo ci3lang('cal_august');?></option>
-                                <option value="09">09 - <?php echo ci3lang('cal_september');?></option>
-                                <option value="10">10 - <?php echo ci3lang('cal_october');?></option>
-                                <option value="11">11 - <?php echo ci3lang('cal_november');?></option>
-                                <option value="12">12 - <?php echo ci3lang('cal_december');?></option>
+                                <option value="01">01 - <?php echo gv_lang('cal_january');?></option>
+                                <option value="02">02 - <?php echo gv_lang('cal_february');?></option>
+                                <option value="03">03 - <?php echo gv_lang('cal_march');?></option>
+                                <option value="04">04 - <?php echo gv_lang('cal_april');?></option>
+                                <option value="05">05 - <?php echo gv_lang('cal_mayl');?></option>
+                                <option value="06">06 - <?php echo gv_lang('cal_june');?></option>
+                                <option value="07">07 - <?php echo gv_lang('cal_july');?></option>
+                                <option value="08">08 - <?php echo gv_lang('cal_august');?></option>
+                                <option value="09">09 - <?php echo gv_lang('cal_september');?></option>
+                                <option value="10">10 - <?php echo gv_lang('cal_october');?></option>
+                                <option value="11">11 - <?php echo gv_lang('cal_november');?></option>
+                                <option value="12">12 - <?php echo gv_lang('cal_december');?></option>
                                 </select>&nbsp;<br class="d-block d-lg-none d-xl-block d-block d-md-none d-lg-block"><br class="d-block d-lg-none d-xl-block d-block d-md-none d-lg-block">
                                 <select name="transaction[expiry_year]" id="expiry_year">
                                 <?php 
@@ -168,14 +168,14 @@
 			</div>
 			<div class="col-12 col-md-6 choix" style="margin-top:30px;text-align:center;">
 				
-				<button type="submit" class="btn btn-success valider" style="outline:none;" id="valideroff"><?php echo ci3lang('paiement_bouton_valider');?></button>
+				<button type="submit" class="btn btn-success valider" style="outline:none;" id="valideroff"><?php echo gv_lang('paiement_bouton_valider');?></button>
 			</div>  
 	        </div>			
 		<div class="row">
 						<div class="col-12 col-md-5"></div>
             <div class="col-12 col-md-6 choix">
                 <div><img src="/assets/00_images/gpaiement.png" height="100"></div>
-                <div><?php echo ci3lang('paiement_transaction');?></div>
+                <div><?php echo gv_lang('paiement_transaction');?></div>
             </div>				
 		</div>
 		</form>
@@ -191,7 +191,7 @@
 		<div class="modal-content">
 			<div class="modal-body">
         		<div><i class="fa fa-spinner fa-spin"></i></div>
-                <div class="traitement"><?php echo ci3lang('paiement_traitement');?></div>
+                <div class="traitement"><?php echo gv_lang('paiement_traitement');?></div>
 			</div>
 		</div>
 	</div>

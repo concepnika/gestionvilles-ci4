@@ -1,9 +1,9 @@
 <?php
 /**
- * PATCH CI3 (prod) : suppression des liens d'assets morts en chemins
+ * PATCH Legacy (prod) : suppression des liens d'assets morts en chemins
  * relatifs qui causent les requetes fantomes (timeouts superviseurs).
  *
- * Contexte : les vues CI3 referencent style.css, ../favicon.ico et
+ * Contexte : les vues Legacy referencent style.css, ../favicon.ico et
  * dist/css/skins/... en RELATIF. Sous /sanivan/aujourdhui/1/{date},
  * le navigateur demande /sanivan/aujourdhui/1/style.css, ROUTE vers
  * co_gestion/showToday(1,'style.css') : chaque chargement executait
@@ -12,7 +12,7 @@
  * webroot) -> suppression = ZERO changement visuel.
  *
  * Usage :
- *   1. Uploader ce fichier a la racine du webroot CI3 (a cote d'index.php)
+ *   1. Uploader ce fichier a la racine du webroot Legacy (a cote d'index.php)
  *   2. https://votre-domaine/patch_ci3_assets.php?dry=1   -> apercu (rien n'est modifie)
  *   3. https://votre-domaine/patch_ci3_assets.php         -> application + sauvegardes
  *   4. SUPPRIMER ce fichier du serveur apres usage
@@ -20,7 +20,7 @@
  * Sauvegardes : chaque fichier modifie est copie tel quel sous
  * application/views/_backup_assets_YYYYMMDD_HHMMSS/ (structure conservee).
  *
- * Compatible PHP 5.x (prod CI3). Aucune dependance.
+ * Compatible PHP 5.x (prod Legacy). Aucune dependance.
  */
 
 error_reporting(E_ALL);
@@ -48,7 +48,7 @@ header('Content-Type: text/plain; charset=utf-8');
 
 if (! is_dir($viewsDir)) {
     echo "ERREUR : application/views/ introuvable a partir de " . __DIR__ . "\n";
-    echo "Placez ce fichier a la racine du webroot CI3 (a cote d'index.php).\n";
+    echo "Placez ce fichier a la racine du webroot Legacy (a cote d'index.php).\n";
     exit(1);
 }
 

@@ -5,7 +5,7 @@ namespace Config;
 use CodeIgniter\Config\BaseConfig;
 
 /**
- * Port de application/config/map_tags.php (CI3) — raisons de tags
+ * Port de application/config/map_tags.php (Legacy) — raisons de tags
  * de collecte, fallback quand la table map_tag_reasons est vide.
  */
 class MapTags extends BaseConfig

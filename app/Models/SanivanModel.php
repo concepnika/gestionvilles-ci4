@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Sanivan_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Sanivan_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
@@ -166,7 +166,7 @@ class CamDay
   function __construct($transport, $Collecte, $hrescam, $camion, $date)
   {
     $this->CI = new \stdClass();
-    $this->CI->db = new \App\Libraries\Ci3Db();
+    $this->CI->db = new \App\Libraries\CompatDb();
     $this->transport = $transport;
     $this->Collecte = $Collecte;
     $this->hresCam = $hrescam;
@@ -398,7 +398,7 @@ class CamDay
   // ---------------------------------------------
 }
 //-----------------------------------------------------------------------
-class SanivanModel extends Ci3Model
+class SanivanModel extends CompatModel
 {
   /** @var array $data */
   protected $data = array();

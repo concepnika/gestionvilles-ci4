@@ -5,13 +5,13 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Port des générateurs de fragments HTML de Co_tablette_sani (CI3) :
+ * Port des générateurs de fragments HTML de Co_tablette_sani (Legacy) :
  * getInfoVille, getInfoDepotoire, getinfoAides, getaide, getHeadrerRte,
  * getAvecPolyline, getSansPolyline, getScriptRte, GetMenu, GetMenuTop,
  * GetCamOnRoad, GetAllCamions, GetChauffeurs, GetAllEmployes, GetVilles,
  * GetTypeExtra, GetOptionChauffeur, getOptionSecteur, getPolylineBase.
  *
- * $data est passé par référence là où CI3 utilisait $this->data.
+ * $data est passé par référence là où Legacy utilisait $this->data.
  */
 class TabletteHtml
 {

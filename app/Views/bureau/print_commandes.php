@@ -341,7 +341,7 @@
     .default {cursor: default;}
   </style>
   <script src="/assets/css/fontawesome/all.css"></script>
-  <script type='text/javascript'><?php echo ci3_url()?><?php echo ($ActiveDate ?? '') ?></script>
+  <script type='text/javascript'><?php echo gv_url()?><?php echo ($ActiveDate ?? '') ?></script>
 </head>
 <body bgcolor="#FFFFFF" text="#000000"  onload="window.print()">
 

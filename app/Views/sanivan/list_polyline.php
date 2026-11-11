@@ -93,7 +93,7 @@
   </style>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
-    var base_url = "<?php echo ci3_url()?>";
+    var base_url = "<?php echo gv_url()?>";
     var ActiveDate = "";
     $(document).ready(function () {
         $('[data-bs-toggle="popover"]').popover();   

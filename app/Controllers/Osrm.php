@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-// CI3 : use GuzzleHttp\Client (getMatchedRoute — code non routé ;
+// Legacy : use GuzzleHttp\Client (getMatchedRoute — code non routé ;
 // Guzzle absent du vendor CI4 : ne s'exécute que si la methode
 // morte GetCamionPolyline est appelee un jour).
 use GuzzleHttp\Client;
@@ -10,12 +10,12 @@ use GuzzleHttp\Client;
 use App\Libraries\KalmanFilter;
 
 /**
- * Port CI3 -> CI4 de co_osrm : carte leaflet de debug OSRM
+ * Port Legacy -> CI4 de co_osrm : carte leaflet de debug OSRM
  * (sanivan/showleaflet). Port mecanique via port_controller.php.
  */
 class Osrm extends BaseController
 {
-    /** Filtres de Kalman du __construct CI3 (instances independantes). */
+    /** Filtres de Kalman du __construct Legacy (instances independantes). */
     private $latFilter;
     private $lonFilter;
 

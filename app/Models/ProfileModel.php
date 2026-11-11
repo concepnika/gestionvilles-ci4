@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Profile_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Profile_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
@@ -14,7 +14,7 @@ namespace App\Models;
  * @name: Login model
  * @author: Serge Dallaire
  */
-class ProfileModel extends Ci3Model
+class ProfileModel extends CompatModel
 {
 
     function __construct() {

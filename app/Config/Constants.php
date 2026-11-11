@@ -80,9 +80,9 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest a
 
 /*
  |--------------------------------------------------------------------------
- | Compatibilite vues CI3
+ | Compatibilite vues Legacy
  |--------------------------------------------------------------------------
- | Les vues portees de CI3 debutent par `defined('BASEPATH') OR exit(...)`.
+ | Les vues portees de Legacy debutent par `defined('BASEPATH') OR exit(...)`.
  | On definit BASEPATH pour qu'elles s'executent sous CI4.
  */
 defined('BASEPATH') || define('BASEPATH', 'ci4-compat');

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Pdf_ticket_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Pdf_ticket_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
@@ -14,7 +14,7 @@ namespace App\Models;
  * Modèle pour la table pdf_tickets.
  * Gère la persistance des billets de dépotoir envoyés depuis l'application MAUI.
  */
-class PdfTicketModel extends Ci3Model
+class PdfTicketModel extends CompatModel
 {
     protected $_table = 'pdf_tickets';
 

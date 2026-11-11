@@ -1070,7 +1070,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
       // Uniquement si ce point est DANS la zone : le dernier point du
       // parcours est souvent le retour au bureau (hors polygone) —
       // l'amorcer tracerait une ligne droite bureau -> zone au premier
-      // poll live (divergence CI3 voulue : aucune ligne hors polygone).
+      // poll live (divergence Legacy voulue : aucune ligne hors polygone).
       if (tr.coords.length === 0 && !gapTooLong) {
         var t0 = trucksByCam[key];
         var full = t0 && t0.allFullCoords;
@@ -1133,7 +1133,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
       }).catch(e => console.warn('Live error', e));
     }
 
-    const COLLECTE_POINTS_API = "<?php echo ci3_url('ville/collecte_points'); ?>";
+    const COLLECTE_POINTS_API = "<?php echo gv_url('ville/collecte_points'); ?>";
 
     function clearRenderedRoutes() {
       Object.keys(trucksByCam).forEach(function(k) {
@@ -1724,7 +1724,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
     var tagReasonsLoaded = false;
     async function loadTagReasons() {
       try {
-        const url = "<?php echo ci3_url('ville/maptag/reasons'); ?>?_ts=" + Date.now();
+        const url = "<?php echo gv_url('ville/maptag/reasons'); ?>?_ts=" + Date.now();
         const r = await fetch(url);
         const j = await r.json();
         if (j && j.ok && Array.isArray(j.data)) {
@@ -1908,7 +1908,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
         fd.append('status', String(status));
         if (responseText) fd.append('response_text', responseText);
 
-        const r = await fetch("<?php echo ci3_url('ville/maptag/respond'); ?>", {
+        const r = await fetch("<?php echo gv_url('ville/maptag/respond'); ?>", {
           method: 'POST',
           body: fd
         });
@@ -1948,7 +1948,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
         fd.append('address_text', address_text || '');
         fd.append('reason', reason || '');
         fd.append('description', description || '');
-        const r = await fetch("<?php echo ci3_url('ville/maptag/update'); ?>", {
+        const r = await fetch("<?php echo gv_url('ville/maptag/update'); ?>", {
           method: 'POST',
           body: fd
         });
@@ -2115,7 +2115,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
     async function loadMapTags() {
       if (idVille <= 0) return;
       if (isPopupOpen()) return;
-      const url = "<?php echo ci3_url('ville/maptag/list'); ?>?idville=" + idVille + "&open=1&_ts=" + Date.now();
+      const url = "<?php echo gv_url('ville/maptag/list'); ?>?idville=" + idVille + "&open=1&_ts=" + Date.now();
       try {
         const r = await fetch(url);
         const j = await r.json();
@@ -2204,7 +2204,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
               fd.append('id_ville', String(idVille));
               fd.append('lat', String(targetLat));
               fd.append('lng', String(targetLng));
-              const r = await fetch("<?php echo ci3_url('ville/maptag/create'); ?>", {
+              const r = await fetch("<?php echo gv_url('ville/maptag/create'); ?>", {
                 method: 'POST',
                 body: fd
               });
@@ -2745,7 +2745,7 @@ $Lang = isset($Lang) ? $Lang : 'fr';
       if (_ceduleLoading[id]) return;
       _ceduleLoading[id] = true;
       // Charger depuis le serveur (action=35 = GET_POLYLINE)
-      var url = '<?php echo ci3_url("sanivan/get"); ?>?action=35&idpolyline=' + encodeURIComponent(id);
+      var url = '<?php echo gv_url("sanivan/get"); ?>?action=35&idpolyline=' + encodeURIComponent(id);
       fetch(url).then(function(r) {
         return r.text();
       }).then(function(txt) {

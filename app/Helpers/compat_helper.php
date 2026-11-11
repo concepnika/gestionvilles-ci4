@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Polyfills des helpers CI3 utilises par les modeles portes
+ * Polyfills des helpers Legacy utilises par les modeles portes
  * (download::force_download, file::delete_files).
  *
- * Charge par BaseController et Ci3Model. Pattern : les en-tetes sont
- * poses sur la Response CI4 partagee (comme Ci3Output) et le corps
+ * Charge par BaseController et CompatModel. Pattern : les en-tetes sont
+ * poses sur la Response CI4 partagee (comme CompatOutput) et le corps
  * passe par echo — CI4 utilise la sortie bufferisee comme corps de
  * reponse quand le controleur ne retourne rien.
  */
 
 if (! function_exists('force_download')) {
     /**
-     * Port de CI3 force_download($filename, $data, $set_mime).
+     * Port de Legacy force_download($filename, $data, $set_mime).
      * $data === NULL : lit le fichier $filename (usage des exports
      * Excel). N'interrompt pas l'execution (pas de exit) — le
      * contenu passe par ob vers le corps de la Response CI4.
@@ -57,11 +57,11 @@ if (! function_exists('force_download')) {
 
 if (! function_exists('delete_files')) {
     /**
-     * Port de CI3 delete_files($path, $del_dir, $htdocs) : vide un
+     * Port de Legacy delete_files($path, $del_dir, $htdocs) : vide un
      * repertoire. Les appels portes passent un chemin de FICHIER —
-     * CI3 retournait alors false sans rien faire (opendir echoue),
+     * Legacy retournait alors false sans rien faire (opendir echoue),
      * comportement reproduit : les fichiers exports restent dans
-     * upload/ comme en CI3.
+     * upload/ comme en Legacy.
      */
     function delete_files($path, $del_dir = false, $htdocs = 0)
     {

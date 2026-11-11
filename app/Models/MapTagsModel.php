@@ -3,14 +3,14 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Map_tags_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Map_tags_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
 
 
-class MapTagsModel extends Ci3Model
+class MapTagsModel extends CompatModel
 {
     public function get_reasons($activeOnly = true)
     {

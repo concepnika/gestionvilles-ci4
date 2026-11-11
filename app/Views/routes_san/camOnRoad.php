@@ -72,7 +72,7 @@
 <body >
   <div id="map"></div>
   <div id="divimgtruck" style="display:none;">
-                          <img id="ImgTruckSani" src="<?php echo ci3_url('/assets/img/google/truck2.png'); ?>" width="30" alt="" />
+                          <img id="ImgTruckSani" src="<?php echo gv_url('/assets/img/google/truck2.png'); ?>" width="30" alt="" />
     </div>
   
 

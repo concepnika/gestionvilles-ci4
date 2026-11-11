@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<title>Plan de test superviseur — Cédules + patch assets (CI3 prod)</title>
+<title>Plan de test superviseur — Cédules + patch assets (Legacy prod)</title>
 <style>
   @page { size: A4; margin: 16mm 14mm; }
   * { box-sizing: border-box; }
@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h1>Plan de test superviseur<br>Cédules + patch assets (CI3 prod)</h1>
+<h1>Plan de test superviseur<br>Cédules + patch assets (Legacy prod)</h1>
 <div class="subtitle">Session guidée ~45 min — Objectifs : (1) mesurer le problème AVANT, (2) appliquer le patch,
 (3) valider le flux de cédules APRÈS. Remplir les cases et noter les temps en secondes.</div>
 
@@ -40,7 +40,7 @@
   <li><span class="chk">☐</span> F12 ouvert dans un onglet → onglet <b>Network</b> → cocher <b>Preserve log</b> et <b>Disable cache</b></li>
   <li><span class="chk">☐</span> Être connecté en superviseur sur https://robert-daoust.ca</li>
   <li><span class="chk">☐</span> Garder ce plan ouvert (imprimé ou 2<sup>e</sup> écran)</li>
-  <li><span class="chk">☐</span> Vérifier que <code>patch_ci3_assets.php</code> est téléversé à la racine (PAS encore exécuté)</li>
+  <li><span class="chk">☐</span> Vérifier que <code>patch_legacy_assets.php</code> est téléversé à la racine (PAS encore exécuté)</li>
 </ul>
 </div>
 
@@ -86,10 +86,10 @@
 
 <h2><span class="num">2</span>Appliquer le patch (5 min)</h2>
 <ul>
-  <li><span class="chk">☐</span> <code>https://robert-daoust.ca/patch_ci3_assets.php?dry=1</code><br>
+  <li><span class="chk">☐</span> <code>https://robert-daoust.ca/patch_legacy_assets.php?dry=1</code><br>
       → vérifier : <b>63 fichiers / 226 lignes</b> <span class="small">(sinon STOP, m'envoyer le rapport)</span></li>
-  <li><span class="chk">☐</span> <code>https://robert-daoust.ca/patch_ci3_assets.php</code> → appliqué + sauvegardes</li>
-  <li><span class="chk">☐</span> <b>Supprimer</b> <code>patch_ci3_assets.php</code> du serveur (File Manager)</li>
+  <li><span class="chk">☐</span> <code>https://robert-daoust.ca/patch_legacy_assets.php</code> → appliqué + sauvegardes</li>
+  <li><span class="chk">☐</span> <b>Supprimer</b> <code>patch_legacy_assets.php</code> du serveur (File Manager)</li>
   <li><span class="chk">☐</span> Sauvegardes créées dans <code>application/views/_backup_assets_<horodatage>/</code><br>
       <span class="small">noter le nom exact : <span class="field field-lg"></span></span></li>
 </ul>

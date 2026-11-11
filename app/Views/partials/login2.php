@@ -89,11 +89,11 @@
 
       <form action="/admin/tableau_de_bord?from=2" method="post">
         <div class="form-group has-feedback">
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?php echo ci3lang('login_email');?>" name="email" />
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?php echo gv_lang('login_email');?>" name="email" />
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input type="password" class="form-control" id="password" placeholder="<?php echo ci3lang('login_password');?>" name="password" />
+          <input type="password" class="form-control" id="password" placeholder="<?php echo gv_lang('login_password');?>" name="password" />
           <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <div style="border-color:red; border:double;padding-left:4px;display:<?php echo (($msgerror != '')? 'block' : 'none'); ?>;">
@@ -106,12 +106,12 @@
           <!-- /.col -->
           <div class="col-4 float-end">
             <button type="submit" class="btn btn-primary d-block w-100 btn-flat">
-              <?php echo ci3lang('login_connect');?>
+              <?php echo gv_lang('login_connect');?>
             </button>
           </div>
           <div class="col-12 float-start">
             <button type="button" onclick="getEmail()">
-              <?php echo ci3lang('login_forget');?>
+              <?php echo gv_lang('login_forget');?>
             </button>
           </div>
           <!-- /.col -->
@@ -132,21 +132,21 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <h3 class="modal-title" id="mytitre">
-            <?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmation' : 'Confirmation');?>
+            <?php echo ((gv_sess('site_lang') == 'fr')? 'Confirmation' : 'Confirmation');?>
           </h3>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
           <div class="card-text"></div>
-          <?php echo ci3lang('inscription_adresse_courriel');?>
-          <input type="email" class="form-control" name="mailModal" id="mailModal" value="" placeholder=" <?php echo ci3lang('inscription_adresse_courriel');?> " />
+          <?php echo gv_lang('inscription_adresse_courriel');?>
+          <input type="email" class="form-control" name="mailModal" id="mailModal" value="" placeholder=" <?php echo gv_lang('inscription_adresse_courriel');?> " />
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer" style="background-color:Window;">
           <button type="button" id="btnConfirme" class="btn btn-sm btn-warning" onclick="SendInfo()" data-bs-dismiss="modal">
-            <?php echo ((ci3sess('site_lang') == 'fr')? 'Confirmer l\'envoi' : 'Confirm shipment');?>
+            <?php echo ((gv_sess('site_lang') == 'fr')? 'Confirmer l\'envoi' : 'Confirm shipment');?>
           </button>
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
         </div>

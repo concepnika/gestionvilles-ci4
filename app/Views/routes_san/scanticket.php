@@ -139,7 +139,7 @@
       var base64image = document.getElementById("imageprev").src;
 
 
-      Webcam.upload(base64image, '<?php echo ci3_url('tablettes_san/saveimg'); ?>', function (code, text) {
+      Webcam.upload(base64image, '<?php echo gv_url('tablettes_san/saveimg'); ?>', function (code, text) {
         
         console.log('Save successfully');
         //console.log(text);

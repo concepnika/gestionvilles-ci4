@@ -1,39 +1,39 @@
 <?php
 /**
- * Convertisseur mecanique de modeles CI3 -> CI4.
+ * Convertisseur mecanique de modeles Legacy -> CI4.
  *
  * Usage : php port_model.php <X_model> [<Y_model> ...]
  * Source : D:/Programmations/php appl/GestionVilles/application/models/<arg>.php
  * Cible  : app/Models/<PascalCase>Model.php
  *
  * Transformations (les requetes SQL et le HTML sont inchanges) :
- *   class X_model extends CI_Model     -> class XModel extends Ci3Model
+ *   class X_model extends CI_Model     -> class XModel extends CompatModel
  *   $this->load->database()/helper()/library() -> retires
  *   $this->load->model("y_model","y")  -> $this->y = new YModel()
  *   $this->load->view(v,d,TRUE)        -> view(v,d)
  *   $this->session->userdata['x']      -> $this->sess('x')
  *   $this->session->xxx (magic)        -> $this->sess('xxx')
  *   ->result()/row()/num_rows()/...    -> API CI4 (getResult/getRow/...)
- *   $this->lang->line(                 -> ci3lang(
- *   $this->input->                     -> conserve (adaptateur Ci3Model)
+ *   $this->lang->line(                 -> gv_lang(
+ *   $this->input->                     -> conserve (adaptateur CompatModel)
  *
  * Reste a verifier manuellement : db->get()/where()/insert() (Query
  * Builder), $this->upload, $this->email, helpers non portes.
  */
 
-const CI3_MODELS = 'D:/Programmations/php appl/GestionVilles/application/models/';
+const Legacy_MODELS = 'D:/Programmations/php appl/GestionVilles/application/models/';
 const CI4_MODELS = __DIR__ . '/app/Models/';
 
 $rules = [
-    // garde CI3
+    // garde Legacy
     ['/defined\s*\(\s*[\'"]BASEPATH[\'"]\s*\)[^;]*;/s' => ''],
     // entete de classe
-    ['/class\s+(\w+?)_model\s+extends\s+CI_Model/s' => 'class $1Model extends Ci3Model'],
-    // upload : conserver la config via l'adaptateur Ci3Upload
-    ['/\$this->load->library\(\s*[\'"]upload[\'"]\s*,\s*(\$\w+)\s*\)\s*;/' => '$this->upload = new \\App\\Libraries\\Ci3Upload($1);'],
+    ['/class\s+(\w+?)_model\s+extends\s+CI_Model/s' => 'class $1Model extends CompatModel'],
+    // upload : conserver la config via l'adaptateur CompatUpload
+    ['/\$this->load->library\(\s*[\'"]upload[\'"]\s*,\s*(\$\w+)\s*\)\s*;/' => '$this->upload = new \\App\\Libraries\\CompatUpload($1);'],
     // classes globales en namespace : new X -> new \X
     ['/new\s+(?!\\\\)(stdClass|DateTime|Datetime|DateInterval|DatePeriod|Exception|mysqli)\b/' => 'new \\\\$1'],
-    // loaders a retirer (database/helper/library sont fournis par Ci3Model)
+    // loaders a retirer (database/helper/library sont fournis par CompatModel)
     ['/\$this->load->(database|helper|library)\s*\([^;]*;/' => ''],
     // load->model("x_model","x") -> $this->x = new XModel()
     // (meme namespace App\Models : pas besoin du FQCN)
@@ -47,8 +47,8 @@ $rules = [
     ['/\$this->session->unset_userdata\(/' => '$this->session->unset_userdata('],
     ['/\$this->session->([a-zA-Z_]\w*)\b(?!\s*\()/' => '$this->sess(\'$1\')'],
     // lang
-    ['/\$this->lang->line\(/' => 'ci3lang('],
-    // API resultset CI3 -> CI4
+    ['/\$this->lang->line\(/' => 'gv_lang('],
+    // API resultset Legacy -> CI4
     ['/->result_array\(\)/' => '->getResultArray()'],
     ['/->result\(\)/' => '->getResult()'],
     ['/->row_array\(\)/' => '->getRowArray()'],
@@ -61,10 +61,10 @@ $rules = [
     ['/->free_result\(\)/' => ''],
     // classes globales dans le namespace App\Models
     ["/\\bnew\\s+stdClass\\b/" => 'new \\stdClass'],
-    // visibilite : les props privees CI3 entrent en conflit avec les
-    // protected de Ci3Model (data/objData/JourDeSemaine/...)
+    // visibilite : les props privees Legacy entrent en conflit avec les
+    // protected de CompatModel (data/objData/JourDeSemaine/...)
     ['/\bprivate\s+\$/' => 'protected $'],
-    // Query Builder CI3 -> CI4 (rare, transforme les cas directs)
+    // Query Builder Legacy -> CI4 (rare, transforme les cas directs)
     ['/\$this->db->set\((.*?)\)\s*->where\((.*?)\)\s*->update\(\s*[\'"](\w+)[\'"]\s*\)/s' => '$this->db->table(\'$3\')->set($1)->where($2)->update()'],
     ['/\$this->db->where\(([^;]+)\)->update\(\s*[\'"](\w+)[\'"]\s*,\s*/' => '$this->db->table(\'$2\')->where($1)->update('],
     ['/\$this->db->insert\(\s*[\'"](\w+)[\'"]\s*,\s*/' => '$this->db->table(\'$1\')->insert('],
@@ -75,8 +75,8 @@ $rules = [
     ['/->trans_start\(/' => '->transStart('],
     ['/->trans_complete\(/' => '->transComplete('],
     ['/->trans_status\(/' => '->transStatus('],
-    // APPPATH CI3 (application/) -> racine de l'app CI3 via env
-    ['/\bAPPPATH\b/' => 'env(\'ci3.webroot\') . \'/application/\''],
+    // APPPATH Legacy (application/) -> racine de l'app Legacy via env
+    ['/\bAPPPATH\b/' => 'env(\'legacy.webroot\') . \'/application/\''],
     // PHPExcel (incompatible PHP 8) -> PhpSpreadsheet (composer).
     // D'abord retirer le require legacy, puis mapper les classes —
     // ordre : noms longs d'abord, "PHPExcel" seul (le classeur) en
@@ -89,16 +89,16 @@ $rules = [
     ['/\bPHPExcel_Worksheet_Drawing\b/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\Worksheet\\\\Drawing'],
     ['/\bPHPExcel_Style_(Fill|Alignment|Border)\b/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\Style\\\\$1'],
     ['/(?<![\\\\\w>])PHPExcel(?!_)\s*::/' => '\\\\PhpOffice\\\\PhpSpreadsheet\\\\Spreadsheet::'],
-    // chemins relatifs du webroot CI3 ('./upload/…', './assets/…',
-    // './formulaires/…') -> webroot CI3 via env (le CWD de CI4 est
-    // public/, pas le docroot CI3)
-    ['/"\.\/(upload|assets|formulaires)\//' => 'env(\'ci3.webroot\') . "/$1/'],
-    ['/\'\.\/(upload|assets|formulaires)\//' => 'env(\'ci3.webroot\') . \'/$1/'],
+    // chemins relatifs du webroot Legacy ('./upload/…', './assets/…',
+    // './formulaires/…') -> webroot Legacy via env (le CWD de CI4 est
+    // public/, pas le docroot Legacy)
+    ['/"\.\/(upload|assets|formulaires)\//' => 'env(\'legacy.webroot\') . "/$1/'],
+    ['/\'\.\/(upload|assets|formulaires)\//' => 'env(\'legacy.webroot\') . \'/$1/'],
     // classes utilitaires legacy (ex. Collection dans Sanivan_model) :
-    // super-objet CI3 get_instance() -> adaptateur Ci3Db — les appels
+    // super-objet Legacy get_instance() -> adaptateur CompatDb — les appels
     // $this->CI->db->… restent valides sur le stdClass
     ['/\$this->CI\s*=&\s*get_instance\(\);/' => '$this->CI = new \\\\stdClass();'],
-    ['/\$this->CI->load->database\(\);/' => '$this->CI->db = new \\\\App\\\\Libraries\\\\Ci3Db();'],
+    ['/\$this->CI->load->database\(\);/' => '$this->CI->db = new \\\\App\\\\Libraries\\\\CompatDb();'],
 ];
 
 /**
@@ -108,12 +108,12 @@ $rules = [
  */
 $patches = [
     'Sanivan' => [
-        // $this->cedules (getCamDay) : en CI3 le __get magique des
+        // $this->cedules (getCamDay) : en Legacy le __get magique des
         // modeles transferait vers le super-objet où le contrôleur
         // chargeait Cedules_model en 'cedules'. En CI4, instancier
         // directement dans le constructeur du modèle.
         function (string $code): string {
-            $anchor = "class SanivanModel extends Ci3Model";
+            $anchor = "class SanivanModel extends CompatModel";
             $pos = strpos($code, 'function __construct()', strpos($code, $anchor));
             if ($pos === false) {
                 return $code;
@@ -127,7 +127,7 @@ $patches = [
         },
     ],
     'Cedules' => [
-        // getRapportJour : CI3 reutilisait les $backColorN de
+        // getRapportJour : Legacy reutilisait les $backColorN de
         // l'iteration precedente (undefined au 1er tour, tolere).
         // On les initialise avant le foreach des camions.
         function (string $code): string {
@@ -148,7 +148,7 @@ $patches = [
     ],
     'Requetes' => [
         // postReponse : $dataResult utilise sans initialisation
-        // (tolere par CI3, ErrorException en CI4).
+        // (tolere par Legacy, ErrorException en CI4).
         function (string $code): string {
             $anchor = "public function postReponse()\n\t{\n    /** @var string \$filename1 */";
             $pos = strpos($code, 'function postReponse');
@@ -161,7 +161,7 @@ $patches = [
             }
             $end = $doc + strlen('/** @var array $dataResult */');
             $code = substr($code, 0, $end) . "\n\t\t\$dataResult = array();" . substr($code, $end);
-            // GET nu ou POST incomplet : CI3 tolere les cles absentes
+            // GET nu ou POST incomplet : Legacy tolere les cles absentes
             // (notices silencieuses) ; CI4 doit fournir les defauts.
             $code = preg_replace(
                 '/\$data = \$this->input->post\(NULL, TRUE\);\R      \$adr = \$data\[.adresse.\];/',
@@ -172,8 +172,8 @@ $patches = [
                 $code,
                 1
             );
-            // ->table(x)->insert() contourne Ci3Db : reroutage vers le
-            // terminal QB (retourne false sur erreur, comme CI3).
+            // ->table(x)->insert() contourne CompatDb : reroutage vers le
+            // terminal QB (retourne false sur erreur, comme Legacy).
             $code = str_replace(
                 ["\$this->db->table('reponses')->insert(\$data);",
                  "\$this->db->table('requetes')->insert(\$data);"],
@@ -188,7 +188,7 @@ $patches = [
 
 foreach (array_slice($argv, 1) as $arg) {
     $base = preg_replace('/_model$/i', '', trim($arg));
-    $src = CI3_MODELS . $base . '_model.php';
+    $src = Legacy_MODELS . $base . '_model.php';
     $class = str_replace(' ', '', ucwords(str_replace('_', ' ', $base))) . 'Model';
     $dst = CI4_MODELS . $class . '.php';
     if (! is_file($src)) {
@@ -205,7 +205,7 @@ foreach (array_slice($argv, 1) as $arg) {
     // entete : <?php + namespace + docblock
     $code = preg_replace(
         '/^\s*<\?php/s',
-        "<?php\n\nnamespace App\\Models;\n\n/**\n * Port mecanique de {$base}_model (CI3) — requetes SQL et\n * HTML generes identiques. Base Ci3Model fournit db/input/\n * session/data/objData. A relire : Query Builder, upload, email.\n */\n",
+        "<?php\n\nnamespace App\\Models;\n\n/**\n * Port mecanique de {$base}_model (Legacy) — requetes SQL et\n * HTML generes identiques. Base CompatModel fournit db/input/\n * session/data/objData. A relire : Query Builder, upload, email.\n */\n",
         $code,
         1
     );

@@ -64,10 +64,10 @@
     </div>
 
     <script>
-        const API_LIST = "<?php echo ci3_url('ville/maptag/list'); ?>";
-        const API_RESPOND = "<?php echo ci3_url('ville/maptag/respond'); ?>";
-        const API_UPDATE = "<?php echo ci3_url('ville/maptag/update'); ?>";
-        const API_REASONS = "<?php echo ci3_url('ville/maptag/reasons'); ?>";
+        const API_LIST = "<?php echo gv_url('ville/maptag/list'); ?>";
+        const API_RESPOND = "<?php echo gv_url('ville/maptag/respond'); ?>";
+        const API_UPDATE = "<?php echo gv_url('ville/maptag/update'); ?>";
+        const API_REASONS = "<?php echo gv_url('ville/maptag/reasons'); ?>";
         const PHOTO_HOST = "https://robert-daoust.ca";
 
         function escapeHtml(v){ if(v==null) return ""; return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#39;"); }

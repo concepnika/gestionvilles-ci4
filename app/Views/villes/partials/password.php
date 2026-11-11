@@ -9,14 +9,14 @@
   </head>
 
   <body>
-    <p><?php echo ci3lang('send_pass_bonjour');?> <?php echo ($nom ?? '');?>,</p>
+    <p><?php echo gv_lang('send_pass_bonjour');?> <?php echo ($nom ?? '');?>,</p>
 
-    <p><?php echo ci3lang('send_pass_requis');?><br>
+    <p><?php echo gv_lang('send_pass_requis');?><br>
     <?php echo ($password ?? '');?>
     </p>
     <br>
     <p>- - -<br>
-    <?php echo ci3lang('send_pass_equipe');?></p>
+    <?php echo gv_lang('send_pass_equipe');?></p>
 
   </body>
 </html>

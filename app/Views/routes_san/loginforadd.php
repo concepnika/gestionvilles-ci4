@@ -121,7 +121,7 @@
         </div>
         <!--<div class="form-group has-feedback">
           <div class="input-group">
-            <div class="input-group-text"><label><?php echo ci3lang('login_password');?>:&nbsp;&nbsp;</label></div>
+            <div class="input-group-text"><label><?php echo gv_lang('login_password');?>:&nbsp;&nbsp;</label></div>
             <input type="password" class="form-control" id="password" name="password" autocomplete="off" style="font-size:medium;font-weight:bold;width:90%;" />
           </div>
         </div>-->
@@ -130,7 +130,7 @@
           <!-- /.col -->
           <div class="col-4 float-end">
             <button id="btnLogin" type="submit" class="btn btn-primary d-block w-100 btn-flat" >
-              <?php echo ci3lang('login_connect');?>
+              <?php echo gv_lang('login_connect');?>
             </button>
           </div>
           <!-- /.col -->

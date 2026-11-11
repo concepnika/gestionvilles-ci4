@@ -94,7 +94,7 @@
           <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input type="password" class="form-control" id="password" placeholder="<?php echo ci3lang('login_password');?>" name="password" autocomplete="off" readonly
+          <input type="password" class="form-control" id="password" placeholder="<?php echo gv_lang('login_password');?>" name="password" autocomplete="off" readonly
             onfocus="this.removeAttribute('readonly');" />
           <span class="glyphicoserdal glyphicon-lock form-control-feedback"></span>
         </div>
@@ -103,7 +103,7 @@
           <!-- /.col -->
           <div class="col-4 float-end">
             <button type="submit" class="btn btn-primary d-block w-100 btn-flat">
-              <?php echo ci3lang('login_connect');?>
+              <?php echo gv_lang('login_connect');?>
             </button>
           </div>
           <!-- /.col -->
@@ -111,7 +111,7 @@
       </form>
 
       <a href="#">
-        <?php echo ci3lang('login_forget');?>
+        <?php echo gv_lang('login_forget');?>
       </a>
       <br />
 

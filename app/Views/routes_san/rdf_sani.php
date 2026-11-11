@@ -65,7 +65,7 @@
       //-------------------------------------------------------
    
       var selectDepotoire = '';
-      var base_url = "<?php echo ci3_url() ?>";
+      var base_url = "<?php echo gv_url() ?>";
       var ActiveDate = "<?php echo date("Y-m-d") ?>";
       $(document).ready(function () {
           $('[data-bs-toggle="popover"]').popover();
@@ -269,7 +269,7 @@
                     <div id="divLocalisation" style="display:none;width:1150px;">
                       <div id="floating-panel">
                         <div id="divimgtruck" style="display:none;">
-                          <img id="ImgTruckSani" src="<?php echo ci3_url('/assets/img/google/point.png'); ?>" width="20" alt="" />
+                          <img id="ImgTruckSani" src="<?php echo gv_url('/assets/img/google/point.png'); ?>" width="20" alt="" />
 
                           <input id="hide-markers" type="button" value="Hide Markers" />
                           <input id="show-markers" type="button" value="Show Markers" />

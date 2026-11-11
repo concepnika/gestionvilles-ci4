@@ -5,10 +5,10 @@ namespace App\Controllers;
 use App\Models\WebChauffeurModel;
 
 /**
- * Port CI3 -> CI4 de upload_ticket : réception des photos de billets
+ * Port Legacy -> CI4 de upload_ticket : réception des photos de billets
  * des tablettes MAUI (api/upload-ticket, POST) — photo stockée dans
- * upload/sanivan/ du docroot CI3, PDF généré via FPDF (lib du webroot
- * CI3), mise à jour info_depotoire.Ticket.
+ * upload/sanivan/ du docroot Legacy, PDF généré via FPDF (lib du webroot
+ * Legacy), mise à jour info_depotoire.Ticket.
  */
 class UploadTicket extends BaseController
 {
@@ -18,7 +18,7 @@ class UploadTicket extends BaseController
         \Psr\Log\LoggerInterface $logger
     ) {
         parent::initController($request, $response, $logger);
-        // CI3 __construct : load->model('Web_chauffeur_model', 'webmodel')
+        // Legacy __construct : load->model('Web_chauffeur_model', 'webmodel')
         $this->webmodel = new WebChauffeurModel();
         $this->output->set_content_type('application/json', 'utf-8');
     }
@@ -52,9 +52,9 @@ class UploadTicket extends BaseController
                 // Préparation du répertoire
                 $baseRelDir = 'upload/sanivan/';
                 $targetRelDir = $baseRelDir . $noCamion . '/' . $dateDir . '/';
-                // CI3 : FCPATH . $targetRelDir -> docroot CI3 en CI4
-            // (URLs servies par CI3 en prod, Alias /uploads localement).
-            $targetFsDir  = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/' . $targetRelDir;
+                // Legacy : FCPATH . $targetRelDir -> docroot Legacy en CI4
+            // (URLs servies par Legacy en prod, Alias /uploads localement).
+            $targetFsDir  = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/' . $targetRelDir;
     
                 if (!is_dir($targetFsDir) && !mkdir($targetFsDir, 0755, TRUE)) {
                     throw new \Exception('Impossible de créer le dossier de destination');
@@ -157,8 +157,8 @@ class UploadTicket extends BaseController
     
                 // Répertoire PDF public: uploads/pdf_tickets/YYYY/MM/
                 $pdfRelDir  = 'uploads/pdf_tickets/' . $annee . '/' . $moisNum . '/';
-                // CI3 : FCPATH . $pdfRelDir -> docroot CI3 en CI4
-            $pdfFsDir   = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/' . $pdfRelDir;
+                // Legacy : FCPATH . $pdfRelDir -> docroot Legacy en CI4
+            $pdfFsDir   = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/' . $pdfRelDir;
                 if (!is_dir($pdfFsDir) && !mkdir($pdfFsDir, 0755, TRUE)) {
                     throw new \Exception('Impossible de créer le dossier PDF');
                 }
@@ -233,7 +233,7 @@ class UploadTicket extends BaseController
                 $depotInfo = array();
             }
     
-            require_once env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'controllers/pdf/fpdf.php';
+            require_once env('legacy.webroot', ROOTPATH . 'appfiles') . '/application/' . 'controllers/pdf/fpdf.php';
     
             $pdf = new \FPDF('P', 'mm', 'Letter');
             $pdf->SetAutoPageBreak(true, 20);

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * Port mecanique de ExcelVille_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de ExcelVille_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
@@ -30,7 +30,7 @@ const DATE_CREE_REP          = 'G';
  * @name: Login model
  * @author: Serge Dallaire
  */
-class ExcelVilleModel extends Ci3Model
+class ExcelVilleModel extends CompatModel
 {
   /** @var array $data */
 	protected $data = array();
@@ -58,7 +58,7 @@ class ExcelVilleModel extends Ci3Model
     $objDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
     $objDrawing->setName('test_img');
     $objDrawing->setDescription('test_img');
-    $objDrawing->setPath(env('ci3.webroot', ROOTPATH . 'ci3files') . '/assets/img/logo.jpg');
+    $objDrawing->setPath(env('legacy.webroot', ROOTPATH . 'appfiles') . '/assets/img/logo.jpg');
     $objDrawing->setCoordinates('A'. $row);
     //setOffsetX works properly
     $objDrawing->setOffsetX(10);
@@ -74,7 +74,7 @@ class ExcelVilleModel extends Ci3Model
     $objDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
     $objDrawing->setName('test_img');
     $objDrawing->setDescription('test_img');
-    $objDrawing->setPath(env('ci3.webroot', ROOTPATH . 'ci3files') . '/assets/img/logo.jpg');
+    $objDrawing->setPath(env('legacy.webroot', ROOTPATH . 'appfiles') . '/assets/img/logo.jpg');
     $objDrawing->setCoordinates('B'. $row);
     //setOffsetX works properly
     $objDrawing->setOffsetX(10);
@@ -374,7 +374,7 @@ class ExcelVilleModel extends Ci3Model
     $objDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
     $objDrawing->setName('test_img');
     $objDrawing->setDescription('test_img');
-    $objDrawing->setPath(env('ci3.webroot', ROOTPATH . 'ci3files') . '/assets/img/logo.jpg');
+    $objDrawing->setPath(env('legacy.webroot', ROOTPATH . 'appfiles') . '/assets/img/logo.jpg');
     $objDrawing->setCoordinates('A1');
     //setOffsetX works properly
     $objDrawing->setOffsetX(15);
@@ -387,7 +387,7 @@ class ExcelVilleModel extends Ci3Model
     $objPHPExcel->getActiveSheet()->getPageSetup()->setPrintArea('A1:I'. $iterRow);
     $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
-    $objWriter->save(env('ci3.webroot', ROOTPATH . 'ci3files') . '/upload/liste_requetes.xlsx');
+    $objWriter->save(env('legacy.webroot', ROOTPATH . 'appfiles') . '/upload/liste_requetes.xlsx');
   }
   public function getListTelephone($listtype, $membres, $titre, $filename)
   {
@@ -448,7 +448,7 @@ class ExcelVilleModel extends Ci3Model
     $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
     $objWriter->setPreCalculateFormulas(false);
     $objWriter->save($filename);
-    $filename = env('ci3.webroot', ROOTPATH . 'ci3files') . "/upload/requete'.xlsx";
+    $filename = env('legacy.webroot', ROOTPATH . 'appfiles') . "/upload/requete'.xlsx";
     force_download($filename, NULL);
   }
   public function getListMembres($membres, $filename)

@@ -68,7 +68,7 @@
   </style>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
-    var base_url = "<?php echo ci3_url()?>";
+    var base_url = "<?php echo gv_url()?>";
     var ActiveDate = "<?php echo date("Y-m-d") ?>";
     $(document).ready(function () {
         $('[data-bs-toggle="popover"]').popover();
@@ -100,13 +100,13 @@
           <div class="section_standard">
 
             <h2>
-              <?php echo ci3lang('option_syst');?>
+              <?php echo gv_lang('option_syst');?>
             </h2>
 
             <div class="row">
               <div class="col-12" style="text-align:center; margin:0px 0 50px 0;">
                 <h1>
-                  <?php echo ci3lang('inscription_adhesion');?>
+                  <?php echo gv_lang('inscription_adhesion');?>
                 </h1>
               </div><!-- Fin col-12-xs -->
             </div><!--Fin row #1 -->
@@ -117,12 +117,12 @@
               <div class="form-group B10">
                 <div class="col-sm-4 col-12"></div>
                 <div class="col-sm-7 col-12 titre">
-                  <?php echo ci3lang('inscription_identification');?>
+                  <?php echo gv_lang('inscription_identification');?>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_cie');?>
+                  <?php echo gv_lang('option_syst_cie');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="cie" id="cie" value="<?php echo ($Cie ?? '');?>" required />
@@ -130,10 +130,10 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('inscription_adresse_courriel');?>
+                  <?php echo gv_lang('inscription_adresse_courriel');?>
                 </div>
                 <div class="col-sm-7 col-12">
-                  <input type="email" class="form-control"  name="email" id="email" placeholder="<?php echo ci3lang('inscription_adresse_courriel');?>"  autocomplete="off" readonly
+                  <input type="email" class="form-control"  name="email" id="email" placeholder="<?php echo gv_lang('inscription_adresse_courriel');?>"  autocomplete="off" readonly
             onfocus="this.removeAttribute('readonly');" />
                   <div class="help-block with-errors"></div>
                 </div>
@@ -141,7 +141,7 @@
               </div>
                <!--<div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_logo');?>
+                  <?php echo gv_lang('option_syst_logo');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="file" name="logo"  size="33" />
@@ -158,13 +158,13 @@
               <div class="form-group T40 B20">
                 <div class="col-sm-4 col-12"></div>
                 <div class="col-sm-7 col-12 titre">
-                  <?php echo ci3lang('inscription_info_perso');?>
+                  <?php echo gv_lang('inscription_info_perso');?>
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('inscription_adresse');?>
+                  <?php echo gv_lang('inscription_adresse');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="Adresse" id="Adresse"  value="<?php echo ($Adresse ?? '');?>" />
@@ -172,7 +172,7 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('inscription_ville');?>
+                  <?php echo gv_lang('inscription_ville');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="ville" id="ville"   value="<?php echo ($Ville ?? '');?>" />
@@ -180,7 +180,7 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('inscription_province');?>
+                  <?php echo gv_lang('inscription_province');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" name="province" id="province"   value="<?php echo ($Province ?? '');?>" />
@@ -188,7 +188,7 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_tps');?>
+                  <?php echo gv_lang('option_syst_tps');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="number" class="form-control" style="width:100px;" name="TPS" id="TPS"   value="<?php echo ($TPS ?? '');?>" />
@@ -196,7 +196,7 @@
               </div>              
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_tvq');?>
+                  <?php echo gv_lang('option_syst_tvq');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="number" class="form-control" style="width:100px;" name="TVQ" id="TVQ"   value="<?php echo ($TVQ ?? '');?>" />
@@ -204,7 +204,7 @@
               </div>           
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_notps');?>
+                  <?php echo gv_lang('option_syst_notps');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" style="width:200px;" name="NoTPS" id="NoTPS"   value="<?php echo ($NoTPS ?? '');?>" />
@@ -212,7 +212,7 @@
               </div>           
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_notvq');?>
+                  <?php echo gv_lang('option_syst_notvq');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="text" class="form-control" style="width:200px;" name="NoTVQ" id="NoTVQ"   value="<?php echo ($NoTVQ ?? '');?>" />
@@ -369,24 +369,24 @@
               <div class="form-group T40 B20">
                 <div class="col-sm-4 col-12"></div>
                 <div class="col-sm-7 col-12 titre">
-                  <?php echo ci3lang('option_syst_info_envoi');?>
+                  <?php echo gv_lang('option_syst_info_envoi');?>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_typeenvoi');?>
+                  <?php echo gv_lang('option_syst_typeenvoi');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <select class="form-control" style="width:200px" name="autosend" id="autosend" >
                       <option value="0">Choisir</option>
-                      <option <?php echo (($autosend == 1)? ' selected ' : '' ) ;?> value="1"><?php echo ci3lang('envoi_auto');?></option>     
-                      <option <?php echo (($autosend == 2)? ' selected ' : '' ) ;?> value="2"><?php echo ci3lang('envoi_manuel');?></option>                   
+                      <option <?php echo (($autosend == 1)? ' selected ' : '' ) ;?> value="1"><?php echo gv_lang('envoi_auto');?></option>     
+                      <option <?php echo (($autosend == 2)? ' selected ' : '' ) ;?> value="2"><?php echo gv_lang('envoi_manuel');?></option>                   
                   </select>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_heureenvoi');?>
+                  <?php echo gv_lang('option_syst_heureenvoi');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <input type="time" class="form-control" style="width:200px" value="<?php echo ($timetosend ?? '') ;?>" name="timetosend" id="timetosend" />
@@ -394,13 +394,13 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-4 col-12 control-label">
-                  <?php echo ci3lang('option_syst_confirmation');?>
+                  <?php echo gv_lang('option_syst_confirmation');?>
                 </div>
                 <div class="col-sm-7 col-12">
                   <select class="form-control" style="width:200px" name="NeedConfirm" id="NeedConfirm" >
                       <option value="0">Choisir</option>
-                      <option <?php echo (($NeedConfirm == 1)? ' selected ' : '' ) ;?> value="1"><?php echo ci3lang('option_syst_confirm_rh');?></option>     
-                      <option <?php echo (($NeedConfirm == 2)? ' selected ' : '' ) ;?> value="2"><?php echo ci3lang('option_syst_confirm_auto');?></option>                   
+                      <option <?php echo (($NeedConfirm == 1)? ' selected ' : '' ) ;?> value="1"><?php echo gv_lang('option_syst_confirm_rh');?></option>     
+                      <option <?php echo (($NeedConfirm == 2)? ' selected ' : '' ) ;?> value="2"><?php echo gv_lang('option_syst_confirm_auto');?></option>                   
                   </select>
                 </div>
               </div>
@@ -473,7 +473,7 @@
                 <div class="col-sm-4 col-12"></div>
                 <div class="col-sm-7 col-12">
                   <button type="button" onclick="SubmitForm()" class="btn btn-success" style="outline:none">
-                    <?php echo ci3lang('enregister');?>
+                    <?php echo gv_lang('enregister');?>
                   </button>
                 </div>
               </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Km IFTA - Samsara</title>
-    <link href="<?php echo ci3_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo gv_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body { background: #f4f6f9; }
@@ -121,7 +121,7 @@
     </div>
 </div>
 
-<script src="<?php echo ci3_url(); ?>assets/js/jquery.min.js"></script>
+<script src="<?php echo gv_url(); ?>assets/js/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 var currentJurisdiction = 'ON';
@@ -156,7 +156,7 @@ function loadData() {
         tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Chargement...</td></tr>';
 
         $.ajax({
-            url: '<?php echo ci3_url("samsara_ifta/getData"); ?>',
+            url: '<?php echo gv_url("samsara_ifta/getData"); ?>',
             type: 'POST',
             dataType: 'json',
             data: { year: year, month: month, jurisdiction: juris }
@@ -214,7 +214,7 @@ function exportExcel() {
         return;
     }
 
-    window.location.href = '<?php echo ci3_url("samsara_ifta/exportExcel"); ?>?year=' + year + '&month=' + month;
+    window.location.href = '<?php echo gv_url("samsara_ifta/exportExcel"); ?>?year=' + year + '&month=' + month;
 }
 </script>
 </body>

@@ -1,5 +1,5 @@
 <?php
-// cree une session CI3 factice valide (meme format que CI3)
+// cree une session Legacy factice valide (meme format que Legacy)
 $db = new mysqli('localhost','root','','gestionvilles');
 $id = substr(strtolower(bin2hex(random_bytes(20))),0,32);
 $parts = [

@@ -67,7 +67,7 @@
 
         </li>
         <li>
-          <a href="/ville/nav_zone_hub/<?php echo ci3sess('site_lang') ?: 'fr'; ?>?dte=<?php echo date('Y-m-d'); ?>" target="_blank">
+          <a href="/ville/nav_zone_hub/<?php echo gv_sess('site_lang') ?: 'fr'; ?>?dte=<?php echo date('Y-m-d'); ?>" target="_blank">
             <i class='fa fa-calendar' style='font-size:24px;'></i>&nbsp;&nbsp;Localisation Villes
           </a>
         </li>
@@ -94,7 +94,7 @@
         
         <li class="divider"></li>
         <li>
-          <a href="<?php echo ci3_url('samsara_ifta'); ?>" target="_blank">
+          <a href="<?php echo gv_url('samsara_ifta'); ?>" target="_blank">
             <i class="fa fa-circle-o"></i> Km Ontario et Québec (Samsara)
           </a>
         </li>

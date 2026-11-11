@@ -3,24 +3,24 @@
 use CodeIgniter\Router\RouteCollection;
 
 /**
- * Table de routage CI4 — replique la nomenclature CI3
+ * Table de routage CI4 — replique la nomenclature Legacy
  * (application/config/routes.php de GestionVilles).
  *
- * Chaque section correspond a un controleur CI3 et pointe vers le
+ * Chaque section correspond a un controleur Legacy et pointe vers le
  * controleur CI4 equivalent. Les methodes non portees sont des stubs
- * qui redirigent vers gestionvilles.local via BaseController::toCi3().
+ * qui redirigent vers gestionvilles.local via BaseController::toCompat().
  *
  * Controleurs deja portes : Login/Gestion (auth), TabletteSani,
  * Api\SaniRest, Cedules.
  *
  * @var RouteCollection $routes
  */
-// Parite CI3 : default_controller = Co_ville (/ -> 307 villes/requetes).
+// Parite Legacy : default_controller = Co_ville (/ -> 307 villes/requetes).
 // La page de statut de la migration reste disponible sur /status.
 $routes->get('/', 'Ville::index');
 $routes->get('status', 'Home::index');
-$routes->get('whoami', 'Home::whoami', ['filter' => 'ci3auth']);
-$routes->get('cedules/(:segment)', 'Cedules::day/$1', ['filter' => 'ci3auth']);
+$routes->get('whoami', 'Home::whoami', ['filter' => 'compatauth']);
+$routes->get('cedules/(:segment)', 'Cedules::day/$1', ['filter' => 'compatauth']);
 
 // ─── Authentification unique (Login) ───
 $routes->get('login', 'Login::index');
@@ -402,8 +402,8 @@ $routes->add('web/api_change_cedule', 'WebChauffeur::api_change_cedule');
 $routes->add('web/api_zone_toggle', 'WebChauffeur::api_zone_toggle');
 $routes->add('web/api_inzone_history', 'WebChauffeur::api_inzone_history');
 $routes->add('web/api_tag_badge', 'WebChauffeur::api_tag_badge');
-// Route absente de la table CI3 mais appelée par le JS de truckmap.php
-// (bug latent CI3 corrigé au passage — voir MIGRATION.md)
+// Route absente de la table Legacy mais appelée par le JS de truckmap.php
+// (bug latent Legacy corrigé au passage — voir MIGRATION.md)
 $routes->add('web/api_get_polyline_dynamique', 'WebChauffeur::api_get_polyline_dynamique');
 $routes->add('web/aide', 'WebChauffeur::showAidePourWEB');
 $routes->add('web/cron_gps_poll', 'WebChauffeur::cron_gps_poll');
@@ -414,8 +414,8 @@ $routes->add('samsara_ifta/getData', 'SamsaraIfta::getData');
 $routes->add('samsara_ifta/exportExcel', 'SamsaraIfta::exportExcel');
 
 // ─── API tablettes Sanivan (port de Co_Rest_Sani — phase 1) ───────────
-// Pas de filtre ci3auth : les tablettes s'authentifient par paramètres
-// (CodeUser/password) comme dans CI3.
+// Pas de filtre compatauth : les tablettes s'authentifient par paramètres
+// (CodeUser/password) comme dans Legacy.
 $routes->match(['GET', 'POST'], 'sanivan/get/login/(:segment)/(:segment)', 'Api\SaniRest::login/$1/$2');
 $routes->match(['GET', 'POST'], 'sanivan/get', 'Api\SaniRest::indexGet');
 $routes->match(['GET', 'POST'], 'sanivan/post/depot', 'Api\SaniRest::indexPost');
@@ -426,9 +426,9 @@ $routes->post('sanivan/send_polyline', 'Api\SaniRest::saveBatch');
 $routes->match(['GET', 'POST'], 'co_rest_sani/saveToFile', 'Api\SaniRest::saveToFile');
 
 // ─── Tablettes Sanivan (port de Co_tablette_sani — phase 2) ──────────
-// Mêmes URIs que CI3. Pas de filtre ci3auth : les pages tablettes
+// Mêmes URIs que Legacy. Pas de filtre compatauth : les pages tablettes
 // gèrent leur propre flow de session (loginChauffeur écrit dans la
-// session CI3 partagée). Les endpoints JSON suivent le comportement CI3.
+// session Legacy partagée). Les endpoints JSON suivent le comportement Legacy.
 $routes->get('sanivan/getpolylines_city/(:any)', 'TabletteSani::GetCityPolylines/$1');
 $routes->get('sanivan/getpolylines_city_raw/(:any)', 'TabletteSani::GetCityPolylinesRaw/$1');
 $routes->get('sanivan/get_polyline_for_date', 'TabletteSani::GetPolylineForDate');
@@ -494,21 +494,21 @@ $routes->match(['GET', 'POST'], 'tablettes_san/addchauf/(:any)/(:num)', 'Tablett
 $routes->get('tablettes_san/download/(:num)', 'TabletteSani::DownloadFile/$1');
 $routes->get('tablettes_san/tags/city', 'TabletteSani::tags_for_city');
 $routes->get('tablettes_san/tags/chauffeur', 'TabletteSani::tags_for_chauffeur');
-// Appelé par la carte JS (404 silencieux en CI3 — routé ici car c'est l'intention)
+// Appelé par la carte JS (404 silencieux en Legacy — routé ici car c'est l'intention)
 $routes->match(['GET', 'POST'], 'tablettes_san/track', 'TabletteSani::trackChauffeur');
 
-// Compatibilité routage par défaut CI3 : /co_tablette_sani/<methode>[/args]
+// Compatibilité routage par défaut Legacy : /co_tablette_sani/<methode>[/args]
 $routes->match(['GET', 'POST'], 'co_tablette_sani', 'TabletteSani::index');
 $routes->match(['GET', 'POST'], 'co_tablette_sani/(:segment)', 'TabletteSani::$1');
 $routes->match(['GET', 'POST'], 'co_tablette_sani/(:segment)/(:any)', 'TabletteSani::$1/$2');
 
-// ─── Fallback : tout le reste est relaye a CI3 (proxy interne) ───────
-// Doit rester la DERNIERE route. Couvre les assets du docroot CI3
+// ─── Fallback : tout le reste est relaye a Legacy (proxy interne) ───────
+// Doit rester la DERNIERE route. Couvre les assets du docroot Legacy
 // (upload/*, images, js...), les chemins non declares et toute URL
 // qui n'a pas de correspondance CI4.
 $routes->add('(:any)', 'Proxy::pass');
 
-// Routes mortes vérifiées côté CI3 (404/500 — voir AGENTS.md
-// « Routes mortes CI3 ») : tablettes/*, sanivan/ssecam,
+// Routes mortes vérifiées côté Legacy (404/500 — voir AGENTS.md
+// « Routes mortes Legacy ») : tablettes/*, sanivan/ssecam,
 // api/upload-collecte, admin/tableau_de_bord/commandes, et les
 // 7 stubs morts de Gestion (getPage, updCamion, excCedule, ...).

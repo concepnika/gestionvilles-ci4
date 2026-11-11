@@ -221,7 +221,7 @@
   </style>
 
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <script type='text/javascript'><?php echo ci3_url() ?><?php echo ($ActiveDate ?? '') ?><?php echo ($typecedule ?? '') ?><?php echo ($ActiveDrop ?? '') ?><?php echo ($LastRow ?? '') ?><?php echo ($notab ?? '') ?><?php echo ($AideIsShow ?? '') ?><?php echo ($from ?? '') ?></script>
+  <script type='text/javascript'><?php echo gv_url() ?><?php echo ($ActiveDate ?? '') ?><?php echo ($typecedule ?? '') ?><?php echo ($ActiveDrop ?? '') ?><?php echo ($LastRow ?? '') ?><?php echo ($notab ?? '') ?><?php echo ($AideIsShow ?? '') ?><?php echo ($from ?? '') ?></script>
   </head>
   <body class="hold-transition skin-blue" onresize="ChangeSizeOfDiv(this)">
     <!-- Header Navbar: style can be found in header.less -->

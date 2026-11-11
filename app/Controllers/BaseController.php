@@ -24,28 +24,28 @@ use Psr\Log\LoggerInterface;
 abstract class BaseController extends Controller
 {
     /**
-     * Adaptateurs CI3 pour les methodes portees mecaniquement :
+     * Adaptateurs Legacy pour les methodes portees mecaniquement :
      * $this->db / input / session / load / output / email / upload.
      * Les proprietes dynamiques (load->model('x','y')) sont permises.
      */
 
-    /** @var \CodeIgniter\Database\BaseConnection equiv. $this->db CI3 */
+    /** @var \CodeIgniter\Database\BaseConnection equiv. $this->db Legacy */
     protected $db;
 
-    /** @var \App\Libraries\Ci3Input */
+    /** @var \App\Libraries\CompatInput */
     protected $input;
 
-    /** @var \App\Libraries\Ci3SessionAdapter */
+    /** @var \App\Libraries\CompatSessionAdapter */
     protected $session;
 
-    /** @var \App\Libraries\Ci3Loader */
+    /** @var \App\Libraries\CompatLoader */
     protected $load;
 
-    /** @var \App\Libraries\Ci3Output */
+    /** @var \App\Libraries\CompatOutput */
     protected $output;
 
-    /** @var \App\Libraries\Ci3Session pont direct (idem modeles) */
-    protected $ci3session;
+    /** @var \App\Libraries\CompatSession pont direct (idem modeles) */
+    protected $gv_session;
 
     /**
      * @param CLIRequest|IncomingRequest $request
@@ -57,13 +57,13 @@ abstract class BaseController extends Controller
         // Caution: Do not edit this line.
         parent::initController($request, $response, $logger);
 
-        helper(['ci3view', 'ci3compat', 'url']);
-        $this->db         = new \App\Libraries\Ci3Db();
-        $this->ci3session = new \App\Libraries\Ci3Session();
-        $this->session    = new \App\Libraries\Ci3SessionAdapter($this->ci3session);
-        $this->input      = new \App\Libraries\Ci3Input();
-        $this->load       = new \App\Libraries\Ci3Loader($this);
-        $this->output     = new \App\Libraries\Ci3Output();
+        helper(['gv', 'compat', 'url']);
+        $this->db         = new \App\Libraries\CompatDb();
+        $this->gv_session = new \App\Libraries\CompatSession();
+        $this->session    = new \App\Libraries\CompatSessionAdapter($this->gv_session);
+        $this->input      = new \App\Libraries\CompatInput();
+        $this->load       = new \App\Libraries\CompatLoader($this);
+        $this->output     = new \App\Libraries\CompatOutput();
 
         // Equiv. du __construct de co_gestion : langue par defaut
         if (! $this->session->has_userdata('site_lang')) {
@@ -72,48 +72,48 @@ abstract class BaseController extends Controller
     }
 
     /**
-     * Action non encore portee : proxy interne vers l'application CI3.
+     * Action non encore portee : proxy interne vers l'application Legacy.
      *
-     * Execute la meme requete sur le vhost CI3 (gestionvilles.local)
+     * Execute la meme requete sur le vhost Legacy (gestionvilles.local)
      * et relaie la reponse. Les URLs gestionvilles.local generees par
-     * CI3 (base_url = HTTP_HOST) sont reecrites en gestionvillesci4.local
+     * Legacy (base_url = HTTP_HOST) sont reecrites en gestionvillesci4.local
      * dans les corps HTML/JSON et les Location pour rester sur l'hote
      * CI4 ; le cookie ci_session est relaie et s'applique a cet hote :
      * la session est reellement partagee entre les deux apps.
      */
-    protected function toCi3()
+    protected function toCompat()
     {
         $uri = $this->request->getUri();
         // Cible du proxy :
-        // - local (ci3.proxyBase absent) : 127.0.0.1 + Host
+        // - local (legacy.proxyBase absent) : 127.0.0.1 + Host
         //   gestionvilles.local — l'IP source est TOUJOURS 127.0.0.1,
-        //   indispensable car CI3 a sess_match_ip = true (le hosts a a
+        //   indispensable car Legacy a sess_match_ip = true (le hosts a a
         //   la fois ::1 et 127.0.0.1 ; en IPv6 la session serait
         //   invalidee a chaque bascule).
-        // - dev/prod (ci3.proxyBase dans .env) : URL complete de l'app
-        //   CI3, ex. https://robert-daoust.ca — le Host est derive de
+        // - dev/prod (legacy.proxyBase dans .env) : URL complete de l'app
+        //   Legacy, ex. https://robert-daoust.ca — le Host est derive de
         //   l'URL par cURL (sess_match_ip ne peut pas etre satisfait a
         //   distance ; sans impact car seuls les assets publics et les
         //   routes mortes passent par le proxy).
         // 1) Fichier statique present sous la racine fichiers
-        //    (ci3.webroot, defaut <projet>/ci3files) → servi directement.
+        //    (legacy.webroot, defaut <projet>/appfiles) → servi directement.
         //    Couvre assets/*, upload/*, uploads/*, userfiles/*, icons/*...
         $served = $this->serveWebrootFile($uri->getPath());
         if ($served !== null) {
             return $served;
         }
 
-        $proxyBase = rtrim((string) env('ci3.proxyBase'), '/');
+        $proxyBase = rtrim((string) env('legacy.proxyBase'), '/');
         $localMode = $proxyBase === '';
         $proxyOff  = in_array(strtolower($proxyBase), ['off', 'none', 'disabled'], true);
-        $ci3Host   = $localMode
+        $compatHost   = $localMode
             ? 'gestionvilles.local'
             : (parse_url($proxyBase, PHP_URL_HOST) ?: 'gestionvilles.local');
         $ourHost   = $uri->getHost();
 
-        // 2) Proxy desactive (ci3.proxyBase = 'off') : l'app CI3 n'existe
+        // 2) Proxy desactive (legacy.proxyBase = 'off') : l'app Legacy n'existe
         //    pas/plus — les routes mortes et chemins inconnus rendent le
-        //    meme 404 que CI3.
+        //    meme 404 que Legacy.
         if ($proxyOff) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
@@ -124,15 +124,15 @@ abstract class BaseController extends Controller
             $target .= '?' . $query;
         }
 
-        // Reecrit les URLs absolues generees par CI3 vers notre hote :
+        // Reecrit les URLs absolues generees par Legacy vers notre hote :
         // www.x d'abord, puis x avec lookbehind pour ne pas retoucher
         // les URLs deja sur notre hote (ex. dev.robert-daoust.ca).
-        $fixHost = static function (string $s) use ($ci3Host, $ourHost): string {
-            if ($ci3Host === $ourHost) {
+        $fixHost = static function (string $s) use ($compatHost, $ourHost): string {
+            if ($compatHost === $ourHost) {
                 return $s;
             }
-            $s = str_replace('www.' . $ci3Host, $ourHost, $s);
-            return preg_replace('#(?<![\w.-])' . preg_quote($ci3Host, '#') . '#', $ourHost, $s);
+            $s = str_replace('www.' . $compatHost, $ourHost, $s);
+            return preg_replace('#(?<![\w.-])' . preg_quote($compatHost, '#') . '#', $ourHost, $s);
         };
 
         $headers = [];
@@ -197,7 +197,7 @@ abstract class BaseController extends Controller
         $ctype = $response->getHeaderLine('Content-Type');
         if (preg_match('#text/html|application/json|text/#i', $ctype)) {
             // Garder la navigation sur l'hote CI4 : reecriture des URLs
-            // absolues generees par CI3 (base_url = hote CI3).
+            // absolues generees par Legacy (base_url = hote Legacy).
             $bodyOut = $fixHost($bodyOut);
         }
         return $response->setBody($bodyOut);
@@ -205,13 +205,13 @@ abstract class BaseController extends Controller
 
     /**
      * Sert un fichier statique depuis la racine fichiers
-     * (ci3.webroot, defaut <projet>/ci3files). Retourne null si le
+     * (legacy.webroot, defaut <projet>/appfiles). Retourne null si le
      * chemin ne correspond pas a un fichier servissable — le proxy ou
      * le 404 prennent le relais.
      *
      * Extensions en liste blanche uniquement (statiques/telecharges) :
      * un .php sous le webroot n'est JAMAIS servi (ni execute ni expose
-     * en source — contrairement au proxy qui le ferait executer par CI3).
+     * en source — contrairement au proxy qui le ferait executer par Legacy).
      */
     private const WEBROOT_SERVE_EXT = [
         'css', 'js', 'map', 'json', 'xml', 'txt', 'csv', 'svg',
@@ -232,7 +232,7 @@ abstract class BaseController extends Controller
             return null;
         }
 
-        $webroot = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\');
+        $webroot = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\');
         $base    = realpath($webroot);
         if ($base === false) {
             return null;

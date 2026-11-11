@@ -5,9 +5,9 @@ namespace App\Controllers;
 use App\Models\RevenuModel;
 
 /**
- * Port CI3 -> CI4 de co_rapport : SEULE la methode routee
+ * Port Legacy -> CI4 de co_rapport : SEULE la methode routee
  * ShowTDBFinancier est portee (rapport/financier) — les ~20 autres
- * methodes de co_rapport ne sont routées nulle part en CI3
+ * methodes de co_rapport ne sont routées nulle part en Legacy
  * (module roll-off/bureau jamais branché).
  */
 class Rapport extends BaseController
@@ -30,7 +30,7 @@ class Rapport extends BaseController
             $datefin = date('Y-m-d');
         }
 
-        // CI3 : $this->load->model('Revenu_model', 'revenu')
+        // Legacy : $this->load->model('Revenu_model', 'revenu')
         $revenu = new RevenuModel();
 
         // --- Graphique 1 : Revenus vs Dépenses par mois ---

@@ -1,4 +1,4 @@
-# Plan de test superviseur — Cédules + patch assets (CI3 prod)
+# Plan de test superviseur — Cédules + patch assets (Legacy prod)
 
 > Session guidée ~45 min. Objectifs : (1) mesurer le problème AVANT,
 > (2) appliquer le patch, (3) valider le flux de cédule APRÈS.
@@ -11,7 +11,7 @@
 - [ ] F12 ouvert dans un onglet → onglet **Network** → cocher **Preserve log** et **Disable cache**
 - [ ] Être connecté en superviseur sur https://robert-daoust.ca
 - [ ] Garder ce plan ouvert (imprimé ou 2e écran)
-- [ ] Vérifier que `patch_ci3_assets.php` est téléversé à la racine (PAS encore exécuté)
+- [ ] Vérifier que `patch_legacy_assets.php` est téléversé à la racine (PAS encore exécuté)
 
 ---
 
@@ -57,10 +57,10 @@ Le superviseur fait ses manipulations HABITUELLES. On mesure seulement.
 
 ## 2. Appliquer le patch (5 min)
 
-1. [ ] `https://robert-daoust.ca/patch_ci3_assets.php?dry=1`
+1. [ ] `https://robert-daoust.ca/patch_legacy_assets.php?dry=1`
        → vérifier : **63 fichiers / 226 lignes** (sinon STOP, m'envoyer le rapport)
-2. [ ] `https://robert-daoust.ca/patch_ci3_assets.php` → appliqué + sauvegardes
-3. [ ] **Supprimer** `patch_ci3_assets.php` du serveur (File Manager)
+2. [ ] `https://robert-daoust.ca/patch_legacy_assets.php` → appliqué + sauvegardes
+3. [ ] **Supprimer** `patch_legacy_assets.php` du serveur (File Manager)
 4. [ ] Sauvegardes créées dans `application/views/_backup_assets_<horodatage>/`
        (noter le nom exact : ______________________)
 

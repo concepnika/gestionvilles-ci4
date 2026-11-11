@@ -3,14 +3,14 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Tablet_tags_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Tablet_tags_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
 
 
-class TabletTagsModel extends Ci3Model
+class TabletTagsModel extends CompatModel
 {
     public function get_active_chauffeurs_for_city($idVille, $dateYmd)
     {

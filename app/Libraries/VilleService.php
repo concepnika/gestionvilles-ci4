@@ -5,7 +5,7 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Port de Villes_model / Map_tags_model (CI3) pour le portail citoyen
+ * Port de Villes_model / Map_tags_model (Legacy) pour le portail citoyen
  * Co_ville. Le reste de Villes_model (insert_data/update_data/
  * getInfoConnect, gestion des comptes citoyens par l'admin) sera
  * porté avec co_gestion.
@@ -17,7 +17,7 @@ use Config\Database;
  */
 class VilleService
 {
-    /** Villes_model::$keysha (CI3). */
+    /** Villes_model::$keysha (Legacy). */
     public const KEYSHA = 'niKa64982c4edeb0brdf23vf';
 
     private $db;
@@ -27,7 +27,7 @@ class VilleService
         $this->db = Database::connect();
     }
 
-    /** Expression SQL de la clé AES (dans un escape, comme CI3). */
+    /** Expression SQL de la clé AES (dans un escape, comme Legacy). */
     public function aesKey(): string
     {
         return 'UNHEX(SHA2(' . $this->db->escape(self::KEYSHA) . ',512))';

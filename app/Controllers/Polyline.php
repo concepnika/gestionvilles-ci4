@@ -5,14 +5,14 @@ namespace App\Controllers;
 use App\Libraries\KalmanFilter;
 
 /**
- * Port CI3 -> CI4 de co_polyline + polyline + Polyline (CI3 — même
+ * Port Legacy -> CI4 de co_polyline + polyline + Polyline (Legacy — même
  * fichier sous Windows insensible a la casse) : routes dynamiques des
  * camions (polylines, points GPS, camion sur la route du jour).
  * Port mecanique via port_controller.php.
  */
 class Polyline extends BaseController
 {
-    /** Filtres de Kalman du __construct CI3 (instances independantes). */
+    /** Filtres de Kalman du __construct Legacy (instances independantes). */
     private $latFilter;
     private $lonFilter;
 
@@ -38,7 +38,7 @@ class Polyline extends BaseController
             $data = json_decode($json, true);
     
             if (!$data || !isset($data['points']) || !is_array($data['points'])) {
-                // CI3 : http_response_code(400) — la Response CI4
+                // Legacy : http_response_code(400) — la Response CI4
                 // ecrase le statut brut (defaut 200) : passer par elle.
                 $this->response->setStatusCode(400);
                 echo json_encode(['success' => false, 'message' => 'JSON invalide ou points manquants']);
@@ -77,7 +77,7 @@ class Polyline extends BaseController
             $this->load->database();
             $dynPolyline = (string) $this->input->post_get('poly', TRUE);
             $dynPolyline = urldecode($dynPolyline);
-            // CI3 tolerait un 'poly' absent (PHP7 : warning non fatal,
+            // Legacy tolerait un 'poly' absent (PHP7 : warning non fatal,
             // aucune insertion, puis echo 'ok'). PHP 8/CI4 leve une
             // exception (Undefined array key) — on reproduit le
             // comportement observable : boucle sautee si vide.
@@ -132,7 +132,7 @@ class Polyline extends BaseController
     }
 
 
-    // Methodes de co_polyline (CI3)
+    // Methodes de co_polyline (Legacy)
     public function GetDayRoad($dateactive)
     {    
             $idchauffeur = $this->input->post_get('idchauffeur');

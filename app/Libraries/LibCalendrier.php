@@ -5,7 +5,7 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Port de application/libraries/LibCalendrier.php (CI3).
+ * Port de application/libraries/LibCalendrier.php (Legacy).
  * $this->CI->db -> $this->db ; $this->CI->input->post_get ->
  * service('request')->getPostGet(). HTML genere identique.
  */

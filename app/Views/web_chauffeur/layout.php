@@ -430,7 +430,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
             </button>
             <div class="sani-nav-dropdown" id="saniNavDropdown">
                 <a href="/sanivan/routecam/<?php echo date("Y-m-d"); ?>?idchauffeur=0&camchauf="><i class="fa fa-truck"></i> Tous les camions</a>
-                <a href="/ville/nav_zone_hub/<?php echo ci3sess('site_lang') ?: 'fr'; ?>?dte=<?php echo date('Y-m-d'); ?>"><i class="fa fa-info-circle"></i> Info Villes</a>
+                <a href="/ville/nav_zone_hub/<?php echo gv_sess('site_lang') ?: 'fr'; ?>?dte=<?php echo date('Y-m-d'); ?>"><i class="fa fa-info-circle"></i> Info Villes</a>
                 <a href="/admin/tableau_de_bord?email=sdallaire@hotmail.com&password=serge%23123"><i class="fa fa-desktop"></i> Bureau</a>
             </div>
         </span>
@@ -496,7 +496,7 @@ $_pageId  = isset($page_id) ? $page_id : '';
             <a href="/sanivan/routecam/<?php echo date("Y-m-d"); ?>?idchauffeur=0&camchauf=">
                 <i class="fa fa-truck nav-icon"></i> Tous les camions
             </a>
-            <a href="/ville/nav_zone_hub/<?php echo ci3sess('site_lang') ?: 'fr'; ?>?dte=<?php echo date('Y-m-d'); ?>">
+            <a href="/ville/nav_zone_hub/<?php echo gv_sess('site_lang') ?: 'fr'; ?>?dte=<?php echo date('Y-m-d'); ?>">
                 <i class="fa fa-info-circle nav-icon"></i> Info Villes
             </a>
             <a href="/admin/tableau_de_bord?email=sdallaire@hotmail.com&password=serge%23123">
@@ -796,10 +796,10 @@ function showAideForWEB(){
 // navigue vers dashboard, villes, ou une autre application.
 // ═══════════════════════════════════════════════════════════════
 $_bgPageId     = isset($page_id) ? $page_id : '';
-$_bgNocamion   = ci3sess('web_nocamion');
-$_bgVehicleId  = ci3sess('web_id_samsara');
-$_bgIdChauf    = ci3sess('web_id_chauffeur');
-$_bgLoggedIn   = ci3sess('web_logged_in');
+$_bgNocamion   = gv_sess('web_nocamion');
+$_bgVehicleId  = gv_sess('web_id_samsara');
+$_bgIdChauf    = gv_sess('web_id_chauffeur');
+$_bgLoggedIn   = gv_sess('web_logged_in');
 // Réactivé – le polling JS côté client appelle api_samsara_location (endpoint prouvé par truckmap).
 // Le mécanisme _autoCronGps() fsockopen a été désactivé côté contrôleur.
 if ($_bgLoggedIn && $_bgPageId !== 'truckmap' && (!empty($_bgNocamion) || !empty($_bgVehicleId))):

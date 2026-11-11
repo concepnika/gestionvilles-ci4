@@ -5,19 +5,19 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Adaptateurs reproduisant l'environnement CI3 dans les controleurs
+ * Adaptateurs reproduisant l'environnement Legacy dans les controleurs
  * portes : $this->session, $this->input, $this->load, $this->output,
  * $this->email. Instancies par BaseController::initController().
  */
 
-/** $this->session CI3 : userdata/set_userdata/has_userdata/sess_destroy. */
-class Ci3SessionAdapter
+/** $this->session Legacy : userdata/set_userdata/has_userdata/sess_destroy. */
+class CompatSessionAdapter
 {
-    private Ci3Session $s;
+    private CompatSession $s;
 
-    public function __construct(?Ci3Session $s = null)
+    public function __construct(?CompatSession $s = null)
     {
-        $this->s = $s ?? new Ci3Session();
+        $this->s = $s ?? new CompatSession();
     }
 
     /** Magic : $this->session->email -> userdata('email') */
@@ -43,9 +43,9 @@ class Ci3SessionAdapter
 
     public function set_userdata($key, $value = null): void
     {
-        // CI3 auto-cree la session des la premiere requete (cookie
+        // Legacy auto-cree la session des la premiere requete (cookie
         // ci_session sur tout visiteur) : set_userdata n'y echoue
-        // jamais. Sur le vhost CI4 dedie, le cookie CI3 n'arrive pas
+        // jamais. Sur le vhost CI4 dedie, le cookie Legacy n'arrive pas
         // — sans ceci, set() serait un no-op silencieux et le login
         // ne persisterait pas (pattern ensureSession, cf. AGENTS.md).
         if ($this->s->user() === null) {
@@ -73,11 +73,11 @@ class Ci3SessionAdapter
 
     public function sess_create(): void
     {
-        // no-op : Ci3Session cree la ligne a create()/login
+        // no-op : CompatSession cree la ligne a create()/login
     }
 
     /**
-     * Flashdata CI3 (message one-shot) : emulation par cle de session
+     * Flashdata Legacy (message one-shot) : emulation par cle de session
      * prefixee '__flash_' consommee a la lecture (meme pattern que le
      * port WebChauffeur, cf. AGENTS.md).
      */

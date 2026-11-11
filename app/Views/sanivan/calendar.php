@@ -50,7 +50,7 @@
   <link rel="stylesheet" href="/assets/plugins/iCheck/all.css">
   <script src="/assets/css/fontawesome/all.css"></script>
   <script>
-    var base_url = "<?php echo ci3_url()?>";
+    var base_url = "<?php echo gv_url()?>";
   </script>
   </head>
 <body class="hold-transition skin-blue">

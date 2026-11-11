@@ -5,11 +5,11 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Port de Web_chauffeur_model (CI3) — requêtes spécifiques à
+ * Port de Web_chauffeur_model (Legacy) — requêtes spécifiques à
  * l'interface web chauffeur. Réutilise les mêmes tables que
  * LibSaniRest / Co_Rest_Sani.
  *
- * Le SQL est repris tel quel de CI3 (échappement via $db->escape)
+ * Le SQL est repris tel quel de Legacy (échappement via $db->escape)
  * pour garantir des résultats identiques — voir MIGRATION.md
  * « SQL concaténé » pour la migration Query Builder éventuelle.
  */

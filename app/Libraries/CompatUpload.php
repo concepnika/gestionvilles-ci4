@@ -3,20 +3,20 @@
 namespace App\Libraries;
 
 /**
- * Adaptateur minimal de la librairie `upload` CI3 pour les modeles
+ * Adaptateur minimal de la librairie `upload` Legacy pour les modeles
  * portes mecaniquement (Requetes_model notamment). API utilisee :
  * do_upload($field), display_errors(), file_name.
  *
- * Les chemins './upload/...' de CI3 sont relatifs au webroot CI3 :
- * ils sont resolus contre `ci3.webroot` (.env) pour que les deux
+ * Les chemins './upload/...' de Legacy sont relatifs au webroot Legacy :
+ * ils sont resolus contre `legacy.webroot` (.env) pour que les deux
  * applications voient les memes fichiers.
  */
-class Ci3Upload
+class CompatUpload
 {
-    /** @var string Nom du fichier depose (equiv. CI3 ->file_name) */
+    /** @var string Nom du fichier depose (equiv. Legacy ->file_name) */
     public $file_name = '';
 
-    /** @var string Nom original fourni par le client (CI3 client_name) */
+    /** @var string Nom original fourni par le client (Legacy client_name) */
     private $clientName = '';
 
     /** @var string Derniere erreur d'upload */
@@ -31,7 +31,7 @@ class Ci3Upload
     }
 
     /**
-     * Equiv. CI3 : $this->upload->do_upload($field)
+     * Equiv. Legacy : $this->upload->do_upload($field)
      */
     public function do_upload(string $field): bool
     {
@@ -45,7 +45,7 @@ class Ci3Upload
         $this->clientName = $file->getClientName();
         $path = (string) ($this->config['upload_path'] ?? './upload');
         if (str_starts_with($path, './')) {
-            $webroot = env('ci3.webroot', ROOTPATH . 'ci3files') ?: FCPATH;
+            $webroot = env('legacy.webroot', ROOTPATH . 'appfiles') ?: FCPATH;
             $path = rtrim($webroot, '/\\') . substr($path, 1);
         }
         if (! is_dir($path)) {
@@ -59,7 +59,7 @@ class Ci3Upload
             if (! empty($this->config['file_ext_tolower'])) {
                 $name = preg_replace('/\.[^.]+$/', '', $name) . strtolower(strrchr($name, '.') ?: '');
             }
-            // CI3 : nom impose par config['file_name'] (ex. ticket PDF
+            // Legacy : nom impose par config['file_name'] (ex. ticket PDF
             // nettoye par upload_pdf_ticket). L'extension du fichier
             // source est ajoutee seulement si le nom force n'en a pas.
             if (! empty($this->config['file_name'])) {
@@ -70,7 +70,7 @@ class Ci3Upload
                 }
                 $name = $forced;
             }
-            // CI3 : allowed_types — verif d'extension (liste, ex. 'pdf').
+            // Legacy : allowed_types — verif d'extension (liste, ex. 'pdf').
             if (! empty($this->config['allowed_types'])) {
                 $allowed = preg_split('/[\|,]/', (string) $this->config['allowed_types']);
                 $ext     = strtolower(ltrim(strrchr($name, '.') ?: '', '.'));
@@ -79,7 +79,7 @@ class Ci3Upload
                     return false;
                 }
             }
-            // CI3 : max_size en Ko.
+            // Legacy : max_size en Ko.
             if (! empty($this->config['max_size']) && $file->getSize() > ((int) $this->config['max_size']) * 1024) {
                 $this->error = 'The file you are attempting to upload is larger than the permitted size.';
                 return false;
@@ -94,7 +94,7 @@ class Ci3Upload
     }
 
     /**
-     * Equiv. CI3 : $this->upload->data() — cles utilisees par les ports
+     * Equiv. Legacy : $this->upload->data() — cles utilisees par les ports
      * (file_name, file_size en Ko, ...).
      */
     public function data(): array
@@ -103,7 +103,7 @@ class Ci3Upload
         $raw = $ext !== '' ? preg_replace('/\.[^.]+$/', '', $this->file_name) : $this->file_name;
         $path = (string) ($this->config['upload_path'] ?? './upload');
         if (str_starts_with($path, './')) {
-            $webroot = env('ci3.webroot', ROOTPATH . 'ci3files') ?: FCPATH;
+            $webroot = env('legacy.webroot', ROOTPATH . 'appfiles') ?: FCPATH;
             $path = rtrim($webroot, '/\\') . substr($path, 1);
         }
         $full = rtrim($path, '/\\') . '/' . $this->file_name;
@@ -126,7 +126,7 @@ class Ci3Upload
     }
 
     /**
-     * Equiv. CI3 : $this->upload->display_errors()
+     * Equiv. Legacy : $this->upload->display_errors()
      */
     public function display_errors(): string
     {

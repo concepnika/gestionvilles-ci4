@@ -31,15 +31,15 @@
           </a>-->
 
         <label class="input-group-text border-start-0 border-end-0 rounded-0" style="width:185px;height:35px;font-weight:bold;">Afficher les traitées</label>
-        <input type="checkbox" id="chkShowTraitees" onchange="showHideVillesTraitees('<?php echo ci3sess('site_lang'); ?>')" style="width:35px;height:35px;margin-top:0px;" />&nbsp;&nbsp;
+        <input type="checkbox" id="chkShowTraitees" onchange="showHideVillesTraitees('<?php echo gv_sess('site_lang'); ?>')" style="width:35px;height:35px;margin-top:0px;" />&nbsp;&nbsp;
 
         <span class="input-group-text border-start-0 border-end-0 rounded-0" style="height:35px"> De
         </span>
-        <input type="date" class="form-control" style="width:130px;height:35px" name="start" id="start" onchange="showHideVillesTraitees(<?php echo ci3sess('site_lang'); ?>)" />
+        <input type="date" class="form-control" style="width:130px;height:35px" name="start" id="start" onchange="showHideVillesTraitees(<?php echo gv_sess('site_lang'); ?>)" />
         <span class="input-group-text border-start-0 border-end-0 rounded-0" style="height:35px"> Au
         </span>
         <input type="date" class="form-control" style="width:130px;height:35px"
-          name="end" id="end" onchange="showHideVillesTraitees(<?php echo ci3sess('site_lang'); ?>)" />
+          name="end" id="end" onchange="showHideVillesTraitees(<?php echo gv_sess('site_lang'); ?>)" />
 
 
 

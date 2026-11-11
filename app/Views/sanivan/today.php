@@ -306,7 +306,7 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
-    var base_url = "<?php echo ci3_url() ?>";
+    var base_url = "<?php echo gv_url() ?>";
     var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
     var activecedule = "<?php echo ($typecedule ?? '') ?>";
     var ActiveDrop = "<?php echo ($ActiveDrop ?? '') ?>";

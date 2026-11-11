@@ -5,53 +5,53 @@ namespace App\Models;
 use Config\Database;
 
 /**
- * Base des modeles portes de CI3.
+ * Base des modeles portes de Legacy.
  *
- * Reproduit l'environnement attendu par le code CI3 copie tel quel :
+ * Reproduit l'environnement attendu par le code Legacy copie tel quel :
  *  - $this->db : connexion CI4 (query()/escape()/result()/row()
- *    compatibles avec l'API CI3)
+ *    compatibles avec l'API Legacy)
  *  - $this->input->post_get()/get()/post() : relaie a la requete CI4
  *  - $this->data / $this->objData : accumulauteurs de sortie HTML
- *    (les modeles CI3 generent des fragments HTML)
+ *    (les modeles Legacy generent des fragments HTML)
  *  - $this->load->model('X_model', 'x') -> new XModel()
- *  - $this->session : pont Ci3Session
+ *  - $this->session : pont CompatSession
  *  - $this->JourDeSemaine : colonnes reshumaine DIM..SAM
  */
 #[\AllowDynamicProperties]
-abstract class Ci3Model
+abstract class CompatModel
 {
     /** @var \CodeIgniter\Database\BaseConnection */
     protected $db;
 
-    /** @var array accumulateur (equiv. $this->data CI3) */
+    /** @var array accumulateur (equiv. $this->data Legacy) */
     protected $data = [];
 
-    /** @var object (equiv. $this->objData CI3) */
+    /** @var object (equiv. $this->objData Legacy) */
     protected $objData;
 
-    /** @var object adaptateur de $this->input CI3 */
+    /** @var object adaptateur de $this->input Legacy */
     protected $input;
 
-    /** @var \App\Libraries\Ci3Session */
-    protected $ci3session;
+    /** @var \App\Libraries\CompatSession */
+    protected $gv_session;
 
-    /** @var object adaptateur de $this->session CI3 (magic userdata) */
+    /** @var object adaptateur de $this->session Legacy (magic userdata) */
     protected $session;
 
-    /** @var \App\Libraries\Ci3Upload (equiv. $this->upload CI3) */
+    /** @var \App\Libraries\CompatUpload (equiv. $this->upload Legacy) */
     protected $upload;
 
-    /** @var array (equiv. $this->JourDeSemaine CI3 — non type :
+    /** @var array (equiv. $this->JourDeSemaine Legacy — non type :
      * les classes portees le redeclarent sans type) */
     protected $JourDeSemaine = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
 
     public function __construct()
     {
-        $this->db = new \App\Libraries\Ci3Db();
+        $this->db = new \App\Libraries\CompatDb();
         $this->objData = new \stdClass();
-        $this->ci3session = new \App\Libraries\Ci3Session();
-        helper(['ci3view', 'ci3compat', 'text']);
-        $sess = $this->ci3session;
+        $this->gv_session = new \App\Libraries\CompatSession();
+        helper(['gv', 'compat', 'text']);
+        $sess = $this->gv_session;
         $this->session = new class ($sess) {
             private $s;
 
@@ -60,7 +60,7 @@ abstract class Ci3Model
                 $this->s = $s;
             }
 
-            /** Magic : $this->session->email (CI3) -> userdata('email') */
+            /** Magic : $this->session->email (Legacy) -> userdata('email') */
             public function __get(string $key)
             {
                 return $this->s->get($key);
@@ -112,10 +112,10 @@ abstract class Ci3Model
     }
 
     /**
-     * Equivalent de $this->session->userdata['x'] dans les modeles CI3.
+     * Equivalent de $this->session->userdata['x'] dans les modeles Legacy.
      */
     protected function sess(string $key, $default = null)
     {
-        return $this->ci3session->get($key, $default);
+        return $this->gv_session->get($key, $default);
     }
 }

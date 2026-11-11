@@ -2,7 +2,7 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo ci3sess('site_lang');?>" xml:lang="<?php echo ci3sess('site_lang');?>" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="<?php echo gv_sess('site_lang');?>" xml:lang="<?php echo gv_sess('site_lang');?>" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -269,7 +269,7 @@
     </button>
 
     <?php 
-    switch((ci3sess('userdata')['privilege'] ?? null) )
+    switch((gv_sess('userdata')['privilege'] ?? null) )
     {
       case 1:
         echo view('sections/menu_supersuser');
@@ -453,8 +453,8 @@
 					  </form>
             </div>
 			      <div class="modal-footer">
-                <button type="button" onclick="UpdRetourRHCal()" id="btnEndRHCal" class="btn btn-success" data-bs-content="" data-bs-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
-                <button type="button" onclick="PostSuivisRHCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button" onclick="UpdRetourRHCal()" id="btnEndRHCal" class="btn btn-success" data-bs-content="" data-bs-dismiss="modal"  style="margin:4px 5px 0 0;display:<?php echo (((gv_sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;">Retour immédiat</button>
+                <button type="button" onclick="PostSuivisRHCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((gv_sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
                 <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>
@@ -525,7 +525,7 @@
 					  </form>
             </div>
 			      <div class="modal-footer">
-                <button type="button" onclick="PostSuivisnewRHCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((ci3sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
+                <button type="button" onclick="PostSuivisnewRHCal()" class="btn btn-primary" data-bs-dismiss="modal" style="display:<?php echo (((gv_sess('userdata')['privilege'] ?? null) == 5)? 'bloc' : 'none') ?>;margin:4px 5px 0 0;">Enregistrer</button>
                 <button type="button"  class="btn btn-danger" data-bs-dismiss="modal" style="margin:4px 5px 0 0;">Annuler</button>
             </div>
         </div>

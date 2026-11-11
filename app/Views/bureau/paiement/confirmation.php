@@ -14,7 +14,7 @@
   <meta name="googlebot" content="noindex,nofollow" />
 
   <title>
-    <?php echo ci3lang('titre_site');?>
+    <?php echo gv_lang('titre_site');?>
   </title>
   <?php  echo ($heads ?? '');?>
 
@@ -58,8 +58,8 @@
           
         </div>
         <div class="col-sm-6 rubriques">
-          <h2><?php echo ((ci3sess('site_lang') == 'fr')? 'Merci pour votre paiement' : 'Thank you for your payment')  ?></h2>
-          <p><?php echo ((ci3sess('site_lang') == 'fr')? 'Nous pouvons maintenant procéder avec votre commande.' : 'We can now proceed with your order.')  ?></p>
+          <h2><?php echo ((gv_sess('site_lang') == 'fr')? 'Merci pour votre paiement' : 'Thank you for your payment')  ?></h2>
+          <p><?php echo ((gv_sess('site_lang') == 'fr')? 'Nous pouvons maintenant procéder avec votre commande.' : 'We can now proceed with your order.')  ?></p>
         </div>
       </div>
 

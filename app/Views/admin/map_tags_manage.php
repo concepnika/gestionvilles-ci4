@@ -59,7 +59,7 @@
                         </td>
                         <td><?php echo htmlspecialchars($tag['created_at'], ENT_QUOTES); ?></td>
                         <td class="text-center">
-                            <form method="post" action="<?php echo ci3_url('admin/map-tags/delete'); ?>"
+                            <form method="post" action="<?php echo gv_url('admin/map-tags/delete'); ?>"
                                   onsubmit="return confirm('Supprimer ce tag ?');">
                                 <input type="hidden" name="id" value="<?php echo (int) $tag['id']; ?>">
                                 <button type="submit" class="btn btn-sm btn-danger">

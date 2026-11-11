@@ -146,7 +146,7 @@
   </style>
   <script src="/assets/css/fontawesome/all.css"></script>
   <script type='text/javascript'>
-    var base_url = "<?php echo ci3_url()?>";
+    var base_url = "<?php echo gv_url()?>";
 
   </script>
 </head>

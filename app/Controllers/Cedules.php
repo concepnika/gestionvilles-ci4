@@ -5,9 +5,9 @@ namespace App\Controllers;
 use Config\Database;
 
 /**
- * Module pilote de la migration CI3 -> CI4 (strangler).
+ * Module pilote de la migration Legacy -> CI4 (strangler).
  * Lecture seule : retourne la cedule d'une journee en JSON.
- * L'equivalent CI3 (Co_gestion::showToday) genere du HTML et fait des
+ * L'equivalent Legacy (Co_gestion::showToday) genere du HTML et fait des
  * ecritures pendant le rendu; cette version ne fait que lire.
  */
 class Cedules extends BaseController

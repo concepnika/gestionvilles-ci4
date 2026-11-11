@@ -6,9 +6,9 @@ use Config\Database;
 
 /**
  * Port des méthodes de Sanivan_model / login_model / Tablet_tags_model /
- * Cedules_model utilisées par Co_tablette_sani (CI3).
+ * Cedules_model utilisées par Co_tablette_sani (Legacy).
  *
- * Les méthodes post*Day lisent les paramètres du POST comme en CI3.
+ * Les méthodes post*Day lisent les paramètres du POST comme en Legacy.
  */
 class TabletteService
 {
@@ -77,7 +77,7 @@ class TabletteService
         foreach ($this->db->query($query)->getResult() as $row) {
             $returnval = $row;
             $KiloDeb = $row->KiloDeb;
-            // Appel legacy (args ignorés en CI3, les valeurs viennent du POST)
+            // Appel legacy (args ignorés en Legacy, les valeurs viennent du POST)
             $this->postCamionJour($post);
         }
         return $returnval;

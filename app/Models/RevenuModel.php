@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Revenu_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Revenu_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
@@ -23,7 +23,7 @@ namespace App\Models;
  *   - camionjour       : HreDeb, HreFin du camion
  *   - revenuville      : taux configurés par ville/type déchet
  */
-class RevenuModel extends Ci3Model
+class RevenuModel extends CompatModel
 {
     function __construct()
     {

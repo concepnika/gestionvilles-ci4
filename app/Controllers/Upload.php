@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 /**
- * Port CI3 -> CI4 de upload : import de fichiers CSV/Excel par table
+ * Port Legacy -> CI4 de upload : import de fichiers CSV/Excel par table
  * (charger/{table} -> do_upload, formulaire partials/upload_form).
  * Port mecanique via port_controller.php.
  */
@@ -49,7 +49,7 @@ class Upload extends BaseController
     {
         if ($this->session->email == '' )
         {
-          // CI3 : require co_gestion.php + new co_admin()->index()
+          // Legacy : require co_gestion.php + new co_admin()->index()
           // (hack in-process pour rendre le login). En CI4 : le
           // formulaire de connexion est /admin/connexion — divergence
           // documentee, meme effet pour l'usager (doit se connecter).

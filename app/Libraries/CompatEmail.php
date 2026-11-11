@@ -5,16 +5,16 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Adaptateurs reproduisant l'environnement CI3 dans les controleurs
+ * Adaptateurs reproduisant l'environnement Legacy dans les controleurs
  * portes : $this->session, $this->input, $this->load, $this->output,
  * $this->email. Instancies par BaseController::initController().
  */
 
 /**
- * $this->email CI3 : wrapper autour du service email CI4
+ * $this->email Legacy : wrapper autour du service email CI4
  * (API quasi identique : from/to/subject/message/send/attach).
  */
-class Ci3Email
+class CompatEmail
 {
     private $email;
 

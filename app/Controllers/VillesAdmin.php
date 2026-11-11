@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 /**
- * Port CI3 -> CI4 de Co_villes_admin : gestion des zones/polygones
+ * Port Legacy -> CI4 de Co_villes_admin : gestion des zones/polygones
  * par ville (carte admin + carte publique) — port mecanique via
  * port_controller.php.
  */

@@ -25,7 +25,7 @@ class Filters extends BaseFilters
      * or [filter_name => [classname1, classname2, ...]]
      */
     public array $aliases = [
-        'ci3auth'       => \App\Filters\Ci3AuthFilter::class,
+        'compatauth'       => \App\Filters\CompatAuthFilter::class,
         'csrf'          => CSRF::class,
         'toolbar'       => DebugToolbar::class,
         'honeypot'      => Honeypot::class,
@@ -60,7 +60,7 @@ class Filters extends BaseFilters
             'performance', // Performance Metrics
             // 'toolbar' desactive : injectait ~28 Ko dans chaque
             // reponse (pages ET fragments AJAX) — risque de casser le
-            // JS des vues portees de CI3.
+            // JS des vues portees de Legacy.
         ],
     ];
 
@@ -110,15 +110,15 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        // Zone bureau : CI3 protege deja via les checks de session
+        // Zone bureau : Legacy protege deja via les checks de session
         // in-method (le filtre est ceinture+bretelles : 302 vers
         // /login au lieu du rendu du formulaire). Ecritures calendrier
-        // (UpdCedule, PostCedule) : CI3 laissait ces POST ouverts a
+        // (UpdCedule, PostCedule) : Legacy laissait ces POST ouverts a
         // tous (trou legacy) — divergence securite VOLUE, documentee
-        // dans AGENTS.md. Les autres routes CI3 publiques (requete/*,
+        // dans AGENTS.md. Les autres routes Legacy publiques (requete/*,
         // envoi, excel/*, sanivan/calendrier*, session/*, ...) NE
-        // DOIVENT PAS etre filtrees : parite CI3.
-        'ci3auth' => [
+        // DOIVENT PAS etre filtrees : parite Legacy.
+        'compatauth' => [
             'before' => [
                 'admin',
                 'admin/*',

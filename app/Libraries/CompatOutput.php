@@ -5,13 +5,13 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Adaptateurs reproduisant l'environnement CI3 dans les controleurs
+ * Adaptateurs reproduisant l'environnement Legacy dans les controleurs
  * portes : $this->session, $this->input, $this->load, $this->output,
  * $this->email. Instancies par BaseController::initController().
  */
 
-/** $this->output CI3 : set_content_type/set_output/set_header. */
-class Ci3Output
+/** $this->output Legacy : set_content_type/set_output/set_header. */
+class CompatOutput
 {
     public function set_content_type(string $type, ?string $charset = null)
     {
@@ -32,7 +32,7 @@ class Ci3Output
         return $this;
     }
 
-    /** CI3 Output::set_status_header — utilisé par les ports
+    /** Legacy Output::set_status_header — utilisé par les ports
      *  (ex. Co_villes_admin saveZone/updateZone, Polyline::postPolyline,
      *  Gestion::togglePolylineCedule). NB : passer par la Response CI4
      *  — http_response_code() brut serait écrasé par le statut par

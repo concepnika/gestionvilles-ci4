@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Ci3Session;
+use App\Libraries\CompatSession;
 
 class Home extends BaseController
 {
     public function index(): \CodeIgniter\HTTP\ResponseInterface
     {
-        $ci3  = new Ci3Session();
-        $user = $ci3->user();
+        $compatSession  = new CompatSession();
+        $user = $compatSession->user();
 
         return $this->response->setBody(view('status', [
-            'loggedIn'  => $ci3->isLoggedIn(),
+            'loggedIn'  => $compatSession->isLoggedIn(),
             'nom'       => $user['nom'] ?? '',
             'email'     => $user['email'] ?? '',
             'privilege' => $user['privilege'] ?? '',
@@ -21,6 +21,6 @@ class Home extends BaseController
 
     public function whoami(): \CodeIgniter\HTTP\ResponseInterface
     {
-        return $this->response->setJSON((new Ci3Session())->user());
+        return $this->response->setJSON((new CompatSession())->user());
     }
 }

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Balayage CI3 vs CI4 : compare les codes HTTP des routes.
+# Balayage Legacy vs CI4 : compare les codes HTTP des routes.
 # Usage: ./sweep.sh [filtre]
 SESSION=$(/c/wamp64/bin/php/php8.2.29/php.exe "$(dirname "$0")/tools/mksess.php")
 FILTRE="${1:-}"
@@ -10,7 +10,7 @@ test_url() {
   c3=$(curl -s -o /tmp/c3.out -w "%{http_code} %{size_download}" -b "ci_session=$SESSION" "http://gestionvilles.local/$u")
   s4=${c4%% *}; s3=${c3%% *}
   flag=""; [ "$s4" != "$s3" ] && flag="  <<<<< DIFF"
-  printf "CI3=%-13s CI4=%-13s %s%s\n" "$c3" "$c4" "$u" "$flag"
+  printf "Legacy=%-13s CI4=%-13s %s%s\n" "$c3" "$c4" "$u" "$flag"
 }
 
 # --- pages principales ---

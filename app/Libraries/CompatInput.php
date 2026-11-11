@@ -5,13 +5,13 @@ namespace App\Libraries;
 use Config\Database;
 
 /**
- * Adaptateurs reproduisant l'environnement CI3 dans les controleurs
+ * Adaptateurs reproduisant l'environnement Legacy dans les controleurs
  * portes : $this->session, $this->input, $this->load, $this->output,
  * $this->email. Instancies par BaseController::initController().
  */
 
-/** $this->input CI3 : post_get/get_post/get/post/server/cookie/ip_address. */
-class Ci3Input
+/** $this->input Legacy : post_get/get_post/get/post/server/cookie/ip_address. */
+class CompatInput
 {
     public function post_get(?string $key = null)
     {

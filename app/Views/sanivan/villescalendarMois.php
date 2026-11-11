@@ -142,7 +142,7 @@
   <script src="/assets/js/jquery-ui.multidatespicker.js"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script type='text/javascript'>
-    var base_url = "<?php echo ci3_url()?>";
+    var base_url = "<?php echo gv_url()?>";
     var ActiveDate = "<?php echo ($ActiveDate ?? '') ?>";
     var moisseul = "<?php echo ($moisseul ?? '') ?>";
     typederamassage = "<?php echo ($typederamassage ?? ''); ?>";

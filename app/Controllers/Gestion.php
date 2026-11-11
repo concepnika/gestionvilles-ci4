@@ -2,20 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Ci3Session;
+use App\Libraries\CompatSession;
 use App\Libraries\LibCalendrier;
 use App\Models\CedulesModel;
 use App\Models\CreationcdModel;
 use App\Models\RequetesModel;
 
 /**
- * Port CI3 -> CI4 de co_gestion.
- * Auth bureau : Login (WebuserAuth). Filtre ci3auth sur admin/* et
+ * Port Legacy -> CI4 de co_gestion.
+ * Auth bureau : Login (WebuserAuth). Filtre compatauth sur admin/* et
  * le POST calendrier — voir Config/Filters.php.
  */
 class Gestion extends BaseController
 {
-    // Proprietes de classe du controleur CI3 (accumulateurs entre
+    // Proprietes de classe du controleur Legacy (accumulateurs entre
     // methodes, equivalents aux private/public de co_gestion).
     private $idiom = 'fr';
     private $history;
@@ -41,25 +41,25 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/GotoHome — tableau de bord d'accueil.
+     * Legacy : co_gestion/GotoHome — tableau de bord d'accueil.
      * PORTE : rend partials/home nativement (session requise).
      */
     public function GotoHome(...$args)
     {
-        if (! $this->ci3session->has('email')) {
+        if (! $this->gv_session->has('email')) {
             return redirect()->to('/admin/connexion');
         }
 
-        helper('ci3view');
+        helper('gv');
         $cedules    = $this->cedules;
         $creationcd = $this->creationcd;
 
         $data = [
             'startVerifReqDel' => 0,
             'havedelcom' => 0,
-            'nom' => $this->ci3session->get('nom'),
-            'email' => $this->ci3session->get('email'),
-            'privilege' => $this->ci3session->get('privilege'),
+            'nom' => $this->gv_session->get('nom'),
+            'email' => $this->gv_session->get('email'),
+            'privilege' => $this->gv_session->get('privilege'),
             'typeabsences' => $cedules->GetTypeAbsences(),
             'CamionDrop' => $creationcd->GetHomeCamions(),
             'ChauffeurDrop' => $creationcd->GetChauffeursToDropHome(date('Y-m-d'), '1'),
@@ -71,7 +71,7 @@ class Gestion extends BaseController
         ];
         $data['navtop'] = view('partials/navtop', $data);
         $data['navleft'] = view('partials/navleft', $data);
-        $this->ci3session->set('LAST_PAGE', '/admin');
+        $this->gv_session->set('LAST_PAGE', '/admin');
 
         return $this->response->setBody(view('partials/home', $data));
     }
@@ -285,7 +285,7 @@ class Gestion extends BaseController
 
     public function getPage(...$args)
     {
-        return $this->toCi3();
+        return $this->toCompat();
     }
 
     public function getUsagers()
@@ -360,7 +360,7 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/UpdCedule — mise a jour d'une cedule
+     * Legacy : co_gestion/UpdCedule — mise a jour d'une cedule
      * (drag&drop camion/chauffeur/aides/secteur). PORTE.
      */
     public function UpdCedule(...$args)
@@ -409,12 +409,12 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/getHresAides — heures des aides (HTML ou vue
+     * Legacy : co_gestion/getHresAides — heures des aides (HTML ou vue
      * sanivan/heuresaides quand from=1). PORTE.
      */
     public function getHresAides($dateactive = null)
     {
-        helper('ci3view');
+        helper('gv');
         $cedules = new CedulesModel();
         $strSQL = '';
         $from = $this->request->getPostGet('from');
@@ -427,7 +427,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/PostCedule — aiguillage add/upd d'une cedule.
+     * Legacy : co_gestion/PostCedule — aiguillage add/upd d'une cedule.
      * PORTE.
      */
     public function PostCedule($typeprod = null, $camion = null, $chauffeur = null, $aide = null, $id = null, $idville = null, $date = null, $ville = null, $action = null)
@@ -443,7 +443,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/AddToCedule (interne) — ajoute puis renvoie le
+     * Legacy : co_gestion/AddToCedule (interne) — ajoute puis renvoie le
      * calendrier des cedules.
      */
     private function AddToCedule($typeprod, $camion, $chauffeur, $aide, $date, $ville)
@@ -462,14 +462,14 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/showToday($from, $dateactive) — cedule du jour.
+     * Legacy : co_gestion/showToday($from, $dateactive) — cedule du jour.
      * PORTE : from=1 (vue sanivan/today), 8 (today_tv), 99
      * (cedules_sani), 3 (JSON), 4/5 (JSON), 6/7 (HTML partiel).
      */
     public function showToday($from = null, $dateactive = null)
     {
-        $ci3 = new Ci3Session();
-        if (! $ci3->has('email')) {
+        $compatSession = new CompatSession();
+        if (! $compatSession->has('email')) {
             return redirect()->to('/admin/connexion');
         }
         // Garde anti-requêtes fantômes : les vues historiques
@@ -479,7 +479,7 @@ class Gestion extends BaseController
         // cédule complet 3-4 fois pour des fichiers inexistants
         // (mécanisme des timeouts prod). Les vues sont corrigées ;
         // ce garde 404 immédiatement tout paramètre non-date
-        // résiduel (divergence CI3 : CI3 y exécutait le pipeline
+        // résiduel (divergence Legacy : Legacy y exécutait le pipeline
         // puis fatalait).
         if (! is_string($dateactive) || ! preg_match('/^\d{4}-\d{2}-\d{2}$/', trim($dateactive))) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -488,7 +488,7 @@ class Gestion extends BaseController
         $from = (int) $from;
         $db = \Config\Database::connect();
         $input = $this->request;
-        helper('ci3view');
+        helper('gv');
         $cedules = new CedulesModel();
         $creationcd = new CreationcdModel();
         $requetes = new RequetesModel();
@@ -515,12 +515,12 @@ class Gestion extends BaseController
         $AideIsShow = $input->getPostGet('AideIsShow') ?? 0;
         //--------------------------------------------------------------
         if ($from != 5) {
-            $ci3->set('LAST_PAGE', '/sanivan/aujourdhui/1/' . $ActiveDate);
+            $compatSession->set('LAST_PAGE', '/sanivan/aujourdhui/1/' . $ActiveDate);
         } else {
             $from = 4;
         }
-        $ci3->set('CHAMP_1', $from);
-        $ci3->set('CHAMP_2', $ActiveDate);
+        $compatSession->set('CHAMP_1', $from);
+        $compatSession->set('CHAMP_2', $ActiveDate);
 
         if (in_array($from, [1, 3, 8, 10, 99], true)) {
             $data = $creationcd->LoadCreateToday($ActiveDate, $typecedule);
@@ -530,7 +530,7 @@ class Gestion extends BaseController
             $data['updcamion'] = $cedules->GetTypeCamion($typecam);
             $data['camions'] = $cedules->GetAllCamions($typecam);
             $data['classstat'] = $requetes->GetAllClassStatut();
-            // $data['requetes'] = $requetes->GetActivesRequetes(); (commente en CI3)
+            // $data['requetes'] = $requetes->GetActivesRequetes(); (commente en Legacy)
             $data['requetes'] = '';
             $data['mnureq'] = $requetes->GetDropActivesRequetes();
             $data['LastRow'] = $requetes->LastRow;
@@ -541,8 +541,8 @@ class Gestion extends BaseController
             $data['limitcedule'] = $limit;
             $data['AideIsShow'] = $AideIsShow;
             $data['from'] = $from;
-            $data['nom'] = $ci3->get('nom');
-            $data['email'] = $ci3->get('email');
+            $data['nom'] = $compatSession->get('nom');
+            $data['email'] = $compatSession->get('email');
             $data['typerh'] = $cedules->GetTypeRH($typerh);
             $dataall = array_merge($data, $datacd);
             if ($from == 1) {
@@ -582,8 +582,8 @@ class Gestion extends BaseController
             $data['ActiveDrop'] = $activedrop;
             $data['limitcedule'] = $limit;
             $data['AideIsShow'] = $AideIsShow;
-            $data['nom'] = $ci3->get('nom');
-            $data['email'] = $ci3->get('email');
+            $data['nom'] = $compatSession->get('nom');
+            $data['email'] = $compatSession->get('email');
             $data['typerh'] = $cedules->GetTypeRH($typerh);
             $dataall = array_merge($data, $datacd);
             $dataNewHS = $cedules->checkNewInHS();
@@ -647,20 +647,20 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/showCedules — calendrier des villes.
+     * Legacy : co_gestion/showCedules — calendrier des villes.
      * PORTE : vue sanivan/villescalendar.
      */
     public function showCedules(...$args)
     {
-        $ci3 = new Ci3Session();
-        helper('ci3view');
+        $compatSession = new CompatSession();
+        helper('gv');
         $cedules = new CedulesModel();
         $data = $cedules->GetAllVillesCal();
         $datacal = $cedules->getCalendrierVille(42);
-        $data['nom'] = $ci3->get('nom');
-        $data['email'] = $ci3->get('email');
+        $data['nom'] = $compatSession->get('nom');
+        $data['email'] = $compatSession->get('email');
         $dataall = array_merge($data, $datacal);
-        // Variables lues par villescalendar que CI3 tolerait en
+        // Variables lues par villescalendar que Legacy tolerait en
         // undefined : on les initialise vides.
         $dataall += [
             'moisseul' => '', 'typederamassage' => '', 'redep' => '',
@@ -671,7 +671,7 @@ class Gestion extends BaseController
         for ($i = 1; $i <= 12; $i++) {
             $dataall += ['calendrier' . $i => ''];
         }
-        $ci3->set('LAST_PAGE', 5);
+        $compatSession->set('LAST_PAGE', 5);
         return $this->response->setBody(view('sanivan/villescalendar', $dataall));
     }
 
@@ -711,13 +711,13 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/infoVille — infos + calendriers d'une ville
+     * Legacy : co_gestion/infoVille — infos + calendriers d'une ville
      * (12 mois glissants ou mois seul). PORTE.
      */
     public function infoVille(...$args)
     {
-        $ci3 = new Ci3Session();
-        helper('ci3view');
+        $compatSession = new CompatSession();
+        helper('gv');
         $input = $this->request;
         $idville = $input->getPostGet('idville');
         $activeDate = $input->getPostGet('selectedDay');
@@ -758,14 +758,14 @@ class Gestion extends BaseController
         $data['chauffeurs'] = '';
         $data['aides'] = '';
         $data['camions'] = '';
-        $data['nom'] = $ci3->get('nom');
-        $data['email'] = $ci3->get('email');
+        $data['nom'] = $compatSession->get('nom');
+        $data['email'] = $compatSession->get('email');
         $data['field_RE'] = '';
         $data['moisseul'] = $input->getPostGet('moisseul');
         $data['field_ROBOT'] = '';
         $data['ActiveDate'] = $activeDate;
         $data['typederamassage'] = $typederamassage;
-        $ci3->set('LAST_PAGE', 2);
+        $compatSession->set('LAST_PAGE', 2);
         if ($input->getPostGet('from') == '1') {
             return $this->response->setBody(json_encode($data));
         }
@@ -886,7 +886,7 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/postCalDeploie — deploiement de ramassages en
+     * Legacy : co_gestion/postCalDeploie — deploiement de ramassages en
      * frequence (hebdo, 2 sem., 1er/2e/3e jour du mois). PORTE.
      */
     public function postCalDeploie(...$args)
@@ -921,7 +921,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/postDaySanivan — ajout d'un ramassage au
+     * Legacy : co_gestion/postDaySanivan — ajout d'un ramassage au
      * calendrier d'une ville (cree grp_cedules + cedule). PORTE.
      */
     public function postDaySanivan($idville = null)
@@ -991,7 +991,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/removeCalDeploie — suppression des ramassages
+     * Legacy : co_gestion/removeCalDeploie — suppression des ramassages
      * deployes (tblvillesdateramassage + cedules + grp_cedules). PORTE.
      */
     public function removeCalDeploie(...$args)
@@ -1022,7 +1022,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/FrequenceDeploie (interne) — genere les
+     * Legacy : co_gestion/FrequenceDeploie (interne) — genere les
      * ramassages selon la frequence choisie.
      */
     private function FrequenceDeploie($idville, $arrday, $startDate, $endDate, $typecam, $typederamassage, $frequence)
@@ -1207,13 +1207,13 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/showValidSanivan — page de validation sanivan
+     * Legacy : co_gestion/showValidSanivan — page de validation sanivan
      * (rapport de la veille). PORTE.
      */
     public function showValidSanivan(...$args)
     {
-        $ci3 = new Ci3Session();
-        helper('ci3view');
+        $compatSession = new CompatSession();
+        helper('gv');
         $cedules = new CedulesModel();
 
         $date = date_create(date('Y-m-d'));
@@ -1221,8 +1221,8 @@ class Gestion extends BaseController
         $data['ActiveDate'] = $date->format('Y-m-d');
         $data['validsanivan'] = $cedules->getRapportJour($data['ActiveDate']);
         $data['html'] = view('sanivan/inc_rapport', $data);
-        $data['nom'] = $ci3->get('nom');
-        $data['email'] = $ci3->get('email');
+        $data['nom'] = $compatSession->get('nom');
+        $data['email'] = $compatSession->get('email');
         $data['employes'] = $cedules->GetAllEmployes('0', '0');
         $data['camions'] = $cedules->GetAllCamions();
         $data['typededechet'] = $cedules->GetAllTypeProduits();
@@ -1230,12 +1230,12 @@ class Gestion extends BaseController
 
         $data['navtop'] = view('partials/navtop', $data);
         $data['navleft'] = view('partials/navleft', $data);
-        $ci3->set('LAST_PAGE', 6);
+        $compatSession->set('LAST_PAGE', 6);
         return $this->response->setBody(view('sanivan/validation', $data));
     }
 
     /**
-     * CI3 : co_gestion/getValidation — rapport du jour (HTML). PORTE.
+     * Legacy : co_gestion/getValidation — rapport du jour (HTML). PORTE.
      */
     public function getValidation($date = null)
     {
@@ -1244,21 +1244,21 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/getValidationChauffeur — validation chauffeur
+     * Legacy : co_gestion/getValidationChauffeur — validation chauffeur
      * du jour. PORTE.
      */
     public function getValidationChauffeur($date = null)
     {
-        $ci3 = new Ci3Session();
+        $compatSession = new CompatSession();
         $db = \Config\Database::connect();
         $cedules = new CedulesModel();
         return $this->response->setBody(
-            $cedules->getValidChauffeurJour($date, $db->escape($ci3->get('user_id')))
+            $cedules->getValidChauffeurJour($date, $db->escape($compatSession->get('user_id')))
         );
     }
 
     /**
-     * CI3 : co_gestion/PostSuivis — MAJ heures d'un suivis puis
+     * Legacy : co_gestion/PostSuivis — MAJ heures d'un suivis puis
      * rapport du jour. PORTE.
      */
     public function PostSuivis($StartTime = null, $EndTime = null, $dinerdeb = null, $id = null, $dateactive = null)
@@ -1274,7 +1274,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/DeleteSuivis — suppression d'un suivis. PORTE.
+     * Legacy : co_gestion/DeleteSuivis — suppression d'un suivis. PORTE.
      */
     public function DeleteSuivis($id = null)
     {
@@ -1478,7 +1478,7 @@ class Gestion extends BaseController
 
     public function updCamion(...$args)
     {
-        return $this->toCi3();
+        return $this->toCompat();
     }
 
     public function updTypeProd($id, $value, $dateactive)
@@ -2013,7 +2013,7 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/getnewDate — jour precedent/suivant. PORTE.
+     * Legacy : co_gestion/getnewDate — jour precedent/suivant. PORTE.
      */
     public function getnewDate($nbjour = null, $dateactive = null)
     {
@@ -2085,27 +2085,27 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/copieCedule — page de copie de cedules.
-     * PORTE (la vue sanivan/copy_cedules est absente aussi en CI3 :
+     * Legacy : co_gestion/copieCedule — page de copie de cedules.
+     * PORTE (la vue sanivan/copy_cedules est absente aussi en Legacy :
      * meme comportement d'erreur).
      */
     public function copieCedule(...$args)
     {
-        $ci3 = new Ci3Session();
-        helper('ci3view');
-        $data['nom'] = $ci3->get('nom');
-        $data['email'] = $ci3->get('email');
-        $ci3->set('LAST_PAGE', 3);
+        $compatSession = new CompatSession();
+        helper('gv');
+        $data['nom'] = $compatSession->get('nom');
+        $data['email'] = $compatSession->get('email');
+        $compatSession->set('LAST_PAGE', 3);
         return $this->response->setBody(view('sanivan/copy_cedules', $data));
     }
 
     public function excCedule(...$args)
     {
-        return $this->toCi3();
+        return $this->toCompat();
     }
 
     /**
-     * CI3 : co_gestion/getWeekCedule — fragment HTML des cedules de
+     * Legacy : co_gestion/getWeekCedule — fragment HTML des cedules de
      * la semaine. PORTE.
      */
     public function getWeekCedule($radval = null, $dateactive = null)
@@ -2115,7 +2115,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/postCopyCedule — copie de cedules d'une semaine
+     * Legacy : co_gestion/postCopyCedule — copie de cedules d'une semaine
      * a l'autre. PORTE.
      */
     public function postCopyCedule(...$args)
@@ -2144,7 +2144,7 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/removeCedule — suppression de cedules sur une
+     * Legacy : co_gestion/removeCedule — suppression de cedules sur une
      * plage de dates (rearend/robot). PORTE.
      */
     public function removeCedule($rearend = null, $robot = null, $datedeb = null, $datefin = null)
@@ -2231,7 +2231,7 @@ class Gestion extends BaseController
 
     public function getAllCamion(...$args)
     {
-        return $this->toCi3();
+        return $this->toCompat();
     }
 
     public function showRH($isdelete)
@@ -2646,7 +2646,7 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/GetRHToDrop — RH glissables pour la cedule.
+     * Legacy : co_gestion/GetRHToDrop — RH glissables pour la cedule.
      * PORTE.
      */
     public function GetRHToDrop($idtype = null, $activedate = null)
@@ -2657,12 +2657,12 @@ class Gestion extends BaseController
     }
 
     /**
-     * CI3 : co_gestion/showPrintHresAides — page d'impression des
+     * Legacy : co_gestion/showPrintHresAides — page d'impression des
      * heures d'aides. PORTE.
      */
     public function showPrintHresAides($activedate = null)
     {
-        helper('ci3view');
+        helper('gv');
         $cedules = new CedulesModel();
         $strSQL = '';
         $input = $this->request;
@@ -3189,7 +3189,7 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/postHHelpers — MAJ d'un champ de suivis puis
+     * Legacy : co_gestion/postHHelpers — MAJ d'un champ de suivis puis
      * renvoie la liste des heures d'aides. PORTE.
      */
     public function postHHelpers(...$args)
@@ -3305,7 +3305,7 @@ class Gestion extends BaseController
 
 
     /**
-     * CI3 : co_gestion/loadChauffeur — liste des chauffeurs d'une
+     * Legacy : co_gestion/loadChauffeur — liste des chauffeurs d'une
      * cedule (fragment HTML). PORTE.
      */
     public function loadChauffeur($typerh = null, $dateactive = null)
@@ -4223,7 +4223,7 @@ class Gestion extends BaseController
 
     public function sendPassword()
     {    
-            $rep = ci3lang('send_pass_reponse_err');
+            $rep = gv_lang('send_pass_reponse_err');
             $email = $this->db->escape($this->input->post_get('email', TRUE));
             $sql = "SELECT CONCAT(prenom, ' ', nom) AS NomComplet, email, pass, id_user FROM webuser WHERE email = $email";
             if ($user = $this->db->query($sql)->getRow(0)) {
@@ -4350,7 +4350,7 @@ class Gestion extends BaseController
             $data['nom'] = $this->session->userdata('nom');
             $data['email'] = $this->session->userdata('email');
             $data['mode'] = '';
-            $data['base_url'] = ci3_url();
+            $data['base_url'] = gv_url();
             $data['html'] = '';
             $data['nbshowevent'] = 0;
             echo view('partials/calendrier', $data);
@@ -4359,7 +4359,7 @@ class Gestion extends BaseController
 
     public function getRHCal(...$args)
     {
-        return $this->toCi3();
+        return $this->toCompat();
     }
 
     public function getCalendrierCam()
@@ -4393,7 +4393,7 @@ class Gestion extends BaseController
             $data['nom'] = $this->session->userdata('nom');
             $data['email'] = $this->session->userdata('email');
             $data['mode'] = '';
-            $data['base_url'] = ci3_url();
+            $data['base_url'] = gv_url();
             $data['html'] = '';
             echo view('partials/calendrier_cam', $data);
     }
@@ -4401,7 +4401,7 @@ class Gestion extends BaseController
 
     public function getCamCal(...$args)
     {
-        return $this->toCi3();
+        return $this->toCompat();
     }
 
     public function makeCamPDF()
@@ -4478,7 +4478,7 @@ class Gestion extends BaseController
                         }
                         $data[] = array($row->nocamion, $row->startStr, $row->dateend, $statut, utf8_encode($row->note));
                     }
-                    chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
+                    chdir(rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\')); require_once rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
                     $pdf = new \PDF('L');
                     // Titres des colonnes
                     $header = array('Camions', utf8_decode('Début'), 'Fin', 'Statuts', 'Notes');
@@ -4620,7 +4620,7 @@ class Gestion extends BaseController
                     foreach ($cal->getResult() as $row) {
                         $data[] = array(utf8_decode($row->NomComplet), $row->datestart, $row->endStr, $row->absence, $row->note);
                     }
-                    chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
+                    chdir(rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\')); require_once rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/application/controllers/pdf/libcalendrier.php';
                     $pdf = new \PDF('L');
                     // Titres des colonnes
                     $header = array('Nom', utf8_decode('Début'), 'Fin', 'Absence', 'Notes');
@@ -4734,7 +4734,7 @@ class Gestion extends BaseController
 
     public function sendConfirmVille(...$args)
     {
-        return $this->toCi3();
+        return $this->toCompat();
     }
 
     public function getListMailForVille($idville)
@@ -4828,7 +4828,7 @@ class Gestion extends BaseController
             $this->load->model("Requetes_model", "requetes");
             $data = $this->requetes->postReponse();
             $this->message_error = $data['msgerr'];
-            return redirect()->to(ci3_url("sanivan/aujourdhui/1/".date("Y-m-d")));
+            return redirect()->to(gv_url("sanivan/aujourdhui/1/".date("Y-m-d")));
     }
 
 
@@ -4978,7 +4978,7 @@ class Gestion extends BaseController
 
     public function RequetesPDF()
     {    
-            chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/librequete.php';
+            chdir(rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\')); require_once rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/application/controllers/pdf/librequete.php';
             $pdf = new \PDF('L');
             $pdf->SetFont('Arial', '', 12);
             $returnval = '';
@@ -5139,7 +5139,7 @@ class Gestion extends BaseController
                 //force_download($filename, NULL);
                 //delete_files($filename);
                 //-------------------------------------------------------------------
-                $download = ' <a href="'.ci3_url('upload/requete.pdf').'" target="_blank" download>
+                $download = ' <a href="'.gv_url('upload/requete.pdf').'" target="_blank" download>
     						      <i class="fa fa-download btn btn-success" style="font-size:16px;height:35px;"></i>&nbsp;&nbsp;T&eacute;l&eacute;charger votre fichier</a>';
     
                 echo $download;
@@ -5151,7 +5151,7 @@ class Gestion extends BaseController
 
     public function ReponsesPDF($idrequete)
     {    
-            chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/libreceptions.php';
+            chdir(rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\')); require_once rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/application/controllers/pdf/libreceptions.php';
             $pdf = new \PDF('L');
             $pdf->SetFont('Arial', '', 12);
             $arrReq = $this->getDescriptionRequete($idrequete);
@@ -5195,7 +5195,7 @@ class Gestion extends BaseController
             //force_download($filename, NULL);
             //delete_files($filename);
             //-------------------------------------------------------------------
-            $download = ' <a href="'.ci3_url('upload/'.$row->idville.'/requete.pdf').'" target="_blank" download>
+            $download = ' <a href="'.gv_url('upload/'.$row->idville.'/requete.pdf').'" target="_blank" download>
     						    <i class="fa fa-download btn btn-success" style="font-size:16px;height:35px;"></i>&nbsp;&nbsp;T&eacute;l&eacute;charger votre fichier</a>';
     
             echo $download;
@@ -5214,10 +5214,10 @@ class Gestion extends BaseController
     public function RequetesEXCEL()
     {    
             $this->load->model("ExcelVille_model", "excel");
-            $this->excel->getListRequetes(env('ci3.webroot', ROOTPATH . 'ci3files') . '/formulaires/liste_requetes.xlsx');
+            $this->excel->getListRequetes(env('legacy.webroot', ROOTPATH . 'appfiles') . '/formulaires/liste_requetes.xlsx');
     
             //-------------------------------------------------------------------
-            $download = ' <a href="'.ci3_url('upload/liste_requetes.xlsx').'" target="_blank" download>
+            $download = ' <a href="'.gv_url('upload/liste_requetes.xlsx').'" target="_blank" download>
     						    <i class="fa fa-download btn btn-success" style="font-size:16px;height:35px;"></i>&nbsp;&nbsp;T&eacute;l&eacute;charger votre fichier</a>';
     
             echo $download;
@@ -5272,7 +5272,7 @@ class Gestion extends BaseController
                 }
             }
             $dateactive = date("Y-m").'-01';
-            return redirect()->to(ci3_url("/sanivan/getinfoville?idville=$idville&typederamassage=1&selectedDay=$dateactive&manuel=0&moisseul=0&redep=1"));
+            return redirect()->to(gv_url("/sanivan/getinfoville?idville=$idville&typederamassage=1&selectedDay=$dateactive&manuel=0&moisseul=0&redep=1"));
     }
 
 
@@ -5350,7 +5350,7 @@ class Gestion extends BaseController
             //----------------------------------------------------------------------------
             $dateactive = substr($tbram->Dateramassage, 0, 7).'-01';
             $manuel = intval($this->input->post_get('manuel'));
-            return redirect()->to(ci3_url("/sanivan/getinfoville?idville=".$tbram->idville."&typederamassage=1&selectedDay=$dateactive&manuel=$manuel&moisseul=0&redep=1&from=1"));
+            return redirect()->to(gv_url("/sanivan/getinfoville?idville=".$tbram->idville."&typederamassage=1&selectedDay=$dateactive&manuel=$manuel&moisseul=0&redep=1&from=1"));
     }
 
 
@@ -5379,7 +5379,7 @@ class Gestion extends BaseController
             //----------------------------------------------------------------------------
             $dateactive = substr($tbram->Dateramassage, 0, 7).'-01';
             $manuel = intval($this->input->post_get('manuel'));
-            return redirect()->to(ci3_url("/sanivan/getinfoville?idville=".$tbram->idville."&typederamassage=1&selectedDay=$dateactive&manuel=$manuel&moisseul=0&redep=1&from=1"));
+            return redirect()->to(gv_url("/sanivan/getinfoville?idville=".$tbram->idville."&typederamassage=1&selectedDay=$dateactive&manuel=$manuel&moisseul=0&redep=1&from=1"));
     }
 
 
@@ -5403,7 +5403,7 @@ class Gestion extends BaseController
 
     public function logout()
     {
-        $this->ci3session->destroy();
+        $this->gv_session->destroy();
 
         return redirect()->to('/admin/connexion');
     }
@@ -5661,7 +5661,7 @@ class Gestion extends BaseController
             $cal = $this->db->query($strSQL);
             $total = '';
             //-------------------------------------------------------------------------
-            chdir(rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\')); require_once rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/application/controllers/pdf/requetespdf.php';
+            chdir(rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\')); require_once rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/application/controllers/pdf/requetespdf.php';
             /** @var array $data */
             foreach ($cal->getResult() as $row) {
                 switch ($listtoprint) {
@@ -5708,7 +5708,7 @@ class Gestion extends BaseController
             $pdf->Output('F', $filename);
             //$pdf->Output('I',$filename );
             //---------------------------------------------------------------------
-            $download = ' <a href="'.ci3_url('upload/livres.pdf').'" target="_blank" download>
+            $download = ' <a href="'.gv_url('upload/livres.pdf').'" target="_blank" download>
     						    <i class="fa fa-download btn btn-success" style="font-size:16px;height:35px;"></i>&nbsp;&nbsp;T&eacute;l&eacute;charger votre fichier</a>';
     
             echo $download;
@@ -5769,7 +5769,7 @@ class Gestion extends BaseController
                     $destination = './userfiles/'.$_FILES['image']['name']; //change path of the folder...
                     $location = $_FILES["image"]["tmp_name"];
                     move_uploaded_file($location, $destination);
-                    echo ci3_url().'userfiles/'.$_FILES['image']['name'];
+                    echo gv_url().'userfiles/'.$_FILES['image']['name'];
                 } else {
                     //echo $message = 'The following error occured:  ' . $_FILES['image']['error'];
                 }

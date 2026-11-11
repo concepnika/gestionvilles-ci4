@@ -13,18 +13,18 @@
                             <div class="col-md-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h4 class="text-dark mb-4"><?php echo ci3lang('login_titre');?></h4>
+                                        <h4 class="text-dark mb-4"><?php echo gv_lang('login_titre');?></h4>
                                     </div>
                                     <form class="user" action="auth/login">
-                                        <div class="form-group"><input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="<?php echo ci3lang('login_email');?>" name="email"></div>
-                                        <div class="form-group"><input class="form-control form-control-user" type="password"id="password" placeholder="<?php echo ci3lang('login_password');?>" name="password"></div>
+                                        <div class="form-group"><input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="<?php echo gv_lang('login_email');?>" name="email"></div>
+                                        <div class="form-group"><input class="form-control form-control-user" type="password"id="password" placeholder="<?php echo gv_lang('login_password');?>" name="password"></div>
                                         <div class="form-group">
 
-                                        </div><button class="btn btn-primary d-block w-100 text-white btn-user" onclick="Login()" type="button"><?php echo ci3lang('login_connect');?></button>
+                                        </div><button class="btn btn-primary d-block w-100 text-white btn-user" onclick="Login()" type="button"><?php echo gv_lang('login_connect');?></button>
                                         
                                         <hr>
                                     </form>
-                                    <div class="text-center"><a class="small" href="forgot-password.html"><?php echo ci3lang('login_forget');?></a></div>
+                                    <div class="text-center"><a class="small" href="forgot-password.html"><?php echo gv_lang('login_forget');?></a></div>
                                     
                                 </div>
                             </div>

@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 /**
- * Port CI3 -> CI4 de co_sessions : verrouillage d'ecran (lockScreen)
- * et check de session (chekSession — corps vide en CI3, reponse vide).
+ * Port Legacy -> CI4 de co_sessions : verrouillage d'ecran (lockScreen)
+ * et check de session (chekSession — corps vide en Legacy, reponse vide).
  * Port mecanique via port_controller.php.
  */
 class Sessions extends BaseController

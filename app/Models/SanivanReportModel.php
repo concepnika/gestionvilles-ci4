@@ -3,18 +3,18 @@
 namespace App\Models;
 
 /**
- * Port mecanique de Sanivan_report_model (CI3) — requetes SQL et
- * HTML generes identiques. Base Ci3Model fournit db/input/
+ * Port mecanique de Sanivan_report_model (Legacy) — requetes SQL et
+ * HTML generes identiques. Base CompatModel fournit db/input/
  * session/data/objData. A relire : Query Builder, upload, email.
  */
 
 
 
-require_once(env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'libraries/Sanivan/CamDayEntity.php');
-require_once(env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'libraries/Sanivan/CamDayCollection.php');
-require_once(env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'libraries/Sanivan/SanivanRepository.php');
-require_once(env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'libraries/Sanivan/SanivanCalculator.php');
-require_once(env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'libraries/Sanivan/SanivanHtmlBuilder.php');
+require_once(env('legacy.webroot', ROOTPATH . 'appfiles') . '/application/' . 'libraries/Sanivan/CamDayEntity.php');
+require_once(env('legacy.webroot', ROOTPATH . 'appfiles') . '/application/' . 'libraries/Sanivan/CamDayCollection.php');
+require_once(env('legacy.webroot', ROOTPATH . 'appfiles') . '/application/' . 'libraries/Sanivan/SanivanRepository.php');
+require_once(env('legacy.webroot', ROOTPATH . 'appfiles') . '/application/' . 'libraries/Sanivan/SanivanCalculator.php');
+require_once(env('legacy.webroot', ROOTPATH . 'appfiles') . '/application/' . 'libraries/Sanivan/SanivanHtmlBuilder.php');
 
 /**
  * Sanivan_report_model — Orchestrateur du rapport quotidien Sanivan.
@@ -30,7 +30,7 @@ require_once(env('ci3.webroot', ROOTPATH . 'ci3files') . '/application/' . 'libr
  * Retourne les mêmes clés de données que l'ancien modèle
  * (rapdaychauf_cam, raprojoursani, IsLoaded) pour compatibilité avec la vue.
  */
-class SanivanReportModel extends Ci3Model
+class SanivanReportModel extends CompatModel
 {
     /** @var SanivanRepository */
     protected $repo;

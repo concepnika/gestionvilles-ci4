@@ -2,63 +2,63 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Ci3Session;
+use App\Libraries\CompatSession;
 use App\Libraries\SamsaraClient;
 use App\Libraries\WebChauffeurService;
 use CodeIgniter\HTTP\ResponseInterface;
 
 /**
- * Port de Co_web_chauffeur (CI3, ~2 240 lignes) – interface web
+ * Port de Co_web_chauffeur (Legacy, ~2 240 lignes) – interface web
  * navigateur pour chauffeurs SaniVan.
  *
- * Session : clés web_* dans la session CI3 partagée (Ci3Session).
+ * Session : clés web_* dans la session Legacy partagée (CompatSession).
  * Sur l'hôte CI4, le login/bootstrap MAUI CRÉE la session via
- * Ci3Session::create() (le cookie CI3 n'arrive jamais ici).
+ * CompatSession::create() (le cookie Legacy n'arrive jamais ici).
  *
- * Uploads (tickets/PDF) : écrits dans le docroot CI3 (env ci3.webroot)
- * — les URLs /uploads/... retournées restent servies par CI3 en prod
+ * Uploads (tickets/PDF) : écrits dans le docroot Legacy (env legacy.webroot)
+ * — les URLs /uploads/... retournées restent servies par Legacy en prod
  * (Alias vhost /uploads localement, voir AGENTS.md).
  *
- * Divergences volontaires par rapport à CI3 :
- *  - nav_bureau : redirige vers /admin/connexion (CI3 hardcodait des
+ * Divergences volontaires par rapport à Legacy :
+ *  - nav_bureau : redirige vers /admin/connexion (Legacy hardcodait des
  *    identifiants en clair dans l'URL — non reproduits dans le repo)
  *  - api_get_polyline_dynamique : route AJOUTÉE (le JS de truckmap
- *    l'appelle mais CI3 n'avait pas de route — bug latent corrigé)
+ *    l'appelle mais Legacy n'avait pas de route — bug latent corrigé)
  *  - api_samsara_diag / api_autorisation_spectateur : non portés
- *    (jamais routés en CI3, jamais appelés par les vues)
+ *    (jamais routés en Legacy, jamais appelés par les vues)
  */
 class WebChauffeur extends BaseController
 {
-    private Ci3Session $ci3;
+    private CompatSession $compatSession;
     private WebChauffeurService $web;
     private SamsaraClient $samsara;
 
     public function __construct()
     {
         date_default_timezone_set('America/Toronto');
-        $this->ci3     = new Ci3Session();
+        $this->compatSession     = new CompatSession();
         $this->web     = new WebChauffeurService();
         $this->samsara = new SamsaraClient();
     }
 
     //=================================================================
-    // Helpers session (clés web_* au format CI3)
+    // Helpers session (clés web_* au format Legacy)
     //=================================================================
 
-    /** Lit une clé de session CI3. */
+    /** Lit une clé de session Legacy. */
     private function sess(string $key)
     {
-        return $this->ci3->get($key);
+        return $this->compatSession->get($key);
     }
 
     /**
-     * Garantit qu'une session CI3 existe avant des set() — sinon les
+     * Garantit qu'une session Legacy existe avant des set() — sinon les
      * écritures sont des no-ops (voir AGENTS.md § TabletteSani).
      */
     private function ensureSession(): void
     {
-        if ($this->ci3->user() === null) {
-            $this->ci3->create([]);
+        if ($this->compatSession->user() === null) {
+            $this->compatSession->create([]);
         }
     }
 
@@ -66,12 +66,12 @@ class WebChauffeur extends BaseController
     {
         $this->ensureSession();
         foreach ($kvs as $k => $v) {
-            $this->ci3->set($k, $v);
+            $this->compatSession->set($k, $v);
         }
     }
 
     /**
-     * Flashdata CI3 (message une seule requête) : paire set/remove
+     * Flashdata Legacy (message une seule requête) : paire set/remove
      * sur la clé web_flash_error.
      */
     private function flashError(string $msg): void
@@ -81,9 +81,9 @@ class WebChauffeur extends BaseController
 
     private function flashTake(): string
     {
-        $msg = (string) ($this->ci3->get('web_flash_error') ?? '');
+        $msg = (string) ($this->compatSession->get('web_flash_error') ?? '');
         if ($msg !== '') {
-            $this->ci3->remove('web_flash_error');
+            $this->compatSession->remove('web_flash_error');
         }
         return $msg;
     }
@@ -174,7 +174,7 @@ class WebChauffeur extends BaseController
     // AUTH (pages)
     //=================================================================
 
-    /** Page de connexion. Route CI3 : ramassage-ville. */
+    /** Page de connexion. Route Legacy : ramassage-ville. */
     public function login()
     {
         if ($this->sess('web_logged_in')) {
@@ -253,14 +253,14 @@ class WebChauffeur extends BaseController
             $this->web->removeWebHeartbeat($nocamion);
         }
 
-        $this->ci3->remove([
+        $this->compatSession->remove([
             'web_logged_in', 'web_user_id', 'web_id_chauffeur',
             'web_nom', 'web_is_admin', 'web_code_user', 'web_active_cedule',
             'web_nocamion', 'web_kmdepart', 'web_id_samsara',
             'web_tracking_active', 'web_tracking_start_ts', 'web_login_ts',
             'web_from_maui',
         ]);
-        $this->ci3->destroy();
+        $this->compatSession->destroy();
         $this->noCache();
         return redirect()->to('/ramassage-ville');
     }
@@ -641,7 +641,7 @@ class WebChauffeur extends BaseController
             return $boot;
         }
 
-        // CI3 : si le bootstrap MAUI vient de s'effectuer → mode embed
+        // Legacy : si le bootstrap MAUI vient de s'effectuer → mode embed
         if (! empty($qIdChauffeur) && ! empty($qNoCamion) && $this->sess('web_logged_in') && $this->sess('web_from_maui')) {
             $isEmbed = true;
         }
@@ -845,10 +845,10 @@ class WebChauffeur extends BaseController
     private function reverseGeocodeThrottled($nocamion, $lat, $lng)
     {
         $cacheKey = 'geo_last_' . md5($nocamion);
-        $last     = (int) ($this->ci3->get($cacheKey . '_ts') ?? 0);
+        $last     = (int) ($this->compatSession->get($cacheKey . '_ts') ?? 0);
 
         if ((time() - $last) < 60) {
-            return (string) ($this->ci3->get($cacheKey . '_addr') ?? '');
+            return (string) ($this->compatSession->get($cacheKey . '_addr') ?? '');
         }
 
         $url = 'https://nominatim.openstreetmap.org/reverse?format=json'
@@ -1439,7 +1439,7 @@ class WebChauffeur extends BaseController
                 'web_tracking_start_ts' => time(),
             ]);
         } else {
-            $this->ci3->remove(['web_tracking_active', 'web_tracking_start_ts']);
+            $this->compatSession->remove(['web_tracking_active', 'web_tracking_start_ts']);
         }
 
         $idChauffeur  = $this->sess('web_id_chauffeur');
@@ -1590,8 +1590,8 @@ class WebChauffeur extends BaseController
             return $this->outJson(['ok' => false, 'error' => 'Aucun fichier.']);
         }
 
-        // Écriture dans le docroot CI3 (URLs /uploads/... servies par CI3)
-        $docroot    = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\');
+        // Écriture dans le docroot Legacy (URLs /uploads/... servies par Legacy)
+        $docroot    = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\');
         $uploadDir  = $docroot . '/uploads/tickets/';
         if (! is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
@@ -1703,7 +1703,7 @@ class WebChauffeur extends BaseController
 
     /**
      * Génère un PDF avec en-tête, photo du billet et pied de page.
-     * (FPDF copié de CI3 : app/Libraries/Pdf/fpdf.php + font/)
+     * (FPDF copié de Legacy : app/Libraries/Pdf/fpdf.php + font/)
      */
     private function generateTicketPdf($pdfPath, $imagePath, $depotInfo, $chauffeurNom)
     {
@@ -1724,7 +1724,7 @@ class WebChauffeur extends BaseController
         $pdf->SetFont('Arial', 'B', 18);
         $pdf->SetXY(10, 12);
         $pdf->Cell(65, 10, utf8_decode('Billet de dépotoir'), 0, 0, 'L');
-        $logoPath = rtrim((string) env('ci3.webroot', ROOTPATH . 'ci3files'), '/\\') . '/assets/img/logo.jpg';
+        $logoPath = rtrim((string) env('legacy.webroot', ROOTPATH . 'appfiles'), '/\\') . '/assets/img/logo.jpg';
         if (file_exists($logoPath)) {
             $pdf->Image($logoPath, 80, 8, 55);
         }
@@ -1846,7 +1846,7 @@ class WebChauffeur extends BaseController
 
     /**
      * Tous les camions – routecam du jour (porté par TabletteSani →
-     * sert l'hôte courant, pas l'URL prod hardcodée de CI3).
+     * sert l'hôte courant, pas l'URL prod hardcodée de Legacy).
      */
     public function nav_all_trucks()
     {
@@ -1858,7 +1858,7 @@ class WebChauffeur extends BaseController
     }
 
     /**
-     * Info Villes – stub CI4 → 307 vers CI3 (Co_ville non porté).
+     * Info Villes – stub CI4 → 307 vers Legacy (Co_ville non porté).
      */
     public function nav_info_villes()
     {
@@ -1870,8 +1870,8 @@ class WebChauffeur extends BaseController
     }
 
     /**
-     * Bureau – diverge de CI3 : redirige vers le formulaire de
-     * connexion admin (CI3 hardcodait des identifiants en clair
+     * Bureau – diverge de Legacy : redirige vers le formulaire de
+     * connexion admin (Legacy hardcodait des identifiants en clair
      * dans l'URL — non reproduits dans un repo versionné).
      */
     public function nav_bureau()
