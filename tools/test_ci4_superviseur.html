@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Script de tests CI4 — dev.robert-daoust.ca</title>
+<style>
+  @page { size: A4; margin: 15mm 13mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a1a1a; font-size: 10.5pt; line-height: 1.45; margin: 0; }
+  h1 { font-size: 17pt; margin: 0 0 4mm 0; color: #0b3b70; border-bottom: 2.5pt solid #0b3b70; padding-bottom: 3mm; }
+  .subtitle { font-style: italic; color: #444; margin-bottom: 5mm; font-size: 10pt; }
+  h2 { font-size: 12.5pt; color: #0b3b70; border-bottom: 1pt solid #b8cbe0; padding-bottom: 1.5mm; margin: 7mm 0 2.5mm 0; page-break-after: avoid; }
+  h2 .num { display: inline-block; background: #0b3b70; color: #fff; border-radius: 3pt; padding: 0.5mm 2.5mm; margin-right: 2mm; font-size: 11pt; }
+  ul { margin: 2mm 0 3mm 0; padding-left: 6mm; list-style: none; }
+  li { margin-bottom: 1.3mm; }
+  table { border-collapse: collapse; width: 100%; margin: 3mm 0; font-size: 9.5pt; page-break-inside: avoid; }
+  th { background: #0b3b70; color: #fff; text-align: left; padding: 2mm 3mm; }
+  td { border: 0.6pt solid #9db3c8; padding: 1.8mm 3mm; vertical-align: top; }
+  tr:nth-child(even) td { background: #eef3f8; }
+  .box { background: #f4f7fa; border: 0.8pt solid #b8cbe0; border-left: 3pt solid #0b3b70; padding: 3mm 4mm; margin: 3mm 0; border-radius: 2pt; }
+  .warn { background: #fff8e6; border: 0.8pt solid #e8cc80; border-left: 3pt solid #d99a00; padding: 3mm 4mm; margin: 3mm 0; border-radius: 2pt; }
+  code, .mono { font-family: Consolas, "Courier New", monospace; font-size: 9pt; }
+  .chk { font-family: "Segoe UI Symbol", sans-serif; }
+  .field { display: inline-block; border-bottom: 1pt solid #666; min-width: 18mm; }
+  .field-lg { min-width: 45mm; }
+  .pagebreak { page-break-before: always; }
+  .small { font-size: 9pt; color: #555; }
+  .step { font-weight: 600; color: #0b3b70; }
+</style>
+</head>
+<body>
+
+<h1>Script de tests CI4<br>dev.robert-daoust.ca</h1>
+<div class="subtitle">Session guidée ~60-90 min — valider que l'application migrée reproduit le comportement
+legacy sur toutes les sections. Cocher les cases ; pour chaque anomalie noter :
+<b>URL | Action | Résultat obtenu | Résultat attendu | Erreur console ?</b></div>
+
+<div class="box"><span class="step">Repère visuel</span> : dev.robert-daoust.ca = application migrée.
+Si un écran semble « différent », vérifier le même écran sur robert-daoust.ca (legacy) — seules les
+<b>différences de menus Bootstrap</b> sont tolérées ; listes, boutons, contenu et ordre doivent être identiques.</div>
+
+<h2><span class="num">0</span> Préparation (5 min)</h2>
+<ul>
+  <li><span class="chk">☐</span> Ouvrir <b>https://dev.robert-daoust.ca</b> dans Chrome/Edge</li>
+  <li><span class="chk">☐</span> F12 → <b>Console</b> ouvert (noter toute erreur en rouge)</li>
+  <li><span class="chk">☐</span> F12 → <b>Network</b> → cocher <b>Preserve log</b></li>
+  <li><span class="chk">☐</span> Compte superviseur/admin valide sous la main</li>
+  <li><span class="chk">☐</span> Navigateur/version : <span class="field-lg">&nbsp;</span></li>
+</ul>
+
+<h2><span class="num">1</span> Connexion / session</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/admin/connexion</code> → formulaire affiché</li>
+  <li><span class="chk">☐</span> Mauvais mot de passe → message d'erreur, pas de plantage</li>
+  <li><span class="chk">☐</span> Bon mot de passe → redirigé vers <code>/admin</code></li>
+  <li><span class="chk">☐</span> F5 sur <code>/admin</code> → la session <b>persiste</b></li>
+  <li><span class="chk">☐</span> Nouvel onglet sur <code>/admin</code> → toujours connecté</li>
+  <li><span class="chk">☐</span> <code>admin/quitter</code> → déconnecté → renvoyé au login</li>
+  <li><span class="chk">☐</span> <b>Reconnecter</b> avant la suite</li>
+</ul>
+
+<h2><span class="num">2</span> Tableau de bord /admin</h2>
+<ul>
+  <li><span class="chk">☐</span> Dropdowns <b>Camions / Chauffeurs / Aides</b> remplis</li>
+  <li><span class="chk">☐</span> Liste <b>HORS SERVICES</b> affichée (ou « aucun »)</li>
+  <li><span class="chk">☐</span> Liste <b>INDISPONIBLE</b> affichée</li>
+  <li><span class="chk">☐</span> Navigation gauche/haut cohérente avec le legacy</li>
+  <li><span class="chk">☐</span> Aucun contenu manquant vs robert-daoust.ca/admin</li>
+</ul>
+
+<h2><span class="num">3</span> Cédule du jour</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/sanivan/aujourdhui/1/&lt;date&gt;</code> → cédule affichée (camions, chauffeurs, aides, villes)</li>
+  <li><span class="chk">☐</span> Changer un <b>chauffeur</b> (dropdown) → sauvegardé</li>
+  <li><span class="chk">☐</span> Changer un <b>camion</b> (dropdown) → sauvegardé</li>
+  <li><span class="chk">☐</span> Changer les <b>aides</b> (multi) → sauvegardé</li>
+  <li><span class="chk">☐</span> <b>Drag&amp;drop</b> d'une ligne → persiste après F5</li>
+  <li><span class="chk">☐</span> Heures aides (<code>posthresaides</code>) → enregistrées</li>
+  <li><span class="chk">☐</span> <code>sanivan/printhresaides/&lt;date&gt;</code> → page d'impression</li>
+  <li><span class="chk">☐</span> Changer de <b>date</b> → nouvelle cédule affichée</li>
+  <li><span class="chk">☐</span> Console : pas de nouvelle erreur rouge</li>
+</ul>
+
+<h2><span class="num">4</span> Calendrier des villes</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/sanivan/calendrier</code> → calendriers 12 mois</li>
+  <li><span class="chk">☐</span> <code>sanivan/calendriervilles/0</code> → vue par ville</li>
+  <li><span class="chk">☐</span> Clic ville/date (<code>getinfoville</code>) → infos du mois</li>
+  <li><span class="chk">☐</span> <b>Déployer</b> une cédule (<code>postcaldeploie</code>, fréquence hebdo, ville de test) → dates créées</li>
+  <li><span class="chk">☐</span> <b>Supprimer</b> (<code>delcaldeploie</code>) → dates retirées</li>
+  <li><span class="chk">☐</span> <code>sanivan/getweek/&lt;ville&gt;/&lt;date&gt;</code> → semaine affichée</li>
+  <li><span class="chk">☐</span> <code>sanivan/copie</code> + <code>excopie</code> → copie cédule (si utilisé)</li>
+  <li><span class="chk">☐</span> <code>sanivan/getdate/...</code> → nouvelle date calculée</li>
+</ul>
+
+<h2><span class="num">5</span> Validation</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/sanivan/validation</code> → rapport complet (camions, chauffeurs, heures)</li>
+  <li><span class="chk">☐</span> <code>sanivan/jour_validation/&lt;date&gt;</code> → rapport du jour</li>
+  <li><span class="chk">☐</span> <code>sanivan/jour_validation_chauffeur/&lt;date&gt;</code> → rapport chauffeur</li>
+  <li><span class="chk">☐</span> Modifier des heures puis <code>postsuivis</code> → rapport mis à jour</li>
+  <li><span class="chk">☐</span> <code>deletesuivis</code> sur une entrée de test → supprimée</li>
+</ul>
+
+<div class="pagebreak"></div>
+<h2><span class="num">6</span> Ressources humaines</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/sanivan/showrh/1</code> → liste RH</li>
+  <li><span class="chk">☐</span> <code>sanivan/showmodalrh/&lt;id&gt;</code> → fiche employé</li>
+  <li><span class="chk">☐</span> <code>sanivan/rhinfo/&lt;id&gt;</code> → infos RH</li>
+  <li><span class="chk">☐</span> <code>sanivan/showsuivisrhlist/&lt;mois&gt;</code> (avec filtres) → suivis RH</li>
+  <li><span class="chk">☐</span> <code>sanivan/showsuiviscamlist/&lt;mois&gt;</code> → suivis camions</li>
+  <li><span class="chk">☐</span> <code>sanivan/calrh</code> → calendrier RH</li>
+  <li><span class="chk">☐</span> <code>sanivan/calcam</code> → calendrier camions</li>
+  <li><span class="chk">☐</span> <code>sanivan/calrhpdf</code> + <code>calpdf</code> → PDF générés</li>
+</ul>
+
+<h2><span class="num">7</span> Camions &amp; villes</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/sanivan/editcam/&lt;id&gt;</code> → édition camion</li>
+  <li><span class="chk">☐</span> Sauvegarde d'un champ (<code>sendcamioninfo</code>) → persisté</li>
+  <li><span class="chk">☐</span> <code>sanivan/camioninfo</code> → infos camion</li>
+  <li><span class="chk">☐</span> <code>/sanivan/showville/1</code> → page ville complète</li>
+  <li><span class="chk">☐</span> Édition champ (<code>postvilleinfo</code>) → persisté</li>
+  <li><span class="chk">☐</span> <code>sanivan/showsecteur/&lt;id&gt;</code> → secteur affiché</li>
+  <li><span class="chk">☐</span> <code>postsecteurinfo</code> (édition) → persisté</li>
+  <li><span class="chk">☐</span> <code>sanivan/getsecteursbyville</code> → secteurs listés</li>
+</ul>
+
+<h2><span class="num">8</span> Dictionnaires</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/sanivan/dictionnaires/0/0</code> → page affichée</li>
+  <li><span class="chk">☐</span> Chaque onglet (types camion, statuts, contenant…) s'affiche</li>
+  <li><span class="chk">☐</span> <code>postdictionnaire/&lt;id&gt;</code> → ajout/modif persistée</li>
+  <li><span class="chk">☐</span> <code>postdictStatutRequete/&lt;id&gt;</code> → persisté</li>
+  <li><span class="chk">☐</span> <code>postcontenant/&lt;id&gt;</code> → persisté</li>
+  <li><span class="chk">☐</span> <code>typecam</code> / <code>camfromtype</code> / <code>rhfromtype</code> → listes</li>
+</ul>
+
+<h2><span class="num">9</span> Polylines / secteurs</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>/sanivan/listpolyline</code> → liste + carte</li>
+  <li><span class="chk">☐</span> <code>getpolylinesgeojson/&lt;id&gt;</code> → GeoJSON OK</li>
+  <li><span class="chk">☐</span> <code>getpolylinesbysecteurville</code> → polylines par ville/secteur</li>
+  <li><span class="chk">☐</span> <code>getpolylinecheckboxes</code> → cases affichées</li>
+  <li><span class="chk">☐</span> Cocher + <code>setpolylinecedule</code> / <code>togglepolylinecedule</code> → persisté</li>
+  <li><span class="chk">☐</span> <code>executeTolerance/&lt;id&gt;</code> → réduction OK (si utilisé)</li>
+  <li><span class="chk">☐</span> <code>removepolyline/&lt;id&gt;</code> (polyline de test) → supprimée</li>
+  <li><span class="chk">☐</span> <code>movepolylinefirst</code> → réordonnancement</li>
+</ul>
+
+<h2><span class="num">10</span> Requêtes</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>villes/liste/requetes</code> → liste</li>
+  <li><span class="chk">☐</span> <code>villes/show/requete/&lt;id&gt;</code> → détail requête</li>
+  <li><span class="chk">☐</span> <code>villes/show/reponse/&lt;id&gt;</code> → détail réponse</li>
+  <li><span class="chk">☐</span> <code>requete/send/&lt;id&gt;</code> → envoi</li>
+  <li><span class="chk">☐</span> <code>villes/post/requete</code> → création persistée</li>
+  <li><span class="chk">☐</span> <code>villes/send-reponse</code> → réponse persistée + redirection</li>
+  <li><span class="chk">☐</span> <code>villes/post-dtecedule/…</code> → date cédulée</li>
+  <li><span class="chk">☐</span> <code>villes/upd-adresse/&lt;id&gt;/&lt;adresse&gt;</code> → adresse à jour</li>
+  <li><span class="chk">☐</span> <code>villes/reponse/vue/&lt;id&gt;</code> + <code>requete/vue/&lt;id&gt;</code> → marqués vus</li>
+  <li><span class="chk">☐</span> <code>villes/requetepdf</code> → PDF requêtes généré</li>
+  <li><span class="chk">☐</span> <code>villes/reponsepdf/&lt;id&gt;</code> → PDF réponse</li>
+  <li><span class="chk">☐</span> <code>villes/requeteexcel</code> → <b>peut échouer</b> (PHPExcel — bug connu legacy, ignorer)</li>
+</ul>
+
+<h2><span class="num">11</span> Usagers</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>admin/liste_usagers</code> → liste</li>
+  <li><span class="chk">☐</span> <code>admin/show?id_usager=&lt;id&gt;</code> → fiche</li>
+  <li><span class="chk">☐</span> <code>admin/usager/ajout</code> → création d'un usager de test</li>
+  <li><span class="chk">☐</span> <code>admin/update</code> → modification persistée</li>
+  <li><span class="chk">☐</span> <code>admin/supprimer/&lt;id&gt;</code> / <code>remove</code> → suppression du test</li>
+  <li><span class="chk">☐</span> <code>admin/inscription</code> + <code>inscription/getinfo</code> → formulaire/email</li>
+  <li><span class="chk">☐</span> <code>admin/optionssys</code> → options système</li>
+  <li><span class="chk">☐</span> <code>login/change</code> + <code>postchange</code> → changement mot de passe (compte de test)</li>
+</ul>
+
+<h2><span class="num">12</span> Session / divers</h2>
+<ul>
+  <li><span class="chk">☐</span> <code>session/relog</code> → pas de plantage</li>
+  <li><span class="chk">☐</span> <code>envoi</code>, <code>envoiville</code> → statut identique au legacy</li>
+  <li><span class="chk">☐</span> <code>ville/showemail/&lt;id&gt;</code> → courriels ville</li>
+  <li><span class="chk">☐</span> Recharger n'importe quelle page → session conservée</li>
+</ul>
+
+<h2><span class="num">13</span> Régression visuelle — même données, 2 onglets</h2>
+<table>
+  <tr><th>Écran</th><th>Legacy (robert-daoust.ca)</th><th>dev.robert-daoust.ca</th><th>Identique ?</th></tr>
+  <tr><td>Tableau de bord</td><td></td><td></td><td>☐</td></tr>
+  <tr><td>Cédule du jour</td><td></td><td></td><td>☐</td></tr>
+  <tr><td>Calendrier</td><td></td><td></td><td>☐</td></tr>
+  <tr><td>Validation</td><td></td><td></td><td>☐</td></tr>
+  <tr><td>Liste RH</td><td></td><td></td><td>☐</td></tr>
+  <tr><td>Liste requêtes</td><td></td><td></td><td>☐</td></tr>
+  <tr><td>Édition ville</td><td></td><td></td><td>☐</td></tr>
+</table>
+<div class="small">Tolérées : styles de menus Bootstrap 5. Tout le reste doit être identique —
+listes, boutons, contenu, ordre des lignes.</div>
+
+<h2><span class="num">!</span> Problèmes connus — NE PAS rapporter</h2>
+<div class="warn">
+<ul>
+  <li><code>villes/requeteexcel</code>, <code>excel/cedule</code>, <code>excel/hres</code> : erreur 500 —
+      PHPExcel incompatible PHP 8 (bug identique en legacy, remplacement prévu)</li>
+  <li><code>villes/reponsepdf/&lt;id&gt;</code> sans requête en BD : erreur attendue</li>
+  <li><code>sanivan/calrh</code> / <code>calcam</code> : erreur 500 intermittente — <b>même bug intermittent en legacy</b></li>
+  <li><code>admin/page_de_site/&lt;x&gt;</code>, <code>envoiville</code> : 404 identique au legacy</li>
+</ul>
+</div>
+
+<h2><span class="num">∑</span> Rapport final</h2>
+<ul>
+  <li>Nombre d'anomalies : <span class="field">&nbsp;</span></li>
+  <li>Sections bloquantes (rien ne s'affiche) : <span class="field-lg">&nbsp;</span></li>
+  <li>Envoyer ce document rempli + captures à l'équipe.</li>
+</ul>
+
+</body>
+</html>
