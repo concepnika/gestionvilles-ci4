@@ -163,3 +163,24 @@ a.label:hover { color: #fff; text-decoration: none; }
 .navbar .dropdown-menu { position: absolute; }
 .navbar-nav .dropdown-menu { position: absolute; }
 .navbar .navbar-nav > li > .dropdown-menu { position: absolute; }
+
+/* navbar sombre : la regle BS3/AdminLTE .nav>li>a:hover impose
+   background:#f7f7f7 + color:#444 -> texte/icones blancs invisibles.
+   BS3 navbar-inverse gardait le fond sombre au survol : on retablit. */
+.navbar-dark .navbar-nav > li > a:hover,
+.navbar-dark .navbar-nav > li > a:focus,
+.navbar-dark .navbar-nav > li > a:active {
+  background-color: transparent;
+  color: #fff;
+}
+.navbar-dark .navbar-nav > .open > a,
+.navbar-dark .navbar-nav > .open > a:hover,
+.navbar-dark .navbar-nav > .open > a:focus {
+  background-color: #080808;
+  color: #fff;
+}
+.navbar-dark .navbar-nav > .active > a,
+.navbar-dark .navbar-nav > .active > a:hover {
+  background-color: #080808;
+  color: #fff;
+}
