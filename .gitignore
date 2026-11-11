@@ -37,3 +37,4 @@ ci3files/upload/reponse/*
 ci3files/uploads/pdf_tickets/*
 ci3files/uploads/tickets/*
 !.gitkeep
+*.zip
