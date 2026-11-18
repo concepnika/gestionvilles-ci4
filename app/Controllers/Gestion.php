@@ -1460,7 +1460,7 @@ class Gestion extends BaseController
                 }
     
             }
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1490,7 +1490,7 @@ class Gestion extends BaseController
     	                  SET TypeDeProduit = $value
     	                  WHERE ID = ".$id;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1682,7 +1682,7 @@ class Gestion extends BaseController
                             helperconfirme =0
     	                  WHERE ID = ".$idesc;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1706,7 +1706,7 @@ class Gestion extends BaseController
     	                  SET HELPERS_1 = 0
     	                  WHERE ID = ".$oldid;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1728,7 +1728,7 @@ class Gestion extends BaseController
                             chaufconfirme = 0
     	                  WHERE ID = ".$idfrom;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1754,7 +1754,7 @@ class Gestion extends BaseController
                         IsStart = 0
     	                  WHERE ID = ".$idfrom;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1778,7 +1778,7 @@ class Gestion extends BaseController
                         IsStart = 0
     	                  WHERE ID = ".$idfrom;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1801,7 +1801,7 @@ class Gestion extends BaseController
                         IsStart = 0
     	                  WHERE ID = ".$idesc;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1818,7 +1818,7 @@ class Gestion extends BaseController
                           IsStart = 0
     	                    WHERE ID = ".$idesc;
                 $this->db->query($strSQL);
-                $this->showToday(4, $dateactive);
+                return $this->showToday(4, $dateactive);
             }
     }
 
@@ -1833,7 +1833,7 @@ class Gestion extends BaseController
                             chaufconfirme = 0
     	                  WHERE ID = ".$idesc;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1857,7 +1857,7 @@ class Gestion extends BaseController
     	                  SET idchauffeurs = 0
     	                  WHERE ID = ".$oldid;
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1895,7 +1895,7 @@ class Gestion extends BaseController
     	              (CodeUtil, DateJour, $fieldname, $fields, TypeCedule, idgrp,idvilles)
     	              VALUES ('web', $dateactiveesc, $fieldvalue, $fieldsval, $typeceduleesc, $idgroupe, $idesc)";
             $this->db->query($strSQL);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1942,9 +1942,9 @@ class Gestion extends BaseController
             $this->load->model("Creationcd_model", "creationcd");
             $this->creationcd->AddVilleToCedule($dateactive, $idville, $typecedule, $ACol);
             if ($from > 0) {
-                $this->showToday(99, $dateactive);
+                return $this->showToday(99, $dateactive);
             } else {
-                $this->showToday(4, $dateactive);
+                return $this->showToday(4, $dateactive);
             }
     }
 
@@ -1953,7 +1953,7 @@ class Gestion extends BaseController
     {    
             $this->load->model("Creationcd_model", "creationcd");
             $this->creationcd->UpdVilleToCedule($dateactive, $idville, $typecedule, $ACol, $OldCol);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1982,7 +1982,7 @@ class Gestion extends BaseController
             }
             //$data['createtoday'] = $data = $this->creationcd->LoadCreateToday($dateactive, $typecedule);
             //$data['today'] = $this->cedules->LoadToday($this->db->escape( $dateactive ), 5);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
             //echo json_encode($data);
     }
 
@@ -1991,7 +1991,7 @@ class Gestion extends BaseController
     {    
             $this->load->model("Cedules_model", "cedules");
             $this->cedules->SetVilleSuperviseur($idgrp, $idsup, $dateactive);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -1999,7 +1999,7 @@ class Gestion extends BaseController
     {    
             $this->load->model("Cedules_model", "cedules");
             $this->cedules->MoveVilleToGroupPosition($idgrp, $idgrptarget, $dateactive);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -2008,7 +2008,7 @@ class Gestion extends BaseController
             // Reglage global partage par tous les usagers (optionssys).
             $this->load->model("Cedules_model", "cedules");
             $this->cedules->SetSupVisibilite($supidx, $visible, $dateactive);
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -2055,7 +2055,7 @@ class Gestion extends BaseController
             $this->load->model("Creationcd_model", "creationcd");
             $idesc = $this->db->escape($id);
             $this->db->query("DELETE FROM cedules WHERE ID = $idesc");
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -2080,7 +2080,7 @@ class Gestion extends BaseController
                 $this->db->query($strSQL);
                 $iterrow++;
             }
-            $this->showToday(4, $dateactive);
+            return $this->showToday(4, $dateactive);
     }
 
 
@@ -3432,7 +3432,7 @@ class Gestion extends BaseController
             $this->db->query($strSQL);
     
             //----------------------------------------------------------------------
-            $this->showToday(1, $date);
+            return $this->showToday(1, $date);
     }
 
 
@@ -4200,7 +4200,7 @@ class Gestion extends BaseController
             $this->load->model("Cedules_model", "cedules");
             $date = date_create(date('Y-m-d'));
             $ActiveDate = $date->format('Y-m-d');
-            $this->showToday(1, $ActiveDate);
+            return $this->showToday(1, $ActiveDate);
     }
 
 
