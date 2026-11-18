@@ -280,7 +280,7 @@ class RequetesModel extends CompatModel
       $message = htmlspecialchars_decode($message, ENT_QUOTES);
       $classBtn = 'statreq'.$row->statut;
       $drobBtn = '  <div class="dropup">
-    <button class="btn '. $classBtn.' dropdown-toggle" type="button" data-toggle="dropdown">' . $spinner . $row->NomVille . '<b> ' . $row->id . ' </b>
+    <button class="btn '. $classBtn.' dropdown-toggle" type="button" data-bs-toggle="dropdown">' . $spinner . $row->NomVille . '<b> ' . $row->id . ' </b>
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       ' . $option . '

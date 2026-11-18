@@ -276,7 +276,7 @@ class CedulesModel extends CompatModel
                           </select>';
         $selectActVille = ' <ul class="nav navbar-nav">
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="width:50px">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="width:50px">
         <span>
           <i class="glyphicon glyphicon-chevron-down" style="color:darkblue;margin-top:-5px;font-size:16px;"></i>
         </span>
@@ -1734,7 +1734,7 @@ class CedulesModel extends CompatModel
                 <td style="background-color:chocolate;font-weight:bold;font-size:14px;color:black;width: 80px;"><span id="spRobot">
                   ROBOT &nbsp;&nbsp;'.$nbCam->nbRobot.'</span></td>';
     //$menu = '	<div style="text-align:center; margin:auto; float:none;">
-    //          <a class="form-control btn-primary" style="cursor:pointer;" id="showMenu" onclick="PopMenu()" data-trigger="click" data-placement="bottom" tabindex="0" title="Menu" data-html="true" data-content=\'
+    //          <a class="form-control btn-primary" style="cursor:pointer;" id="showMenu" onclick="PopMenu()" data-bs-trigger="click" data-bs-placement="bottom" tabindex="0" title="Menu" data-html="true" data-bs-content=\'
     //          <div>
     //          <ul  class="list-group">'.$this->GetMenu($activedate).'
     //          </ul></div>\'>
@@ -2044,9 +2044,9 @@ class CedulesModel extends CompatModel
                                               <b>Notes: <br/></b>
                                               $note <br/><br/><hr />
                                                 $confirmeRetour";
-            $returnval .= '&nbsp;&nbsp;<a data-toggle="popover" data-trigger="click" data-html="true" title="Camion: '.$row->nocamion.' Hors service"   data-placement="bottom" data-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
+            $returnval .= '&nbsp;&nbsp;<a data-bs-toggle="popover" data-bs-trigger="click" data-html="true" title="Camion: '.$row->nocamion.' Hors service"   data-bs-placement="bottom" data-bs-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
                                           (($row->TypeCam == 1)? '#da1c23' : 'DarkBlue' ).'">'. $row->nocamion.'</a>
-                                            <script>$(document).ready(function(){$(\'[data-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
+                                            <script>$(document).ready(function(){$(\'[data-bs-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
             break ;
           case 2:
             $confirmeVider = "<a class='btn btn-danger btn-sm' style='font-size:14px;color: white;' id='btnroll_".$row->id."'
@@ -2061,7 +2061,7 @@ class CedulesModel extends CompatModel
                                               <b>Notes: <br/> </b>
                                               $note <br/><br/><hr />
                                                 $confirmeVider ";
-            $returnval .= '&nbsp;&nbsp;<a  id="showcammat_'.$row->nocamion.'" onclick="PopOverCamMat(\''.$row->nocamion.'\')" data-toggle="popover"  data-html="true" title="Camion: '.$row->nocamion.' Avec Matériel"   data-placement="bottom" data-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
+            $returnval .= '&nbsp;&nbsp;<a  id="showcammat_'.$row->nocamion.'" onclick="PopOverCamMat(\''.$row->nocamion.'\')" data-bs-toggle="popover"  data-html="true" title="Camion: '.$row->nocamion.' Avec Matériel"   data-bs-placement="bottom" data-bs-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
                                             ((strtolower( $row->TypeDechet ) == 'recyclage')? '#26F4B2' : '#254AE0' ).'">'. $row->nocamion.'</a>,' ;
             break ;
         }
@@ -2103,25 +2103,25 @@ class CedulesModel extends CompatModel
 	            </a>
 	          </li>
             <li>
-              <a href="/excel/cedule/'.$dateactive.'" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Jour actif" data-content="Afficher la journ&eacute;e active">
+              <a href="/excel/cedule/'.$dateactive.'" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Jour actif" data-bs-content="Afficher la journ&eacute;e active">
                 <i class="fa fa-file-excel" style="font-size:24px;"></i>&nbsp;&nbsp;Cédule vers EXCEL
               </a>
 
             </li>
             <li style="list-style:none;margin-top:10px;" class="divider"></li>
 	          <li style="cursor:pointer;list-style:none;margin-top:10px;">
-	            <a href="javascript:ShowRemoveCedule()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Supprimer" data-content="Supprimer une ou des journ&eacute;es">
+	            <a href="javascript:ShowRemoveCedule()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Supprimer" data-bs-content="Supprimer une ou des journ&eacute;es">
 		          <i class="fa fa-trash" style="font-size:24px;color: red;"></i>&nbsp;&nbsp;Suppression de c&eacute;dule
 	            </a>
 	          </li>
             <li style="cursor:pointer;list-style:none;margin-top:10px;">
-              <a href="/sanivan/copie" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Copier" data-content="Copier des journ&eacute;es ou des semaines">
+              <a href="/sanivan/copie" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Copier" data-bs-content="Copier des journ&eacute;es ou des semaines">
                 <i class="far fa-clone" style="font-size:24px;"></i>&nbsp;&nbsp;Cloner
               </a>
             </li>
             <li style="list-style:none;margin-top:10px;" class="divider"></li>
             <li style="cursor:pointer;list-style:none;margin-top:10px;">
-              <a href="#" onclick="ShowVillesCachees()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Villes Cach&eacute;es" data-content="Afficher toutes les villes">
+              <a href="#" onclick="ShowVillesCachees()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Villes Cach&eacute;es" data-bs-content="Afficher toutes les villes">
                 <i class="far fa-clone" style="font-size:24px;"></i>&nbsp;&nbsp;Afficher Villes cachées
               </a>
             </li>
@@ -2185,12 +2185,12 @@ class CedulesModel extends CompatModel
   private function GetMenuTop($dateactive)
   {
     $message = '    <li style="cursor:pointer;list-style:none;margin-top:10px;">
-          <a href="/rapport/sani/'.date('Y-m-d').'/0" target="_blank" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Validation Sanivan" data-content="Afficher la page de validation pour les employés et les camions.">
+          <a href="/rapport/sani/'.date('Y-m-d').'/0" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Validation Sanivan" data-bs-content="Afficher la page de validation pour les employés et les camions.">
             <i class="fa fa-tasks" style="font-size:24px;"></i>&nbsp;&nbsp;Validation des routes
           </a>
           </li>
           <li style="cursor:pointer;list-style:none;margin-top:10px;">
-            <a href="/sanivan/aujourdhui/8/'.$dateactive.'" target="_blank" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Jour actif" data-content="Afficher la journ&eacute;e active">
+            <a href="/sanivan/aujourdhui/8/'.$dateactive.'" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Jour actif" data-bs-content="Afficher la journ&eacute;e active">
               <i class="fa fa-tv" style="font-size:24px;"></i>&nbsp;&nbsp;TV
             </a>
 
@@ -2415,7 +2415,7 @@ class CedulesModel extends CompatModel
     <div class="btn-group form-inline" style="width: 115px;">
       <div class="input-group input-group-sm pull-left">
 <span class="input-group-btn">
-        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-toggle="dropdown">
+        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-bs-toggle="dropdown">
            <i class="fa fa-clock"></i>
         </button>
         <div class="dropdown-menu" style="width: 75px;">
@@ -2434,7 +2434,7 @@ class CedulesModel extends CompatModel
     <div class="btn-group form-inline" style="width: 115px;">
       <div class="input-group input-group-sm pull-left">
 <span class="input-group-btn">
-        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-toggle="dropdown">
+        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-bs-toggle="dropdown">
            <i class="fa fa-clock"></i>
         </button>
         <div class="dropdown-menu" style="width: 75px;">'.$hrespm.'
@@ -2449,7 +2449,7 @@ class CedulesModel extends CompatModel
     <div class="btn-group form-inline" style="width: 115px;">
       <div class="input-group input-group-sm pull-left">
 <span class="input-group-btn">
-        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-toggle="dropdown">
+        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-bs-toggle="dropdown">
            <i class="fa fa-clock"></i>
         </button>
         <div class="dropdown-menu" style="width: 75px;">
@@ -2504,7 +2504,7 @@ class CedulesModel extends CompatModel
     <div class="btn-group form-inline" style="width: 115px;">
       <div class="input-group input-group-sm pull-left">
 <span class="input-group-btn">
-        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-toggle="dropdown">
+        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-bs-toggle="dropdown">
            <i class="fa fa-clock"></i>
         </button>
         <div class="dropdown-menu" style="width: 75px;">
@@ -2523,7 +2523,7 @@ class CedulesModel extends CompatModel
     <div class="btn-group form-inline" style="width: 115px;">
       <div class="input-group input-group-sm pull-left">
 <span class="input-group-btn">
-        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-toggle="dropdown">
+        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-bs-toggle="dropdown">
            <i class="fa fa-clock"></i>
         </button>
         <div class="dropdown-menu" style="width: 75px;">'.$hrespm.'
@@ -2538,7 +2538,7 @@ class CedulesModel extends CompatModel
     <div class="btn-group form-inline" style="width: 115px;">
       <div class="input-group input-group-sm pull-left">
 <span class="input-group-btn">
-        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-toggle="dropdown">
+        <button type="button" class="btn btn-info dropdown-toggle" style="width: 30px;" data-bs-toggle="dropdown">
            <i class="fa fa-clock"></i>
         </button>
         <div class="dropdown-menu" style="width: 75px;">
@@ -5421,7 +5421,7 @@ class CedulesModel extends CompatModel
               {
 								$returnval .= '<tr>
 										<td class="tdinfo">
-													<button type="button" onclick="AddRamassage(\''.date_format($dateToScroll,"Y-m-d").'\')" id="btnAddCom" class="btn btn-success" style="height:35px;width:35px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour cr&eacute;er une nouvelle commande">
+													<button type="button" onclick="AddRamassage(\''.date_format($dateToScroll,"Y-m-d").'\')" id="btnAddCom" class="btn btn-success" style="height:35px;width:35px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour cr&eacute;er une nouvelle commande">
 																<i class="glyphicon glyphicon-plus"></i>
 													</button>
 										</td>
@@ -5440,7 +5440,7 @@ class CedulesModel extends CompatModel
           {
 						$returnval .= '<tr>
 								<td align="center" class="tdinfo">
-									<button type="button" '.(($idville == 0)? ' disabled ' : '').' onclick="AddRamassage(\''.date_format($dateToScroll,"Y-m-d").'\')" id="btnAddCom" class="btn btn-success" style="height:35px;width:35px;" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Ajouter" data-content="Cliquer pour cr&eacute;er une nouvelle commande">
+									<button type="button" '.(($idville == 0)? ' disabled ' : '').' onclick="AddRamassage(\''.date_format($dateToScroll,"Y-m-d").'\')" id="btnAddCom" class="btn btn-success" style="height:35px;width:35px;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Ajouter" data-bs-content="Cliquer pour cr&eacute;er une nouvelle commande">
 												<i class="glyphicon glyphicon-plus"></i>
 									</button>
 								</td>

@@ -306,7 +306,7 @@ class CreationcdModel extends CompatModel
         {
 
           $menu = '	<div style="text-align:center; margin:auto; float:none;">
-		        <a class="form-control btn-primary" style="cursor:pointer;max-width:80px" id="showMenuCreate" onclick="PopMenuCreate()" data-trigger="click" data-placement="bottom" tabindex="0" title="Menu" data-html="true" data-content=\'
+		        <a class="form-control btn-primary" style="cursor:pointer;max-width:80px" id="showMenuCreate" onclick="PopMenuCreate()" data-bs-trigger="click" data-bs-placement="bottom" tabindex="0" title="Menu" data-html="true" data-bs-content=\'
 		        <div>
 		        <ul  class="list-group">'.$this->GetMenu($dateactive).'
 		        </ul></div>\'>
@@ -531,10 +531,10 @@ class CreationcdModel extends CompatModel
     $this->data['non_dispo_chauf'] =  $divNondispoChauf ;
     $this->objData->non_dispo_chauf =  $divNondispoChauf ;
     $this->data['non_dispo_aide'] = $divNondispoAide . '<script> $(document).ready(function () {
-                                                          $(\'[data-toggle="popover"]\').popover();
+                                                          $(\'[data-bs-toggle="popover"]\').popover();
                                                             });
                                                             $(document).ready(function () {
-                                                              $(\'[data-toggle="popover"]\').popover();
+                                                              $(\'[data-bs-toggle="popover"]\').popover();
                                                           });
                                                         </script>' ;
     $this->objData->non_dispo_aide = $this->data['non_dispo_aide'];
@@ -587,9 +587,9 @@ class CreationcdModel extends CompatModel
                                               $row->dateretourprevu <br/>
                                               <b>Notes: <br/></b>
                                               $note <br/><br/><hr />";
-            $returnval .= '<a data-toggle="popover" data-trigger="hover" data-html="true" title="Camion: '.$row->nocamion.' Hors service"   data-placement="bottom" data-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;margin-right: 10px;'.
+            $returnval .= '<a data-bs-toggle="popover" data-bs-trigger="hover" data-html="true" title="Camion: '.$row->nocamion.' Hors service"   data-bs-placement="bottom" data-bs-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;margin-right: 10px;'.
                               (($row->TypeCam == 1)? 'color:#da1c23' : 'color:DarkBlue' ).'">'. $row->nocamion.'</a>
-                                            <script>$(document).ready(function(){$(\'[data-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
+                                            <script>$(document).ready(function(){$(\'[data-bs-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
             break ;
           case 2:
             $confirmeVider = "<a class='btn btn-danger btn-sm' style='font-size:14px;color: white;' id='btnroll_".$row->id."'
@@ -602,9 +602,9 @@ class CreationcdModel extends CompatModel
                                               $row->TypeDechet <br/>
                                               <b>Notes: <br/> </b>
                                               $note <br/><br/>$confirmeVider";
-            $returnval .= '<a  data-toggle="popover"  data-trigger="click" data-html="true" title="Camion: '.$row->nocamion.' Avec Matériel"   data-placement="top" data-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;color: white;margin-right: 10px;
+            $returnval .= '<a  data-bs-toggle="popover"  data-bs-trigger="click" data-html="true" title="Camion: '.$row->nocamion.' Avec Matériel"   data-bs-placement="top" data-bs-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;color: white;margin-right: 10px;
 '.(($row->TypeCam == 1)? 'background-color: aqua;color:#da1c23' : 'background-color: chocolate;color:white' ).'">'. $row->nocamion.'</a>
-                                            <script>$(document).ready(function(){$(\'[data-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
+                                            <script>$(document).ready(function(){$(\'[data-bs-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
             break ;
         }
       }
@@ -658,8 +658,8 @@ class CreationcdModel extends CompatModel
                                         $row->nomAbsence <br/>
                                         <b>Notes: <br/></b>
                                         $note <br/><br/>";
-      $returnval .= '<a data-toggle="popover" data-trigger="hover" data-html="true" title="RH: '.$row->NomComplet.' Non Disponible"   data-placement="bottom" data-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;color: white;">'. $row->NomComplet.'</a>
-                                          <script>$(document).ready(function(){$(\'[data-toggle="tooltip_'.$row->idsuivis.'"]\').tooltip();}); </script>, ' ;
+      $returnval .= '<a data-bs-toggle="popover" data-bs-trigger="hover" data-html="true" title="RH: '.$row->NomComplet.' Non Disponible"   data-bs-placement="bottom" data-bs-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;color: white;">'. $row->NomComplet.'</a>
+                                          <script>$(document).ready(function(){$(\'[data-bs-toggle="tooltip_'.$row->idsuivis.'"]\').tooltip();}); </script>, ' ;
 
 
 
@@ -1549,7 +1549,7 @@ where  c.isdeleted = 0 and c.nocamion <> ''
                                         $row->nomAbsence <br/>
                                         <b>Notes: <br/></b>
                                         $note <br/><br/>";
-      $returnval .= '<a href="#" onclick="ShowRHModal('.$row->idsuivis.')"  data-toggle="popover" data-trigger="hover" data-html="true" title="RH: '.$row->Nom. ' '.$row->Prenom.' Non Disponible"   data-placement="bottom" data-content="'.$message.'"  style="overflow:auto;font-size:medium;font-weight:bold;">'. $row->Nom. ' '.$row->Prenom.
+      $returnval .= '<a href="#" onclick="ShowRHModal('.$row->idsuivis.')"  data-bs-toggle="popover" data-bs-trigger="hover" data-html="true" title="RH: '.$row->Nom. ' '.$row->Prenom.' Non Disponible"   data-bs-placement="bottom" data-bs-content="'.$message.'"  style="overflow:auto;font-size:medium;font-weight:bold;">'. $row->Nom. ' '.$row->Prenom.
                     '&nbsp;&nbsp;<i class="fas fa-share" ></i></a><br /><span style="font-size:small; color:black">&nbsp;&nbsp;&nbsp;&nbsp;'. $row->nomAbsence. '</span> <br />  ' ;
     }
     $returnval = substr($returnval,0,-2) ;
@@ -1604,7 +1604,7 @@ where  c.isdeleted = 0 and c.nocamion <> ''
                                               $row->dateretourprevu <br/>
                                               <b>Notes: <br/></b>
                                               $note <br/><br/>";
-            $returnval .= '&nbsp;&nbsp;<a  onclick="ShowHSModal(\''.$row->nocamion.'\')" data-toggle="popover" data-trigger="hover" data-html="true" title="Camion: '.$row->nocamion.' Hors service"   data-placement="bottom" data-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
+            $returnval .= '&nbsp;&nbsp;<a  onclick="ShowHSModal(\''.$row->nocamion.'\')" data-bs-toggle="popover" data-bs-trigger="hover" data-html="true" title="Camion: '.$row->nocamion.' Hors service"   data-bs-placement="bottom" data-bs-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
                                           (($row->TypeCam == 1)? '#da1c23' : 'DarkBlue' ).'">'. $row->nocamion.'</a>, ' ;
             break ;
           case 2:
@@ -1617,7 +1617,7 @@ where  c.isdeleted = 0 and c.nocamion <> ''
                                               $row->TypeDechet <br/>
                                               <b>Notes: <br/> </b>
                                               $note <br/><br/>";
-            $returnval .= '&nbsp;&nbsp;<a  id="showcammat_'.$row->nocamion.'" onclick="ShowAvecMatModal(\''.$row->nocamion.'\')" data-toggle="popover" data-trigger="hover"  data-html="true" title="Camion: '.$row->nocamion.' Avec Matériel"   data-placement="bottom" data-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
+            $returnval .= '&nbsp;&nbsp;<a  id="showcammat_'.$row->nocamion.'" onclick="ShowAvecMatModal(\''.$row->nocamion.'\')" data-bs-toggle="popover" data-bs-trigger="hover"  data-html="true" title="Camion: '.$row->nocamion.' Avec Matériel"   data-bs-placement="bottom" data-bs-content="'.$message.'" style="overflow:auto;font-size:medium;font-weight:bold;'.
                                             ((strtolower( $row->TypeDechet ) == 'recyclage')? '#26F4B2' : '#254AE0' ).'">'. $row->nocamion.'</a>, ' ;
             break ;
         }
@@ -1626,12 +1626,12 @@ where  c.isdeleted = 0 and c.nocamion <> ''
         //  case 1:
         //    $returnval .= '<a href="#" onclick="ShowHSModal(\''.$row->nocamion.'\')"  style="overflow:auto;font-size:medium;font-weight:bold;'.
         //                                  (($row->TypeCam == 1)? '#da1c23' : 'DarkBlue' ).'">'. $row->nocamion.'</a>
-        //                                    <script>$(document).ready(function(){$(\'[data-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
+        //                                    <script>$(document).ready(function(){$(\'[data-bs-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
         //    break ;
         //  case 2:
         //    $returnval .= '<a href="#" onclick="ShowAvecMatModal(\''.$row->nocamion.'\')"  style="overflow:auto;font-size:medium;font-weight:bold;'.
         //                                  (($row->TypeCam == 1)? '#da1c23' : 'DarkBlue' ).'">'. $row->nocamion.'</a>
-        //                                    <script>$(document).ready(function(){$(\'[data-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
+        //                                    <script>$(document).ready(function(){$(\'[data-bs-toggle="tooltip_'.$row->nocamion.'"]\').tooltip();}); </script>, ' ;
         //    break ;
         //}
       }
@@ -1689,7 +1689,7 @@ where  c.isdeleted = 0 and c.nocamion <> ''
             <td><h4  ondrop="dropRHNonDispoTDB(event)" ondragover="allowDrop(event)" style="width:100%;height:40px;padding-top: 10px;color:white;text-align:center;background-color:green;">CHAUFFEURS INDISPONIBLE</h4><div class="hometdb" style="height:300px;width: 300px;overflow: scroll;" >' .$this->LoadRHHome('1, 3').'</div></td></tr>
                             </table> <script type="text/javascript">
                 $(document).ready(function () {
-                    $(\'[data-toggle="popover"]\').popover();
+                    $(\'[data-bs-toggle="popover"]\').popover();
                 });
               </script>';
     $this->data['tdbhome'] = $tableCam;
@@ -1714,7 +1714,7 @@ where  c.isdeleted = 0 and c.nocamion <> ''
     $notab = ((isset($notab))? $this->input->post_get('notab') : 1);
 		//--------------------------------------------------------------
     $message = '	<li  style="list-style:none;">
-		          <input type="date" style="height: 28px;margin-top: 8px;" onchange="LoadToday(0)" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Calendrier" data-content="Cliquer pour afficher le calendrier" value="'.$dateactive.'" id="dteActive" />
+		          <input type="date" style="height: 28px;margin-top: 8px;" onchange="LoadToday(0)" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Calendrier" data-bs-content="Cliquer pour afficher le calendrier" value="'.$dateactive.'" id="dteActive" />
 	          </li>
 	          <li  id="PageRearEnd" style="display:'. (($notab == 2)? 'block' : 'none').';list-style:none;">
 	            <a id="liPageRearEnd" '.(($typecedule == 1)? 'class="btn-primary"' : '') .' href="javascript:ShowREAREND()">REAR END</a>
@@ -1730,7 +1730,7 @@ where  c.isdeleted = 0 and c.nocamion <> ''
 	            <a href="javascript:ShowTabCedule(1)" style="font-size:24px;"><i class="fa fa-table"></i>&nbsp;&nbsp;Aujourd hui</a>
 	          </li>
 	          <li style="cursor:pointer;list-style:none;">
-	            <a href="javascript:ShowRemoveCedule()" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Supprimer" data-content="Supprimer une ou des journ&eacute;es">
+	            <a href="javascript:ShowRemoveCedule()" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Supprimer" data-bs-content="Supprimer une ou des journ&eacute;es">
 		          <i class="fa fa-trash" style="font-size:24px;color: red;"></i>&nbsp;&nbsp;Suppression de c&eacute;dule
 	            </a>
 	          </li>
@@ -1759,33 +1759,33 @@ where  c.isdeleted = 0 and c.nocamion <> ''
             </a>
           </li>
           <li style="cursor:pointer;list-style:none;margin-top:10px;">
-            <a href="/sanivan/aujourdhui/3/'.$dateactive.'" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Jour actif" data-content="Afficher la journ&eacute;e active">
+            <a href="/sanivan/aujourdhui/3/'.$dateactive.'" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Jour actif" data-bs-content="Afficher la journ&eacute;e active">
               <i class="fa fa-tv" style="font-size:24px;"></i>&nbsp;&nbsp;TV
             </a>
 
           </li>
           <li class="dropdown"  style="cursor:pointer;list-style:none;margin-top:10px;">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:white">
               <i class="fa fa-eye-slash" style="font-size:24px;"></i>&nbsp;Hors-Service
             </a>
 
             <ul class="dropdown-menu">
 
               <li>
-                <a onclick="ShowCamion(2)" href="#" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Avec Mat&eacute;riel" data-content="Afficher la page pour les camions avec mat&eacute;riel">
+                <a onclick="ShowCamion(2)" href="#" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Avec Mat&eacute;riel" data-bs-content="Afficher la page pour les camions avec mat&eacute;riel">
                   <i class="fa fa-truck" style="font-size:24px;"></i>&nbsp;&nbsp;Avec Mat&eacute;riel
                 </a>
 
               </li>
               <li>
-                <a onclick="ShowCamion(1)" href="#" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Hors-service" data-content="Afficher la page pour les camions Hors-service">
+                <a onclick="ShowCamion(1)" href="#" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Hors-service" data-bs-content="Afficher la page pour les camions Hors-service">
                   <i class="fa fa-truck" style="font-size:24px;"></i>&nbsp;&nbsp;Hors-service
                 </a>
               </li>
 
 
               <li>
-                <a onclick="ShowRH()" href="#" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="Chauffeurs et Aides" data-content="Afficher la page pour la gestion des Chauffeurs et des Aides">
+                <a onclick="ShowRH()" href="#" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Chauffeurs et Aides" data-bs-content="Afficher la page pour la gestion des Chauffeurs et des Aides">
                   <i class="fa fa-user" style="font-size:24px;"></i>&nbsp;&nbsp;Employ&eacute;s
                 </a>
               </li>
@@ -1793,7 +1793,7 @@ where  c.isdeleted = 0 and c.nocamion <> ''
           </li>
 
           <li class="dropdown" style="cursor:pointer;list-style:none;margin-top:10px;">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
               <i class="fa fa-edit" style="font-size:24px;"></i>&nbsp;Gestion
             </a>
 

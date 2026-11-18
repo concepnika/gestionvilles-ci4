@@ -783,7 +783,7 @@ ROUND(TIME_TO_SEC(TIMEDIFF(camionjour.HreFin, info_depotoire.fin)))) / 60 AS Tra
 //                            <div class="input-group input-group-sm" style="width:110px;font-weight:bold;">
 //                            <input class="form-control" style="width: 110px;text-align: right;font-size:18px;background-color:yellow;color:darkblue;" type="text" id="PrixDay_' . $row->NoDemande . '" name="PrixDay_' . $row->NoDemande . '" value="' . number_format($row->PrixDay, 2) . '" redonly  data-html="true"';
 //      $popover = '
-// data-toggle="popover" data-trigger="focus" data-placement="left" title="Calcul de la commande #' . $row->NoDemande . '" data-content="' . $showcom . $showparent . '<br /><br />' . $row->InfoCommande . '"';
+// data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="left" title="Calcul de la commande #' . $row->NoDemande . '" data-bs-content="' . $showcom . $showparent . '<br /><br />' . $row->InfoCommande . '"';
 //      if ($row->code == 5 and ($row->FormatContenant == 10 or $row->FormatContenant == 11)) {
 //        $popover = '';
 //      }
@@ -824,7 +824,7 @@ ROUND(TIME_TO_SEC(TIMEDIFF(camionjour.HreFin, info_depotoire.fin)))) / 60 AS Tra
 //                            <input class="form-control" style="width: 80px;text-align: right;font-size:14px;color:darkred" type="text" id="prixsurpluspoids_' . $row->NoDemande . '" name="prixsurpluspoids_' . $row->NoDemande . '" value="' . number_format((($row->code == 5) ? $row->prixpoids : $row->prixsurpluspoids), 2) . '" readonly data-html="true"';
 
 //      $popover = '
-// data-toggle="popover" data-trigger="focus" data-placement="left" title="Calcul Charge Disposition #' . $row->NoDemande . '" data-content="' . $showcom . $showparent . '<br /><br />' . $row->Parti_1 . '<br />' . $row->Parti_2 . '"';
+// data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="left" title="Calcul Charge Disposition #' . $row->NoDemande . '" data-bs-content="' . $showcom . $showparent . '<br /><br />' . $row->Parti_1 . '<br />' . $row->Parti_2 . '"';
 //      $chksurplus = ((($row->code == 5) ? $row->prixpoids : $row->prixsurpluspoids) == 0);
 //      if ($chksurplus) {
 //        $popover = '';
@@ -843,7 +843,7 @@ ROUND(TIME_TO_SEC(TIMEDIFF(camionjour.HreFin, info_depotoire.fin)))) / 60 AS Tra
 //                              data-html="true"';
 //      $surloc = '';
 //      if ($row->SurplusLocation > 0) {
-//        $surloc = 'data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Calcul surplus Location #' . $row->NoDemande . '" data-content="' . $showcom . $showparent . '<br /><br />' . $row->InfoLocation . '"';
+//        $surloc = 'data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="bottom" title="Calcul surplus Location #' . $row->NoDemande . '" data-bs-content="' . $showcom . $showparent . '<br /><br />' . $row->InfoLocation . '"';
 //      }
 //      $returnval .= $surloc . (($row->HaveSurplusLocation != 1) ? ' disabled ' : '') . '/>
 //                                <span class="input-group-btn">
@@ -895,7 +895,7 @@ ROUND(TIME_TO_SEC(TIMEDIFF(camionjour.HreFin, info_depotoire.fin)))) / 60 AS Tra
 //                            <div class="input-group input-group-sm" style="width:140px;">
 //                            <input class="form-control" style="width: 110px;text-align: right;font-size:18px;background-color:yellow;color:darkblue;font-weight:bold;" type="text" id="RevBrut_' . $row->NoDemande . '" name="RevBrut_' . $row->NoDemande . '" value="' . number_format($row->PrixDay + $fraissupplementaire + $row->Ajustement + (($row->HaveSurplusLocation == 1) ? $row->SurplusLocation : 0), 2) . '" readonly  data-html="true" ';
 //      $popover = '
-//         data-toggle="popover" data-trigger="focus" data-placement="left" title="Calcul Charge Disposition #' . $row->NoDemande . '" data-content="' . $showcom . $showparent . '<br /><br />' . $row->InfoRevBrute . '"';
+//         data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="left" title="Calcul Charge Disposition #' . $row->NoDemande . '" data-bs-content="' . $showcom . $showparent . '<br /><br />' . $row->InfoRevBrute . '"';
 //      $returnval .= $popover . '/>
 //                            <span class="input-group-btn">
 //                            <label class="form-control" style="height:30px;" >$</label>

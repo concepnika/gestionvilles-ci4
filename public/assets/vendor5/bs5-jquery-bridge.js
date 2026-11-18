@@ -47,3 +47,14 @@
         $.fn.uiTooltip = $.ui.tooltip;
     }
 })();
+
+// Fallback : markup Legacy residuel emettant encore data-toggle=
+// (contenu genere par modeles ou base) — on route les dropdowns vers
+// Bootstrap 5 au clic.
+document.addEventListener('click', function (e) {
+  var t = e.target.closest('[data-toggle="dropdown"]');
+  if (t && ! t.hasAttribute('data-bs-toggle') && window.bootstrap && bootstrap.Dropdown) {
+    e.preventDefault();
+    bootstrap.Dropdown.getOrCreateInstance(t).toggle();
+  }
+});

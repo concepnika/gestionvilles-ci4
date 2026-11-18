@@ -48,6 +48,8 @@ $rules = [
     ['/\$this->session->([a-zA-Z_]\w*)\b(?!\s*\()/' => '$this->sess(\'$1\')'],
     // lang
     ['/\$this->lang->line\(/' => 'gv_lang('],
+    // markup BS3 emis par les modeles -> attributs BS5
+    ['/data-(toggle|target|dismiss|trigger|placement|content)=/' => 'data-bs-$1='],
     // API resultset Legacy -> CI4
     ['/->result_array\(\)/' => '->getResultArray()'],
     ['/->result\(\)/' => '->getResult()'],
