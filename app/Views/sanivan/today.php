@@ -680,6 +680,9 @@
                   <option value="chauf">Chauffeurs</option>
                   <option value="4">Chauffeurs Roll Off</option>
                 </select>
+                <select class="form-control" name="chauffeur" id="chauffeur" required>
+                  <option value="0">Choisir</option>
+                </select>
               </div><br /><br />
               <br /><br />
 
