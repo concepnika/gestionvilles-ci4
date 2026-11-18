@@ -197,3 +197,18 @@ a.label:hover { color: #fff; text-decoration: none; }
 .dropdown-menu > li:not(.divider):last-child {
   border-bottom: 0;
 }
+
+/* Attribut border="N" des <table> : le reboot BS5 met border-width:0
+   sur les cellules, ce qui ecrase le rendu "presentational hint" du
+   navigateur -> les filets de la cedule disparaissent. Restauration. */
+table[border="1"], table[border="2"], table[border="3"] {
+  border-style: outset;
+  border-color: #c0c0c0;
+}
+table[border="1"] { border-width: 1px; }
+table[border="2"] { border-width: 2px; }
+table[border="3"] { border-width: 3px; }
+table[border]:not([border="0"]) td,
+table[border]:not([border="0"]) th {
+  border: 1px inset #c0c0c0;
+}
