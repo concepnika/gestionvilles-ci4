@@ -1073,10 +1073,11 @@
       });
     }
     function selGetCedule(id, limit) {
-      limit = (($("#" + id).is(':checked')) ? limit : 0);
+      var rearChecked = $("#chkRearLoad").is(':checked');
+      var robotChecked = $("#chkRobot").is(':checked');
       chkid = '';
-      limitcedule = limit;
-      if (limit > 0) {
+      limitcedule = ((rearChecked === robotChecked) ? 0 : (rearChecked ? 1 : 2));
+      if (limitcedule > 0) {
         chkid = id;
       }
       var urlName = "/sanivan/aujourdhui/4/" + $("#dteActivePage1").val() + '?typecedule=' + activecedule +
@@ -1095,11 +1096,8 @@
           $("#spTotalCam").html(objData.nbAllCam);
           $("#tboRHhres").html(objData.listhresaides);
           $("#dteRH").val(objData.dtetoday);
-          $("#chkRobot").prop('checked', false);
-          $("#chkRearLoad").prop('checked', false);
-          if (limit > 0) {
-            $("#" + id).prop('checked', true);
-          }
+          $("#chkRobot").prop('checked', robotChecked);
+          $("#chkRearLoad").prop('checked', rearChecked);
         }
       });
     }
