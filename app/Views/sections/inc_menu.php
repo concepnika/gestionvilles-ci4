@@ -95,7 +95,7 @@
       </ul>
     </li>
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="width:25px">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
         <span>
           <img src="/assets/img/requetes.png" width="30" style="margin-top:-10px" />
         </span>
