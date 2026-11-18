@@ -1,6 +1,6 @@
 # CodeIgniter 4
 .env
-vendor/
+/vendor/
 writable/cache/*
 writable/debugbar/*
 writable/logs/*
