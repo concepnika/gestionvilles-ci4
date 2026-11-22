@@ -543,9 +543,48 @@ Limites acceptées en mode autonome : les routes Legacy mortes rendent
 une base `<cpanel>_gestionvilles_dev`) : les tests écrivent des
 cédules/sessions dans les mêmes tables que la prod sinon.
 
+## Export ZIP des fichiers (2026-11-21 — nouveau, sans équivalent Legacy)
+
+`ExportFichiers` + `admin/export-fichiers` (protégé par `compatauth` via
+`admin/*`) : formulaire « du / au » + cases à cocher des répertoires
+sources (`uploads/tickets`, `uploads/pdf_tickets`, `upload/sanivan`,
+`upload/reponse`), bouton **Aperçu** (nb fichiers + taille par source +
+liste des fichiers groupée par répertoire, `<details>` repliables) puis
+**Créer le ZIP** → `writable/zips/fichiers_<d>_au_<f>_<Ymd-His>.zip`,
+téléchargeable depuis la page (archives purgées après 48 h ; `*.zip`
+déjà gitignoré).
+
+- ⚠️ **Supprimer efface AUSSI les fichiers originaux** (workflow
+  archivage + purge) : un manifeste `fichiers_*.json` écrit à la création
+  liste les chemins absolus ; `supprimer()` valide chaque chemin par
+  realpath-containment sous une racine de source, `unlink`, puis purge
+  les dossiers laissés vides jusqu'à la racine (jamais au-dessus). Le
+  bouton affiche un `confirm` « assurez-vous que le transfert a réussi ».
+- **Bouton Supprimer inactif tant que le ZIP n'est pas téléchargé** :
+  `telecharger()` écrit `telecharge` dans le manifeste via
+  `register_shutdown_function` (après l'envoi, pas si
+  `connection_aborted()`) ; `supprimer()` refuse aussi côté serveur.
+  Colonne « Téléchargée » (Oui/Non) dans la liste des archives.
+
+- Date retenue par fichier : `AAAA-MM-JJ` du chemin relatif
+  (dossiers sanivan, noms pdf_tickets) → timestamp Unix du nom
+  (`uploads/tickets/*_<ts>.jpg`) → `filemtime` en dernier recours.
+- Chaque source est scannée sous `public/` **et** `legacy.webroot`
+  (défaut `appfiles/` — déploiement WHC), dédoublonnée par `realpath`
+  puis par chemin relatif.
+- `set_time_limit(0)` à la génération : plusieurs Go possibles
+  (~11,5 Go de fichiers locaux au total).
+- Lien ajouté dans `sections/menu` (navbar principale du dashboard,
+  dropdown « Fichiers ») et dans `partials/navleft` (sidebar des pages
+  AdminLTE).
+
 ## Vérifications utiles
 
 ```bash
+# ZIP de deploiement WHC (a la racine, *.zip gitignore) :
+php tools/mkdeploy.php          # patch : fichiers modifies vs HEAD + nouveaux sous app/
+php tools/mkdeploy.php --full   # transfert global : tout le code, SANS .env
+                                # ni app/Config/Database.php (credentials serveur)
 # syntaxe
 /c/wamp64/bin/php/php8.2.29/php.exe -l app/Controllers/X.php
 # liste des routes

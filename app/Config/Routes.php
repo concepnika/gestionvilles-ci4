@@ -502,6 +502,13 @@ $routes->match(['GET', 'POST'], 'co_tablette_sani', 'TabletteSani::index');
 $routes->match(['GET', 'POST'], 'co_tablette_sani/(:segment)', 'TabletteSani::$1');
 $routes->match(['GET', 'POST'], 'co_tablette_sani/(:segment)/(:any)', 'TabletteSani::$1/$2');
 
+// ─── Export ZIP des fichiers uploades (nouveau — pas d'équivalent Legacy)
+// Sous admin/* → protégé par le filtre compatauth.
+$routes->get('admin/export-fichiers', 'ExportFichiers::index');
+$routes->post('admin/export-fichiers', 'ExportFichiers::generer');
+$routes->get('admin/export-fichiers/telecharger/(:segment)', 'ExportFichiers::telecharger/$1');
+$routes->post('admin/export-fichiers/supprimer', 'ExportFichiers::supprimer');
+
 // ─── Fallback : tout le reste est relaye a Legacy (proxy interne) ───────
 // Doit rester la DERNIERE route. Couvre les assets du docroot Legacy
 // (upload/*, images, js...), les chemins non declares et toute URL

@@ -162,6 +162,20 @@
     </li>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:white">
+        <i class="fa fa-file-archive-o" style="font-size:24px;color:white"></i>&nbsp;Fichiers
+      </a>
+
+      <ul class="dropdown-menu">
+        <li>
+          <a href="<?php echo gv_url('admin/export-fichiers'); ?>"  target="_blank"
+             data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" title="Export ZIP" data-bs-content="Zipper les fichiers televerses entre deux dates.">
+            <i class="fa fa-file-archive-o" style="font-size:24px;"></i>&nbsp;Export ZIP par dates
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color:white">
         <i class="fa fa-bars" style="font-size:24px"></i>
       </a>
 

@@ -28,6 +28,9 @@ composer.phar
 appfiles/upload/*
 appfiles/uploads/*
 appfiles/userfiles/*
+# donnees utilisateurs copiees sous public/ en dev local (plusieurs Go)
+public/upload/
+public/uploads/
 !appfiles/upload/gpx/
 !appfiles/upload/reponse/
 !appfiles/uploads/pdf_tickets/

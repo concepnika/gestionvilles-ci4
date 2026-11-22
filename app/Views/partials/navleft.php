@@ -78,3 +78,20 @@
 
   </ul>
 </li>
+
+<li class="treeview" style="min-width:220px">
+  <a href="#">
+    <i class="fa fa-file-archive-o"></i>
+    <span>Fichiers</span>
+    <span class="float-end-container">
+      <i class="fa fa-angle-left float-end"></i>
+    </span>
+  </a>
+  <ul class="treeview-menu">
+    <li>
+      <a href="<?php echo gv_url('admin/export-fichiers'); ?>">
+        <i class="fa fa-circle-o"></i> Export ZIP par dates
+      </a>
+    </li>
+  </ul>
+</li>
