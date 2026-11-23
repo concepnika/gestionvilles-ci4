@@ -1439,6 +1439,16 @@
         btn.innerHTML = '<i class="fa fa-bars"></i>';
     });
 
+    // Fermer la sidebar des le debut d'un drag (natif ou tactile via le
+    // polyfill, les deux bouillonnent jusqu'a document) — sinon elle
+    // masque la grille et empeche de viser la case de depot.
+    document.addEventListener('dragstart', function(){
+        if (window.innerWidth > 768) return;
+        if (typeof gvMobileSidebar === 'function') {
+            gvMobileSidebar(false);
+        }
+    });
+
     // Rendre le modal déplaçable en mode mobile
     if (window.innerWidth <= 768) {
         $(div).draggable({
