@@ -4,6 +4,10 @@
 //   php tools/mkdeploy.php          -> patch : fichiers modifies vs HEAD
 //                                      sous app/ ou public/ + nouveaux non
 //                                      commites sous app/
+//   php tools/mkdeploy.php --since <ref>
+//                                   -> patch : fichiers modifies entre
+//                                      <ref> et HEAD (ex. hash du dernier
+//                                      commit deja deploye)
 //   php tools/mkdeploy.php --full   -> transfert global : tout le code
 //                                      (git ls-files + nouveaux sous app/)
 //
@@ -21,7 +25,12 @@ const EXCLUS = [
 // Repertoires livrables en mode patch.
 const PATCH_DIRS = '#^(app|public)/#';
 
-$full = in_array('--full', $argv, true);
+$full  = in_array('--full', $argv, true);
+$since = null;
+$idx   = array_search('--since', $argv, true);
+if ($idx !== false && isset($argv[$idx + 1])) {
+    $since = $argv[$idx + 1];
+}
 
 // Nouveaux fichiers non commites sous app/ (gitignore respecte).
 // public/* non commite n'est JAMAIS embarque : ce sont les donnees
@@ -46,10 +55,11 @@ if ($full) {
     $files = array_values(array_unique(array_merge($files, nonCommitesSousApp())));
     $out   = 'gestionvilles-ci4_whc_' . date('Ymd-His') . '.zip';
 } else {
+    $range = $since !== null ? escapeshellarg($since . '..HEAD') : 'HEAD';
     $files = array_filter(
         array_map(
             fn ($f) => str_replace('\\', '/', trim($f)),
-            explode("\n", (string) shell_exec('git diff --name-only HEAD'))
+            explode("\n", (string) shell_exec('git diff --name-only ' . $range))
         ),
         fn ($f) => $f !== '' && preg_match(PATCH_DIRS, $f) === 1
     );
