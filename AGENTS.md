@@ -599,6 +599,20 @@ cellulaire / tablette Android :
   `display:none !important` (bouton mort) — en mobile c'est un overlay
   plein écran piloté par le display inline, avec bouton de fermeture
   `.btn-close-hres` (`CloseHresAides()`).
+- **Sidebar mobile** : `height` explicite requise (les panneaux
+  internes sont `position:absolute` et ne contribuent pas à la hauteur
+  — `height:auto` l'écrasait au seul header).
+
+## Divergences voulues vs Legacy (bugs corrigés)
+
+- `Gestion::UpdCedule` (popup ligne cédule) : les aides sélectionnés
+  n'étaient jamais sauvegardés quand `idaide` n'avait pas de virgule
+  à la position ≥ 2 (quirk `strpos($idaide, ',', 2)` — aide seul ou
+  premier id à 1 chiffre ignorés, et le retrait d'aides laissait les
+  anciennes valeurs). CI4 répartit la liste CSV dans `HELPERS_1..4`
+  et remet les cases inutilisées à 0.
+- `Gestion::login` : `isset(FALSE)` → `!empty($result)` (voir section
+  « Chaîne de port »).
 - **Modals** : `margin/max-width` sur `.modal-dialog`, `.modal-body`
   scrollable, carte `#polylineMapCedule` à 60 vh, tables larges en
   `overflow-x:auto`, bouton × de `modalRequete` réparé

@@ -388,13 +388,19 @@ class Gestion extends BaseController
             $set['IsStart'] = 0;
         }
 
-        $idaideStr = (string) $idaide;
-        if (strlen($idaideStr) > 2 && strpos($idaideStr, ',', 2) !== false) {
-            foreach (explode(',', $idaideStr) as $iter => $aideId) {
-                if ($iter > 3) {
-                    break;
-                }
-                $set['HELPERS_' . ($iter + 1)] = (int) $aideId;
+        // Aides du popup : liste CSV → HELPERS_1..4. Correction du
+        // quirk Legacy strpos($idaide, ',', 2) qui exigeait une virgule
+        // a la position >= 2 : un aide seul (« 15 ») ou un premier id
+        // a 1 chiffre (« 1,2 ») n'etait jamais enregistre, et retirer
+        // des aides laissait les anciennes valeurs. Les cases non
+        // utilisees sont remises a 0 ; une liste vide efface tout.
+        if ($idaide !== null) {
+            $aides = array_values(array_filter(
+                array_map('intval', explode(',', (string) $idaide)),
+                static fn ($v) => $v > 0
+            ));
+            for ($i = 0; $i < 4; $i++) {
+                $set['HELPERS_' . ($i + 1)] = $aides[$i] ?? 0;
             }
         }
 
