@@ -37,12 +37,17 @@ class ExportFichiers extends BaseController
     public function index()
     {
         $this->nettoyerZips();
+        $this->nettoyerGpsZips();
 
         echo view('admin/export_fichiers', [
-            'sources' => self::SOURCES,
-            'zips'    => $this->listerZips(),
-            'message' => $this->session->flashdata('export_msg'),
-            'error'   => $this->session->flashdata('export_err'),
+            'sources'   => self::SOURCES,
+            'zips'      => $this->listerZips(),
+            'message'   => $this->session->flashdata('export_msg'),
+            'error'     => $this->session->flashdata('export_err'),
+            'gpsTables' => self::GPS_TABLES,
+            'gpsZips'   => $this->listerGpsZips(),
+            'gpsMsg'    => $this->session->flashdata('gps_msg'),
+            'gpsErr'    => $this->session->flashdata('gps_err'),
         ]);
     }
 
@@ -78,8 +83,8 @@ class ExportFichiers extends BaseController
         if ($this->input->post('action') === 'apercu') {
             $this->nettoyerZips();
             echo view('admin/export_fichiers', [
-                'sources' => self::SOURCES,
-                'zips'    => $this->listerZips(),
+                'sources'   => self::SOURCES,
+                'zips'      => $this->listerZips(),
                 'apercu'  => [
                     'parSource' => $parSource,
                     'total'     => ['nb' => $totalNb, 'tailleFmt' => $this->tailleHumaine($totalTaille)],
@@ -87,6 +92,10 @@ class ExportFichiers extends BaseController
                 'sel'   => $sel,
                 'debut' => $debut,
                 'fin'   => $fin,
+                'gpsTables' => self::GPS_TABLES,
+                'gpsZips'   => $this->listerGpsZips(),
+                'gpsMsg'    => $this->session->flashdata('gps_msg'),
+                'gpsErr'    => $this->session->flashdata('gps_err'),
             ]);
             return;
         }
@@ -410,6 +419,16 @@ class ExportFichiers extends BaseController
         }
     }
 
+    private function nettoyerGpsZips(): void
+    {
+        foreach (glob($this->zipDir() . DIRECTORY_SEPARATOR . 'gps_*.zip') ?: [] as $p) {
+            if ((filemtime($p) ?: 0) < time() - self::ZIP_TTL) {
+                @unlink($p);
+                @unlink(substr($p, 0, -4) . '.json');
+            }
+        }
+    }
+
     private function tailleHumaine(float $octets): string
     {
         $unites = ['o', 'Ko', 'Mo', 'Go', 'To'];
@@ -421,5 +440,298 @@ class ExportFichiers extends BaseController
         return $i === 0
             ? sprintf('%d o', (int) $octets)
             : sprintf('%.1f %s', $octets, $unites[$i]);
+    }
+
+    // ==================================================================
+    //  Onglet 2 — Exportation de données GPS
+    // ==================================================================
+    //  Les tables gps_sani / gps_sani_last / gps_polyline accumulent les
+    //  points de navigation des camions. Cette fonction exporte les
+    //  enregistrements d'une plage de dates dans un ZIP (un CSV par
+    //  table) puis, après téléchargement + suppression confirmée,
+    //  efface les lignes exportées du serveur pour alléger la BD.
+    // ==================================================================
+
+    /** Tables GPS exportables : cle = nom de table, libelle = affichage. */
+    private const GPS_TABLES = [
+        'gps_sani'      => 'Points GPS des camions (gps_sani)',
+        'gps_polyline'  => 'Polylines GPS (gps_polyline)',
+        'gps_sani_last' => 'Dernières positions (gps_sani_last)',
+    ];
+
+    public function genererGps()
+    {
+        $debut = (string) $this->input->post('debut');
+        $fin   = (string) $this->input->post('fin');
+        if (! $this->dateValide($debut) || ! $this->dateValide($fin)) {
+            $this->session->set_flashdata('gps_err', 'Dates invalides (format AAAA-MM-JJ requis).');
+            return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+        }
+        if ($debut > $fin) {
+            $this->session->set_flashdata('gps_err', 'La date de début doit précéder la date de fin.');
+            return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+        }
+
+        $sel = array_values(array_intersect(
+            array_keys(self::GPS_TABLES),
+            (array) $this->input->post('gps_tables')
+        ));
+        if ($sel === []) {
+            $this->session->set_flashdata('gps_err', 'Sélectionnez au moins une table GPS.');
+            return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+        }
+
+        $action = (string) $this->input->post('action');
+
+        // Aperçu : compte les lignes par table sans rien écrire.
+        if ($action === 'apercu') {
+            $apercu = [];
+            $total = 0;
+            foreach ($sel as $tbl) {
+                $nb = $this->compterGps($tbl, $debut, $fin);
+                $apercu[$tbl] = $nb;
+                $total += $nb;
+            }
+            echo view('admin/export_fichiers', [
+                'sources'   => self::SOURCES,
+                'zips'      => $this->listerZips(),
+                'gpsZips'   => $this->listerGpsZips(),
+                'gpsApercu' => ['parTable' => $apercu, 'total' => $total],
+                'gpsSel'    => $sel,
+                'gpsDebut'  => $debut,
+                'gpsFin'    => $fin,
+                'gpsTables' => self::GPS_TABLES,
+                'message'   => $this->session->flashdata('export_msg'),
+                'error'     => $this->session->flashdata('export_err'),
+                'gpsMsg'    => $this->session->flashdata('gps_msg'),
+                'gpsErr'    => $this->session->flashdata('gps_err'),
+            ]);
+            return;
+        }
+
+        // Génération du ZIP.
+        set_time_limit(0);
+        ignore_user_abort(true);
+
+        $nom  = sprintf('gps_%s_au_%s_%s.zip', $debut, $fin, date('Ymd-His'));
+        $path = $this->zipDir() . DIRECTORY_SEPARATOR . $nom;
+
+        $zip = new \ZipArchive();
+        if ($zip->open($path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            $this->session->set_flashdata('gps_err', "Impossible de créer l'archive ZIP.");
+            return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+        }
+
+        $manifest = ['debut' => $debut, 'fin' => $fin, 'tables' => []];
+        $totalRows = 0;
+
+        foreach ($sel as $tbl) {
+            $csv = $this->exporterTableGps($tbl, $debut, $fin);
+            $rows = $csv['rows'];
+            $totalRows += $rows;
+            $zip->addFromString($tbl . '.csv', $csv['data']);
+            $manifest['tables'][$tbl] = ['rows' => $rows];
+        }
+
+        // Métadonnées dans le manifeste.
+        $manifest['totalRows'] = $totalRows;
+        $zip->addFromString('_manifeste.json', json_encode($manifest, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        $zip->close();
+
+        file_put_contents(
+            substr($path, 0, -4) . '.json',
+            json_encode($manifest, JSON_UNESCAPED_SLASHES)
+        );
+
+        $this->session->set_flashdata('gps_msg', sprintf(
+            'Archive GPS %s créée : %d enregistrements, %s. Conservée 48 h.',
+            $nom,
+            $totalRows,
+            $this->tailleHumaine((float) (filesize($path) ?: 0))
+        ));
+        return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+    }
+
+    public function telechargerGps($fichier = '')
+    {
+        $path = $this->gpsZipPathValide((string) $fichier);
+        if ($path === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $jsonPath = substr($path, 0, -4) . '.json';
+        register_shutdown_function(static function () use ($jsonPath): void {
+            if (connection_aborted()) {
+                return;
+            }
+            $manif = is_file($jsonPath)
+                ? (json_decode((string) file_get_contents($jsonPath), true) ?: [])
+                : [];
+            $manif['telecharge'] = date('c');
+            file_put_contents($jsonPath, json_encode($manif, JSON_UNESCAPED_SLASHES));
+        });
+
+        return $this->response->download($path, null)->setFileName(basename($path));
+    }
+
+    /**
+     * Supprime l'archive ZIP GPS ET les enregistrements correspondants
+     * dans les tables GPS (d'après la plage de dates du manifeste).
+     */
+    public function supprimerGps()
+    {
+        $path = $this->gpsZipPathValide((string) $this->input->post('fichier'));
+        if ($path === null) {
+            return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+        }
+
+        $jsonPath  = substr($path, 0, -4) . '.json';
+        $manifest  = is_file($jsonPath)
+            ? json_decode((string) file_get_contents($jsonPath), true)
+            : null;
+
+        if (empty($manifest['telecharge'])) {
+            $this->session->set_flashdata(
+                'gps_err',
+                "Téléchargez d'abord l'archive avant de la supprimer : elle efface aussi les données GPS du serveur."
+            );
+            return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+        }
+
+        $debut = $manifest['debut'] ?? '';
+        $fin   = $manifest['fin']   ?? '';
+        $tables = $manifest['tables'] ?? [];
+
+        $effaces = 0;
+        foreach ($tables as $tbl => $info) {
+            if (! isset(self::GPS_TABLES[$tbl])) {
+                continue; // table non autorisée
+            }
+            $n = $this->supprimerGpsTable($tbl, $debut, $fin);
+            $effaces += $n;
+        }
+
+        @unlink($jsonPath);
+        @unlink($path);
+        $this->session->set_flashdata('gps_msg', sprintf(
+            'Archive GPS supprimée : %d enregistrement(s) effacé(s) du serveur.',
+            $effaces
+        ));
+        return redirect()->to(gv_url('admin/export-fichiers') . '#gps');
+    }
+
+    /**
+     * Compte les enregistrements d'une table GPS dans la plage.
+     * gps_sani et gps_polyline utilisent track_time ; gps_sani_last
+     * utilise track_time (datetime) ou updated_at.
+     */
+    private function compterGps(string $tbl, string $debut, string $fin): int
+    {
+        $col = $this->colonneDateGps($tbl);
+        $sql = sprintf(
+            "SELECT COUNT(*) AS n FROM %s WHERE %s >= ? AND %s <= ?",
+            $tbl,
+            $col,
+            $col
+        );
+        $r = $this->db->query($sql, [$debut . ' 00:00:00', $fin . ' 23:59:59']);
+        if ($r === false) {
+            return 0;
+        }
+        $row = $r->getRowArray();
+        return $row ? (int) $row['n'] : 0;
+    }
+
+    /**
+     * Exporte une table GPS en CSV (retour : ['data' => string, 'rows' => int]).
+     */
+    private function exporterTableGps(string $tbl, string $debut, string $fin): array
+    {
+        $col = $this->colonnesGps($tbl);
+        $dateCol = $this->colonneDateGps($tbl);
+
+        $sql = sprintf("SELECT * FROM %s WHERE %s >= ? AND %s <= ? ORDER BY %s", $tbl, $dateCol, $dateCol, $dateCol);
+        $r = $this->db->query($sql, [$debut . ' 00:00:00', $fin . ' 23:59:59']);
+        if ($r === false) {
+            return ['data' => '', 'rows' => 0];
+        }
+
+        $rows = $r->getResultArray();
+        if ($rows === []) {
+            return ['data' => '', 'rows' => 0];
+        }
+
+        // En-tête CSV.
+        $entetes = array_keys($rows[0]);
+        $out = $this->ligneCsv($entetes);
+
+        foreach ($rows as $row) {
+            $out .= $this->ligneCsv(array_map(static fn ($v) => $v ?? '', array_values($row)));
+        }
+
+        return ['data' => $out, 'rows' => count($rows)];
+    }
+
+    private function supprimerGpsTable(string $tbl, string $debut, string $fin): int
+    {
+        $dateCol = $this->colonneDateGps($tbl);
+        $sql = sprintf("DELETE FROM %s WHERE %s >= ? AND %s <= ?", $tbl, $dateCol, $dateCol);
+        $this->db->query($sql, [$debut . ' 00:00:00', $fin . ' 23:59:59']);
+        return $this->db->affectedRows();
+    }
+
+    /** Colonne de date utilisée pour le filtrage par plage. */
+    private function colonneDateGps(string $tbl): string
+    {
+        return $tbl === 'gps_sani_last' ? 'track_time' : 'track_time';
+    }
+
+    /** Ligne CSV encodée UTF-8 avec échappement RFC 4180. */
+    private function ligneCsv(array $vals): string
+    {
+        return implode(',', array_map(static function ($v) {
+            $v = (string) $v;
+            if (strpos($v, ',') !== false || strpos($v, '"') !== false || strpos($v, "\n") !== false || strpos($v, "\r") !== false) {
+                return '"' . str_replace('"', '""', $v) . '"';
+            }
+            return $v;
+        }, $vals)) . "\n";
+    }
+
+    private function colonnesGps(string $tbl): array
+    {
+        // On laisse SELECT * — les colonnes sont stables.
+        return [];
+    }
+
+    private function gpsZipPathValide(string $nom): ?string
+    {
+        $nom = basename($nom);
+        if (preg_match('/^gps_\d{4}-\d{2}-\d{2}_au_\d{4}-\d{2}-\d{2}_\d{8}-\d{6}\.zip$/', $nom) !== 1) {
+            return null;
+        }
+        $path = $this->zipDir() . DIRECTORY_SEPARATOR . $nom;
+        return is_file($path) ? $path : null;
+    }
+
+    private function listerGpsZips(): array
+    {
+        $out = [];
+        foreach (glob($this->zipDir() . DIRECTORY_SEPARATOR . 'gps_*.zip') ?: [] as $p) {
+            $mtime  = filemtime($p) ?: 0;
+            $taille = filesize($p) ?: 0;
+            $json   = substr($p, 0, -4) . '.json';
+            $manif  = is_file($json) ? json_decode((string) file_get_contents($json), true) : null;
+            $out[] = [
+                'nom'        => basename($p),
+                'tailleFmt'  => $this->tailleHumaine((float) $taille),
+                'cree'       => date('Y-m-d H:i', $mtime),
+                'mtime'      => $mtime,
+                'nbRows'     => $manif['totalRows'] ?? null,
+                'telecharge' => ! empty($manif['telecharge']),
+            ];
+        }
+        usort($out, static fn ($a, $b) => $b['mtime'] <=> $a['mtime']);
+        return $out;
     }
 }

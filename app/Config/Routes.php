@@ -508,6 +508,9 @@ $routes->get('admin/export-fichiers', 'ExportFichiers::index');
 $routes->post('admin/export-fichiers', 'ExportFichiers::generer');
 $routes->get('admin/export-fichiers/telecharger/(:segment)', 'ExportFichiers::telecharger/$1');
 $routes->post('admin/export-fichiers/supprimer', 'ExportFichiers::supprimer');
+$routes->post('admin/export-fichiers/gps', 'ExportFichiers::genererGps');
+$routes->get('admin/export-fichiers/gps/telecharger/(:segment)', 'ExportFichiers::telechargerGps/$1');
+$routes->post('admin/export-fichiers/gps/supprimer', 'ExportFichiers::supprimerGps');
 
 // ─── Fallback : tout le reste est relaye a Legacy (proxy interne) ───────
 // Doit rester la DERNIERE route. Couvre les assets du docroot Legacy
