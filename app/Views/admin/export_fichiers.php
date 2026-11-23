@@ -53,6 +53,14 @@ $gpsFin   = $gpsFin   ?? '';
         <div class="alert alert-danger"><?php echo htmlspecialchars($error, ENT_QUOTES); ?></div>
     <?php endif; ?>
 
+    <div class="alert alert-primary py-2 mb-4">
+        <strong>Export de fichiers (ZIP)</strong> — Sélectionnez les répertoires
+        sources et une plage de dates, puis créez une archive ZIP des fichiers
+        téléversés (tickets, photos Sanivan, réponses). Après téléchargement,
+        supprimez l'archive pour <strong>effacer les fichiers originaux du
+        serveur</strong> et libérer de l'espace disque.
+    </div>
+
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <form method="post" action="<?php echo gv_url('admin/export-fichiers'); ?>">
