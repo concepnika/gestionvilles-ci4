@@ -1442,10 +1442,37 @@
     // Fermer la sidebar des le debut d'un drag (natif ou tactile via le
     // polyfill, les deux bouillonnent jusqu'a document) — sinon elle
     // masque la grille et empeche de viser la case de depot.
+    // En meme temps, ouvrir le menu replie #myNavbar : les cibles de
+    // depot REAREND/ROBOT (villes) et le sous-menu CAM-RH (camion/RH
+    // hors service) y vivent — invisibles tant que le menu est replie.
+    var navWasOpen = false;
     document.addEventListener('dragstart', function(){
         if (window.innerWidth > 768) return;
         if (typeof gvMobileSidebar === 'function') {
             gvMobileSidebar(false);
+        }
+        var nav = document.getElementById('myNavbar');
+        if (nav) {
+            navWasOpen = nav.classList.contains('show');
+            if (!navWasOpen && window.bootstrap && bootstrap.Collapse) {
+                bootstrap.Collapse.getOrCreateInstance(nav).show();
+            }
+            nav.querySelectorAll('.dropdown-menu').forEach(function(m){
+                m.classList.add('show');
+            });
+        }
+    });
+    document.addEventListener('dragend', function(){
+        if (window.innerWidth > 768) return;
+        var nav = document.getElementById('myNavbar');
+        if (nav) {
+            nav.querySelectorAll('.dropdown-menu').forEach(function(m){
+                m.classList.remove('show');
+            });
+            if (!navWasOpen && window.bootstrap && bootstrap.Collapse) {
+                var inst = bootstrap.Collapse.getInstance(nav);
+                if (inst) inst.hide();
+            }
         }
     });
 
