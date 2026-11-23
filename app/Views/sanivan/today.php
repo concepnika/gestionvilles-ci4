@@ -270,12 +270,17 @@
       #divDropCedule {
         display: none !important;
         z-index: 1050;
-        width: 220px !important;
+        width: 240px !important;
         top: 100px !important;
         left: 8px !important;
-        height: auto !important;
+        /* Hauteur explicite requise : les panneaux internes
+           (#divVilles, #divChauffeurs) sont en position:absolute et ne
+           contribuent pas a la hauteur — height:auto ecrasait le
+           panneau a la taille du seul header. */
+        height: calc(100vh - 115px) !important;
         max-height: 75vh;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         background: #fff;
         border-radius: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
@@ -284,16 +289,29 @@
         display: block !important;
       }
       #divVilles {
-        width: 200px !important;
+        width: 225px !important;
       }
       #divDropVille, #divDropSecteur {
-        width: 200px !important;
+        width: 215px !important;
+        /* Hauteurs relatives : les valeurs inline (350px) debordaient
+           sur les petits ecrans — la liste prend la hauteur restante. */
+        height: calc(100vh - 250px) !important;
+        max-height: 55vh;
       }
       #divChauffeurs {
-        width: 200px !important;
+        width: 225px !important;
+      }
+      #divcam .box {
+        width: 215px !important;
+        height: calc(100vh - 260px) !important;
+        max-height: 55vh;
       }
       #divDropCamion, #divDropRH {
-        width: 190px !important;
+        width: 205px !important;
+      }
+      #divRH #divDropRH {
+        height: calc(100vh - 340px) !important;
+        max-height: 45vh;
       }
       /* Panneau « Heures des aides » : plein écran sur mobile,
          affiché/masqué par le display inline (ShowHresAides). */
