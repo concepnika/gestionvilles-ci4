@@ -578,6 +578,32 @@ déjà gitignoré).
   dropdown « Fichiers ») et dans `partials/navleft` (sidebar des pages
   AdminLTE).
 
+## Support mobile cédule du jour (2026-11-23)
+
+`sanivan/aujourdhui/1/<date>` (`Views/sanivan/today.php`) adaptée pour
+cellulaire / tablette Android :
+
+- **Glisser-déposer tactile** : polyfill `DragDropTouch` vendored
+  (`public/assets/vendor/dragdroptouch/drag-drop-touch.esm.js`, MIT,
+  chargé en `<script type="module">`) qui traduit les événements
+  tactiles en `dragstart/dragover/drop` HTML5. **Mode presser-maintenir
+  (~500 ms)** (`isPressHoldMode`) pour ne pas entrer en conflit avec le
+  défilement de la grille — garder le doigt ½ s sur la cellule puis
+  glisser. Un bandeau `.drag-hint` l'explique (`@media pointer:coarse`).
+  Inactif sur desktop (`maxTouchPoints = 0`).
+- **Sidebar** (`#divDropCedule`) : hamburger flottant déjà présent ;
+  `ShowDivDrop()`/`ShowHresAides()` synchronisent la classe
+  `.sidebar-open` via `gvMobileSidebar()` pour que les boutons
+  « Création » / « Hres Aides » fonctionnent aussi en mobile.
+- **« Hres Aides »** (`#divHresAides`) : n'était plus cachée par
+  `display:none !important` (bouton mort) — en mobile c'est un overlay
+  plein écran piloté par le display inline, avec bouton de fermeture
+  `.btn-close-hres` (`CloseHresAides()`).
+- **Modals** : `margin/max-width` sur `.modal-dialog`, `.modal-body`
+  scrollable, carte `#polylineMapCedule` à 60 vh, tables larges en
+  `overflow-x:auto`, bouton × de `modalRequete` réparé
+  (`data-bs-dismiss` manquant sous BS5).
+
 ## Vérifications utiles
 
 ```bash

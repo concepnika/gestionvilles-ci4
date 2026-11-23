@@ -259,6 +259,11 @@
     .btn-toggle-sidebar { top: 58px; left: 8px; }
     .btn-back-mobile { top: 58px; left: 56px; }
     .btn-toggle-sidebar:active, .btn-back-mobile:active { transform: scale(.9); }
+    .btn-close-hres { display: none; }
+    /* Aide tactile affichee seulement sur appareils a pointeur imprecis */
+    @media (pointer: coarse) {
+      .drag-hint { display: block !important; }
+    }
 
     @media (max-width: 768px) {
       .btn-toggle-sidebar, .btn-back-mobile { display: block !important; }
@@ -290,12 +295,92 @@
       #divDropCamion, #divDropRH {
         width: 190px !important;
       }
+      /* Panneau « Heures des aides » : plein écran sur mobile,
+         affiché/masqué par le display inline (ShowHresAides). */
       #divHresAides {
-        display: none !important;
+        left: 0 !important;
+        top: 52px !important;
+        width: 100vw !important;
+        height: calc(100vh - 52px) !important;
+        max-height: none !important;
+        z-index: 1052;
+        background: #fff;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      #divHresAides .box {
+        width: 100% !important;
+        overflow-x: auto !important;
+      }
+      #divHresAides .box-body {
+        margin-left: 5px !important;
+      }
+      #tblhresaides {
+        width: 100% !important;
+      }
+      .btn-close-hres {
+        display: block !important;
+        position: fixed;
+        top: 56px;
+        right: 10px;
+        z-index: 1056;
+        width: 40px !important;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid DarkRed !important;
+        background: #fff !important;
+        color: DarkRed !important;
+        font-size: 20px;
+        line-height: 36px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,.3);
+        padding: 0 !important;
+        margin: 0 !important;
       }
       #divShowCed {
         margin-left: 0 !important;
         width: 100vw !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      /* Modals : marges minimales et défilement interne sur mobile */
+      .modal-dialog {
+        margin: 4px !important;
+        max-width: calc(100vw - 8px) !important;
+      }
+      .modal-body {
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      /* Carte des parcours : quasi plein écran */
+      #modalMapPolylinesCedule .modal-dialog {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      #polylineMapCedule {
+        height: 60vh !important;
+      }
+      #modalPolyline .modal-body .row > div {
+        max-height: 40vh;
+      }
+      /* Tables larges dans les modals : défilement horizontal */
+      #modalShowNewHS .form-group,
+      #modalShowHres .box-body,
+      #modalPolyline .modal-body {
+        overflow-x: auto;
+      }
+      #tblnewhs {
+        width: 100% !important;
+      }
+      /* Sélecteurs hauts dans les modals cédule/requête */
+      .modal-body select[multiple],
+      .modal-body .form-control {
+        font-size: 16px; /* évite le zoom iOS au focus */
+      }
+      /* Le menu déroulant de la barre de nav ne doit pas dépasser */
+      .navbar .dropdown-menu {
+        max-height: 70vh;
+        overflow-y: auto;
       }
     }
   </style>
@@ -389,6 +474,10 @@
     </nav>
 
     <div id="divHresAides" style="position:fixed;left: 10px;top: 60px; height: 75vh; display:<?php echo ((($AideIsShow == 1) and ($from != 3)) ? 'block' : 'none'); ?>; width: 500px;">
+      <button type="button" class="btn-close-hres" id="btnCloseHres"
+              title="Fermer" onclick="CloseHresAides()">
+        <i class="fa fa-times"></i>
+      </button>
       <div class="box-header with-border"></div>
       <div class="box box-solid" style="overflow: scroll; height: 100%; width: 500px; ">
         <div class="btn-group form-inline" role="group" style="margin-bottom:12px;">
@@ -450,6 +539,9 @@
     </button>
     <div id="divDropCedule" class="border border-secondary" style="display:block;position:fixed;left: 10px;top: 53px; height: 75vh; width: 230px;">
       <div class="box-header with-border" style="margin-left: 2px">
+        <div class="drag-hint" style="display:none;font-size:11px;color:#555;line-height:1.2;margin:2px 0 6px 0;">
+          Tactile : garder le doigt ~0,5 s sur un camion / chauffeur / ville, puis glisser.
+        </div>
         <div class="btn-group form-inline" role="group" style="margin-bottom:12px;">
           <div class="input-group">
             <button type="button" id="btnShowRouteCD" class="btn btn-info btn-flat" onclick="ShowHideRouteToday('divVilles')">
@@ -585,7 +677,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header btn-primary">
-            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title" id="RequeteTitre" style="color:white;"></h3>
 
           </div>
@@ -936,6 +1028,19 @@
     <script src="/assets/select2/js/select2.full.min.js"></script>
     <script src="/assets/js/requetes.js"></script>
     <script src="/assets/js/nika.js"></script>
+    <script type="module">
+      /* Polyfill HTML5 drag & drop pour le tactile (cellulaire/tablette).
+         Mode « presser-maintenir » (~500 ms) : le doigt tenu sur une cellule
+         draggable arme le glisser ; un simple glissement sert toujours au
+         défilement de la grille. Inactif sur desktop (maxTouchPoints = 0). */
+      import { enableDragDropTouch } from '/assets/vendor/dragdroptouch/drag-drop-touch.esm.js';
+      enableDragDropTouch(document, document, {
+        isPressHoldMode: true,
+        pressHoldDelayMS: 500,
+        pressHoldMargin: 25,
+        allowDragScroll: true
+      });
+    </script>
     <script>
       $(function () {
         $('.select2').select2()
@@ -947,6 +1052,20 @@
       window.open(urlName, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=" + screen.width + ",height=" + screen.height);
     }
 
+    // Ouvre/ferme la sidebar en mode mobile (classe .sidebar-open +
+    // icone du bouton hamburger). No-op sur desktop.
+    function gvMobileSidebar(open) {
+      if (window.innerWidth > 768) return;
+      var d = document.getElementById('divDropCedule');
+      if (!d) return;
+      d.classList.toggle('sidebar-open', !!open);
+      var b = document.getElementById('btnToggleSidebar');
+      if (b) b.innerHTML = open ? '<i class="fa fa-times"></i>' : '<i class="fa fa-bars"></i>';
+    }
+    function CloseHresAides() {
+      $('#divHresAides').hide();
+      AideIsShow = '0';
+    }
     function ShowHresAides() {
       if ($('#divHresAides').css('display') !== 'none') {
         $('#divHresAides').hide();
@@ -956,11 +1075,13 @@
           $('#divShowCed').css('margin-left', '225px');
           $('#divShowCed').css('width', '87vw');
           $('#divDropCedule').show();
+          gvMobileSidebar(true);
         }
         AideIsShow = '0';
       }
       else {
         $('#divDropCedule').hide();
+        gvMobileSidebar(false);
         $('#divHresAides').show();
         $('#divShowCed').css('margin-left', '515px');
         $('#divShowCed').css('width', '72vw');
@@ -990,6 +1111,7 @@
     function ShowDivDrop() {
       if ($('#divDropCedule').css('display') !== 'none') {
         $('#divDropCedule').hide();
+        gvMobileSidebar(false);
         ActiveDrop = 0;
         AideIsShow = '0';
         $('#divHresAides').hide();
@@ -999,6 +1121,7 @@
       else {
         $('#divHresAides').hide();
         $('#divDropCedule').show();
+        gvMobileSidebar(true);
         ActiveDrop = 1;
         $('#divShowCed').css('margin-left', '225px');
         $('#divShowCed').css('width', '87vw');
